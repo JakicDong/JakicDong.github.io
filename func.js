@@ -288,7 +288,7 @@ function getRandomColor() {
 
   function all(){
 	//这里插入checkedDays变量
-	checkedDays = {"2025-06-05":2};
+	checkedDays = {"2025-05-31":1,"2025-06-01":1};
 	currentYear=new Date().getFullYear();
 	//默认今年
 	get_elements();
