@@ -6149,7 +6149,7 @@ details.toc[open] >div.body section .header+.doc_tree {
 }
 .l_left {
   background-size: cover;
-  background: linear-gradient(to left top,;
+  background-image: linear-gradient(to left top, #8b0000, #00008b);
 }
 .l_left .leftbar-container {
   height: 100%;
