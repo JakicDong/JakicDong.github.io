@@ -17,26 +17,27 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>个人博客搭建 - Hello</title>
+  <title>2025.6.6学习日记 - Hello</title>
 
   
-    <meta name="description" content="环境配置: 12node -v #查看node版本npm -v #查看npm版本    安装 hexo: 1npm install hexo-cli -g  出现权限问题 ,修改: 1sudo chown -R $(whoami) $(npm config get prefix)&#x2F;&#123;lib&#x2F;node_modules,bin,share&#125; #修改权限范围    初始化个人博客文件">
+    <meta name="description" content="学习内容1. 优化了一下个人博客的图片上传工作流由于大部分笔记在语雀中,导致图片上传后外链无法访问,所以今天通过picgo➕github搭建了一个图床.具体流程如下:  首先需要在github中创建一个仓库,用来存放图片 然后在picgo中配置github的仓库,将图片上传到github中操作如下:mac:shift+control+command+4 截图 然后在vscode中option+co">
 <meta property="og:type" content="article">
-<meta property="og:title" content="个人博客搭建">
-<meta property="og:url" content="https://jakicdong.github.io/2025/06/02/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:title" content="2025.6.6学习日记">
+<meta property="og:url" content="https://jakicdong.github.io/2025/06/06/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2025.6.6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hello">
-<meta property="og:description" content="环境配置: 12node -v #查看node版本npm -v #查看npm版本    安装 hexo: 1npm install hexo-cli -g  出现权限问题 ,修改: 1sudo chown -R $(whoami) $(npm config get prefix)&#x2F;&#123;lib&#x2F;node_modules,bin,share&#125; #修改权限范围    初始化个人博客文件">
+<meta property="og:description" content="学习内容1. 优化了一下个人博客的图片上传工作流由于大部分笔记在语雀中,导致图片上传后外链无法访问,所以今天通过picgo➕github搭建了一个图床.具体流程如下:  首先需要在github中创建一个仓库,用来存放图片 然后在picgo中配置github的仓库,将图片上传到github中操作如下:mac:shift+control+command+4 截图 然后在vscode中option+co">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-05T12:38:18.642Z">
+<meta property="article:published_time" content="2025-06-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-06T02:25:09.873Z">
 <meta property="article:author" content="JakicDong">
-<meta property="article:tag" content="博客">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="日记">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="picgo">
 <meta name="twitter:card" content="summary">
   
   
   
-  <meta name="keywords" content="博客,hexo">
+  <meta name="keywords" content="日记,算法,picgo">
 
   <!-- feed -->
   
@@ -81,70 +82,22 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-01T16:00:00.000Z">2025-06-02</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-05T12:38:18.642Z">2025-06-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-05T16:00:00.000Z">2025-06-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-06T02:25:09.873Z">2025-06-06</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>个人博客搭建</span></h1>
+        <h1 class="text title"><span>2025.6.6学习日记</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>环境配置:</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node <span class="literal">-v</span> <span class="comment">#查看node版本</span></span><br><span class="line">npm <span class="literal">-v</span> <span class="comment">#查看npm版本</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>安装 hexo:</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-cli</span> <span class="literal">-g</span></span><br></pre></td></tr></table></figure>
-
-<p>出现权限问题 ,修改:</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown <span class="literal">-R</span> <span class="variable">$</span>(whoami) <span class="variable">$</span>(npm config get prefix)/&#123;lib/node_modules,bin,share&#125; <span class="comment">#修改权限范围</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>初始化个人博客文件夹:</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init /Users/mac/Blog/JakicDong.github.io  <span class="comment"># 博客初始化，这里是创建的本地博客文件夹，执行后会自动创建，我这里图简洁，直接用了我网站的地址 hihulu.github.io 为文件名</span></span><br><span class="line"><span class="built_in">cd</span> /Users/mac/Blog/JakicDong.github.io  <span class="comment"># 进入本地的博客文件夹</span></span><br><span class="line">hexo server <span class="comment"># 打开本地服务器预览</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>&#x2F;Users&#x2F;mac&#x2F;<font style="color:rgb(25, 27, 31);">JakicDong.github.io</font></p>
-<h3 id="4-Github部署"><a href="#4-Github部署" class="headerlink" title="4.Github部署"></a><font style="color:rgb(25, 27, 31);">4.Github部署</font></h3><p><font style="color:rgb(25, 27, 31);">为了部署到Github上，需要安装hexo-deployer-git插件，命令如下：</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install hexo<span class="literal">-deployer-git</span> <span class="literal">--save</span></span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">然后找到自己的本地博客文件夹，修改博客根目录下的_config.yml文件中的deploy，修改成：</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:JakicDong/JakicDong.github.io.git <span class="comment">#这个地址是从github仓库复制过来的ssh</span></span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">（</font><font style="color:rgb(25, 27, 31);">⚠️</font><font style="color:rgb(25, 27, 31);">注意，这里有一个很容易犯错的点，我们在创建“hihulu.github.io”这个仓库的时候，一定要创建和你github用户名相同的仓库，后面加.</font><a href="https://link.zhihu.com/?target=http://github.io">http://github.io</a><font style="color:rgb(25, 27, 31);">，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是</font><a href="https://link.zhihu.com/?target=http://xxxx.github.io">http://xxxx.github.io</a><font style="color:rgb(25, 27, 31);">，其中xxx就是你注册GitHub的用户名。所以上图我的仓库显示的是“hihulu&#x2F;hihulu.github.io”，如果仓库名和用户名不一致，后面是根本打不开这个网站的～）</font></p>
-<p><font style="color:rgb(25, 27, 31);">然后就可以通过以下命令行上传github了</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g <span class="comment">#hexo generate的简写，即把刚刚做的改动生成更新一下</span></span><br><span class="line">hexo d <span class="comment">#hexo deploy，上传到github网站</span></span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">还有一些常用的命令行：</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean    <span class="comment">#清空一下缓存，有时候博客页面显示不正常也可以试试这个命令行</span></span><br><span class="line">hexo server   <span class="comment"># 在本地服务器运行，网址默认https://localhost:4000</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="5-更改主题"><a href="#5-更改主题" class="headerlink" title="5.更改主题"></a><font style="color:rgb(25, 27, 31);">5.更改主题</font></h3><p><font style="color:rgb(25, 27, 31);">很多</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=209510497&content_type=Article&match_order=1&q=%E5%89%8D%E7%AB%AF&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NDkyNjQ3NTgsInEiOiLliY3nq68iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMDk1MTA0OTcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.PjU7RUtVfswgpx8txrb1-qpavbnGqnT_Ypn4mzbQHdo&zhida_source=entity"><font style="color:rgb(9, 64, 142);">前端</font></a><font style="color:rgb(25, 27, 31);">大牛博主设计了很多好看的主题，网址</font><a href="https://link.zhihu.com/?target=https://hexo.io/themes/">https://hexo.io/themes/</a><font style="color:rgb(25, 27, 31);"> </font><font style="color:rgb(25, 27, 31);">，可以预览并选择你喜爱的主题进行应用。</font></p>
-<p><font style="color:rgb(25, 27, 31);">这里浅以一个蛮火的主题butterfly主题来走一个安装主题的步骤～</font></p>
-<p><font style="color:rgb(25, 27, 31);">执行以下代码：</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="literal">-b</span> master https://github.com/jerryc127/hexo<span class="literal">-theme-butterfly</span>.git themes/butterfly</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">运行成功之后，在项目文件夹根目录中可以查看到新的主题themes文件夹：butterfly</font></p>
-<p><font style="color:rgb(25, 27, 31);">在博客的项目文件夹下，修改_config.yml</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=209510497&content_type=Article&match_order=1&q=%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NDkyNjQ3NTgsInEiOiLphY3nva7mlofku7YiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMDk1MTA0OTcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0OHldZgmOwhq2HClnlKUsWcfnSfjDFyTvhDreUk_wiA&zhida_source=entity"><font style="color:rgb(9, 64, 142);">配置文件</font></a><font style="color:rgb(25, 27, 31);">如下:</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># theme: landscape  默认主题</span></span><br><span class="line">theme: butterfly</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">此时主题还不能正常配置使用，需要安装pug 以及stylus 的</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=209510497&content_type=Article&match_order=1&q=%E6%B8%B2%E6%9F%93%E5%99%A8&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NDkyNjQ3NTgsInEiOiLmuLLmn5PlmagiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMDk1MTA0OTcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.v2beU0UUPE1If7v6WO3nwToeHPWQOEbRXF5paEROS8k&zhida_source=entity"><font style="color:rgb(9, 64, 142);">渲染器</font></a><font style="color:rgb(25, 27, 31);">：</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-renderer-pug</span> hexo<span class="literal">-renderer-stylus</span> <span class="literal">--save</span></span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">最后推送到github</font></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清除缓存b.json 和已生成的静态文件 public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="comment"># 生成静态页面到默认设置的 public 文件夹</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="comment"># 部署到设定的仓库或上传部署至服务端</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(25, 27, 31);">至此主题安装end，可访问</font><a href="https://link.zhihu.com/?target=https://hihulu.github.io/">https://hihulu.github.io/</a><font style="color:rgb(25, 27, 31);"> 查看～</font></p>
-<p><a href="https://jakicdong.github.io/">https://JakicDong.github.io/</a></p>
-<h3 id="7-4-常用命令"><a href="#7-4-常用命令" class="headerlink" title="# 7.4 常用命令"></a><strong><font style="color:rgb(25, 27, 31);"># 7.4 常用命令</font></strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;       # 新建文章</span><br><span class="line">hexo new page &quot;name&quot;  # 新建页面</span><br><span class="line">hexo g                # 生成页面</span><br><span class="line">hexo d                # 部署</span><br><span class="line">hexo g -d             # 生成页面并部署</span><br><span class="line">hexo s                # 本地预览</span><br><span class="line">hexo clean            # 清除缓存和已生成的静态文件</span><br><span class="line">hexo help             # 帮助</span><br></pre></td></tr></table></figure>
-
+  </div><article class="md-text content"><h2 id="学习内容"><a href="#学习内容" class="headerlink" title="学习内容"></a>学习内容</h2><h3 id="1-优化了一下个人博客的图片上传工作流"><a href="#1-优化了一下个人博客的图片上传工作流" class="headerlink" title="1. 优化了一下个人博客的图片上传工作流"></a>1. 优化了一下个人博客的图片上传工作流</h3><p>由于大部分笔记在语雀中,导致图片上传后外链无法访问,所以今天通过picgo➕github搭建了一个图床.<br>具体流程如下:</p>
+<ol>
+<li>首先需要在github中创建一个仓库,用来存放图片</li>
+<li>然后在picgo中配置github的仓库,将图片上传到github中<br>操作如下:<br>mac:shift+control+command+4 截图 然后在vscode中option+command+u上传到图床后会自动生成markdown的链接.</li>
+</ol>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -154,7 +107,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/04/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">技术派项目笔记</a></div><div class="item" id="next"></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/05/hello-world/">Hello World</a></div></section></div>
 
 
 
@@ -168,7 +121,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Github%E9%83%A8%E7%BD%B2"><span class="toc-text">4.Github部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%9B%B4%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-text">5.更改主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text"># 7.4 常用命令</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9"><span class="toc-text">学习内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BC%98%E5%8C%96%E4%BA%86%E4%B8%80%E4%B8%8B%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-text">1. 优化了一下个人博客的图片上传工作流</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
