@@ -17,25 +17,28 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>Hello World - Hello</title>
+  <title>技术派项目笔记 - Hello</title>
 
   
-    <meta name="description" content="hexo的基本使用和模板">
+    <meta name="description" content="技术派项目学习过程中的记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://jakicdong.github.io/2025/06/05/hello-world/index.html">
+<meta property="og:title" content="技术派项目笔记">
+<meta property="og:url" content="https://jakicdong.github.io/2025/06/04/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hello">
-<meta property="og:description" content="hexo的基本使用和模板">
+<meta property="og:description" content="技术派项目学习过程中的记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-05T03:01:59.128Z">
-<meta property="article:modified_time" content="2025-06-05T12:23:39.915Z">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/55928496/1746529722584-d21dd041-6763-47a4-8c5f-fd3af81dc4eb.png">
+<meta property="article:published_time" content="2025-06-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-06T01:21:56.202Z">
 <meta property="article:author" content="JakicDong">
-<meta property="article:tag" content="欢迎页">
+<meta property="article:tag" content="项目">
+<meta property="article:tag" content="技术派">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2025/png/55928496/1746529722584-d21dd041-6763-47a4-8c5f-fd3af81dc4eb.png">
   
   
   
-  <meta name="keywords" content="欢迎页">
+  <meta name="keywords" content="项目,技术派">
 
   <!-- feed -->
   
@@ -80,36 +83,82 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-05T03:01:59.128Z">2025-06-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-05T12:23:39.915Z">2025-06-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-03T16:00:00.000Z">2025-06-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-06T01:21:56.202Z">2025-06-06</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>Hello World</span></h1>
+        <h1 class="text title"><span>技术派项目笔记</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="hexo的基本使用和模板"><a href="#hexo的基本使用和模板" class="headerlink" title="hexo的基本使用和模板"></a>hexo的基本使用和模板</h2><p>常用模版</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 个人博客搭建</span><br><span class="line">tags: [博客, hexo]</span><br><span class="line">date: 2025-06-01</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<p>快捷部署:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+  </div><article class="md-text content"><h1 id="开启新项目要考虑的事情"><a href="#开启新项目要考虑的事情" class="headerlink" title="开启新项目要考虑的事情"></a><font style="color:#000000;">开启新项目要考虑的事情</font></h1><h2 id="业务模块拆解"><a href="#业务模块拆解" class="headerlink" title="业务模块拆解"></a><font style="color:#000000;">业务模块拆解</font></h2><p><font style="color:#000000;">首先对业务模块进行拆解，除了业务属性纬度以外，还有一个很重要的属性就是参与者角色。</font></p>
+<p><font style="color:#000000;">首先对功能、模块划分、概要设计，详细设计有初步的了解。</font></p>
+<p><font style="color:#000000;">主要就是功能模块设计 + DB 的设计。</font></p>
+<p><font style="color:#000000;"></font></p>
+<p><font style="color:#000000;"></font></p>
+<h1 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a><font style="color:#000000;">启动项目</font></h1><p><font style="color:#DF2A3F;">mysql 启动</font></p>
+<p><font style="color:#DF2A3F;">redis 启动：</font></p>
+<p>路径 ： D:\workTools\Redis-x64-3.2.100</p>
+<p><code>redis-server.exe redis.windows.conf</code></p>
+<p>启动成功，点击进入首页: <a target="_blank" rel="noopener" href="http://127.0.0.1:8080/">http://127.0.0.1:8080</a></p>
+<h2 id="跑环境"><a href="#跑环境" class="headerlink" title="跑环境"></a><font style="color:#000000;">跑环境</font></h2><p><font style="color:#000000;"></font></p>
+<p><code>&lt;font style=&quot;color:#000000;&quot;&gt;D:\sys\Desktop\Workplace\IDEA_Projects\paicoding&lt;/font&gt;</code><font style="color:#000000;">下载位置</font></p>
+<p><code>&lt;font style=&quot;color:#000000;&quot;&gt;git clone git@github.com:itwanger/paicoding.git D:\sys\Desktop\Workplace\IDEA_Projects\paicoding&lt;/font&gt;</code><font style="color:#000000;">git 下载</font></p>
+<p><font style="color:#000000;"></font></p>
+<p><font style="color:#000000;">git clone 出现报错 ， 原因：github ssh 秘钥没有配置 1</font></p>
+<p><font style="color:#000000;"></font></p>
+<p><font style="color:#000000;">打开运行，输入services.msc，确定</font></p>
+<p><font style="color:#000000;">找到 </font><font style="color:#000000;">OpenSSH</font><font style="color:#000000;"> Authentication Agent 服务，需开启它.</font></p>
+<p><font style="color:#000000;"> </font><strong><font style="color:#000000;">ssh-keygen -t rsa -C “你的邮箱地址”</font></strong></p>
+<p><font style="color:#000000;">我用的是Administrator用户，执行完后，可以在 C:\Users\Administrator.ssh 目录下生成 </font><strong><font style="color:#000000;">id_rsa</font></strong><font style="color:#000000;"> 和 </font><strong><font style="color:#000000;">id_rsa.pub</font></strong><font style="color:#000000;"> 这两个文件。如果你没有用Administrator用户，也是在类似的目录下</font></p>
+<p><font style="color:#000000;"></font></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h1><p>该项目主要有五个模块，各模块功能如下：</p>
+<p><strong><font style="color:#DF2A3F;">paicoding-api：</font></strong></p>
+<p>用于定义一些通用的枚举、实体类，包含 DO（数据对象）、DTO（数据传输对象）、VO（视图对象）等，为不同层之间的数据交互提供统一的格式和规范。</p>
+<p><strong><font style="color:#DF2A3F;">paicoding-core：</font></strong></p>
+<p>核心工具和组件相关的模块，像工具包 util 以及通用的组件都放在这里。按照包路径对模块功能进行拆分，例如搜索、缓存、推荐等功能组件。</p>
+<p><strong><font style="color:#DF2A3F;">paicoding-service：</font></strong></p>
+<p>服务模块，负责业务相关的主要逻辑，数据库（DB）的操作都在这个模块中进行。</p>
+<p><strong><font style="color:#DF2A3F;">paicoding-ui：</font></strong></p>
+<p>存放 HTML 前端资源，包括 JavaScript、CSS、Thymeleaf 等，主要用于构建用户界面。</p>
+<p><strong><font style="color:#DF2A3F;">paicoding-web：</font></strong></p>
+<p>Web 模块，是 HTTP 请求的入口，也是项目启动的入口，同时包含权限身份校验、全局异常处理等功能。</p>
+<h2 id="web-模块："><a href="#web-模块：" class="headerlink" title="web 模块："></a>web 模块：</h2><h3 id="admin："><a href="#admin：" class="headerlink" title="admin："></a>admin：</h3><p>admin 目录存放和管理后台相关的代码，主要处理管理员对系统的管理操作。</p>
+<h3 id="common："><a href="#common：" class="headerlink" title="common："></a>common：</h3><p>common 一般用来存放项目通用的代码，提高代码的复用性和可维护性。</p>
+<h3 id="comoinent："><a href="#comoinent：" class="headerlink" title="comoinent："></a>comoinent：</h3><p>TemplateEngineHelper</p>
+<p>Thymeleaf模版渲染引擎，通过末班引擎进行服务端渲染（SSR），在初次渲染速度方面有显著优势。</p>
+<h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><p>ForumDataSourceInitializer</p>
+<p>用来进行数据库表的初始化，首次启动时候执行：</p>
+<p>DbChangeSetLoader</p>
+<h1 id="杂项笔记"><a href="#杂项笔记" class="headerlink" title="杂项笔记"></a><font style="color:#DF2A3F;">杂项笔记</font></h1><h2 id="请求参数解析"><a href="#请求参数解析" class="headerlink" title="请求参数解析"></a>请求参数解析</h2><p>如果一个请求不会引起服务器上任何资源的状态变化，那就可以使用 GET 请求</p>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>技术派中的 AOP 记录接口访问日志是放在 paicoding-core 模块下的 mdc 包下。</p>
+<h2 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a><font style="color:#000000;">三层架构</font></h2><p><font style="color:#000000;"></font></p>
+<h2 id="为什么要使用微服务而不是单体项目呢？"><a href="#为什么要使用微服务而不是单体项目呢？" class="headerlink" title="为什么要使用微服务而不是单体项目呢？"></a><font style="color:#000000;">为什么要使用微服务而不是单体项目呢？</font></h2><p><font style="color:#000000;">用不用微服务取决于业务量，能用单体的绝对不用微服务，毕竟单体的好处显而易见，当业务简单的时候，部署非常简单，技术架构也简单，不用考虑微服务间的调用什么的，但是随着业务的复杂，单体的缺点也就暴露出来了，例如修改一个模块上线，就要整个服务下线，这在某些业务中是不被允许的，其次单体复杂度高了，部署就缓慢了，出现问题排查也很困难，这些的前提就是业务复杂度提高了。</font></p>
+<p><font style="color:#000000;">所以微服务的出现在我看来最初就是为了解决业务复杂单体所出现的问题的，将业务拆分到不同的模块，不同的模块单独部署开发，提高了开发效率，节省了维护时间成本，问题排查也方便了很多，微服务也并不是没有缺点，只不过是维护一个平衡，例如需要引入注册中心，为了方便配置的修改，还需要引入配置中心，不可能修改一个配置重新打包发布，服务间的调用组件，很多都是为了使用微服务而引入的。</font></p>
+<p><font style="color:#000000;">所以没有哪种技术更好，只有哪种技术更符合当下的业务，抛开业务谈技术，在我看来并不是那么可靠。</font></p>
+<p><font style="color:#000000;"></font></p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>创建型设计模式，定义一个创建对象的接口，但让实现这个接口的类决定实例化哪个类。</p>
+<p>工厂方法把类的实例化延迟到子类中进行。</p>
+<p><code>@Bean</code> 就是一个工厂方法</p>
+<h2 id="各种注解"><a href="#各种注解" class="headerlink" title="各种注解"></a>各种注解</h2><h3 id="Slf4j"><a href="#Slf4j" class="headerlink" title="@Slf4j"></a>@Slf4j</h3><p>@Slf4j：借助 Lombok 自动添加 SLF4J 日志记录器，简化日志记录代码。</p>
+<h3 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h3><h3 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h3><p>@Configuration：把类标记为 Spring 配置类，允许在类里使用 @Bean 注解定义 Spring Bean。</p>
+<p>在 Spring 应用启动时，Spring 会扫描带有 @Configuration 注解的类，将其作为配置类来处理，把类里使用 @Bean 注解定义的方法返回的对象注册到 Spring 容器中。</p>
+<h3 id="Component"><a href="#Component" class="headerlink" title="@Component"></a>@Component</h3><p>@Component：通用的组件注解，用于标记一个类为 Spring 组件，Spring 会自动扫描并将其注册到容器中。</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="@Service"></a>@Service</h3><p>@Service：@Component 的特殊化注解，通常用于标记服务层类。</p>
+<h3 id="Repository"><a href="#Repository" class="headerlink" title="@Repository"></a>@Repository</h3><p>@Repository：@Component 的特殊化注解，通常用于标记数据访问层类。</p>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h3><p>@Controller：@Component 的特殊化注解，通常用于标记 Web 控制器类。</p>
+<h3 id="Bean"><a href="#Bean" class="headerlink" title="@Bean"></a>@Bean</h3><p><code>@Bean</code>注册一个实体类</p>
+<h3 id="-1"><a href="#-1" class="headerlink" title="@"></a>@</h3><p>册一个实体类</p>
+<h1 id="实体对象"><a href="#实体对象" class="headerlink" title="实体对象"></a>实体对象</h1><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.nlark.com/yuque/0/2025/png/55928496/1746529722584-d21dd041-6763-47a4-8c5f-fd3af81dc4eb.png"></p>
+<p>DO</p>
+<h2 id="用-GET-还是-POST"><a href="#用-GET-还是-POST" class="headerlink" title="用 GET 还是 POST"></a>用 GET 还是 POST</h2><p><font style="color:#000000;">git clone </font><a target="_blank" rel="noopener" href="https://github.com/itwanger/paicoding-admin.git">https://github.com/itwanger/paicoding-admin.git</a> <font style="color:#000000;">D:\sys\Desktop\Workplace\IDEA_Projects\paicoding-admin</font></p>
+<p><font style="color:#000000;"></font></p>
+<p><font style="color:#000000;"></font></p>
+<p><font style="color:#000000;"></font></p>
 
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="创建一篇文章"><a href="#创建一篇文章" class="headerlink" title="创建一篇文章"></a>创建一篇文章</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>更多信息: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="运行服务"><a href="#运行服务" class="headerlink" title="运行服务"></a>运行服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>更多信息: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>更多信息: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="部署到远程站点"><a href="#部署到远程站点" class="headerlink" title="部署到远程站点"></a>部署到远程站点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>更多信息: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<h3 id="文章模版"><a href="#文章模版" class="headerlink" title="文章模版"></a>文章模版</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line"># 基本信息</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags: []</span><br><span class="line">categories: []</span><br><span class="line">description: # excerpt 也可 </span><br><span class="line"># 封面</span><br><span class="line">cover: </span><br><span class="line">banner: </span><br><span class="line">poster: # 海报（可选，全图封面卡片）</span><br><span class="line">  topic: 标题上方的小字 # 可选</span><br><span class="line">  headline: 大标题 # 必选</span><br><span class="line">  caption: 标题下方的小字 # 可选</span><br><span class="line">  color: 标题颜色 # 可选</span><br><span class="line"># 插件</span><br><span class="line">sticky: # 数字越大越靠前</span><br><span class="line">mermaid:</span><br><span class="line">katex: </span><br><span class="line">mathjax: </span><br><span class="line"># 可选</span><br><span class="line">topic: # 专栏 id</span><br><span class="line">author: </span><br><span class="line">references:</span><br><span class="line">comments: # 设置 false 禁止评论</span><br><span class="line">indexing: # 设置 false 避免被搜索</span><br><span class="line">breadcrumb: # 设置 false 隐藏面包屑导航</span><br><span class="line">leftbar: </span><br><span class="line">rightbar:</span><br><span class="line">h1: # 设置为 &#x27;&#x27; 隐藏标题</span><br><span class="line">type: # tech/story</span><br><span class="line">---</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <div class="article-footer fs14">
     <section id="license">
       <div class="header"><span>许可协议</span></div>
@@ -118,7 +167,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/05/2025.6.5%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/">2025.6.5学习日记</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/05/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">算法题刷题笔记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/02/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">个人博客搭建</a></div></section></div>
 
 
 
@@ -132,7 +181,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%92%8C%E6%A8%A1%E6%9D%BF"><span class="toc-text">hexo的基本使用和模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0"><span class="toc-text">创建一篇文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1"><span class="toc-text">运行服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6"><span class="toc-text">生成静态文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0%E8%BF%9C%E7%A8%8B%E7%AB%99%E7%82%B9"><span class="toc-text">部署到远程站点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E6%A8%A1%E7%89%88"><span class="toc-text">文章模版</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E6%96%B0%E9%A1%B9%E7%9B%AE%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E4%BA%8B%E6%83%85"><span class="toc-text">开启新项目要考虑的事情</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E6%A8%A1%E5%9D%97%E6%8B%86%E8%A7%A3"><span class="toc-text">业务模块拆解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE"><span class="toc-text">启动项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%91%E7%8E%AF%E5%A2%83"><span class="toc-text">跑环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-text">项目结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#web-%E6%A8%A1%E5%9D%97%EF%BC%9A"><span class="toc-text">web 模块：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#admin%EF%BC%9A"><span class="toc-text">admin：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#common%EF%BC%9A"><span class="toc-text">common：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#comoinent%EF%BC%9A"><span class="toc-text">comoinent：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#config"><span class="toc-text">config</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0"><span class="toc-text">杂项笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90"><span class="toc-text">请求参数解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP"><span class="toc-text">AOP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="toc-text">三层架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%91%A2%EF%BC%9F"><span class="toc-text">为什么要使用微服务而不是单体项目呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E6%B3%A8%E8%A7%A3"><span class="toc-text">各种注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Slf4j"><span class="toc-text">@Slf4j</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value"><span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration"><span class="toc-text">@Configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Component"><span class="toc-text">@Component</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service"><span class="toc-text">@Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Repository"><span class="toc-text">@Repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller"><span class="toc-text">@Controller</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bean"><span class="toc-text">@Bean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-1"><span class="toc-text">@</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%AF%B9%E8%B1%A1"><span class="toc-text">实体对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8-GET-%E8%BF%98%E6%98%AF-POST"><span class="toc-text">用 GET 还是 POST</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
