@@ -28,7 +28,7 @@
 <meta property="og:description" content="环境配置https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;UXtuigy_wYc youtube复现视频https:&#x2F;&#x2F;github.com&#x2F;graphdeco-inria&#x2F;gaussian-splatting 3DGS的github源码地址https:&#x2F;&#x2F;dl.acm.org&#x2F;doi&#x2F;10.1145&#x2F;3592433 论文地址https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2308.04">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-11T02:35:51.278Z">
+<meta property="article:modified_time" content="2025-06-11T02:42:46.945Z">
 <meta property="article:author" content="JakicDong">
 <meta property="article:tag" content="3DGS">
 <meta name="twitter:card" content="summary">
@@ -80,7 +80,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-10T16:00:00.000Z">2025-06-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-11T02:35:51.278Z">2025-06-11</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-10T16:00:00.000Z">2025-06-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-11T02:42:46.945Z">2025-06-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -105,7 +105,7 @@
 <li>创建虚拟环境<br>现在你就可以创建虚拟环境，新的环境将被创建在 D 盘的指定路径下：<br>conda create –name env_name python&#x3D;3.x</li>
 <li>检查环境位置<br>可以使用以下命令查看虚拟环境的位置：<br>conda info –envs<br>经过以上步骤后，你的虚拟环境将会在 D 盘创建。<br>conda create -n gaussian_splatting python&#x3D;3.7<br>conda activate gaussian_splatting<br>conda install -c conda-forge vs2019_win-64<br>pip install torch&#x3D;&#x3D;1.13.1+cu117 torchvision&#x3D;&#x3D;0.14.1+cu117 torchaudio&#x3D;&#x3D;0.13.1 –extra-index-url <a target="_blank" rel="noopener" href="https://download.pytorch.org/whl/cu117">https://download.pytorch.org/whl/cu117</a><br>pip install submodules&#x2F;diff-gaussian-rasterization<br>pip install submodules&#x2F;simple-knn<br>pip install submodules&#x2F;fused-ssim</li>
 </ol>
-<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><h3 id="3dgs的运行训练"><a href="#3dgs的运行训练" class="headerlink" title="3dgs的运行训练"></a>3dgs的运行训练</h3><p>下述所有命令都是在终端里运行的，运行时保持是从gaussian-splatting目录下开始输入的。<br>省流版本:<br><code>conda activate gaussian_splatting</code><br><code>d:</code><br><code>cd D:\sys\Desktop\Workplace\3DGS</code><strong>新的路径</strong><br>训练:<br><code>python train.py -s data -m data/output</code> (参数为输出地址)<br><code>python render.py -m data/output</code><br>把train文件夹的method复制到test文件夹<br><code>python metrics.py -m data/output</code></p>
+<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><h3 id="3dgs的运行训练"><a href="#3dgs的运行训练" class="headerlink" title="3dgs的运行训练"></a>3dgs的运行训练</h3><p>下述所有命令都是在终端里运行的，运行时保持是从gaussian-splatting目录下开始输入的。<br>省流版本:<br><code>conda activate gaussian_splatting</code><br><code>d:</code><br><code>cd D:\sys\Desktop\Workplace\3DGS</code><strong>新的路径</strong><br>训练:<br><code>python train.py -s data_train -m data_train/output</code> (参数为输出地址)<br><code>python render.py -m data_train/output</code><br>把train文件夹的method复制到test文件夹<br><code>python metrics.py -m data_train/output</code></p>
 <h3 id="1-视频截取帧"><a href="#1-视频截取帧" class="headerlink" title="1.视频截取帧"></a>1.视频截取帧</h3><p>这里可以用自己手机拍摄的一段视频，一两分钟即可，可以参考一下作者的训练时间，作者用自己的笔记本（4060 8G），大概训练了两个小时左右，跑完了所有的迭代。</p>
 <p>在gaussian-splatting目录下新建一个data文件夹，将你拍摄的视频移动到该data文件夹下，并将你的视频改名为input，后缀.mp4不用改。然后在data文件夹里再建一个与视频同名的文件夹，名字也是input。然后就可以输入命令啦（终端里从gaussian-splatting&#x2F;data目录下开始输入）</p>
 <p><code>cd data</code></p>
