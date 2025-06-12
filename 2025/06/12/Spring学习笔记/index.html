@@ -20,17 +20,25 @@
   <title>Spring学习笔记 - Jakic's Blog</title>
 
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="1.Spring 是什么？特性？有哪些模块？一句话概括：Spring 是一个轻量级、非入侵式的控制反转 (IoC)和面向切面 (AOP) 的框架。 2003 年，一个音乐家 Rod Johnson 决定发展一个轻量级的 Java 开发框架，Spring作为 Java 战场的龙骑兵渐渐崛起，并淘汰了EJB这个传统的重装骑兵。  到了现在，企业级开发的标配基本就是 Spring5+ Spring Bo">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Spring学习笔记">
 <meta property="og:url" content="https://jakicdong.github.io/2025/06/12/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="1.Spring 是什么？特性？有哪些模块？一句话概括：Spring 是一个轻量级、非入侵式的控制反转 (IoC)和面向切面 (AOP) 的框架。 2003 年，一个音乐家 Rod Johnson 决定发展一个轻量级的 Java 开发框架，Spring作为 Java 战场的龙骑兵渐渐崛起，并淘汰了EJB这个传统的重装骑兵。  到了现在，企业级开发的标配基本就是 Spring5+ Spring Bo">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163224.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163334.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163946.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612164053.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612164625.png">
 <meta property="article:published_time" content="2025-06-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-12T06:51:55.214Z">
+<meta property="article:modified_time" content="2025-06-12T08:48:33.172Z">
 <meta property="article:author" content="JakicDong">
 <meta property="article:tag" content="基础">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163224.png">
   
   
   
@@ -66,7 +74,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/10/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/12/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/12/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.12%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.12学习日记</span></a><a class="item title" href="/2025/06/04/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item title" href="/2025/06/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.9学习日记</span></a><a class="item title" href="/2025/06/11/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.11%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.11学习日记</span></a><a class="item title" href="/2025/06/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.5%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/"><span class="title">2025.6.5学习日记</span></a><a class="item title" href="/2025/06/06/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.6学习日记</span></a><a class="item title" href="/2025/06/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.7%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.7学习日记</span></a><a class="item title" href="/2025/06/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.10学习日记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/12/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/10/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/12/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.12%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.12学习日记</span></a><a class="item title" href="/2025/06/04/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item title" href="/2025/06/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.9学习日记</span></a><a class="item title" href="/2025/06/11/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.11%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.11学习日记</span></a><a class="item title" href="/2025/06/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.5%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/"><span class="title">2025.6.5学习日记</span></a><a class="item title" href="/2025/06/06/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.6学习日记</span></a><a class="item title" href="/2025/06/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.7%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.7学习日记</span></a><a class="item title" href="/2025/06/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.10学习日记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -79,7 +87,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-11T16:00:00.000Z">2025-06-12</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-12T06:51:55.214Z">2025-06-12</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-11T16:00:00.000Z">2025-06-12</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-12T08:48:33.172Z">2025-06-12</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -90,7 +98,35 @@
     </div>
     
   </div>
-  </div><article class="md-text content">
+  </div><article class="md-text content"><h2 id="1-Spring-是什么？特性？有哪些模块？"><a href="#1-Spring-是什么？特性？有哪些模块？" class="headerlink" title="1.Spring 是什么？特性？有哪些模块？"></a>1.Spring 是什么？特性？有哪些模块？</h2><p>一句话概括：Spring 是一个轻量级、非入侵式的<strong>控制反转 (IoC)<strong>和</strong>面向切面 (AOP)</strong> 的框架。</p>
+<p>2003 年，一个音乐家 Rod Johnson 决定发展一个轻量级的 Java 开发框架，Spring作为 Java 战场的龙骑兵渐渐崛起，并淘汰了EJB这个传统的重装骑兵。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163224.png" alt="20250612163224"></p>
+<p>到了现在，企业级开发的标配基本就是 <code>Spring5</code>+ <code>Spring Boot 2</code> + <code>JDK 8</code></p>
+<p><strong>Spring 有哪些特性呢？</strong><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163334.png" alt="20250612163334"></p>
+<p><strong>1. IoC 和 DI 的支持</strong><br>Spring 的核心就是一个大的<strong>工厂容器</strong>，可以维护所有对象的创建和依赖关系，Spring 工厂用于生成 Bean，并且管理 Bean 的生命周期，实现<strong>高内聚低耦合</strong>的设计理念。</p>
+<p><strong>2. AOP 编程的支持</strong><br>Spring 提供了面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等切面功能。</p>
+<p><strong>3. 声明式事务的支持</strong><br>支持通过<strong>配置</strong>就来完成对事务的管理，而不需要通过硬编码的方式，以前重复的一些事务提交、回滚的 JDBC 代码，都可以不用自己写了。</p>
+<p><strong>4. 快捷测试的支持</strong><br>Spring 对 <strong>Junit</strong> 提供支持，可以通过注解快捷地测试 Spring 程序。</p>
+<p><strong>5. 快速集成功能</strong><br>方便集成各种优秀框架，Spring 不排斥各种优秀的开源框架，其内部提供了对各种优秀框架（如：Struts、Hibernate、MyBatis、Quartz 等）的直接支持。</p>
+<p><strong>6. 复杂 API 模板封装</strong><br>Spring 对 JavaEE 开发中非常难用的一些 API（JDBC、JavaMail、远程调用等）都提供了模板化的封装，这些封装 API 的提供使得应用难度大大降低。</p>
+<p><strong>简单说一下什么是AOP 和 IoC？</strong><br><strong>AOP</strong>：面向切面编程，是一种编程范式，它的主要作用是将那些与核心业务逻辑无关，但是对多个对象产生影响的公共行为封装起来，如日志记录、性能统计、事务等。<br><strong>IoC</strong>：控制反转，是一种设计思想，它的主要作用是将对象的创建和对象之间的调用过程交给 Spring 容器来管理。</p>
+<p><strong>Spring源码看过吗？</strong><br>看过一些，主要就是针对 <strong>Spring 循环依赖</strong>、<strong>Bean 声明周期</strong>、<strong>AOP</strong>、<strong>事务</strong>、<strong>IOC</strong> 这五部分。<br>详情看笔记,Spring源码笔记.<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612163946.png" alt="20250612163946"></p>
+<h2 id="2-Spring-有哪些模块呢？"><a href="#2-Spring-有哪些模块呢？" class="headerlink" title="2.Spring 有哪些模块呢？"></a>2.Spring 有哪些模块呢？</h2><p>Spring 框架是分模块存在，除了最核心的<code>Spring Core Container</code>是必要模块之外，其他模块都是可选，大约有 20 多个模块。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612164053.png" alt="20250612164053"></p>
+<p><strong>最主要的七大模块：</strong></p>
+<ol>
+<li><strong>Spring Core</strong>：Spring 核心，它是框架最基础的部分，提供 IoC 和依赖注入 DI 特性。</li>
+<li><strong>Spring Context</strong>：Spring 上下文容器，它是 BeanFactory 功能加强的一个子接口。</li>
+<li><strong>Spring Web</strong>：它提供 Web 应用开发的支持。</li>
+<li><strong>Spring MVC</strong>：它针对 Web 应用中 MVC 思想的实现。</li>
+<li><strong>Spring DAO</strong>：提供对 JDBC 抽象层，简化了 JDBC 编码，同时，编码更具有健壮性。</li>
+<li><strong>Spring ORM</strong>：它支持用于流行的 ORM 框架的整合，比如：Spring + Hibernate、Spring + iBatis、Spring + JDO 的整合等。</li>
+<li><strong>Spring AOP</strong>：即面向切面编程，它提供了与 AOP 联盟兼容的编程实现。</li>
+</ol>
+<h2 id="3-Spring-有哪些常用注解呢？"><a href="#3-Spring-有哪些常用注解呢？" class="headerlink" title="3.Spring 有哪些常用注解呢？"></a>3.Spring 有哪些常用注解呢？</h2><p>Spring 提供了大量的注解来简化 Java 应用的开发和配置，主要用于 Web 开发、往容器注入 Bean、AOP、事务控制等。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250612164625.png" alt="20250612164625"></p>
+<p><strong>Web 开发方面有哪些注解呢？</strong><br>①、<code>@Controller</code>：用于标注控制层组件。<br>②、<code>@RestController</code>：是<code>@Controller</code> 和 <code>@ResponseBody</code> 的结合体，返回 JSON 数据时使用。<br>③、<code>@RequestMapping</code>：用于映射请求 URL 到具体的方法上，还可以细分为：<br><code>@GetMapping</code>：只能用于处理 GET 请求<br><code>@PostMapping</code>：只能用于处理 POST 请求<br><code>@DeleteMapping</code>：只能用于处理 DELETE 请求<br>④、<code>@ResponseBody</code>：直接将返回的数据放入 HTTP 响应正文中，一般用于返回 JSON 数据。<br>⑤、<code>@RequestBody</code>：表示一个方法参数应该绑定到 Web 请求体。<br>⑥、<code>@PathVariable</code>：用于接收路径参数，比如 @RequestMapping(“&#x2F;hello&#x2F;{name}”)，这里的 name 就是路径参数。<br>⑦、<code>@RequestParam</code>：用于接收请求参数。比如 @RequestParam(name &#x3D; “key”) String key，这里的 key 就是请求参数。</p>
+<p><strong>容器类注解有哪些呢？</strong><br><code>@Component</code>：标识一个类为 Spring 组件，使其能够被 Spring 容器自动扫描和管理。<br><code>@Service</code>：标识一个业务逻辑组件（服务层）。比如 <code>@Service</code>(“userService”)，这里的 userService 就是 Bean 的名称。<br><code>@Repository</code>：标识一个数据访问组件（持久层）。<br><code>@Autowired</code>：按类型自动注入依赖。<br><code>@Configuration</code>：用于定义配置类，可替换 XML 配置文件。<br><code>@Value</code>：用于将 Spring Boot 中 application.properties 配置的属性值赋值给变量。</p>
+<p><strong>AOP 方面有哪些注解呢？</strong><br><code>@Aspect</code> 用于声明一个切面，可以配合其他注解一起使用，比如：<br><code>@After</code>：在方法执行之后执行。<br><code>@Before</code>：在方法执行之前执行。<br><code>@Around</code>：方法前后均执行。<br><code>@PointCut</code>：定义切点，指定需要拦截的方法。<br>事务注解有哪些？<br>主要就是 <code>@Transactional</code>，用于声明一个方法需要事务支持。</p>
+
 <div class="article-footer fs14">
     <section id="license">
       <div class="header"><span>许可协议</span></div>
@@ -109,7 +145,14 @@
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Spring-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E7%89%B9%E6%80%A7%EF%BC%9F%E6%9C%89%E5%93%AA%E4%BA%9B%E6%A8%A1%E5%9D%97%EF%BC%9F"><span class="toc-text">1.Spring 是什么？特性？有哪些模块？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Spring-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%A8%A1%E5%9D%97%E5%91%A2%EF%BC%9F"><span class="toc-text">2.Spring 有哪些模块呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Spring-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E5%91%A2%EF%BC%9F"><span class="toc-text">3.Spring 有哪些常用注解呢？</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
