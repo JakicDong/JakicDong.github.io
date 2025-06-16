@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>3DGS学习笔记 - Jakic's Blog</title>
+  <title>3DGS-Ubuntu环境.md - Jakic's Blog</title>
 
   
-    <meta name="description" content="环境配置https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;UXtuigy_wYc youtube复现视频https:&#x2F;&#x2F;github.com&#x2F;graphdeco-inria&#x2F;gaussian-splatting 3DGS的github源码地址https:&#x2F;&#x2F;dl.acm.org&#x2F;doi&#x2F;10.1145&#x2F;3592433 论文地址https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2308.04">
+    <meta name="description" content="环境:Ubuntu20.04和Win11双系统CUDA11.8Anacoda3 安装clash for linux 快捷命令 clashtun on &#x2F; off anaconda:source conda activate 虚拟环境名">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3DGS学习笔记">
-<meta property="og:url" content="https://jakicdong.github.io/2025/06/11/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="3DGS-Ubuntu环境.md">
+<meta property="og:url" content="https://jakicdong.github.io/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/index.html">
 <meta property="og:site_name" content="Jakic&#39;s Blog">
-<meta property="og:description" content="环境配置https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;UXtuigy_wYc youtube复现视频https:&#x2F;&#x2F;github.com&#x2F;graphdeco-inria&#x2F;gaussian-splatting 3DGS的github源码地址https:&#x2F;&#x2F;dl.acm.org&#x2F;doi&#x2F;10.1145&#x2F;3592433 论文地址https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2308.04">
+<meta property="og:description" content="环境:Ubuntu20.04和Win11双系统CUDA11.8Anacoda3 安装clash for linux 快捷命令 clashtun on &#x2F; off anaconda:source conda activate 虚拟环境名">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-13T02:02:08.725Z">
+<meta property="article:modified_time" content="2025-06-16T06:32:15.113Z">
 <meta property="article:author" content="JakicDong">
 <meta property="article:tag" content="3DGS">
 <meta property="article:tag" content="公司">
@@ -68,7 +68,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/10/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/15/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.15%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.15学习日记</span></a><a class="item title" href="/2025/06/14/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.14%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.14学习日记</span></a><a class="item title" href="/2025/06/12/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.13%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.13学习日记</span></a><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item title" href="/2025/06/11/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记</span></a><a class="item title" href="/2025/06/12/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.12%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.12学习日记</span></a><a class="item title" href="/2025/06/04/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item title" href="/2025/06/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.9学习日记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/10/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item title" href="/2025/06/15/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.15%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.15学习日记</span></a><a class="item title" href="/2025/06/14/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.14%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.14学习日记</span></a><a class="item title" href="/2025/06/12/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.13%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.13学习日记</span></a><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item title" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记</span></a><a class="item title" href="/2025/06/12/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.12%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.12学习日记</span></a><a class="item title" href="/2025/06/04/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -81,80 +81,20 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-10T16:00:00.000Z">2025-06-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-13T02:02:08.725Z">2025-06-13</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-10T16:00:00.000Z">2025-06-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-16T06:32:15.113Z">2025-06-16</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>3DGS学习笔记</span></h1>
+        <h1 class="text title"><span>3DGS-Ubuntu环境.md</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UXtuigy_wYc">https://www.youtube.com/watch?v=UXtuigy_wYc</a> youtube复现视频<br><a target="_blank" rel="noopener" href="https://github.com/graphdeco-inria/gaussian-splatting">https://github.com/graphdeco-inria/gaussian-splatting</a> 3DGS的github源码地址<br><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/3592433">https://dl.acm.org/doi/10.1145/3592433</a> 论文地址<br><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.04079">https://arxiv.org/abs/2308.04079</a></p>
-<h3 id="下载依赖和环境"><a href="#下载依赖和环境" class="headerlink" title="下载依赖和环境"></a>下载依赖和环境</h3><p>视频老哥的github地址<br><a target="_blank" rel="noopener" href="https://github.com/jonstephens85/gaussian-splatting-Windows">https://github.com/jonstephens85/gaussian-splatting-Windows</a></p>
-<h3 id="下载git-跳过"><a href="#下载git-跳过" class="headerlink" title="下载git(跳过)"></a>下载git(跳过)</h3><p>测试是否下载git –version</p>
-<h3 id="下载anaconda-跳过"><a href="#下载anaconda-跳过" class="headerlink" title="下载anaconda(跳过)"></a>下载anaconda(跳过)</h3><h3 id="下载CUDA-nvcc-–version测试版本"><a href="#下载CUDA-nvcc-–version测试版本" class="headerlink" title="下载CUDA :nvcc –version测试版本"></a>下载CUDA :nvcc –version测试版本</h3><p>nvidia-smi确定电脑最高支持的CUDA版本 ,我的最高支持12.8</p>
-<h3 id="准备下载CUDA-11-8版本"><a href="#准备下载CUDA-11-8版本" class="headerlink" title="准备下载CUDA 11.8版本"></a>准备下载CUDA 11.8版本</h3><h3 id="安装vs2019"><a href="#安装vs2019" class="headerlink" title="安装vs2019"></a>安装vs2019</h3><p>官方下载地址：<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/">https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/</a></p>
-<h3 id="下载colmap"><a href="#下载colmap" class="headerlink" title="下载colmap"></a>下载colmap</h3><h3 id="准备编译"><a href="#准备编译" class="headerlink" title="准备编译"></a>准备编译</h3><p>打开anaconda prompt</p>
-<p>D: 切换D盘<br>D:\user\desktop\workplace\3DGS\userdesktopworkplace3DGS </p>
-<p>要将 Anaconda 创建的虚拟环境设置在 D 盘，可以按照以下步骤操作：</p>
-<ol>
-<li>修改 Anaconda 配置<br>首先，需要修改 Anaconda 的配置，使其将环境创建在指定路径。<br>在 Anaconda Prompt 中执行以下命令：<br>conda config –add envs_dirs D:\Anaconda\envs<br>（如果需要，将 D:\Anaconda\envs 替换为你想要的路径）</li>
-<li>确保路径存在<br>确保你指定的路径已经存在。如果不存在，请手动创建该文件夹。</li>
-<li>创建虚拟环境<br>现在你就可以创建虚拟环境，新的环境将被创建在 D 盘的指定路径下：<br>conda create –name env_name python&#x3D;3.x</li>
-<li>检查环境位置<br>可以使用以下命令查看虚拟环境的位置：<br>conda info –envs<br>经过以上步骤后，你的虚拟环境将会在 D 盘创建。<br>conda create -n gaussian_splatting python&#x3D;3.7<br>conda activate gaussian_splatting<br>conda install -c conda-forge vs2019_win-64<br>pip install torch&#x3D;&#x3D;1.13.1+cu117 torchvision&#x3D;&#x3D;0.14.1+cu117 torchaudio&#x3D;&#x3D;0.13.1 –extra-index-url <a target="_blank" rel="noopener" href="https://download.pytorch.org/whl/cu117">https://download.pytorch.org/whl/cu117</a><br>pip install submodules&#x2F;diff-gaussian-rasterization<br>pip install submodules&#x2F;simple-knn<br>pip install submodules&#x2F;fused-ssim</li>
-</ol>
-<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><h3 id="3dgs的运行训练"><a href="#3dgs的运行训练" class="headerlink" title="3dgs的运行训练"></a>3dgs的运行训练</h3><p>下述所有命令都是在终端里运行的，运行时保持是从gaussian-splatting目录下开始输入的。<br>省流版本:<br><code>conda activate gaussian_splatting</code><br><code>d:</code><br><code>cd D:\sys\Desktop\Workplace\3DGS</code><strong>新的路径</strong><br>训练:<br><code>python train.py -s data_train -m data_train/output</code> (参数为输出地址)<br><code>python render.py -m data_train/output</code><br>把train文件夹的method复制到test文件夹<br><code>python metrics.py -m data_train/output</code></p>
-<h3 id="1-视频截取帧"><a href="#1-视频截取帧" class="headerlink" title="1.视频截取帧"></a>1.视频截取帧</h3><p>这里可以用自己手机拍摄的一段视频，一两分钟即可，可以参考一下作者的训练时间，作者用自己的笔记本（4060 8G），大概训练了两个小时左右，跑完了所有的迭代。</p>
-<p>在gaussian-splatting目录下新建一个data文件夹，将你拍摄的视频移动到该data文件夹下，并将你的视频改名为input，后缀.mp4不用改。然后在data文件夹里再建一个与视频同名的文件夹，名字也是input。然后就可以输入命令啦（终端里从gaussian-splatting&#x2F;data目录下开始输入）</p>
-<p><code>cd data</code></p>
-<p><code>ffmpeg -i input.mp4 -vf &quot;setpts=0.2*PTS&quot; input\input_%04d.jpg   </code>         #推荐运行这个指令</p>
-<p><code>ffmpeg -i input.mp4 -vf &quot;setpts=0.2*PTS,fps=1&quot; input\input_%04d.jpg</code> #如果需要调整抽帧频率可以参考这个指令。选择一个运行即可</p>
-<p>这里简单的说一下各个参数的含义。<br>setpts&#x3D;0.2*PTS 将视频播放速度加快到原来的 5 倍。这意味着原视频的每秒帧数增加到 5 倍。<br>如果原始视频是 30 FPS，加速后的视频将以 150 FPS 播放。<br>尽管视频播放速度加快了，ffmpeg  fps&#x3D;1 会以每秒一帧的频率提取图片。<br> 这样就可以把你的视频截取为帧并保存在input文件夹里，在input文件夹里应该可以看到许多张照片。</p>
-<h3 id="2-产生点云"><a href="#2-产生点云" class="headerlink" title="2.产生点云"></a>2.产生点云</h3><p>在终端gaussian-splatting目录下输入<br>cd ..<br>python convert.py -s data</p>
-<p> 这个就是利用安装的colmap产生点云，会花费一些时间，等待完成即可。</p>
-<h3 id="3-查看点云"><a href="#3-查看点云" class="headerlink" title="3.查看点云"></a>3.查看点云</h3><p>终端里输入</p>
-<p>colmap</p>
-<p> 调出来colmap后，选择file-&gt;import model<br>然后选择gaussian-splatting&#x2F;data&#x2F;sparse&#x2F;0文件夹，选择确定，即可打开生成的点云，遇到弹窗×掉即可。可以看到生成的点云还有相机路径。</p>
-<h3 id="4-开始训练"><a href="#4-开始训练" class="headerlink" title="4.开始训练"></a>4.开始训练</h3><p>同样，在终端里gaussian-splatting目录下，输入</p>
-<p>python train.py -s data -m data&#x2F;output (参数为输出地址)<br>python train.py -s data -m data&#x2F;images<br> 成功开始会出现如下图所示<br>然后耐心等待训练完成以后即可。</p>
-<h3 id="5-查看结果"><a href="#5-查看结果" class="headerlink" title="5.查看结果"></a>5.查看结果</h3><p>同样，在终端里gaussian-splatting目录下，输入</p>
-<p> .\viewers\bin\SIBR_gaussianViewer_app -m data&#x2F;output</p>
-<p> 即可打开viewer窗口，可以把你的场景拖大，下面是一些快捷按键</p>
-<p>w             uio </p>
-<p>asd          jkl  </p>
-<p> 就是可以控制视角的变化，大家自己按一下就知道是干啥的了，这里就不一一列举对应的功能了（作者已经累了），注意切换输入法为英文输入。</p>
-<p>至此，就全部结束啦，完结撒花！</p>
-<p>1 . convert.py<br>将input数据集转换成为点云<br>通过sfm算法将输入的图片集转换成点云,这种方式的具体流程如下:</p>
-<ol>
-<li>特征提取：从输入的图像集中，对每一张图像提取特征点及其描述子，常用的特征提取算法有 SIFT、SURF、ORB 等。</li>
-<li>全局特征匹配：在所有图像的特征点之间进行匹配，找出不同图像中表示同一物理点的特征点对。由于是全局匹配，可能会处理大量的特征点对，计算量较大。</li>
-<li>相机位姿估计：根据匹配的特征点对，使用诸如对极几何、PnP 等算法来估计相机的相对位姿。</li>
-<li>三角测量：利用已知的相机位姿和匹配的特征点，通过三角测量计算出三维点的坐标，从而生成点云。</li>
-<li>全局优化：使用束调整（Bundle Adjustment）等方法对相机位姿和三维点的坐标进行全局优化，提高点云的精度。<br>SfM 侧重于对静态图像集进行全局处理，通过全局优化来生成高精度的点云,SfM相比ORB方法 更侧重于离线的高精度三维重建.</li>
-</ol>
-<p>渲染辐射场的几种方法建立了最近的数据集。革命性地合成了用多张照片或视频捕获的场景。然而，实<br>现高视觉质量仍然需要训练和渲染成本高昂的神经网络，而最近更快的方法不可避免地要牺牲速度来换<br>取质量。对于无界和完整的场景(而不是孤立的对象)和1080p分辨率的渲染，目前没有一种方法可以实现<br>实时显示速率。我们介绍了三个关键要素，使我们能够在保持有竞争力的训练时间的同时实现最先进的<br>视觉质量，并且重要的是允许在1080p分辨率下实现高质量的实时(≥30 fps)新视图合成。首先，从相机<br>校准过程中产生的稀疏点开始，我们用3D高斯分布表示场景，该分布保留了用于场景优化的连续体辐射<br>场的理想属性，同时避免了在空白空间中不必要的计算;其次，我们对3D高斯分布进行交错优化&#x2F;密度控<br>制，特别是优化各向异性协方差以实现场景的准确表示;第三，我们开发了一种支持各向异性喷溅的快速<br>可视性感知渲染算法，既加速了训练，又允许实时渲染。我们展示了最先进的视觉质量和实时性</p>
-<h2 id="3dgs流程"><a href="#3dgs流程" class="headerlink" title="3dgs流程"></a>3dgs流程</h2><p>3DGS流程：<br>（1）通过colmap等工具从多视角图像获取SfM点云（SfM是一种三维重建算法，通过两个或多个场景&#x2F;图片恢复相机位姿，并重建三维坐标点），对 SfM 点云进行了初始化。</p>
-<p>（2）点云中的每一个点代表着一个三维的高斯分布，除了点的位置（均值）外，还有协方差、不透明度、颜色（球谐函数）–3D 高斯球云。</p>
-<p>（3）将这些椭球体沿着特定角度投影到对应位姿所在平面（Splatting）。一个椭球体投影到平面会得到一个椭圆；然后通过计算待求解像素和椭圆中心的距离，我们得到不透明度（离的近，说明越不透明）；每个椭球又代表各自的颜色，进行alpha composting来合成颜色，然后快速的对所有像素做“可微光栅化”，渲染得到图像。</p>
-<p>（4）得到渲染图像Image后，再与gt图像比较，得到损失loss，并沿蓝色箭头反向传播，随机梯度下降；向下送入自适应密度控制中（增密或修剪），更新点云优化。</p>
-<h2 id="代码运行流程"><a href="#代码运行流程" class="headerlink" title="代码运行流程"></a>代码运行流程</h2><h3 id="1-Running"><a href="#1-Running" class="headerlink" title="1.Running"></a>1.Running</h3><p>python train.py -s <path to COLMAP or NeRF Synthetic dataset></p>
-<p>示例：</p>
-<p>python train.py -s data&#x2F;360_extra_scenes&#x2F;treehill</p>
-<p>运行完在output下得到相应的文件夹output&#x2F;treehill，</p>
-<p>将得到的结果路径添加至SIBR_viewer.py（model_path &#x3D; r’D:\gaussian-splatting\output\treehill’），运行即可获得可视化。</p>
-<p>densify_and_prune操作会改变高斯数量。结合在一起，允许模型根据当前两个的训练状态动态地调整高斯的数量，从而实现更好的表示能力和计算效率。因此，在这个过程中，高斯的数量会变化，所以需要在执行后打印出当前的高斯数量。在训练的时候添加高斯数量打印：</p>
-<p>print(f”Iteration {iteration}: Number of Gaussians after densification and pruning: {gaussians.get_xyz.shape[0]}”)</p>
-<h3 id="2-Evaluation"><a href="#2-Evaluation" class="headerlink" title="2. Evaluation"></a>2. Evaluation</h3><p>python train.py -s <path to COLMAP or NeRF Synthetic dataset> –eval # Train with train&#x2F;test split<br>python render.py -m <path to trained model> # Generate renderings<br>python metrics.py -m <path to trained model> # Compute error metrics on renderings</p>
-<p>训练模型-&gt;渲染图像-&gt;计算指标</p>
-<p>示例：Evaluation运行，输入命令行(python train.py -s  + 数据集的路径)</p>
-<p>python train.py -s data&#x2F;360_extra_scenes&#x2F;treehill –eval<br>python render.py -m output&#x2F;treehill<br>python metrics.py -m output&#x2F;treehill</p>
-<h3 id="2-Processing-your-own-Scenes"><a href="#2-Processing-your-own-Scenes" class="headerlink" title="2. Processing your own Scenes"></a>2. Processing your own Scenes</h3><p>按照README.me进行，选择的mill19&#x2F;building-pixsfm进行简单测试</p>
-<p>图像目录结构：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;location&gt;</span><br><span class="line">|---input</span><br><span class="line">    |---&lt;image 0&gt;</span><br><span class="line">    |---&lt;image 1&gt;</span><br><span class="line">    |---...</span><br><span class="line"></span><br><span class="line">python convert.py -s &lt;location&gt; [--resize]     #If not resizing, ImageMagick is not needed</span><br><span class="line"></span><br><span class="line">示例：</span><br><span class="line">&lt;data/mill19/building-pixsfm&gt;</span><br><span class="line">|---input</span><br><span class="line">    |---&lt;image 0&gt;</span><br><span class="line">    |---&lt;image 1&gt;</span><br><span class="line">    |---...</span><br></pre></td></tr></table></figure>
-<p>然后运行： python convert.py -s data&#x2F;mill19&#x2F;building-pixsfm</p>
+  </div><article class="md-text content"><p>环境:Ubuntu20.04和Win11双系统<br>CUDA11.8<br>Anacoda3</p>
+<p>安装clash for linux 快捷命令 clashtun on &#x2F; off</p>
+<p>anaconda:<br>source conda activate 虚拟环境名</p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -174,14 +114,7 @@
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-<div class="widgets">
-
-
-
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96%E5%92%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">下载依赖和环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDgit-%E8%B7%B3%E8%BF%87"><span class="toc-text">下载git(跳过)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDanaconda-%E8%B7%B3%E8%BF%87"><span class="toc-text">下载anaconda(跳过)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDCUDA-nvcc-%E2%80%93version%E6%B5%8B%E8%AF%95%E7%89%88%E6%9C%AC"><span class="toc-text">下载CUDA :nvcc –version测试版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E4%B8%8B%E8%BD%BDCUDA-11-8%E7%89%88%E6%9C%AC"><span class="toc-text">准备下载CUDA 11.8版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85vs2019"><span class="toc-text">安装vs2019</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDcolmap"><span class="toc-text">下载colmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E7%BC%96%E8%AF%91"><span class="toc-text">准备编译</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83"><span class="toc-text">训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3dgs%E7%9A%84%E8%BF%90%E8%A1%8C%E8%AE%AD%E7%BB%83"><span class="toc-text">3dgs的运行训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%A7%86%E9%A2%91%E6%88%AA%E5%8F%96%E5%B8%A7"><span class="toc-text">1.视频截取帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%A7%E7%94%9F%E7%82%B9%E4%BA%91"><span class="toc-text">2.产生点云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9F%A5%E7%9C%8B%E7%82%B9%E4%BA%91"><span class="toc-text">3.查看点云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="toc-text">4.开始训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="toc-text">5.查看结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3dgs%E6%B5%81%E7%A8%8B"><span class="toc-text">3dgs流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">代码运行流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Running"><span class="toc-text">1.Running</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Evaluation"><span class="toc-text">2. Evaluation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Processing-your-own-Scenes"><span class="toc-text">2. Processing your own Scenes</span></a></li></ol></li></ol></div><div class="widget-footer">
-
-<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
-</div></aside><div class='float-panel blur'>
+</aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
