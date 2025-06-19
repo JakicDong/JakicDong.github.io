@@ -17,25 +17,26 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>java30天学习笔记 - Jakic's Blog</title>
+  <title>个人博客搭建 - Jakic's Blog</title>
 
   
-    <meta name="description" content="杂项最好不使用 clone()来进行复制,可以使用拷贝构造函数或拷贝工厂来复制对象. 抽象类提供了⼀种 IS-A 的关系接⼝更像是⼀种 LIKE-A 关系 Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的⼀种错误机制。当多个线程对同一个集合的内容进⾏操作时，就可能产⽣线程安全问题。Fail-Fast 机制会⾃动检测到线程安全问题,在操作前后比较集合的结">
+    <meta name="description" content="环境配置: 12node -v #查看node版本npm -v #查看npm版本  可以使用nvm来管理node版本 安装 hexo: 1npm install hexo-cli -g  出现权限问题 ,修改: 1sudo chown -R $(whoami) $(npm config get prefix)&#x2F;&#123;lib&#x2F;node_modules,bin,share&#125; #修改权限">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java30天学习笔记">
-<meta property="og:url" content="https://jakicdong.github.io/2025/06/06/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="个人博客搭建">
+<meta property="og:url" content="https://jakicdong.github.io/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="Jakic&#39;s Blog">
-<meta property="og:description" content="杂项最好不使用 clone()来进行复制,可以使用拷贝构造函数或拷贝工厂来复制对象. 抽象类提供了⼀种 IS-A 的关系接⼝更像是⼀种 LIKE-A 关系 Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的⼀种错误机制。当多个线程对同一个集合的内容进⾏操作时，就可能产⽣线程安全问题。Fail-Fast 机制会⾃动检测到线程安全问题,在操作前后比较集合的结">
+<meta property="og:description" content="环境配置: 12node -v #查看node版本npm -v #查看npm版本  可以使用nvm来管理node版本 安装 hexo: 1npm install hexo-cli -g  出现权限问题 ,修改: 1sudo chown -R $(whoami) $(npm config get prefix)&#x2F;&#123;lib&#x2F;node_modules,bin,share&#125; #修改权限">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-09T11:24:00.365Z">
+<meta property="article:published_time" content="2025-06-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T12:48:37.160Z">
 <meta property="article:author" content="JakicDong">
-<meta property="article:tag" content="java">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
   
   
   
-  <meta name="keywords" content="java">
+  <meta name="keywords" content="博客,hexo">
 
   <!-- feed -->
   
@@ -67,7 +68,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/12/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.19学习日记</span></a><a class="item title" href="/2025/06/10/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item title" href="/2025/06/18/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.18%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.18学习日记</span></a><a class="item title" href="/2025/06/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.16学习日记</span></a><a class="item title" href="/2025/06/17/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.17%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.17学习日记</span></a><a class="item title" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item title" href="/2025/06/14/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.14%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.14学习日记</span></a><a class="item title" href="/2025/06/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.13%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.13学习日记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.19学习日记</span></a><a class="item title" href="/2025/06/12/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item title" href="/2025/06/18/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.18%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.18学习日记</span></a><a class="item title" href="/2025/06/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.16学习日记</span></a><a class="item title" href="/2025/06/17/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.17%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.17学习日记</span></a><a class="item title" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item title" href="/2025/06/14/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.14%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.14学习日记</span></a><a class="item title" href="/2025/06/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.13%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.13学习日记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -80,31 +81,69 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-05T16:00:00.000Z">2025-06-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-09T11:24:00.365Z">2025-06-09</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-01T16:00:00.000Z">2025-06-02</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-09T12:48:37.160Z">2025-06-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>java30天学习笔记</span></h1>
+        <h1 class="text title"><span>个人博客搭建</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><p>最好不使用 clone()来进行复制,可以使用拷贝构造函数或拷贝工厂来复制对象.</p>
-<p>抽象类提供了⼀种 IS-A 的关系<br>接⼝更像是⼀种 LIKE-A 关系</p>
-<h2 id="Fail-Fast-机制"><a href="#Fail-Fast-机制" class="headerlink" title="Fail-Fast 机制"></a>Fail-Fast 机制</h2><p>Fail-Fast 机制是 Java 集合(Collection)中的⼀种错误机制。当多个线程对同一个集合的内容进⾏操作时，就可能产⽣线程安全问题。<br>Fail-Fast 机制会⾃动检测到线程安全问题,在操作前后比较集合的结构变化次数是否相同，并抛出 <code>ConcurrentModificationException</code> 异常。</p>
-<p>tips:禁⽌在foreach⾥执⾏元素的删除操作</p>
-<h2 id="容器的一些解析"><a href="#容器的一些解析" class="headerlink" title="容器的一些解析"></a>容器的一些解析</h2><h3 id="vector和arraylist的比较"><a href="#vector和arraylist的比较" class="headerlink" title="vector和arraylist的比较"></a>vector和arraylist的比较</h3><p>vector是同步的，所以开销更大<br>vector每次扩容请求2倍，而arraylist是1.5倍</p>
-<p>如果对线程安全有要求的话，可以选择Collections.synchronizedList() 或者使用CopyOnWriteArrayList保证线程安全。</p>
-<h3 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h3><p>写操作在拷贝的数组上进行，而读操作在原数组上进行。<br>写操作需要加锁，防止并发写操作。<br>适用于读多写少的场景。<br><strong>问题:</strong><br>内存占用约占原数组的两倍。<br>数据一致性问题。</p>
-<p>所以CopyOnWriteArrayList更加适合对内存不敏感以及实时性要求很高的场景。</p>
-<h3 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h3><p>ArrayList是基于数组实现的，而LinkedList是基于链表实现的。<br>数组支持随机访问，而链表不支持随机访问。<br>数组的插入和删除操作需要移动元素，而链表的插入和删除操作只需要修改指针。<br>数组的空间利用率高，而链表的空间利用率低。<br>LinkedList适用于需要频繁插入和删除元素的场景。</p>
-<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>相当于分成了很多个桶，每个桶里面是一个链表，链表的每个节点是一个键值对，使用头插法插入节点。</p>
-<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>ConcurrentHashMap是线程安全的HashMap，它的实现方式是使用分段锁。<br>ConcurrentHashMap将整个HashMap分成了多个段，每个段都是一个HashMap。<br>每个段都有一个锁，当一个线程访问一个段时，其他线程也可以访问其他段。</p>
-<h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><p>LinkedHashMap是HashMap的子类，它的实现方式是使用双向链表。<br>LinkedHashMap的迭代顺序是插入顺序或者访问顺序。<br>可以通过LinkedHashMap实现LRU缓存。</p>
-<h3 id="WeakHashMap"><a href="#WeakHashMap" class="headerlink" title="WeakHashMap"></a>WeakHashMap</h3><p>主要是用来实现缓存的。<br>WeakHashMap的键是弱引用，当键不再被引用时，键值对会被自动移除。<br>WeakHashMap的迭代器是弱引用的，所以在迭代时可能会出现空指针异常。</p>
-<h3 id="ConcurrentCache"><a href="#ConcurrentCache" class="headerlink" title="ConcurrentCache"></a>ConcurrentCache</h3><p>ConcurrentCache是一个线程安全的缓存，它的实现方式是使用ConcurrentHashMap。</p>
+  </div><article class="md-text content"><p>环境配置:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node <span class="literal">-v</span> <span class="comment">#查看node版本</span></span><br><span class="line">npm <span class="literal">-v</span> <span class="comment">#查看npm版本</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用nvm来管理node版本</p>
+<p>安装 hexo:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-cli</span> <span class="literal">-g</span></span><br></pre></td></tr></table></figure>
+
+<p>出现权限问题 ,修改:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown <span class="literal">-R</span> <span class="variable">$</span>(whoami) <span class="variable">$</span>(npm config get prefix)/&#123;lib/node_modules,bin,share&#125; <span class="comment">#修改权限范围</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>初始化个人博客文件夹:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init /Users/mac/Blog/JakicDong.github.io  <span class="comment"># 博客初始化，这里是创建的本地博客文件夹，执行后会自动创建，我这里图简洁，直接用了我网站的地址 hihulu.github.io 为文件名</span></span><br><span class="line"><span class="built_in">cd</span> /Users/mac/Blog/JakicDong.github.io  <span class="comment"># 进入本地的博客文件夹</span></span><br><span class="line">hexo server <span class="comment"># 打开本地服务器预览</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>&#x2F;Users&#x2F;mac&#x2F;<font style="color:rgb(25, 27, 31);">JakicDong.github.io</font></p>
+<h3 id="4-Github部署"><a href="#4-Github部署" class="headerlink" title="4.Github部署"></a><font style="color:rgb(25, 27, 31);">4.Github部署</font></h3><p><font style="color:rgb(25, 27, 31);">为了部署到Github上，需要安装hexo-deployer-git插件，命令如下：</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install hexo<span class="literal">-deployer-git</span> <span class="literal">--save</span></span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">然后找到自己的本地博客文件夹，修改博客根目录下的_config.yml文件中的deploy，修改成：</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:JakicDong/JakicDong.github.io.git <span class="comment">#这个地址是从github仓库复制过来的ssh</span></span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">（</font><font style="color:rgb(25, 27, 31);">⚠️</font><font style="color:rgb(25, 27, 31);">注意，这里有一个很容易犯错的点，我们在创建“hihulu.github.io”这个仓库的时候，一定要创建和你github用户名相同的仓库，后面加.</font><a href="https://link.zhihu.com/?target=http://github.io">http://github.io</a><font style="color:rgb(25, 27, 31);">，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是</font><a href="https://link.zhihu.com/?target=http://xxxx.github.io">http://xxxx.github.io</a><font style="color:rgb(25, 27, 31);">，其中xxx就是你注册GitHub的用户名。所以上图我的仓库显示的是“hihulu&#x2F;hihulu.github.io”，如果仓库名和用户名不一致，后面是根本打不开这个网站的～）</font></p>
+<p><font style="color:rgb(25, 27, 31);">然后就可以通过以下命令行上传github了</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g <span class="comment">#hexo generate的简写，即把刚刚做的改动生成更新一下</span></span><br><span class="line">hexo d <span class="comment">#hexo deploy，上传到github网站</span></span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">还有一些常用的命令行：</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean    <span class="comment">#清空一下缓存，有时候博客页面显示不正常也可以试试这个命令行</span></span><br><span class="line">hexo server   <span class="comment"># 在本地服务器运行，网址默认https://localhost:4000</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-更改主题"><a href="#5-更改主题" class="headerlink" title="5.更改主题"></a><font style="color:rgb(25, 27, 31);">5.更改主题</font></h3><p><font style="color:rgb(25, 27, 31);">很多</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=209510497&content_type=Article&match_order=1&q=%E5%89%8D%E7%AB%AF&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NDkyNjQ3NTgsInEiOiLliY3nq68iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMDk1MTA0OTcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.PjU7RUtVfswgpx8txrb1-qpavbnGqnT_Ypn4mzbQHdo&zhida_source=entity"><font style="color:rgb(9, 64, 142);">前端</font></a><font style="color:rgb(25, 27, 31);">大牛博主设计了很多好看的主题，网址</font><a href="https://link.zhihu.com/?target=https://hexo.io/themes/">https://hexo.io/themes/</a><font style="color:rgb(25, 27, 31);"> </font><font style="color:rgb(25, 27, 31);">，可以预览并选择你喜爱的主题进行应用。</font></p>
+<p><font style="color:rgb(25, 27, 31);">这里浅以一个蛮火的主题butterfly主题来走一个安装主题的步骤～</font></p>
+<p><font style="color:rgb(25, 27, 31);">执行以下代码：</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="literal">-b</span> master https://github.com/jerryc127/hexo<span class="literal">-theme-butterfly</span>.git themes/butterfly</span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">运行成功之后，在项目文件夹根目录中可以查看到新的主题themes文件夹：butterfly</font></p>
+<p><font style="color:rgb(25, 27, 31);">在博客的项目文件夹下，修改_config.yml</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=209510497&content_type=Article&match_order=1&q=%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NDkyNjQ3NTgsInEiOiLphY3nva7mlofku7YiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMDk1MTA0OTcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0OHldZgmOwhq2HClnlKUsWcfnSfjDFyTvhDreUk_wiA&zhida_source=entity"><font style="color:rgb(9, 64, 142);">配置文件</font></a><font style="color:rgb(25, 27, 31);">如下:</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># theme: landscape  默认主题</span></span><br><span class="line">theme: butterfly</span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">此时主题还不能正常配置使用，需要安装pug 以及stylus 的</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=209510497&content_type=Article&match_order=1&q=%E6%B8%B2%E6%9F%93%E5%99%A8&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NDkyNjQ3NTgsInEiOiLmuLLmn5PlmagiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMDk1MTA0OTcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.v2beU0UUPE1If7v6WO3nwToeHPWQOEbRXF5paEROS8k&zhida_source=entity"><font style="color:rgb(9, 64, 142);">渲染器</font></a><font style="color:rgb(25, 27, 31);">：</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-renderer-pug</span> hexo<span class="literal">-renderer-stylus</span> <span class="literal">--save</span></span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">最后推送到github</font></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清除缓存b.json 和已生成的静态文件 public</span></span><br><span class="line">hexo clean</span><br><span class="line"><span class="comment"># 生成静态页面到默认设置的 public 文件夹</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="comment"># 部署到设定的仓库或上传部署至服务端</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(25, 27, 31);">至此主题安装end，可访问</font><a href="https://link.zhihu.com/?target=https://hihulu.github.io/">https://hihulu.github.io/</a><font style="color:rgb(25, 27, 31);"> 查看～</font></p>
+<p><a href="https://jakicdong.github.io/">https://JakicDong.github.io/</a></p>
+<h3 id="7-4-常用命令"><a href="#7-4-常用命令" class="headerlink" title="# 7.4 常用命令"></a><strong><font style="color:rgb(25, 27, 31);"># 7.4 常用命令</font></strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;       # 新建文章</span><br><span class="line">hexo new page &quot;name&quot;  # 新建页面</span><br><span class="line">hexo g                # 生成页面</span><br><span class="line">hexo d                # 部署</span><br><span class="line">hexo g -d             # 生成页面并部署</span><br><span class="line">hexo s                # 本地预览</span><br><span class="line">hexo clean            # 清除缓存和已生成的静态文件</span><br><span class="line">hexo help             # 帮助</span><br></pre></td></tr></table></figure>
+
 
 <div class="article-footer fs14">
     <section id="license">
@@ -114,7 +153,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.7%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.6.7学习日记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/06/%E5%A5%BD%E7%94%A8%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%88%96%E6%93%8D%E4%BD%9C/">好用的快捷键和操作</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">技术派项目笔记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/01/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E6%A8%A1%E7%89%88/">博客模板</a></div></section></div>
 
 
 
@@ -128,7 +167,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="toc-text">杂项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fail-Fast-%E6%9C%BA%E5%88%B6"><span class="toc-text">Fail-Fast 机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%A3%E6%9E%90"><span class="toc-text">容器的一些解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vector%E5%92%8Carraylist%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">vector和arraylist的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-text">CopyOnWriteArrayList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedList"><span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap"><span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashMap"><span class="toc-text">LinkedHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WeakHashMap"><span class="toc-text">WeakHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentCache"><span class="toc-text">ConcurrentCache</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Github%E9%83%A8%E7%BD%B2"><span class="toc-text">4.Github部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%9B%B4%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-text">5.更改主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text"># 7.4 常用命令</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
