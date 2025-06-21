@@ -17,13 +17,13 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>B树 - Jakic's Blog</title>
+  <title>一次性搞懂B树 - Jakic's Blog</title>
 
   
     <meta name="description" content="可视化网站算法可视化网站 B-Tree的引入从磁盘查找数据效率低的原因 读写数据越大速度越慢  读写次数越多速度越慢   设计文件查找系统索引可以提供更快的查询. 哈希表优点:等值查询比较快缺点:  hash冲突后,数据散列不均匀,产生大量线性查询,效率低 等值查询可以,但是遇到范围查询,需要遍历,hash不合适  树树的种类树 二叉树 BST二叉查找树 AVL平衡二叉树 红黑树 B树 B+树 二">
 <meta property="og:type" content="article">
-<meta property="og:title" content="B树">
-<meta property="og:url" content="https://jakicdong.github.io/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/B%E6%A0%91/index.html">
+<meta property="og:title" content="一次性搞懂B树">
+<meta property="og:url" content="https://jakicdong.github.io/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/index.html">
 <meta property="og:site_name" content="Jakic&#39;s Blog">
 <meta property="og:description" content="可视化网站算法可视化网站 B-Tree的引入从磁盘查找数据效率低的原因 读写数据越大速度越慢  读写次数越多速度越慢   设计文件查找系统索引可以提供更快的查询. 哈希表优点:等值查询比较快缺点:  hash冲突后,数据散列不均匀,产生大量线性查询,效率低 等值查询可以,但是遇到范围查询,需要遍历,hash不合适  树树的种类树 二叉树 BST二叉查找树 AVL平衡二叉树 红黑树 B树 B+树 二">
 <meta property="og:locale" content="zh_CN">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250621142935.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250621143215.png">
 <meta property="article:published_time" content="2025-06-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-21T06:32:26.114Z">
+<meta property="article:modified_time" content="2025-06-21T07:04:23.391Z">
 <meta property="article:author" content="JakicDong">
 <meta property="article:tag" content="基础">
 <meta property="article:tag" content="算法">
@@ -76,7 +76,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/B%E6%A0%91/"><span class="title">B树</span></a><a class="item title" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/21/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.21%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.21学习日记</span></a><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item title" href="/2025/06/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.19学习日记</span></a><a class="item title" href="/2025/06/20/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.20学习日记</span></a><a class="item title" href="/2025/06/18/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.18%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.18学习日记</span></a><a class="item title" href="/2025/06/17/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.17%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.17学习日记</span></a><a class="item title" href="/2025/06/12/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.16学习日记</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/12/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item title" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item title" href="/2025/06/21/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.21%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.21学习日记</span></a><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item title" href="/2025/06/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.19学习日记</span></a><a class="item title" href="/2025/06/20/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.20学习日记</span></a><a class="item title" href="/2025/06/18/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.18%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.18学习日记</span></a><a class="item title" href="/2025/06/17/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.17%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.17学习日记</span></a><a class="item title" href="/2025/06/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2025.6.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.6.16学习日记</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -89,12 +89,12 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-20T16:00:00.000Z">2025-06-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-21T06:32:26.114Z">2025-06-21</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-20T16:00:00.000Z">2025-06-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-21T07:04:23.391Z">2025-06-21</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>B树</span></h1>
+        <h1 class="text title"><span>一次性搞懂B树</span></h1>
         
       </div>
     </div>
@@ -136,7 +136,7 @@
 <li>书中每个节点只多有m个孩子节点(至多有m-1个关键字)</li>
 <li>每个节节点的结构为:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250621142935.png" alt="20250621142935"><br><code>n</code>代表这个节点有几个关键字.<br><code>P0</code>第一个子树的地址.<br><code>k1</code>关键字</li>
 </ol>
-<p>例子:m&#x3D;4的4阶B树<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250621143215.png" alt="20250621143215"></p>
+<p>例子:m&#x3D;4的4阶B树<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250621143215.png" alt="20250621143215"><br>阶数代表单个节点最多有的子节点数量</p>
 
 <div class="article-footer fs14">
     <section id="license">
