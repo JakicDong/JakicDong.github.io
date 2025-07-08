@@ -1,0 +1,8 @@
+/* 为不同分类定义颜色 */
+.md-text.category-basic-note {
+    background-color: #e3f2fd; /* 蓝色调 */
+}
+
+.md-text.category-algorithm-note {
+    background-color: #ffebee; /* 红色调 */
+}
