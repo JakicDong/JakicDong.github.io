@@ -13,15 +13,17 @@ $(document).ready(function() {
             $(this).nextAll('.archive-list').each(function() {
                 $(this).find('time').each(function() {
                     const monthDayStr = $(this).text().trim();
-                    const dateStr = `${currentYear}-${monthDayStr}`;
-                    console.log('原始提取的日期字符串:', dateStr);
-                    const date = new Date(dateStr);
+                    const [month, day] = monthDayStr.split('-').map(Number);
+                    // 创建本地时间的 Date 对象
+                    const date = new Date(currentYear, month - 1, day);
+                    // 格式化成本地日期字符串
+                    const formattedDate = `${currentYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    console.log('原始提取的日期字符串:', formattedDate);
                     if (!isNaN(date.getTime())) {
-                        const formattedDate = date.toISOString().split('T')[0];
                         checkInDates.push(formattedDate);
                         console.log('转换后的日期:', formattedDate);
                     } else {
-                        console.error('无效的日期:', dateStr);
+                        console.error('无效的日期:', formattedDate);
                     }
                 });
             });
@@ -58,7 +60,11 @@ $(document).ready(function() {
         }
 
         while (date.getMonth() === month) {
-            const dateStr = date.toISOString().split('T')[0];
+            // 格式化成本地日期字符串
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
             const isCheckedIn = checkInDates.includes(dateStr);
             console.log('当前日历日期:', dateStr, '是否打卡:', isCheckedIn);
             html += `<div class="calendar-day ${isCheckedIn ? 'checked-in' : ''}">${date.getDate()}</div>`;
