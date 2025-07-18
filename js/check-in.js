@@ -375,31 +375,21 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         // 打印归档页面的 HTML 内容，用于调试
         console.log('Archive page HTML:', data);
 
-        // 检查是否能找到年份元素
-        const yearElements = $archivePage.find('.archive-year');
-        console.log('Found year elements count:', yearElements.length);
-        if (yearElements.length === 0) {
-            console.error('未找到年份元素，请检查选择器');
-        }
+        // 从文章链接中提取年份
+        $archivePage.find('.archive-list a.post').each(function() {
+            const postLink = $(this).attr('href');
+            const dateMatch = postLink.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//);
+            if (dateMatch) {
+                const archiveYear = dateMatch[1];
+                const month = dateMatch[2];
+                const day = dateMatch[3];
+                console.log('Found archive date:', archiveYear, month, day);
 
-        yearElements.each(function() {
-            const archiveYear = $(this).text().trim();
-            console.log('Found archive year:', archiveYear);
-            if (archiveYear == year) {
-                // 检查是否能找到日期元素
-                const dateElements = $(this).nextAll('.archive-posts').find('time');
-                console.log('Found date elements count for year', archiveYear, ':', dateElements.length);
-                if (dateElements.length === 0) {
-                    console.error('未找到日期元素，请检查选择器');
-                }
-
-                dateElements.each(function() {
-                    const [month, day] = $(this).text().trim().split('-');
-                    console.log('Found archive date:', month, day);
-                    const dateStr = `${archiveYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (archiveYear == year) {
+                    const dateStr = `${archiveYear}-${month}-${day}`;
                     checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
                     totalArchiveCount += 1;
-                });
+                }
             }
         });
 
