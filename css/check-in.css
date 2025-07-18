@@ -146,20 +146,20 @@
 .sidebar-check-in .calendar-day {
     height: 22px; /* 适当减小格子高度 */
     width: 22px; /* 适当减小格子宽度 */
-    font-size: 0.7em; /* 适当减小字体大小 */
+    font-size: 0.6em; /* 适当减小字体大小 */
     display: inline-flex;
     justify-content: center;
     align-items: center;
     margin: 0.5px; 
-    border-radius: 3px; /* 适当减小圆角 */
+    border-radius: 4px; /* 适当减小圆角 */
 }
 
 /* 减小日历天的列间隙 */
 .sidebar-check-in .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    column-gap: 0.5px; /* 进一步减小列间隙 */
-    row-gap: 0.5px; /* 进一步减小行间隙 */
+    column-gap: 0.3px; /* 进一步减小列间隙 */
+    row-gap: 0.3px; /* 进一步减小行间隙 */
 }
 
 /* 侧边栏日历头部样式 */
