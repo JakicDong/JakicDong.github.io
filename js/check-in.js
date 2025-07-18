@@ -376,7 +376,7 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         console.log('Archive page HTML:', data);
 
         // 检查是否能找到年份元素
-        const yearElements = $archivePage.find('.archive-header.h4');
+        const yearElements = $archivePage.find('.archive-year');
         console.log('Found year elements count:', yearElements.length);
         if (yearElements.length === 0) {
             console.error('未找到年份元素，请检查选择器');
@@ -387,16 +387,15 @@ function fetchArchiveDataAndGenerateCalendar(year) {
             console.log('Found archive year:', archiveYear);
             if (archiveYear == year) {
                 // 检查是否能找到日期元素
-                const dateElements = $(this).nextAll('.archive-list').find('time');
+                const dateElements = $(this).nextAll('.archive-posts').find('time');
                 console.log('Found date elements count for year', archiveYear, ':', dateElements.length);
                 if (dateElements.length === 0) {
                     console.error('未找到日期元素，请检查选择器');
                 }
 
                 dateElements.each(function() {
-                    const dateText = $(this).text().trim();
-                    const [archiveYear, month, day] = dateText.split('-');
-                    console.log('Found archive date:', archiveYear, month, day);
+                    const [month, day] = $(this).text().trim().split('-');
+                    console.log('Found archive date:', month, day);
                     const dateStr = `${archiveYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
                     totalArchiveCount += 1;
