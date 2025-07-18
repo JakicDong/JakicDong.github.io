@@ -7,7 +7,8 @@ $(document).ready(function() {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     function handleThemeChange(e) {
         $('body').toggleClass('dark-mode', e.matches);
-        generateCalendar(checkInDates);
+        // 重新生成所有打卡表
+        generateAllCalendars(checkInDates);
     }
     mediaQuery.addListener(handleThemeChange);
     handleThemeChange(mediaQuery);
@@ -26,14 +27,21 @@ $(document).ready(function() {
             });
         });
 
-        initMonthSelector();
-        generateCalendar(checkInDates);
+        initAllMonthSelectors();
+        generateAllCalendars(checkInDates);
     }).fail(function() {
         console.error('获取归档页面失败');
     });
 
-    function initMonthSelector() {
-        const monthSelector = $('#month-selector');
+    function initAllMonthSelectors() {
+        // 初始化主页面打卡表的月份选择器
+        initMonthSelector('#check-in-calendar');
+        // 初始化侧边栏打卡表的月份选择器
+        initMonthSelector('#sidebar-check-in-calendar');
+    }
+
+    function initMonthSelector(containerId) {
+        const monthSelector = $(`${containerId} .month-selector`);
         const months = [
             '一月', '二月', '三月', '四月', '五月', '六月',
             '七月', '八月', '九月', '十月', '十一月', '十二月'
@@ -47,19 +55,26 @@ $(document).ready(function() {
 
         monthSelector.html(selectHTML);
 
-        $('#month-dropdown').on('change', function() {
+        $(`${containerId} #month-dropdown`).on('change', function() {
             currentMonth = parseInt($(this).val());
-            generateCalendar(checkInDates);
+            generateAllCalendars(checkInDates);
         });
     }
 
-    function generateCalendar(checkInDates) {
-        const calendarContainer = $('#check-in-calendar');
+    function generateAllCalendars(checkInDates) {
+        // 生成主页面打卡表
+        generateCalendar('#check-in-calendar', checkInDates);
+        // 生成侧边栏打卡表
+        generateCalendar('#sidebar-check-in-calendar', checkInDates);
+    }
+
+    function generateCalendar(containerId, checkInDates) {
+        const calendarContainer = $(containerId);
         const calendarHTML = createCalendar(currentYear, currentMonth, checkInDates);
         calendarContainer.html(calendarHTML);
 
         // 更新月份选择器的年份
-        $('#month-dropdown option').each(function() {
+        $(`${containerId} #month-dropdown option`).each(function() {
             const optionText = $(this).text().split(' ')[0];
             $(this).text(`${optionText} ${currentYear}`);
         });
@@ -110,7 +125,7 @@ $(document).ready(function() {
         } else {
             currentMonth--;
         }
-        generateCalendar(checkInDates);
+        generateAllCalendars(checkInDates);
     });
 
     $(document).on('click', '#next-month', function() {
@@ -120,6 +135,6 @@ $(document).ready(function() {
         } else {
             currentMonth++;
         }
-        generateCalendar(checkInDates);
+        generateAllCalendars(checkInDates);
     });
 });

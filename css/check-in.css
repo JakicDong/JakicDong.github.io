@@ -106,3 +106,26 @@
     background-color: var(--day-bg);
     color: var(--text-color);
 }
+
+
+/* 侧边栏打卡表样式 */
+.sidebar-check-in #check-in-calendar {
+    max-width: 250px;
+    margin: 0;
+    padding: 10px;
+}
+
+.sidebar-check-in .calendar-day {
+    height: 30px;
+    font-size: 0.9em;
+}
+
+.sidebar-check-in .calendar-header {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.sidebar-check-in .month-selector select {
+    padding: 3px 8px;
+    font-size: 0.9em;
+}
