@@ -472,16 +472,1814 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
-    /* 减小左右间隙，让整体向左靠 */
-    column-gap: 0.5px; 
-    /* 调整左右内边距，可根据实际情况微调 */
-    padding: 0 2px; 
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
 }
 
 .sidebar-check-in .calendar-weekdays div {
     text-align: center;
     font-weight: bold;
     padding: 5px 0;
-    /* 适当调整左右内边距，让文字向左偏移 */
-    padding-left: 2px; 
 }
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 单独调整第一个星期名称（日）的左侧内边距 */
+.sidebar-check-in .calendar-weekdays div:first-child {
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/* 侧边栏星期名称容器样式 */
+.sidebar-check-in .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    /* 减小左侧内边距 */
+    padding-left: 0; 
+}
+
+/* 侧边栏星期名称单个元素样式 */
+.sidebar-check-in .calendar-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+/*
