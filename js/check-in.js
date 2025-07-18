@@ -123,8 +123,8 @@ $(document).ready(function() {
             } else if (archiveCount > 1) {
                 className += ' multiple-archives';
             }
-            // 添加点击事件
-            html += `<div class="${className}" onclick="handleDateClick('${dateStr}')">${date.getDate()}</div>`;
+            // 移除点击事件
+            html += `<div class="${className}">${date.getDate()}</div>`;
             date.setDate(date.getDate() + 1);
         }
     
@@ -158,12 +158,12 @@ $(document).ready(function() {
     });
 });
 
-// 处理日期点击事件的函数，定义在全局作用域
-function handleDateClick(dateStr) {
-    console.log(`尝试跳转到日期 ${dateStr} 的笔记列表页`);
-    // 跳转到展示对应日期笔记列表的页面
-    window.location.href = `/notes/${dateStr}/`;
-}
+// 移除全局作用域的点击事件处理函数
+// function handleDateClick(dateStr) {
+//     console.log(`尝试跳转到日期 ${dateStr} 的笔记列表页`);
+//     // 跳转到展示对应日期笔记列表的页面
+//     window.location.href = `/notes/${dateStr}/`;
+// }
 
 $(document).ready(function() {
     let currentYear = new Date().getFullYear();
