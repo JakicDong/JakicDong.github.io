@@ -474,7 +474,7 @@
     margin-bottom: 10px;
     column-gap: 0.5px;
     /* 减小左侧内边距 */
-    padding-left: 0; 
+    padding-left: -0.5px; 
 }
 
 /* 侧边栏星期名称单个元素样式 */
