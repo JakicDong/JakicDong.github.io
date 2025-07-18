@@ -370,20 +370,29 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         console.log('Archives page fetched successfully');
         const $archivePage = $(data);
         checkInDates = {};
+        let totalArchiveCount = 0;
+
+        // 打印归档页面的 HTML 内容，用于调试
+        console.log('Archive page HTML:', data);
 
         $archivePage.find('.archive-header.h4').each(function() {
             const archiveYear = $(this).text().trim();
-            if (archiveYear == year) { // 只处理当前选中年份的数据
+            console.log('Found archive year:', archiveYear);
+            if (archiveYear == year) {
                 $(this).nextAll('.archive-list').find('time').each(function() {
                     const [month, day] = $(this).text().trim().split('-');
+                    console.log('Found archive date:', month, day);
                     const dateStr = `${archiveYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
+                    totalArchiveCount += 1;
                 });
             }
         });
 
         console.log('Check-in dates:', checkInDates);
+        console.log('Total archive count:', totalArchiveCount);
         generateAnnualCalendar(checkInDates);
+        document.getElementById('archive-count').textContent = totalArchiveCount;
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown);
     });
