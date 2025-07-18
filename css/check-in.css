@@ -4,11 +4,13 @@
     --day-bg: #ffffff;
     --day-border: #ddd;
     --checked-bg: #ab47bc;
-    --checked-text: white;
+    /* 将浅紫色块文字颜色设置为黑色 */
     --single-archive-bg: #ba68c8;
-    --single-archive-text: #7b1fa2;
+    --single-archive-text: black;
+    /* 将深紫色块文字颜色设置为黑色 */
     --multiple-archives-bg: #9c27b0;
-    --multiple-archives-text: white;
+    --multiple-archives-text: black;
+    --checked-text: white;
 }
 
 .dark-mode {
