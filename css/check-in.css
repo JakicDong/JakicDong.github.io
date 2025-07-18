@@ -321,13 +321,13 @@
 
 /* 单篇归档样式 */
 .sidebar-check-in .calendar-day.single-archive {
-    background-color: var(--single-archive-bg);
+    background-color: var(--single-archive-bg); /* 使用浅紫色变量 */
     color: var(--single-archive-text);
 }
 
 /* 多篇归档样式 */
 .sidebar-check-in .calendar-day.multiple-archives {
-    background-color: var(--multiple-archives-bg);
+    background-color: var(--multiple-archives-bg); /* 使用深紫色变量 */
     color: var(--multiple-archives-text);
 }
 
@@ -396,17 +396,7 @@
     border-radius: 4px;
 }
 
-/* 单篇归档样式 */
-.sidebar-check-in .calendar-day.single-archive {
-    background-color: #c8e6c9; /* 浅绿 */
-    color: #2e7d32;
-}
 
-/* 多篇归档样式 */
-.sidebar-check-in .calendar-day.multiple-archives {
-    background-color: #4caf50; /* 深绿 */
-    color: white;
-}
 
 .sidebar-check-in .calendar-header {
     font-weight: bold; /* 侧边栏打卡表年份和月份标题字体加粗 */
@@ -525,102 +515,6 @@
     background-color: var(--day-bg);
     color: var(--text-color);
 }
-
-#annual-check-in-calendar {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.annual-month {
-    border: 1px solid var(--day-border);
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.annual-month-header {
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.annual-month-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 5px;
-    gap: 2px;
-}
-
-.annual-month-weekdays div {
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.8em;
-}
-
-.annual-month-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-}
-
-.annual-month-day {
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--day-border);
-    border-radius: 2px;
-    background-color: var(--day-bg);
-    box-sizing: border-box;
-    transition: background-color 0.3s;
-    cursor: pointer;
-    /* 缩小日期字体大小 */
-    font-size: 0.7em; 
-}
-
-.annual-month-day.empty {
-    border: none;
-    background-color: transparent;
-}
-
-/* 单篇归档样式 */
-.annual-month-day.single-archive {
-    background-color: var(--single-archive-bg);
-    color: var(--single-archive-text);
-}
-
-/* 多篇归档样式 */
-.annual-month-day.multiple-archives {
-    background-color: var(--multiple-archives-bg);
-    color: var(--multiple-archives-text);
-}
-
-/* 深色模式下的样式 */
-.dark-mode .annual-month-day {
-    background-color: var(--day-bg);
-    color: var(--text-color);
-    border: 1px solid var(--day-border);
-}
-
-.dark-mode .annual-month-day.single-archive {
-    background-color: var(--single-archive-bg);
-    color: var(--single-archive-text);
-}
-
-.dark-mode .annual-month-day.multiple-archives {
-    background-color: var(--multiple-archives-bg);
-    color: var(--multiple-archives-text);
-}
-
-/* ... 已有代码 ... */
 
 #sidebar-archive-title {
     text-align: center;
