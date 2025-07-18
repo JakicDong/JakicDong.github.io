@@ -371,23 +371,22 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         console.log('Archives page fetched successfully');
         const $archivePage = $(data);
         checkInDates = {};
-        let totalArchiveCount = 0; // 初始化全部笔记数量
+        let totalArchiveCount = 0;
 
         $archivePage.find('.archive-header.h4').each(function() {
             const archiveYear = $(this).text().trim();
-            if (archiveYear == year) { // 只处理当前选中年份的数据
+            if (archiveYear == year) {
                 $(this).nextAll('.archive-list').find('time').each(function() {
                     const [month, day] = $(this).text().trim().split('-');
                     const dateStr = `${archiveYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
-                    totalArchiveCount += 1; // 累加笔记数量
+                    totalArchiveCount += 1;
                 });
             }
         });
 
         console.log('Check-in dates:', checkInDates);
         generateAnnualCalendar(checkInDates);
-        // 更新侧边栏标题的笔记数量
         document.getElementById('archive-count').textContent = totalArchiveCount;
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown);
