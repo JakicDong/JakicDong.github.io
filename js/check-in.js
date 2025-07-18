@@ -367,8 +367,8 @@ function changeYear(offset) {
 // 重新获取归档数据并生成整年打卡表格
 function fetchArchiveDataAndGenerateCalendar(year) {
     const archiveCountElement = document.getElementById('archive-count');
-    // 数据获取前隐藏统计数量
-    archiveCountElement.style.display = 'none';
+    // 发起请求前显示加载状态
+    archiveCountElement.textContent = '加载中...';
 
     $.get('/archives', function(data) {
         console.log('Archives page fetched successfully');
@@ -395,14 +395,12 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         console.log('Check-in dates:', checkInDates);
         console.log('Total archive count:', totalArchiveCount);
         generateAnnualCalendar(checkInDates);
+        // 数据获取完成后更新统计数量
         archiveCountElement.textContent = totalArchiveCount;
-        // 数据获取完成后显示统计数量
-        archiveCountElement.style.display = 'inline';
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown);
-        // 出错时显示 0 并显示统计数量
-        archiveCountElement.textContent = 0;
-        archiveCountElement.style.display = 'inline';
+        // 请求失败时显示错误提示
+        archiveCountElement.textContent = '获取数据失败';
     });
 }
 
