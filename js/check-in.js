@@ -74,15 +74,22 @@ $(document).ready(function() {
     }
 
     function generateCalendar(containerId, checkInDates) {
+        console.log('Attempting to generate calendar for container:', containerId);
         const calendarContainer = $(containerId);
+        if (calendarContainer.length === 0) {
+            console.error('Container not found:', containerId);
+            return;
+        }
+        console.log('Container found, generating calendar HTML...');
         const calendarHTML = createCalendar(currentYear, currentMonth, checkInDates);
         calendarContainer.html(calendarHTML);
-
+    
         // 更新月份选择器的年份
-        $(`${containerId} #month-dropdown option`).each(function() {
+        $(`${containerId} #month - dropdown option`).each(function() {
             const optionText = $(this).text().split(' ')[0];
             $(this).text(`${optionText} ${currentYear}`);
         });
+        console.log('Calendar generated successfully for container:', containerId);
     }
 
     function createCalendar(year, month, checkInDates) {
