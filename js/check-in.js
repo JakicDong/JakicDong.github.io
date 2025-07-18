@@ -1,7 +1,9 @@
 $(document).ready(function() {
     let currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth();
-    let checkInDates = {}; // 存储每天的归档数量
+    let checkInDates = {};
+
+    console.log('Script started'); // 确认脚本开始执行
 
     // 监听系统主题变化
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -15,6 +17,7 @@ $(document).ready(function() {
 
     // 获取归档日期和数量
     $.get('/archives', function(data) {
+        console.log('Archives page fetched successfully'); // 确认归档页面获取成功
         const $archivePage = $(data);
         checkInDates = {};
 
@@ -27,10 +30,12 @@ $(document).ready(function() {
             });
         });
 
+        console.log('Check-in dates:', checkInDates); // 输出获取到的归档日期和数量
+
         initAllMonthSelectors();
         generateAllCalendars(checkInDates);
-    }).fail(function() {
-        console.error('获取归档页面失败');
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error('获取归档页面失败:', textStatus, errorThrown); // 输出请求失败信息
     });
 
     function initAllMonthSelectors() {
