@@ -396,7 +396,17 @@
     border-radius: 4px;
 }
 
+/* 单篇归档样式 */
+.sidebar-check-in .calendar-day.single-archive {
+    background-color: #c8e6c9; /* 浅绿 */
+    color: #8364ba;
+}
 
+/* 多篇归档样式 */
+.sidebar-check-in .calendar-day.multiple-archives {
+    background-color: #832bc1; /* 深绿 */
+    color: white;
+}
 
 .sidebar-check-in .calendar-header {
     font-weight: bold; /* 侧边栏打卡表年份和月份标题字体加粗 */
