@@ -385,6 +385,7 @@
 
 /* 侧边栏日期格子样式 */
 .sidebar-check-in .calendar-day {
+    font-weight: bold; /* 侧边栏打卡表日期字体加粗 */
     height: 24px; /* 减小格子高度 */
     width: 24px; /* 固定格子宽度 */
     font-size: 0.8em;
@@ -408,6 +409,7 @@
 }
 
 .sidebar-check-in .calendar-header {
+    font-weight: bold; /* 侧边栏打卡表年份和月份标题字体加粗 */
     font-size: 1em;
     margin-bottom: 8px;
     display: flex;
@@ -484,6 +486,7 @@
 
 /* 侧边栏星期名称单个元素样式 */
 .sidebar-check-in .calendar-weekdays div {
+    font-weight: bold; /* 侧边栏打卡表星期名称字体加粗 */
     text-align: center;
     font-weight: bold;
     padding: 5px 0;
@@ -618,3 +621,11 @@
 }
 
 /* ... 已有代码 ... */
+
+#sidebar-archive-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
