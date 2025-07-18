@@ -375,7 +375,7 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         // 打印归档页面的 HTML 内容，用于调试
         console.log('Archive page HTML:', data);
 
-        // 从文章链接中提取年份
+        // 从文章链接中提取日期
         $archivePage.find('.archive-list a.post').each(function() {
             const postLink = $(this).attr('href');
             const dateMatch = postLink.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//);
@@ -385,11 +385,9 @@ function fetchArchiveDataAndGenerateCalendar(year) {
                 const day = dateMatch[3];
                 console.log('Found archive date:', archiveYear, month, day);
 
-                if (archiveYear == year) {
-                    const dateStr = `${archiveYear}-${month}-${day}`;
-                    checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
-                    totalArchiveCount += 1;
-                }
+                const dateStr = `${archiveYear}-${month}-${day}`;
+                checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
+                totalArchiveCount += 1;
             }
         });
 
