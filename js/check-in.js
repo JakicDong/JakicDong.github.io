@@ -9,19 +9,21 @@ $(document).ready(function() {
             const currentYear = $(this).text().trim();
             console.log('当前年份:', currentYear);
 
-            // 查找当前年份下的所有日期元素
-            $(this).next('.archive-list').find('time').each(function() {
-                const monthDayStr = $(this).text().trim();
-                const dateStr = `${currentYear}-${monthDayStr}`;
-                console.log('原始提取的日期字符串:', dateStr);
-                const date = new Date(dateStr);
-                if (!isNaN(date.getTime())) {
-                    const formattedDate = date.toISOString().split('T')[0];
-                    checkInDates.push(formattedDate);
-                    console.log('转换后的日期:', formattedDate);
-                } else {
-                    console.error('无效的日期:', dateStr);
-                }
+            // 查找当前年份下的所有 archive-list 元素
+            $(this).nextAll('.archive-list').each(function() {
+                $(this).find('time').each(function() {
+                    const monthDayStr = $(this).text().trim();
+                    const dateStr = `${currentYear}-${monthDayStr}`;
+                    console.log('原始提取的日期字符串:', dateStr);
+                    const date = new Date(dateStr);
+                    if (!isNaN(date.getTime())) {
+                        const formattedDate = date.toISOString().split('T')[0];
+                        checkInDates.push(formattedDate);
+                        console.log('转换后的日期:', formattedDate);
+                    } else {
+                        console.error('无效的日期:', dateStr);
+                    }
+                });
             });
         });
 
