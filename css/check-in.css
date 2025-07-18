@@ -515,15 +515,6 @@
     align-items: center;
 }
 
-#year-selector button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2em;
-    color: var(--text-color);
-    margin: 0 10px;
-}
-
 #year-selector select {
     padding: 5px 10px;
     border-radius: 4px;

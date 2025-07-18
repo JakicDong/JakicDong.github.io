@@ -340,28 +340,30 @@ function initYearSelector() {
         }
         yearDropdown.appendChild(option);
     }
-    yearDropdown.addEventListener('change', generateAnnualCalendar);
-    document.getElementById('prev-year').addEventListener('click', () => changeYear(-1));
-    document.getElementById('next-year').addEventListener('click', () => changeYear(1));
+    // 监听年份下拉框变化事件
+    yearDropdown.addEventListener('change', function() {
+        const selectedYear = parseInt(this.value);
+        fetchArchiveDataAndGenerateCalendar(selectedYear);
+    });
 }
 
-// 切换年份
-function changeYear(offset) {
-    const yearDropdown = document.getElementById('year-dropdown');
-    const currentYear = parseInt(yearDropdown.value);
-    const newYear = currentYear + offset;
-
-    // 检查新的年份是否在下拉列表范围内
-    const options = yearDropdown.options;
-    for (let i = 0; i < options.length; i++) {
-        if (parseInt(options[i].value) === newYear) {
-            yearDropdown.selectedIndex = i;
-            // 重新获取归档数据并生成整年打卡表格
-            fetchArchiveDataAndGenerateCalendar(newYear);
-            break;
-        }
-    }
-}
+// 移除 changeYear 函数
+// function changeYear(offset) {
+//     const yearDropdown = document.getElementById('year-dropdown');
+//     const currentYear = parseInt(yearDropdown.value);
+//     const newYear = currentYear + offset;
+//
+//     // 检查新的年份是否在下拉列表范围内
+//     const options = yearDropdown.options;
+//     for (let i = 0; i < options.length; i++) {
+//         if (parseInt(options[i].value) === newYear) {
+//             yearDropdown.selectedIndex = i;
+//             // 重新获取归档数据并生成整年打卡表格
+//             fetchArchiveDataAndGenerateCalendar(newYear);
+//             break;
+//         }
+//     }
+// }
 
 // 重新获取归档数据并生成整年打卡表格
 function fetchArchiveDataAndGenerateCalendar(year) {
