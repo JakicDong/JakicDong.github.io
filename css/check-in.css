@@ -1,4 +1,3 @@
-/* 基础变量定义 */
 :root {
     --bg-color: #ffffff;
     --text-color: #333333;
@@ -25,15 +24,25 @@
     --multiple-archives-text: black;
 }
 
-/* 公共样式 */
-.calendar-container {
-    max-width: 800px;
+/* 通用日历样式 */
+#check-in-calendar, #annual-check-in-calendar {
     margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
+}
+
+#check-in-calendar {
+    max-width: 800px;
+}
+
+#annual-check-in-calendar {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .calendar-header {
@@ -57,6 +66,7 @@
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
     gap: 3px;
+    padding-left: 0;
 }
 
 .calendar-weekdays div {
@@ -113,13 +123,13 @@
     background-color: #444;
 }
 
-.month-selector {
+.month-selector, #year-selector {
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
 }
 
-.month-selector select {
+.month-selector select, #year-selector select {
     padding: 5px 10px;
     border-radius: 4px;
     border: 1px solid var(--day-border);
@@ -127,28 +137,52 @@
     color: var(--text-color);
 }
 
-/* 侧边栏特定样式 */
+/* 侧边栏样式 */
 .sidebar-check-in {
     border-radius: 8px;
     padding: 10px;
     margin: 10px 0;
 }
 
-.sidebar-check-in .calendar-container {
+.sidebar-check-in #check-in-calendar {
     max-width: 220px;
+    margin: 0 auto;
     padding: 5px;
+}
+
+.sidebar-check-in .calendar-header {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.sidebar-check-in .calendar-weekdays {
+    margin-bottom: 10px;
+    column-gap: 0.5px;
+    padding-left: -3px;
+}
+
+.sidebar-check-in .calendar-weekdays div {
+    font-weight: bold;
+    padding: 5px 0;
+    width: 100%;
+}
+
+.sidebar-check-in .calendar-weekdays div:first-child {
+    padding-left: -10px;
+}
+
+.sidebar-check-in .calendar-days {
+    column-gap: 0.3px;
+    row-gap: 0.3px;
 }
 
 .sidebar-check-in .calendar-day {
     height: 24px;
     width: 24px;
     font-size: 0.8em;
+    font-weight: bold;
     margin: 1px;
-}
-
-.sidebar-check-in .calendar-header {
-    font-size: 1em;
-    margin-bottom: 8px;
 }
 
 .sidebar-check-in .month-selector select {
@@ -156,14 +190,14 @@
     font-size: 0.8em;
 }
 
-/* 整年打卡日历特定样式 */
-#annual-check-in-calendar {
-    max-width: 1200px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+#sidebar-archive-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1em;
 }
 
+/* 年度日历样式 */
 .annual-month {
     border: 1px solid var(--day-border);
     border-radius: 8px;
@@ -213,20 +247,4 @@
 .annual-month-day.empty {
     border: none;
     background-color: transparent;
-}
-
-.annual-month-day.single-archive {
-    background-color: var(--single-archive-bg);
-    color: var(--single-archive-text);
-}
-
-.annual-month-day.multiple-archives {
-    background-color: var(--multiple-archives-bg);
-    color: var(--multiple-archives-text);
-}
-
-.dark-mode .annual-month-day {
-    background-color: var(--day-bg);
-    color: var(--text-color);
-    border: 1px solid var(--day-border);
 }
