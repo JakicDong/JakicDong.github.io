@@ -331,6 +331,10 @@ $(document).ready(function() {
 // 初始化年份选择器
 function initYearSelector() {
     const yearDropdown = document.getElementById('year-dropdown');
+    if (!yearDropdown) {
+        console.error('未找到年份下拉框元素');
+        return;
+    }
     const currentYear = new Date().getFullYear();
     for (let year = currentYear - 10; year <= currentYear + 10; year++) {
         const option = document.createElement('option');
@@ -341,9 +345,15 @@ function initYearSelector() {
         }
         yearDropdown.appendChild(option);
     }
-    yearDropdown.addEventListener('change', generateAnnualCalendar);
-    document.getElementById('prev-year').addEventListener('click', () => changeYear(-1));
-    document.getElementById('next-year').addEventListener('click', () => changeYear(1));
+    // 确保年份下拉框变化事件监听正确绑定
+    yearDropdown.addEventListener('change', () => {
+        const selectedYear = parseInt(yearDropdown.value);
+        console.log('选择的年份:', selectedYear);
+        fetchArchiveDataAndGenerateCalendar(selectedYear);
+    });
+    // 初始加载时获取当前年份的数据
+    const initialYear = currentYear;
+    fetchArchiveDataAndGenerateCalendar(initialYear);
 }
 
 // 切换年份
@@ -367,11 +377,14 @@ function changeYear(offset) {
 // 重新获取归档数据并生成整年打卡表格
 function fetchArchiveDataAndGenerateCalendar(year) {
     const archiveCountElement = document.getElementById('archive-count');
-    // 发起请求前显示加载状态
+    if (!archiveCountElement) {
+        console.error('未找到归档数量显示元素');
+        return;
+    }
     archiveCountElement.textContent = '加载中...';
 
     $.get('/archives', function(data) {
-        console.log('Archives page fetched successfully');
+        console.log('成功获取归档页面');
         const $archivePage = $(data);
         checkInDates = {};
         let totalArchiveCount = 0;
@@ -384,7 +397,7 @@ function fetchArchiveDataAndGenerateCalendar(year) {
                 const archiveYear = dateMatch[1];
                 const month = dateMatch[2];
                 const day = dateMatch[3];
-                console.log('Found archive date:', archiveYear, month, day);
+                console.log('找到归档日期:', archiveYear, month, day);
 
                 const dateStr = `${archiveYear}-${month}-${day}`;
                 checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
@@ -392,14 +405,12 @@ function fetchArchiveDataAndGenerateCalendar(year) {
             }
         });
 
-        console.log('Check-in dates:', checkInDates);
-        console.log('Total archive count:', totalArchiveCount);
+        console.log('打卡日期:', checkInDates);
+        console.log('总归档数量:', totalArchiveCount);
         generateAnnualCalendar(checkInDates);
-        // 数据获取完成后更新统计数量
         archiveCountElement.textContent = totalArchiveCount;
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown);
-        // 请求失败时显示错误提示
         archiveCountElement.textContent = '获取数据失败';
     });
 }
@@ -467,9 +478,6 @@ function generateAnnualCalendar(checkInDates) {
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     initYearSelector();
-    // 初始调用时 checkInDates 可能还未获取到，后续在 $.get 中会正确生成
-    const initialYear = new Date().getFullYear();
-    fetchArchiveDataAndGenerateCalendar(initialYear);
 });
 
 // 监听年份下拉框变化事件
