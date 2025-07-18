@@ -55,6 +55,7 @@
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
     gap: 3px;
+    padding-left: 0; 
 }
 
 .calendar-weekdays div {
@@ -492,7 +493,7 @@
 /* 单独调整第一个星期名称（日）的左侧内边距 */
 .sidebar-check-in .calendar-weekdays div:first-child {
     /* 减小左侧内边距 */
-    padding-left: -3px; 
+    padding-left: 0px; 
 }
 
 /* 侧边栏星期名称容器样式 */
