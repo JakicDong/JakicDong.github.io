@@ -348,11 +348,16 @@ function initYearSelector() {
 // 切换年份
 function changeYear(offset) {
     const yearDropdown = document.getElementById('year-dropdown');
-    const currentIndex = yearDropdown.selectedIndex;
-    const newIndex = currentIndex + offset;
-    if (newIndex >= 0 && newIndex < yearDropdown.options.length) {
-        yearDropdown.selectedIndex = newIndex;
-        generateAnnualCalendar();
+    const currentYear = parseInt(yearDropdown.value); // 获取当前选中的年份值
+    const newYear = currentYear + offset; // 计算新的年份
+
+    // 检查新年份是否在下拉列表的范围内
+    for (let i = 0; i < yearDropdown.options.length; i++) {
+        if (parseInt(yearDropdown.options[i].value) === newYear) {
+            yearDropdown.selectedIndex = i;
+            generateAnnualCalendar(checkInDates); // 重新生成整年打卡表格
+            break;
+        }
     }
 }
 
@@ -395,10 +400,10 @@ function generateAnnualCalendar(checkInDates) {
             const dayElement = document.createElement('div');
             dayElement.className = 'annual-month-day';
             dayElement.textContent = date.getDate();
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const dateStr = `${year}-${month}-${day}`;
+            const yearStr = date.getFullYear();
+            const monthStr = String(date.getMonth() + 1).padStart(2, '0');
+            const dayStr = String(date.getDate()).padStart(2, '0');
+            const dateStr = `${yearStr}-${monthStr}-${dayStr}`;
             const archiveCount = checkInDates[dateStr] || 0;
 
             if (archiveCount === 1) {
@@ -419,5 +424,10 @@ function generateAnnualCalendar(checkInDates) {
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     initYearSelector();
-    generateAnnualCalendar();
+    // 初始调用时 checkInDates 可能还未获取到，后续在 $.get 中会正确生成
+});
+
+// 监听年份下拉框变化事件
+document.getElementById('year-dropdown').addEventListener('change', function() {
+    generateAnnualCalendar(checkInDates);
 });
