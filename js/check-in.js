@@ -178,6 +178,7 @@ $(document).ready(function() {
         $('body').toggleClass('dark-mode', e.matches);
         // 重新生成所有打卡表
         generateAllCalendars(checkInDates);
+        generateAnnualCalendar(checkInDates); // 重新生成整年打卡表
     }
     mediaQuery.addListener(handleThemeChange);
     handleThemeChange(mediaQuery);
@@ -201,6 +202,7 @@ $(document).ready(function() {
 
         initAllMonthSelectors();
         generateAllCalendars(checkInDates);
+        generateAnnualCalendar(checkInDates); // 生成整年打卡表
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown); // 输出请求失败信息
     });
@@ -355,7 +357,7 @@ function changeYear(offset) {
 }
 
 // 生成整年打卡表格
-function generateAnnualCalendar() {
+function generateAnnualCalendar(checkInDates) {
     const yearDropdown = document.getElementById('year-dropdown');
     const year = parseInt(yearDropdown.value);
     const annualCalendar = document.getElementById('annual-check-in-calendar');
@@ -393,8 +395,12 @@ function generateAnnualCalendar() {
             const dayElement = document.createElement('div');
             dayElement.className = 'annual-month-day';
             dayElement.textContent = date.getDate();
-            // 模拟打卡状态，实际使用时需替换为真实数据
-            if (Math.random() > 0.5) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            const archiveCount = checkInDates[dateStr] || 0;
+            if (archiveCount > 0) {
                 dayElement.classList.add('checked-in');
             }
             monthDays.appendChild(dayElement);
