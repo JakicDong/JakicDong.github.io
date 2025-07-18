@@ -178,3 +178,51 @@
     padding: 2px 6px;
     font-size: 0.8em;
 }
+
+/* 正常日期样式 */
+#check-in-calendar .calendar-day {
+    background-color: var(--day-bg);
+    color: var(--text-color);
+    border: 1px solid var(--day-border);
+}
+
+/* 打卡日期样式 */
+#check-in-calendar .calendar-day.checked-in {
+    background-color: var(--checked-bg);
+    color: var(--checked-text);
+    border-color: var(--checked-bg);
+}
+
+/* 单篇归档样式 */
+#check-in-calendar .calendar-day.single-archive {
+    background-color: var(--single-archive-bg);
+    color: var(--single-archive-text);
+}
+
+/* 多篇归档样式 */
+#check-in-calendar .calendar-day.multiple-archives {
+    background-color: var(--multiple-archives-bg);
+    color: var(--multiple-archives-text);
+}
+
+.dark-mode #check-in-calendar .calendar-day {
+    background-color: var(--day-bg);
+    color: var(--text-color);
+    border: 1px solid var(--day-border);
+}
+
+.dark-mode #check-in-calendar .calendar-day.checked-in {
+    background-color: var(--checked-bg);
+    color: var(--checked-text);
+    border-color: var(--checked-bg);
+}
+
+.dark-mode #check-in-calendar .calendar-day.single-archive {
+    background-color: var(--single-archive-bg);
+    color: var(--single-archive-text);
+}
+
+.dark-mode #check-in-calendar .calendar-day.multiple-archives {
+    background-color: var(--multiple-archives-bg);
+    color: var(--multiple-archives-text);
+}
