@@ -262,6 +262,7 @@
     font-family: inherit; /* 继承父元素字体 */
     font-weight: bold;
     margin-bottom: 8px;
+    color: #9c27b0;
 }
 
 .sidebar-check-in .month-selector select {
