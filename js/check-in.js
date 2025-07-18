@@ -69,10 +69,16 @@ $(document).ready(function() {
     }
 
     function generateCalendar(containerId, checkInDates) {
+        console.log('Generating calendar for container:', containerId);
         const calendarContainer = $(containerId);
+        if (calendarContainer.length === 0) {
+            console.error('Container not found:', containerId);
+            return;
+        }
         const calendarHTML = createCalendar(currentYear, currentMonth, checkInDates);
+        console.log('Generated calendar HTML:', calendarHTML); // 添加调试信息
         calendarContainer.html(calendarHTML);
-
+    
         // 更新月份选择器的年份
         $(`${containerId} #month-dropdown option`).each(function() {
             const optionText = $(this).text().split(' ')[0];
