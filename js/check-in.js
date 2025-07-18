@@ -3,19 +3,25 @@ $(document).ready(function() {
     $.get('/archives', function(data) {
         const $archivePage = $(data);
         const checkInDates = [];
+        let currentYear = '';
 
-        // 替换为实际的日期元素选择器
-        $archivePage.find('.your-actual-date-selector').each(function() {
-            const dateStr = $(this).text().trim();
-            console.log('原始提取的日期字符串:', dateStr); // 打印原始提取的日期字符串
-            const date = new Date(dateStr);
-            if (!isNaN(date.getTime())) {
-                const formattedDate = date.toISOString().split('T')[0];
-                checkInDates.push(formattedDate);
-                console.log('转换后的日期:', formattedDate); // 打印转换后的日期
-            } else {
-                console.error('无效的日期:', dateStr); // 打印无效的日期
-            }
+        // 先找到年份元素，假设年份元素是大标题，这里简单用 h2 示例，需根据实际调整
+        $archivePage.find('h2').each(function() {
+            currentYear = $(this).text().trim();
+            // 找到当前年份下的所有日期元素，假设日期元素类名为 archive-date，需根据实际调整
+            $(this).nextUntil('h2', '.archive-date').each(function() {
+                const monthDayStr = $(this).text().trim();
+                const dateStr = `${currentYear}-${monthDayStr}`;
+                console.log('原始提取的日期字符串:', dateStr); // 打印原始提取的日期字符串
+                const date = new Date(dateStr);
+                if (!isNaN(date.getTime())) {
+                    const formattedDate = date.toISOString().split('T')[0];
+                    checkInDates.push(formattedDate);
+                    console.log('转换后的日期:', formattedDate); // 打印转换后的日期
+                } else {
+                    console.error('无效的日期:', dateStr); // 打印无效的日期
+                }
+            });
         });
 
         console.log('最终的打卡日期数组:', checkInDates); // 打印最终的打卡日期数组
