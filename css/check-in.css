@@ -254,12 +254,28 @@
     align-items: center;
 }
 
+/* 统一侧边栏日历字体样式 */
+.sidebar-check-in .calendar-header {
+    font-size: 1em; /* 统一字体大小 */
+    font-family: inherit; /* 继承父元素字体 */
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.sidebar-check-in .month-selector select {
+    padding: 2px 6px;
+    font-size: 0.8em; /* 统一字体大小 */
+    font-family: inherit; /* 继承父元素字体 */
+}
+
 #year-selector select {
     padding: 5px 10px;
     border-radius: 4px;
     border: 1px solid var(--day-border);
     background-color: var(--day-bg);
     color: var(--text-color);
+    font-size: 0.9em; /* 统一字体大小 */
+    font-family: inherit; /* 继承父元素字体 */
 }
 
 /* 侧边栏标题 */
@@ -268,4 +284,5 @@
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 1em;
+    font-family: inherit; /* 继承父元素字体 */
 }
