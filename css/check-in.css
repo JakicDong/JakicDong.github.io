@@ -108,24 +108,54 @@
 }
 
 
-/* 侧边栏打卡表样式 */
-.sidebar-check-in #check-in-calendar {
-    max-width: 250px;
-    margin: 0;
+/* 侧边栏容器样式 */
+.sidebar-check-in {
+    background-color: #f5f5f5; /* 侧边栏打卡表背景色 */
+    border-radius: 8px;
     padding: 10px;
+    margin: 10px 0;
 }
 
+/* 侧边栏打卡表样式 */
+.sidebar-check-in #check-in-calendar {
+    max-width: 220px; /* 减小最大宽度 */
+    margin: 0 auto;
+    padding: 5px;
+}
+
+/* 侧边栏日期格子样式 */
 .sidebar-check-in .calendar-day {
-    height: 30px;
-    font-size: 0.9em;
+    height: 24px; /* 减小格子高度 */
+    width: 24px; /* 固定格子宽度 */
+    font-size: 0.8em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1px;
+    border-radius: 4px;
+}
+
+/* 单篇归档样式 */
+.sidebar-check-in .calendar-day.single-archive {
+    background-color: #c8e6c9; /* 浅绿 */
+    color: #2e7d32;
+}
+
+/* 多篇归档样式 */
+.sidebar-check-in .calendar-day.multiple-archives {
+    background-color: #4caf50; /* 深绿 */
+    color: white;
 }
 
 .sidebar-check-in .calendar-header {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+    font-size: 1em;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sidebar-check-in .month-selector select {
-    padding: 3px 8px;
-    font-size: 0.9em;
+    padding: 2px 6px;
+    font-size: 0.8em;
 }

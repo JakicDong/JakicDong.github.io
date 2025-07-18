@@ -1,7 +1,7 @@
 $(document).ready(function() {
     let currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth();
-    let checkInDates = [];
+    let checkInDates = {}; // 存储每天的归档数量
 
     // 监听系统主题变化
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -13,17 +13,17 @@ $(document).ready(function() {
     mediaQuery.addListener(handleThemeChange);
     handleThemeChange(mediaQuery);
 
-    // 获取归档日期
+    // 获取归档日期和数量
     $.get('/archives', function(data) {
         const $archivePage = $(data);
-        checkInDates = [];
+        checkInDates = {};
 
         $archivePage.find('.archive-header.h4').each(function() {
             const year = $(this).text().trim();
             $(this).nextAll('.archive-list').find('time').each(function() {
                 const [month, day] = $(this).text().trim().split('-');
                 const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                checkInDates.push(dateStr);
+                checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
             });
         });
 
@@ -69,16 +69,10 @@ $(document).ready(function() {
     }
 
     function generateCalendar(containerId, checkInDates) {
-        console.log('Generating calendar for container:', containerId);
         const calendarContainer = $(containerId);
-        if (calendarContainer.length === 0) {
-            console.error('Container not found:', containerId);
-            return;
-        }
         const calendarHTML = createCalendar(currentYear, currentMonth, checkInDates);
-        console.log('Generated calendar HTML:', calendarHTML); // 添加调试信息
         calendarContainer.html(calendarHTML);
-    
+
         // 更新月份选择器的年份
         $(`${containerId} #month-dropdown option`).each(function() {
             const optionText = $(this).text().split(' ')[0];
@@ -110,8 +104,14 @@ $(document).ready(function() {
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
             const dateStr = `${year}-${month}-${day}`;
-            const isCheckedIn = checkInDates.includes(dateStr);
-            html += `<div class="calendar-day ${isCheckedIn ? 'checked-in' : ''}">${date.getDate()}</div>`;
+            const archiveCount = checkInDates[dateStr] || 0;
+            let className = 'calendar-day';
+            if (archiveCount === 1) {
+                className += ' single-archive';
+            } else if (archiveCount > 1) {
+                className += ' multiple-archives';
+            }
+            html += `<div class="${className}">${date.getDate()}</div>`;
             date.setDate(date.getDate() + 1);
         }
 
