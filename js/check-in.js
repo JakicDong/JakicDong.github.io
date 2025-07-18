@@ -142,24 +142,26 @@ $(document).ready(function() {
         window.location.href = `/notes/${dateStr}/`;
     }
 
-    // 月份切换按钮事件
-    $(document).on('click', '#prev-month', function() {
-        if (currentMonth === 0) {
-            currentMonth = 11;
-            currentYear--;
-        } else {
-            currentMonth--;
-        }
-        generateAllCalendars(checkInDates);
-    });
-
-    $(document).on('click', '#next-month', function() {
-        if (currentMonth === 11) {
-            currentMonth = 0;
-            currentYear++;
-        } else {
-            currentMonth++;
-        }
-        generateAllCalendars(checkInDates);
+    $(document).ready(function() {
+        // 月份切换按钮事件
+        $(document).on('click', '#prev-month', function() {
+            if (currentMonth === 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            generateAllCalendars(checkInDates);
+        });
+    
+        $(document).on('click', '#next-month', function() {
+            if (currentMonth === 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            generateAllCalendars(checkInDates);
+        });
     });
 });
