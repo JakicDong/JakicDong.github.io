@@ -324,3 +324,90 @@ $(document).ready(function() {
         generateAllCalendars(checkInDates);
     });
 });
+
+// 初始化年份选择器
+function initYearSelector() {
+    const yearDropdown = document.getElementById('year-dropdown');
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        if (year === currentYear) {
+            option.selected = true;
+        }
+        yearDropdown.appendChild(option);
+    }
+    yearDropdown.addEventListener('change', generateAnnualCalendar);
+    document.getElementById('prev-year').addEventListener('click', () => changeYear(-1));
+    document.getElementById('next-year').addEventListener('click', () => changeYear(1));
+}
+
+// 切换年份
+function changeYear(offset) {
+    const yearDropdown = document.getElementById('year-dropdown');
+    const currentIndex = yearDropdown.selectedIndex;
+    const newIndex = currentIndex + offset;
+    if (newIndex >= 0 && newIndex < yearDropdown.options.length) {
+        yearDropdown.selectedIndex = newIndex;
+        generateAnnualCalendar();
+    }
+}
+
+// 生成整年打卡表格
+function generateAnnualCalendar() {
+    const yearDropdown = document.getElementById('year-dropdown');
+    const year = parseInt(yearDropdown.value);
+    const annualCalendar = document.getElementById('annual-check-in-calendar');
+    annualCalendar.innerHTML = '';
+
+    for (let month = 0; month < 12; month++) {
+        const monthElement = document.createElement('div');
+        monthElement.className = 'annual-month';
+
+        const monthHeader = document.createElement('div');
+        monthHeader.className = 'annual-month-header';
+        monthHeader.textContent = new Date(year, month).toLocaleString('default', { month: 'long' });
+        monthElement.appendChild(monthHeader);
+
+        const monthWeekdays = document.createElement('div');
+        monthWeekdays.className = 'annual-month-weekdays';
+        const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+        weekdays.forEach(weekday => {
+            const weekdayDiv = document.createElement('div');
+            weekdayDiv.textContent = weekday;
+            monthWeekdays.appendChild(weekdayDiv);
+        });
+        monthElement.appendChild(monthWeekdays);
+
+        const monthDays = document.createElement('div');
+        monthDays.className = 'annual-month-days';
+        const date = new Date(year, month, 1);
+        // 填充空白日期
+        for (let i = 0; i < date.getDay(); i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'annual-month-day empty';
+            monthDays.appendChild(emptyDay);
+        }
+        while (date.getMonth() === month) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'annual-month-day';
+            dayElement.textContent = date.getDate();
+            // 模拟打卡状态，实际使用时需替换为真实数据
+            if (Math.random() > 0.5) {
+                dayElement.classList.add('checked-in');
+            }
+            monthDays.appendChild(dayElement);
+            date.setDate(date.getDate() + 1);
+        }
+        monthElement.appendChild(monthDays);
+
+        annualCalendar.appendChild(monthElement);
+    }
+}
+
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initYearSelector();
+    generateAnnualCalendar();
+});
