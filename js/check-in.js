@@ -82,6 +82,7 @@ $(document).ready(function() {
         }
         console.log('Container found, generating calendar HTML...');
         const calendarHTML = createCalendar(currentYear, currentMonth, checkInDates);
+        console.log('Generated calendar HTML:', calendarHTML); // 输出生成的 HTML 内容
         calendarContainer.html(calendarHTML);
     
         // 修正选择器错误
