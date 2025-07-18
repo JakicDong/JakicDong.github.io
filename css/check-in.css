@@ -302,3 +302,76 @@
     background-color: var(--multiple-archives-bg);
     color: var(--multiple-archives-text);
 }
+
+/* 新增笔记列表样式 */
+.main-content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.page-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post-card {
+    background-color: var(--bg-color);
+    border: 1px solid var(--day-border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: box-shadow 0.3s;
+}
+
+.post-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-title a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.post-title a:hover {
+    text-decoration: underline;
+}
+
+.post-meta {
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.post-tags {
+    display: inline;
+    margin-left: 10px;
+}
+
+.tag {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8em;
+}
+
+.tag:hover {
+    background-color: #e0e0e0;
+}
+
+.post-excerpt {
+    margin-top: 10px;
+    color: #666;
+}
+
+.no-posts {
+    color: #666;
+    text-align: center;
+}
