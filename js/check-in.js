@@ -5,25 +5,27 @@ $(document).ready(function() {
         const checkInDates = [];
         let currentYear = '';
 
-        // 先匹配年份，假设年份是较大字号的文本，用正则匹配数字
-        $archivePage.contents().each(function() {
-            const text = $(this).text().trim();
-            const yearMatch = text.match(/^\d{4}$/);
-            if (yearMatch) {
-                currentYear = yearMatch[0];
-                console.log('当前年份:', currentYear);
-            } else if (currentYear && /^\d{2}-\d{2}$/.test(text)) {
-                const dateStr = `${currentYear}-${text}`;
-                console.log('原始提取的日期字符串:', dateStr);
-                const date = new Date(dateStr);
-                if (!isNaN(date.getTime())) {
-                    const formattedDate = date.toISOString().split('T')[0];
-                    checkInDates.push(formattedDate);
-                    console.log('转换后的日期:', formattedDate);
-                } else {
-                    console.error('无效的日期:', dateStr);
+        // 假设年份在 h2 标签中，日期在 p 标签中，根据实际情况调整
+        $archivePage.find('h2').each(function() {
+            currentYear = $(this).text().trim();
+            $(this).nextAll('p').each(function() {
+                const text = $(this).text().trim();
+                if (/^\d{4}$/.test(text)) {
+                    // 遇到新的年份，停止遍历
+                    return false;
+                } else if (/^\d{2}-\d{2}$/.test(text)) {
+                    const dateStr = `${currentYear}-${text}`;
+                    console.log('原始提取的日期字符串:', dateStr);
+                    const date = new Date(dateStr);
+                    if (!isNaN(date.getTime())) {
+                        const formattedDate = date.toISOString().split('T')[0];
+                        checkInDates.push(formattedDate);
+                        console.log('转换后的日期:', formattedDate);
+                    } else {
+                        console.error('无效的日期:', dateStr);
+                    }
                 }
-            }
+            });
         });
 
         console.log('最终的打卡日期数组:', checkInDates);
