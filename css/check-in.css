@@ -18,9 +18,9 @@
     --day-border: #444;
     --checked-bg: #388e3c;
     --checked-text: black;
-    --single-archive-bg: #81c784; /* 深色主题下单篇归档更深的绿色 */
+    --single-archive-bg: #81c784; 
     --single-archive-text: black;
-    --multiple-archives-bg: #2e7d32; /* 深色主题下多篇归档更深的绿色 */
+    --multiple-archives-bg: #2e7d32; 
     --multiple-archives-text: black;
 }
 
