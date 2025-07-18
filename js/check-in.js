@@ -4,8 +4,8 @@ $(document).ready(function() {
         const $archivePage = $(data);
         const checkInDates = [];
 
-        // 提取归档日期，需根据实际 HTML 结构调整选择器
-        $archivePage.find('.archive-date').each(function() {
+        // 替换为实际的日期元素选择器
+        $archivePage.find('.your-actual-date-selector').each(function() {
             const dateStr = $(this).text().trim();
             const date = new Date(dateStr);
             if (!isNaN(date.getTime())) {
