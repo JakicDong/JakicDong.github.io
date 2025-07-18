@@ -366,14 +366,15 @@ function changeYear(offset) {
 
 // 重新获取归档数据并生成整年打卡表格
 function fetchArchiveDataAndGenerateCalendar(year) {
+    const archiveCountElement = document.getElementById('archive-count');
+    // 数据获取前隐藏统计数量
+    archiveCountElement.style.display = 'none';
+
     $.get('/archives', function(data) {
         console.log('Archives page fetched successfully');
         const $archivePage = $(data);
         checkInDates = {};
         let totalArchiveCount = 0;
-
-        // 打印归档页面的 HTML 内容，用于调试
-        console.log('Archive page HTML:', data);
 
         // 从文章链接中提取日期
         $archivePage.find('.archive-list a.post').each(function() {
@@ -394,9 +395,14 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         console.log('Check-in dates:', checkInDates);
         console.log('Total archive count:', totalArchiveCount);
         generateAnnualCalendar(checkInDates);
-        document.getElementById('archive-count').textContent = totalArchiveCount;
+        archiveCountElement.textContent = totalArchiveCount;
+        // 数据获取完成后显示统计数量
+        archiveCountElement.style.display = 'inline';
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown);
+        // 出错时显示 0 并显示统计数量
+        archiveCountElement.textContent = 0;
+        archiveCountElement.style.display = 'inline';
     });
 }
 
