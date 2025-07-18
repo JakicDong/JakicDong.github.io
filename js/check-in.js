@@ -375,13 +375,28 @@ function fetchArchiveDataAndGenerateCalendar(year) {
         // 打印归档页面的 HTML 内容，用于调试
         console.log('Archive page HTML:', data);
 
-        $archivePage.find('.archive-header.h4').each(function() {
+        // 检查是否能找到年份元素
+        const yearElements = $archivePage.find('.archive-header.h4');
+        console.log('Found year elements count:', yearElements.length);
+        if (yearElements.length === 0) {
+            console.error('未找到年份元素，请检查选择器');
+        }
+
+        yearElements.each(function() {
             const archiveYear = $(this).text().trim();
             console.log('Found archive year:', archiveYear);
             if (archiveYear == year) {
-                $(this).nextAll('.archive-list').find('time').each(function() {
-                    const [month, day] = $(this).text().trim().split('-');
-                    console.log('Found archive date:', month, day);
+                // 检查是否能找到日期元素
+                const dateElements = $(this).nextAll('.archive-list').find('time');
+                console.log('Found date elements count for year', archiveYear, ':', dateElements.length);
+                if (dateElements.length === 0) {
+                    console.error('未找到日期元素，请检查选择器');
+                }
+
+                dateElements.each(function() {
+                    const dateText = $(this).text().trim();
+                    const [archiveYear, month, day] = dateText.split('-');
+                    console.log('Found archive date:', archiveYear, month, day);
                     const dateStr = `${archiveYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     checkInDates[dateStr] = (checkInDates[dateStr] || 0) + 1;
                     totalArchiveCount += 1;
