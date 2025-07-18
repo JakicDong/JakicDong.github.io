@@ -5,6 +5,10 @@
     --day-border: #ddd;
     --checked-bg: #4CAF50;
     --checked-text: white;
+    --single-archive-bg: #c8e6c9;
+    --single-archive-text: #2e7d32;
+    --multiple-archives-bg: #4caf50;
+    --multiple-archives-text: white;
 }
 
 .dark-mode {
@@ -13,7 +17,11 @@
     --day-bg: #2d2d2d;
     --day-border: #444;
     --checked-bg: #388e3c;
-    --checked-text: white;
+    --checked-text: black;
+    --single-archive-bg: #81c784; /* 深色主题下单篇归档更深的绿色 */
+    --single-archive-text: black;
+    --multiple-archives-bg: #2e7d32; /* 深色主题下多篇归档更深的绿色 */
+    --multiple-archives-text: black;
 }
 
 #check-in-calendar {
@@ -83,6 +91,18 @@
     background-color: var(--checked-bg);
     color: var(--checked-text);
     border-color: var(--checked-bg);
+}
+
+/* 单篇归档样式 */
+.sidebar-check-in .calendar-day.single-archive {
+    background-color: var(--single-archive-bg);
+    color: var(--single-archive-text);
+}
+
+/* 多篇归档样式 */
+.sidebar-check-in .calendar-day.multiple-archives {
+    background-color: var(--multiple-archives-bg);
+    color: var(--multiple-archives-text);
 }
 
 .calendar-day:hover {
