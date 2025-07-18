@@ -493,7 +493,7 @@
 /* 单独调整第一个星期名称（日）的左侧内边距 */
 .sidebar-check-in .calendar-weekdays div:first-child {
     /* 减小左侧内边距 */
-    padding-left: 0px; 
+    padding-left: -10px; 
 }
 
 /* 侧边栏星期名称容器样式 */
