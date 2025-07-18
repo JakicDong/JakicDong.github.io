@@ -3,11 +3,11 @@
     --text-color: #333333;
     --day-bg: #ffffff;
     --day-border: #ddd;
-    --checked-bg: #4CAF50;
+    --checked-bg: #ab47bc; /* 深紫色 */
     --checked-text: white;
-    --single-archive-bg: #c8e6c9;
-    --single-archive-text: #2e7d32;
-    --multiple-archives-bg: #4caf50;
+    --single-archive-bg: #e1bee7; /* 浅紫色 */
+    --single-archive-text: #7b1fa2;
+    --multiple-archives-bg: #9c27b0; /* 深紫色 */
     --multiple-archives-text: white;
 }
 
@@ -16,11 +16,11 @@
     --text-color: #ffffff;
     --day-bg: #2d2d2d;
     --day-border: #444;
-    --checked-bg: #388e3c;
+    --checked-bg: #8e24aa; /* 深色主题深紫色 */
     --checked-text: black;
-    --single-archive-bg: #81c784; /* 深色主题下单篇归档更深的绿色 */
+    --single-archive-bg: #ba68c8; /* 深色主题浅紫色 */
     --single-archive-text: black;
-    --multiple-archives-bg: #2e7d32; /* 深色主题下多篇归档更深的绿色 */
+    --multiple-archives-bg: #7b1fa2; /* 深色主题深紫色 */
     --multiple-archives-text: black;
 }
 
