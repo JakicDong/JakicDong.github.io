@@ -105,12 +105,12 @@ $(document).ready(function() {
             </div>
             <div class="calendar-days">
         `;
-
+    
         // 填充空白
         for (let i = 0; i < date.getDay(); i++) {
             html += '<div class="calendar-day empty"></div>';
         }
-
+    
         while (date.getMonth() === month) {
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -123,16 +123,23 @@ $(document).ready(function() {
             } else if (archiveCount > 1) {
                 className += ' multiple-archives';
             }
-            html += `<div class="${className}">${date.getDate()}</div>`;
+            // 添加点击事件
+            html += `<div class="${className}" onclick="handleDateClick('${dateStr}')">${date.getDate()}</div>`;
             date.setDate(date.getDate() + 1);
         }
-
+    
         html += '</div>';
-
+    
         // 添加月份选择器
         html = `<div class="month-selector" id="month-selector"></div>` + html;
-
+    
         return html;
+    }
+    
+    // 处理日期点击事件的函数
+    function handleDateClick(dateStr) {
+        // 跳转到展示对应日期笔记列表的页面
+        window.location.href = `/notes/${dateStr}/`;
     }
 
     // 月份切换按钮事件
