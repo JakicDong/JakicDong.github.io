@@ -3,11 +3,11 @@
     --text-color: #333333;
     --day-bg: #ffffff;
     --day-border: #ddd;
-    --checked-bg: #ab47bc; /* 深紫色 */
+    --checked-bg: #ab47bc;
     --checked-text: white;
-    --single-archive-bg: #e1bee7; /* 浅紫色 */
+    --single-archive-bg: #e1bee7;
     --single-archive-text: #7b1fa2;
-    --multiple-archives-bg: #9c27b0; /* 深紫色 */
+    --multiple-archives-bg: #9c27b0;
     --multiple-archives-text: white;
 }
 
@@ -16,16 +16,17 @@
     --text-color: #ffffff;
     --day-bg: #2d2d2d;
     --day-border: #444;
-    --checked-bg: #8e24aa; /* 深色主题深紫色 */
+    --checked-bg: #8e24aa;
     --checked-text: black;
-    --single-archive-bg: #ba68c8; /* 深色主题浅紫色 */
+    --single-archive-bg: #ba68c8;
     --single-archive-text: black;
-    --multiple-archives-bg: #7b1fa2; /* 深色主题深紫色 */
+    --multiple-archives-bg: #7b1fa2;
     --multiple-archives-text: black;
 }
 
-/* 通用日历样式 */
-#check-in-calendar, #annual-check-in-calendar {
+/* 主日历容器 */
+#check-in-calendar {
+    max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
@@ -34,23 +35,37 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-#check-in-calendar {
-    max-width: 800px;
-}
-
+/* 年度日历容器 */
 #annual-check-in-calendar {
     max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
-.calendar-header {
+/* 日历头部 - 主日历和年度日历共用 */
+.calendar-header,
+.annual-month-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.5em;
     margin-bottom: 15px;
+}
+
+.calendar-header {
+    font-size: 1.5em;
+}
+
+.annual-month-header {
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: bold;
 }
 
 .calendar-header button {
@@ -61,101 +76,24 @@
     color: var(--text-color);
 }
 
-.calendar-weekdays {
+/* 星期名称 - 主日历和侧边栏共用基础样式 */
+.calendar-weekdays,
+.sidebar-check-in .calendar-weekdays,
+.annual-month-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
     gap: 3px;
-    padding-left: 0;
 }
 
-.calendar-weekdays div {
+.calendar-weekdays div,
+.annual-month-weekdays div {
     text-align: center;
     font-weight: bold;
     padding: 5px;
 }
 
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
-}
-
-.calendar-day {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--day-border);
-    border-radius: 4px;
-    background-color: var(--day-bg);
-    box-sizing: border-box;
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
-
-.calendar-day.empty {
-    border: none;
-    background-color: transparent;
-}
-
-.calendar-day.checked-in {
-    background-color: var(--checked-bg);
-    color: var(--checked-text);
-    border-color: var(--checked-bg);
-}
-
-.calendar-day.single-archive {
-    background-color: var(--single-archive-bg);
-    color: var(--single-archive-text);
-}
-
-.calendar-day.multiple-archives {
-    background-color: var(--multiple-archives-bg);
-    color: var(--multiple-archives-text);
-}
-
-.calendar-day:hover {
-    background-color: #e0e0e0;
-}
-
-.dark-mode .calendar-day:hover {
-    background-color: #444;
-}
-
-.month-selector, #year-selector {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.month-selector select, #year-selector select {
-    padding: 5px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--day-border);
-    background-color: var(--day-bg);
-    color: var(--text-color);
-}
-
-/* 侧边栏样式 */
-.sidebar-check-in {
-    border-radius: 8px;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-.sidebar-check-in #check-in-calendar {
-    max-width: 220px;
-    margin: 0 auto;
-    padding: 5px;
-}
-
-.sidebar-check-in .calendar-header {
-    font-size: 0.9em;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
+/* 侧边栏星期名称特定样式 */
 .sidebar-check-in .calendar-weekdays {
     margin-bottom: 10px;
     column-gap: 0.5px;
@@ -172,6 +110,44 @@
     padding-left: -10px;
 }
 
+/* 年度日历星期名称特定样式 */
+.annual-month-weekdays {
+    margin-bottom: 5px;
+    gap: 2px;
+}
+
+.annual-month-weekdays div {
+    font-size: 0.8em;
+}
+
+/* 日期格子 - 基础样式 */
+.calendar-days,
+.sidebar-check-in .calendar-days,
+.annual-month-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.calendar-day,
+.annual-month-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--day-border);
+    border-radius: 4px;
+    background-color: var(--day-bg);
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+/* 主日历日期格子特定样式 */
+.calendar-day {
+    height: 40px;
+}
+
+/* 侧边栏日期格子特定样式 */
 .sidebar-check-in .calendar-days {
     column-gap: 0.3px;
     row-gap: 0.3px;
@@ -185,66 +161,111 @@
     margin: 1px;
 }
 
-.sidebar-check-in .month-selector select {
-    padding: 2px 6px;
-    font-size: 0.8em;
-}
-
-#sidebar-archive-title {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 1em;
-}
-
-/* 年度日历样式 */
-.annual-month {
-    border: 1px solid var(--day-border);
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.annual-month-header {
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.annual-month-weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 5px;
-    gap: 2px;
-}
-
-.annual-month-weekdays div {
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.8em;
-}
-
+/* 年度日历日期格子特定样式 */
 .annual-month-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
     gap: 2px;
 }
 
 .annual-month-day {
     height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--day-border);
-    border-radius: 2px;
-    background-color: var(--day-bg);
-    box-sizing: border-box;
-    transition: background-color 0.3s;
-    cursor: pointer;
     font-size: 0.7em;
+    border-radius: 2px;
 }
 
+/* 空日期格子 */
+.calendar-day.empty,
 .annual-month-day.empty {
     border: none;
     background-color: transparent;
+}
+
+/* 状态样式 - 保持独立不合并 */
+.calendar-day.checked-in,
+.sidebar-check-in .calendar-day.checked-in,
+.annual-month-day.checked-in {
+    background-color: var(--checked-bg);
+    color: var(--checked-text);
+    border-color: var(--checked-bg);
+}
+
+.calendar-day.single-archive,
+.sidebar-check-in .calendar-day.single-archive,
+.annual-month-day.single-archive {
+    background-color: var(--single-archive-bg);
+    color: var(--single-archive-text);
+}
+
+.calendar-day.multiple-archives,
+.sidebar-check-in .calendar-day.multiple-archives,
+.annual-month-day.multiple-archives {
+    background-color: var(--multiple-archives-bg);
+    color: var(--multiple-archives-text);
+}
+
+/* 悬停效果 */
+.calendar-day:hover {
+    background-color: #e0e0e0;
+}
+
+.dark-mode .calendar-day:hover {
+    background-color: #444;
+}
+
+/* 月份选择器 */
+.month-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.month-selector select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--day-border);
+    background-color: var(--day-bg);
+    color: var(--text-color);
+}
+
+/* 侧边栏月份选择器特定样式 */
+.sidebar-check-in .month-selector select {
+    padding: 2px 6px;
+    font-size: 0.8em;
+}
+
+/* 侧边栏容器 */
+.sidebar-check-in {
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.sidebar-check-in #check-in-calendar {
+    max-width: 220px;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+/* 年度选择器 */
+#year-selector {
+    max-width: 800px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#year-selector select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--day-border);
+    background-color: var(--day-bg);
+    color: var(--text-color);
+}
+
+/* 侧边栏标题 */
+#sidebar-archive-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1em;
 }
