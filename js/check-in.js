@@ -400,9 +400,13 @@ function generateAnnualCalendar(checkInDates) {
             const day = String(date.getDate()).padStart(2, '0');
             const dateStr = `${year}-${month}-${day}`;
             const archiveCount = checkInDates[dateStr] || 0;
-            if (archiveCount > 0) {
-                dayElement.classList.add('checked-in');
+
+            if (archiveCount === 1) {
+                dayElement.classList.add('single-archive');
+            } else if (archiveCount > 1) {
+                dayElement.classList.add('multiple-archives');
             }
+
             monthDays.appendChild(dayElement);
             date.setDate(date.getDate() + 1);
         }
