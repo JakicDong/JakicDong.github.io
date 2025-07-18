@@ -3,27 +3,24 @@ $(document).ready(function() {
     $.get('/archives', function(data) {
         const $archivePage = $(data);
         const checkInDates = [];
-        let currentYear = '';
 
-        // 假设年份在 h2 标签中，日期在 p 标签中，根据实际情况调整
-        $archivePage.find('h2').each(function() {
-            currentYear = $(this).text().trim();
-            $(this).nextAll('p').each(function() {
-                const text = $(this).text().trim();
-                if (/^\d{4}$/.test(text)) {
-                    // 遇到新的年份，停止遍历
-                    return false;
-                } else if (/^\d{2}-\d{2}$/.test(text)) {
-                    const dateStr = `${currentYear}-${text}`;
-                    console.log('原始提取的日期字符串:', dateStr);
-                    const date = new Date(dateStr);
-                    if (!isNaN(date.getTime())) {
-                        const formattedDate = date.toISOString().split('T')[0];
-                        checkInDates.push(formattedDate);
-                        console.log('转换后的日期:', formattedDate);
-                    } else {
-                        console.error('无效的日期:', dateStr);
-                    }
+        // 查找所有年份元素
+        $archivePage.find('.archive-header.h4').each(function() {
+            const currentYear = $(this).text().trim();
+            console.log('当前年份:', currentYear);
+
+            // 查找当前年份下的所有日期元素
+            $(this).next('.archive-list').find('time').each(function() {
+                const monthDayStr = $(this).text().trim();
+                const dateStr = `${currentYear}-${monthDayStr}`;
+                console.log('原始提取的日期字符串:', dateStr);
+                const date = new Date(dateStr);
+                if (!isNaN(date.getTime())) {
+                    const formattedDate = date.toISOString().split('T')[0];
+                    checkInDates.push(formattedDate);
+                    console.log('转换后的日期:', formattedDate);
+                } else {
+                    console.error('无效的日期:', dateStr);
                 }
             });
         });
