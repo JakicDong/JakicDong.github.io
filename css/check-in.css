@@ -472,9 +472,12 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
+    /* 调整列间隙 */
     column-gap: 0.5px;
-    /* 减小左侧内边距 */
-    padding-left: -3.5px; 
+    /* 减少左侧内边距，增加右侧内边距，使内容左移 */
+    padding: 0 5px 0 0;
+    /* 向左对齐网格项 */
+    justify-items: start;
 }
 
 /* 侧边栏星期名称单个元素样式 */
@@ -482,6 +485,8 @@
     text-align: center;
     font-weight: bold;
     padding: 5px 0;
+    /* 确保每个元素宽度为 100% */
+    width: 100%;
 }
 
 /* 单独调整第一个星期名称（日）的左侧内边距 */
