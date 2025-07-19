@@ -176,20 +176,36 @@ $(document).ready(function() {
     // 监听系统主题变化
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     function handleThemeChange(e) {
-        $('body').toggleClass('dark-mode', e.matches);
-        // 重新生成所有打卡表
-        generateAllCalendars(checkInDates);
-        // 重新生成整年打卡表
-        generateAnnualCalendar(checkInDates); 
-        console.log('Theme changed, calendars regenerated'); // 确认主题切换后重新生成打卡表
+        const body = document.body;
+        if (e.matches) {
+            body.classList.add('dark-mode');
+        } else {
+            body.classList.remove('dark-mode');
+        }
+        // 可添加重新渲染日历的逻辑，确保状态正确更新
+        // 假设存在重新渲染函数
+        renderAllCalendars(); 
     }
-    // 兼容旧版浏览器
+    
+    // 初始化时检查当前主题
+    handleThemeChange(mediaQuery);
+    
+    // 监听主题变化
     if (mediaQuery.addEventListener) {
         mediaQuery.addEventListener('change', handleThemeChange);
     } else {
         mediaQuery.addListener(handleThemeChange);
     }
-    handleThemeChange(mediaQuery);
+    
+    // 假设的重新渲染函数，需根据实际情况实现
+    function renderAllCalendars() {
+        // 重新渲染主日历
+        renderMainCalendar();
+        // 重新渲染侧边栏日历
+        renderSidebarCalendar();
+        // 重新渲染年度日历
+        renderAnnualCalendar();
+    }
 
     // 获取归档日期和数量
     $.get('/archives', function(data) {
@@ -210,7 +226,6 @@ $(document).ready(function() {
 
         initAllMonthSelectors();
         generateAllCalendars(checkInDates);
-        generateAnnualCalendar(checkInDates); // 生成整年打卡表
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown); // 输出请求失败信息
     });
