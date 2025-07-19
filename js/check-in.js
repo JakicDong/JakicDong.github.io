@@ -179,9 +179,16 @@ $(document).ready(function() {
         $('body').toggleClass('dark-mode', e.matches);
         // 重新生成所有打卡表
         generateAllCalendars(checkInDates);
-        generateAnnualCalendar(checkInDates); // 重新生成整年打卡表
+        // 重新生成整年打卡表
+        generateAnnualCalendar(checkInDates); 
+        console.log('Theme changed, calendars regenerated'); // 确认主题切换后重新生成打卡表
     }
-    mediaQuery.addListener(handleThemeChange);
+    // 兼容旧版浏览器
+    if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', handleThemeChange);
+    } else {
+        mediaQuery.addListener(handleThemeChange);
+    }
     handleThemeChange(mediaQuery);
 
     // 获取归档日期和数量
