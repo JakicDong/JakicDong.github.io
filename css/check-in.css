@@ -85,9 +85,9 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
-    margin-left: 3px;
-    gap: 2px;
-    color: #781a88;
+    margin-left: -6px;
+    gap: 1px;
+    color: #8a27a6;
 }
 
 .calendar-weekdays div,
