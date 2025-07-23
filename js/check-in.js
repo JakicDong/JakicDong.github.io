@@ -224,12 +224,21 @@ $(document).ready(function() {
 
         console.log('Check-in dates:', checkInDates); // 输出获取到的归档日期和数量
 
+        // 隐藏加载提示
+        $('#loading').hide();
+
         initAllMonthSelectors();
         generateAllCalendars(checkInDates);
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error('获取归档页面失败:', textStatus, errorThrown); // 输出请求失败信息
+        // 隐藏加载提示，显示错误信息
+        $('#loading').hide();
+        $('#error-message').show();
     });
 
+    // 在 HTML 中添加加载提示和错误信息元素
+    // <div id="loading">加载中，请稍候...</div>
+    // <div id="error-message" style="display: none;">获取数据失败，请重试。</div>
     function initAllMonthSelectors() {
         // 初始化主页面打卡表的月份选择器
         initMonthSelector('#check-in-calendar');
