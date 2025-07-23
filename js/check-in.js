@@ -501,6 +501,8 @@ function generateAnnualCalendar(checkInDates) {
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
+    // 打印日志确认事件触发
+    console.log('DOMContentLoaded 事件触发，开始初始化年份选择器');
     initYearSelector();
 });
 
