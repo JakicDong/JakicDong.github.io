@@ -497,13 +497,25 @@ function generateAnnualCalendar(checkInDates) {
     }
 }
 
+
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     initYearSelector();
 });
 
 // 监听年份下拉框变化事件
-document.getElementById('year-dropdown').addEventListener('change', function() {
-    const selectedYear = parseInt(this.value);
-    fetchArchiveDataAndGenerateCalendar(selectedYear);
-});
+// document.getElementById('year-dropdown').addEventListener('change', function() {
+//     const selectedYear = parseInt(this.value);
+//     fetchArchiveDataAndGenerateCalendar(selectedYear);
+// });
+
+const yearDropdown = document.getElementById('year-dropdown');
+if (yearDropdown) {
+    yearDropdown.addEventListener('change', function() {
+        const selectedYear = parseInt(this.value);
+        fetchArchiveDataAndGenerateCalendar(selectedYear);
+    });
+} else {
+    console.error('未找到年份下拉框元素，无法绑定事件监听器');
+}
