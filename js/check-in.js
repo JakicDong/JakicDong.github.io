@@ -363,9 +363,10 @@ $(document).ready(function() {
 function initYearSelector() {
     const yearDropdown = document.getElementById('year-dropdown');
     if (!yearDropdown) {
-        console.error('未找到年份下拉框元素');
+        console.log('未找到年份下拉框元素，跳过初始化'); // 改为日志而非错误
         return;
     }
+    
     const currentYear = new Date().getFullYear();
     for (let year = currentYear - 10; year <= currentYear + 10; year++) {
         const option = document.createElement('option');
@@ -376,15 +377,13 @@ function initYearSelector() {
         }
         yearDropdown.appendChild(option);
     }
-    // 确保年份下拉框变化事件监听正确绑定
+    
     yearDropdown.addEventListener('change', () => {
         const selectedYear = parseInt(yearDropdown.value);
-        console.log('选择的年份:', selectedYear);
         fetchArchiveDataAndGenerateCalendar(selectedYear);
     });
-    // 初始加载时获取当前年份的数据
-    const initialYear = currentYear;
-    fetchArchiveDataAndGenerateCalendar(initialYear);
+    
+    fetchArchiveDataAndGenerateCalendar(currentYear);
 }
 
 // 切换年份
@@ -511,15 +510,18 @@ function generateAnnualCalendar(checkInDates) {
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     // 打印日志确认事件触发
-    console.log('DOMContentLoaded 事件触发，开始初始化年份选择器');
-    initYearSelector();
+    console.log('DOMContentLoaded 事件触发');
+    
+    // 只初始化存在的元素
+    if (document.getElementById('year-dropdown')) {
+        initYearSelector();
+    }
+    
+    // 检查是否存在日历容器
+    if (!document.getElementById('check-in-calendar')) {
+        console.log('未找到主日历容器，跳过初始化');
+    }
 });
-
-// 监听年份下拉框变化事件
-// document.getElementById('year-dropdown').addEventListener('change', function() {
-//     const selectedYear = parseInt(this.value);
-//     fetchArchiveDataAndGenerateCalendar(selectedYear);
-// });
 
 const yearDropdown = document.getElementById('year-dropdown');
 if (yearDropdown) {

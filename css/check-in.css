@@ -26,6 +26,13 @@
     --multiple-archives-text: black;
 }
 
+/* 添加在最前面 */
+.check-in-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 /* 主日历容器 */
 #check-in-calendar {
     max-width: 800px;
