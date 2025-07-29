@@ -28,7 +28,7 @@
 <meta property="og:description" content="今日学习内容继续做汇报PPT,今天状态好一些了.     这周汇报的CityGaussian–实时大场景高质量的3DGS。     文章提出的问题是，目前大多数的3DGS都专注在小型场景或者物体的重建上，然而当重建的规模尺度变大之后，现有的3DGS方法会出现显存爆炸并且导致渲染时卡顿,性能出现非常严重的下降。     所以这篇文章针对上述问题提出了针对大规模场景的3dgs方法，文章的核心思想是提出">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-29T09:53:36.924Z">
+<meta property="article:modified_time" content="2025-07-29T10:49:57.089Z">
 <meta property="article:author" content="JakicDong">
 <meta property="article:tag" content="基础">
 <meta property="article:tag" content="日记">
@@ -86,7 +86,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2025/07/29/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B47%E6%9C%88/2025.7.29%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习日记</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-28T16:00:00.000Z">2025-07-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-29T09:53:36.924Z">2025-07-29</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-28T16:00:00.000Z">2025-07-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-29T10:49:57.089Z">2025-07-29</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -103,9 +103,9 @@
 </li>
 <li><p>   文章提出的问题是，目前大多数的3DGS都专注在小型场景或者物体的重建上，然而当重建的规模尺度变大之后，现有的3DGS方法会出现显存爆炸并且导致渲染时卡顿,性能出现非常严重的下降。</p>
 </li>
-<li><p>   所以这篇文章针对上述问题提出了针对大规模场景的3dgs方法，文章的核心思想是提出了一种有效的分治策略，以并行方式重建大规模三维高斯飞溅。<br>利用所提出的LoD策略也就是细节的分级处理，以最小的质量损失实现了不同尺度下的实时大规模场景渲染。并且目前在测试中效果优于目前最好的算法。</p>
+<li><p>   所以这篇文章针对上述问题提出了针对大规模场景的3dgs方法，文章的核心思想是提出了一种有效的分治策略，以并行方式重建大规模3DGS。<br>利用所提出的LoD策略也就是细节的分级处理，以最小的质量损失实现了不同尺度下的实时大规模场景渲染。并且目前在测试中效果优于目前最好的算法。</p>
 </li>
-<li><p>   这个就是这篇文章训练的流程图：<br>CityGaussian首先会训练一个低分辨率的全局先验，也就是图中蓝色的点云，为后续的分块作为一个原始的依据,然后对边界进行约束.<br>然后第二步，将整个场景分成多个区块，分块大小根据显存大小动态调整，并且对每个分块进行负载均衡。<br>然后第三步，对数据进行动态分配，包括动态边界，也就是根据相机视角扩展区块范围；还包括智能剔除：丢弃贡献度小于阈值的区块<br>原文中通过SSIM损失函数判断区块重要性。<br>第四步是每个区块进行并行的训练。<br>第五步是将所有分块融合输出。</p>
+<li><p>   这个就是这篇文章训练的流程图：<br>CityGaussian首先会训练一个低分辨率的全局先验，也就是图中蓝色的点云，为后续的分块作为一个原始的依据,然后对边界进行约束.<br>然后第二步，将整个场景分成多个区块，分块大小根据显存大小动态调整，并且对每个分块进行负载均衡。<br>然后第三步，对数据进行动态分配，包括动态边界,剔除噪声点<br>第四步是每个区块进行并行的训练。<br>第五步是将所有分块融合输出。</p>
 </li>
 <li><p>   首先这个就是预先训练的低分辨率全局图,直接利用全部的观测图训练colmap点进行30000次迭代,然后生成一个全局几何分布的粗略的描述.</p>
 </li>
