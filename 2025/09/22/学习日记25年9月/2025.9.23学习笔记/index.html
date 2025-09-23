@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250923133221.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250923133538.png">
 <meta property="article:published_time" content="2025-09-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-23T06:45:49.874Z">
+<meta property="article:modified_time" content="2025-09-23T10:40:57.535Z">
 <meta property="article:author" content="JakicDong">
 <meta property="article:tag" content="基础">
 <meta property="article:tag" content="日记">
@@ -91,7 +91,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2025/09/22/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B49%E6%9C%88/2025.9.23%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习日记</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-09-21T16:00:00.000Z">2025-09-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-23T06:45:49.874Z">2025-09-23</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-09-21T16:00:00.000Z">2025-09-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-23T10:40:57.535Z">2025-09-23</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -104,14 +104,14 @@
   </div>
   </div><article class="md-text content slide-up"><h2 id="今日学习内容"><a href="#今日学习内容" class="headerlink" title="今日学习内容"></a>今日学习内容</h2><h3 id="3DGS"><a href="#3DGS" class="headerlink" title="3DGS"></a>3DGS</h3><h4 id="关于我目前的思路"><a href="#关于我目前的思路" class="headerlink" title="关于我目前的思路"></a>关于我目前的思路</h4><p>1.首先渲染一个高质量的基础模型.<br>2.然后通过设计细节降级脚本,将基础模型降级到不同细节程度的模型.<br>3.然后将3D空间进行分块,预先计算当相机位于该分块时的高斯激活表(高效的索引结构).<br>4.渲染时,根据相机位置,读取对应的高斯激活表,然后根据高斯激活表,渲染对应细节程度的模型.</p>
 <p>做PPT(两篇文章):<br><code>Octree-GS- Towards Consistent Real-time Rendering with LOD-Structured 3D Gaussians LODGE: Level-of-Detail</code><br><code>Large-Scale Gaussian Splatting with Efficient Rendering</code></p>
-<h4 id="PPT"><a href="#PPT" class="headerlink" title="PPT"></a>PPT</h4><h5 id="1"><a href="#1" class="headerlink" title="1"></a>1</h5><p>这周我汇报的是这两篇论文,一篇是关于使用八叉树+分级渲染的3DGS,另一篇是谷歌25年提出的使用分级渲染的3DGS.都是关于在大规模场景对渲染可行性和帧率进行的优化.</p>
+<h4 id="PPT"><a href="#PPT" class="headerlink" title="PPT"></a>PPT</h4><h5 id="1"><a href="#1" class="headerlink" title="1"></a>1</h5><p>这周我汇报的是这两篇论文,一篇是关于使用八叉树+分级渲染的3DGS,另一篇是谷歌25年提出的使用分级渲染的3DGS.都是关于在大规模场景对渲染可行性和帧率进行优化的论文.</p>
 <h5 id="2"><a href="#2" class="headerlink" title="2"></a>2</h5><p>首先介绍这个八叉树分级渲染的3DGS.<br>传统的3DGS虽然渲染质量高,但是在处理大规模场景时存在两个问题:</p>
 <ol>
 <li>​渲染冗余​​,无论物体远近，所有高斯球都会被渲染，导致整体计算资源浪费,在距离相机远的时候会导致帧率下降严重.</li>
 <li>​​缺乏细节层次,无法根据观察距离动态调整细节，导致远处细节过多而近处细节不足.</li>
 </ol>
 <p>所以这篇文章通过引入​​层次化的八叉树结构​​和​​LOD机制​​，实现了动态选择不同尺度的高斯球，从而在保持视觉质量的同时显著提升渲染效率。</p>
-<h5 id="3"><a href="#3" class="headerlink" title="3"></a>3</h5><p>首先介绍这篇文章设计的八叉树结构<br>首先会将场景分成多层级的体素网格,每个体素中心定义一个锚点,每个锚点对应多个高斯球，较高级别的LOD对应较小体素大小,LOD越高细节越丰富,在LOD K渲染的图像会光栅化从LOD 0到K的所有高斯基元。<br>左侧的公式可以看到,八叉树层数K由观测距离范围决定,其中d是剔除异常值后的最大最小值.</p>
+<h5 id="3"><a href="#3" class="headerlink" title="3"></a>3</h5><p>首先介绍这篇文章设计的八叉树结构<br>首先会将场景分成多层级的体素网格,每个体素中心定义一个锚点,每个锚点对应多个高斯球，较高级别的LOD对应较小体素大小,LOD越高细节越丰富,在第K级渲染的图像会光栅化从0到K的所有高斯球。<br>左侧的公式可以看到,八叉树层数K由观测距离范围决定,其中d是剔除异常值后的最大最小值.</p>
 <p>然后右侧公式是锚点的选择机制,对于给定的视角i.<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250923103008.png" alt="20250923103008"></p>
 <h5 id="4"><a href="#4" class="headerlink" title="4"></a>4</h5><p>首先是文章的生长-剪枝策略:<br>初始就是从低层级开始,然后在训练过程通过判断梯度大小来决定是否增加层级或者增加锚点,比如梯度很小,那就不变,梯度比较大,增加锚点,梯度非常大的话增加更高的层级.然后就是剪枝策略,通过可见频率和透明度剔除无效锚点,减少冗余和浮点伪影.</p>
 <p>然后是渐进式的训练策略,采用由粗到细的训练方式,在优化过程中逐步激活更精细的LOD级别,并且使粗粒度锚点有更多时间学习远视角场景重建.<br>可以看到使用渐进式的训练策略后,低层级的锚点会有更加清晰地轮廓.</p>
