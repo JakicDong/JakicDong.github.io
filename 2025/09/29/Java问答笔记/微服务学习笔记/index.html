@@ -1,0 +1,1577 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>微服务学习笔记 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="1.4 万字 33 张手绘图，详解 33 道微服务（Dubbo、Spring Cloud）面试高频题（让天下没有难背的八股），面渣背会这些八股文，这次吊打面试官，我觉得稳了（手动 dog）。整理：沉默王二，戳转载链接，作者：三分恶，戳原文链接。 概览1.什么是微服务？微服务（Microservices）是一种软件架构风格，将一个大型应用程序划分为一组小型、自治且松耦合的服务。每个微服务负责执行特定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务学习笔记">
+<meta property="og:url" content="https://jakicdong.github.io/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="1.4 万字 33 张手绘图，详解 33 道微服务（Dubbo、Spring Cloud）面试高频题（让天下没有难背的八股），面渣背会这些八股文，这次吊打面试官，我觉得稳了（手动 dog）。整理：沉默王二，戳转载链接，作者：三分恶，戳原文链接。 概览1.什么是微服务？微服务（Microservices）是一种软件架构风格，将一个大型应用程序划分为一组小型、自治且松耦合的服务。每个微服务负责执行特定">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/ac84270d25aa98f87940599f2484111e.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/7e200d81a785c6f6018ecd7cee33b51d.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/6d622a72d299924fad87adcebeb7c1af.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/99350e76ce2f763ed5ce5ba6594941f8.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/cf3896a6c789eb0dd9c4c414f003ed7c.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/477cde58e9553323d74ebac6d5a63079.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/cbf6eee8064d0ece8abf8b611629136e.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/1fe746722ca8f0d4ed608c1402fbd692.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/16de67d4619e2844fb0812cf994cd7e7.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/0ed1a1a1b1c6dd753abad1b4b51ed76b.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/d169125c01b90de79271a2ba4229283b.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/ae4998231c351b393b025bfcab150844.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/10f8e977199a2b42be5a5f3d47ca798f.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/9608f6d00078e3059587d14fa1dad6e0.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/bfc1fcd689ccab76f23abc3cd1c6ddf3.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/54206a2d5b5ab4f1387c2d344b5b9e5d.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/ec903e569092136bb03d9e3a89e40474.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/a387826853b4c459a52a5762eeec8427.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/544aa9123d085ae1b89bdf0adb8ae50d.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/51faf0c8c742b1d86f2c4ac3cd3b8885.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/8b1109d802eccbcbb2f667648fb25505.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/98e74c1a6d5e3a083c266ebb48051c67.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/4acc0c39bc776867b76f0ade4c3440b8.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/882b9ae41162ba6bb7c41d9d7ad82736.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/df73e94d1eb19ca40d150788cee2c360.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/5069b45cedaab00a06ab5cc98a0baa6c.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/d8131fd04bb31e3b0ca26016c302e3cb.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/a36315dedde1aacdda94aebf58bbfd68.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/5614543d4fac09e7501379989a44a8c0.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/48ce581297c73a18e00f430681c1b964.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/9badf29259da5932defbce509d3b169e.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/250cb02220303993a2b842f5054aa51d.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/paicoding/4f735b4934d90c3b55fc4b644d22f5c0.png">
+<meta property="og:image" content="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png">
+<meta property="article:published_time" content="2025-09-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-29T09:38:24.144Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.tobebetterjavaer.com/paicoding/ac84270d25aa98f87940599f2484111e.png">
+  
+  
+  
+  <meta name="keywords" content="基础,微服务">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#9c27b0"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="语雀" target="_blank" rel="noopener" href="https://www.yuque.com/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记</span></a><a class="item active" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应的一些知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/09/09/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AD%98%E6%A1%A3/"><span class="title">简历存档</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记</span></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/25/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91-2D%E8%B6%B3%E7%90%83Demo/"><span class="title">游戏开发-2D足球Demo</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unitu%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%A5%BD%E7%94%A8%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%88%96%E6%93%8D%E4%BD%9C/"><span class="title">好用的快捷键和操作</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="title">个人博客搭建</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E6%A8%A1%E7%89%88/"><span class="title">博客模板</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/09/29/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B49%E6%9C%88/2025.9.29%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.9.29学习日记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记</span></a><a class="item title" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item title" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-09-28T16:00:00.000Z">2025-09-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-29T09:38:24.144Z">2025-09-29</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>微服务学习笔记</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><p>1.4 万字 33 张手绘图，详解 33 道微服务（Dubbo、Spring Cloud）面试高频题（让天下没有难背的八股），面渣背会这些八股文，这次吊打面试官，我觉得稳了（手动 dog）。整理：沉默王二，戳<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IgY6cU_5Xic-2KAAhxK9MA">转载链接</a>，作者：三分恶，戳<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/S8_I9mDNh7XnnQaXJFr2CQ">原文链接</a>。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><h3 id="1-什么是微服务？"><a href="#1-什么是微服务？" class="headerlink" title="1.什么是微服务？"></a>1.什么是微服务？</h3><p>微服务（Microservices）是一种软件架构风格，将一个大型应用程序划分为一组小型、自治且松耦合的服务。每个微服务负责执行特定的业务功能，并通过轻量级通信机制（如 HTTP）相互协作。每个微服务可以独立开发、部署和扩展，使得应用程序更加灵活、可伸缩和可维护。</p>
+<p>在微服务的架构演进中，一般可能会存在这样的演进方向：单体式–&gt;服务化–&gt;微服务。</p>
+<p>单体服务一般是所有项目最开始的样子：</p>
+<ul>
+<li>单体服务（Monolithic Service）是一种传统的软件架构方式，将整个应用程序作为一个单一的、紧耦合的单元进行开发和部署。单体服务通常由多个模块组成，这些模块共享同一个数据库和代码库。然而，随着应用程序规模的增长，单体服务可能变得庞大且难以维护，且部署和扩展困难。</li>
+</ul>
+<p>后来，单体服务过大，维护困难，渐渐演变到了分布式的 SOA：</p>
+<ul>
+<li>SOA（Service-Oriented Architecture，面向服务的架构）是一种软件架构设计原则，强调将应用程序拆分为相互独立的服务，通过标准化的接口进行通信。SOA 关注于服务的重用性和组合性，但并没有具体规定服务的大小。</li>
+<li>微服务是在 SOA 的基础上进一步发展而来，是一种特定规模下的服务拆分和部署方式。微服务架构强调将应用程序拆分为小型、自治且松耦合的服务，每个服务都专注于特定的业务功能。这种架构使得应用程序更加灵活、可伸缩和可维护。</li>
+</ul>
+<p>需要注意的是，微服务是一种特定的架构风格，而 SOA 是一种设计原则。微服务可以看作是对 SOA 思想的一种具体实践方式，但并不等同于 SOA。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/ac84270d25aa98f87940599f2484111e.png" alt="架构演进简图"></p>
+<p>架构演进简图</p>
+<p>微服务与单体服务的区别在于规模和部署方式。微服务将应用程序拆分为更小的、自治的服务单元，每个服务都有自己的数据库和代码库，可以独立开发、测试、部署和扩展，带来了更大的灵活性、可维护性、可扩展性和容错性。</p>
+<h3 id="2-微服务带来了哪些挑战？"><a href="#2-微服务带来了哪些挑战？" class="headerlink" title="2.微服务带来了哪些挑战？"></a>2.微服务带来了哪些挑战？</h3><p>微服务架构不是万金油，尽它有很多优点，但是对于是否采用微服务架构，是否将原来的单体服务进行拆分，还是要考虑到服务拆分后可能带来的一些挑战和问题：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/7e200d81a785c6f6018ecd7cee33b51d.png" alt="微服务带来的挑战"></p>
+<p>微服务带来的挑战</p>
+<ol>
+<li>系统复杂性增加：一个服务拆成了多个服务，整体系统的复杂性增加，需要处理服务之间的通信、部署、监控和维护等方面的复杂性。</li>
+<li>服务间通信开销：微服务之间通过网络进行通信，传递数据需要额外的网络开销和序列化开销，可能导致性能瓶颈和增加系统延迟。</li>
+<li>数据一致性和事务管理：每个微服务都有自己的数据存储，数据一致性和跨服务的事务管理变得更加复杂，需要额外解决分布式事务和数据同步的问题。</li>
+<li>部署和运维复杂性：微服务架构涉及多个独立部署的服务，对于部署、监控和容错机制的要求更高，需要建立适当的部署管道和自动化工具，以简化部署和运维过程。</li>
+<li>团队沟通和协作成本：每个微服务都由专门的团队负责，可能增加团队之间的沟通和协作成本。需要有效的沟通渠道和协作机制，确保服务之间的协调和一致性。</li>
+<li>服务治理和版本管理：随着微服务数量的增加，服务的治理和版本管理变得更加复杂。需要考虑服务的注册发现、负载均衡、监控和故障处理等方面，以确保整个系统的可靠性和稳定性。</li>
+<li>分布式系统的复杂性：微服务架构涉及构建和管理分布式系统，而分布式系统本身具有一些固有的挑战，如网络延迟、分布式一致性和容错性。</li>
+</ol>
+<p>简单说，采用微服务需要权衡这些问题和挑战，根据实际的需求来选择对应的技术方案，很多时候单体能搞定的也可以用单体，不能为了微服务而微服务。</p>
+<h3 id="3-现在有哪些流行的微服务解决方案？"><a href="#3-现在有哪些流行的微服务解决方案？" class="headerlink" title="3.现在有哪些流行的微服务解决方案？"></a>3.现在有哪些流行的微服务解决方案？</h3><p>目前最主流的微服务开源解决方案有三种：</p>
+<ol>
+<li>Dubbo：</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/6d622a72d299924fad87adcebeb7c1af.png" alt="Dubbo工作原理图-来源官网"></p>
+<p>Dubbo工作原理图-来源官网</p>
+<ul>
+<li>Dubbo 是一个高性能、轻量级的 Java 微服务框架，最初由阿里巴巴（Alibaba）开发并于 2011 年开源。它提供了服务注册与发现、负载均衡、容错、分布式调用等功能，后来一度停止维护，在近两年，又重新开始迭代，并推出了 Dubbo3。</li>
+<li>Dubbo 使用基于 RPC（Remote Procedure Call）的通信模型，具有较高的性能和可扩展性。它支持多种传输协议（如 TCP、HTTP、Redis）和序列化方式（如 JSON、Hessian、Protobuf），可根据需求进行配置。</li>
+<li>Dubbo 更多地被认为是一个高性能的 RPC（远程过程调用）框架，一些服务治理功能依赖于第三方组件实现，比如使用 ZooKeeper、Apollo 等等。</li>
+</ul>
+<ol start="3">
+<li>Spring Cloud Netflix：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix 是 Spring Cloud 的一个子项目，结合了 Netflix 开源的多个组件，但是 Netflix 自 2018 年停止维护和更新 Netflix OSS 项目，包括 Eureka、Hystrix 等组件，所以 Spring Cloud Netflix 也逐渐进入了维护模式。</li>
+<li>该项目包含了许多流行的 Netflix 组件，如 Eureka（服务注册与发现）、Ribbon（客户端负载均衡）、Hystrix（断路器）、Zuul（API 网关）等。它们都是高度可扩展的、经过大规模实践验证的微服务组件。</li>
+</ul>
+<ol start="5">
+<li>Spring Cloud Alibaba：</li>
+</ol>
+<h4 id="这三种方案有什么区别吗？"><a href="#这三种方案有什么区别吗？" class="headerlink" title="这三种方案有什么区别吗？"></a>这三种方案有什么区别吗？</h4><p>三种方案的区别：</p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>Dubbo</th>
+<th>Spring Cloud Netflix</th>
+<th>Spring Cloud Alibaba</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开发语言</td>
+<td>Java</td>
+<td>Java</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>服务治理</td>
+<td>提供完整的服务治理功能</td>
+<td>提供部分服务治理功能</td>
+<td>提供完整的服务治理功能</td>
+</tr>
+<tr>
+<td>服务注册与发现</td>
+<td>ZooKeeper&#x2F;Nacos</td>
+<td>Eureka&#x2F;Consul</td>
+<td>Nacos</td>
+</tr>
+<tr>
+<td>负载均衡</td>
+<td>自带负载均衡策略</td>
+<td>Ribbon</td>
+<td>Ribbon\Dubbo 负载均衡策略</td>
+</tr>
+<tr>
+<td>服务调用</td>
+<td>RPC 方式</td>
+<td>RestTemplate&#x2F;Feign</td>
+<td>Feign&#x2F;RestTemplate&#x2F;Dubbo</td>
+</tr>
+<tr>
+<td>熔断器</td>
+<td>Sentinel</td>
+<td>Hystrix</td>
+<td>Sentinel&#x2F;Resilience4j</td>
+</tr>
+<tr>
+<td>配置中心</td>
+<td>Apollo</td>
+<td>Spring Cloud Config</td>
+<td>Nacos Config</td>
+</tr>
+<tr>
+<td>API 网关</td>
+<td>Higress&#x2F;APISIX</td>
+<td>Zuul&#x2F;Gateway</td>
+<td>Spring Cloud Gateway</td>
+</tr>
+<tr>
+<td>分布式事务</td>
+<td>Seata</td>
+<td>不支持分布式事务</td>
+<td>Seata</td>
+</tr>
+<tr>
+<td>限流和降级</td>
+<td>Sentinel</td>
+<td>Hystrix</td>
+<td>Sentinel</td>
+</tr>
+<tr>
+<td>分布式追踪和监控</td>
+<td>Skywalking</td>
+<td>Spring Cloud Sleuth + Zipkin</td>
+<td>SkyWalking 或 Sentinel Dashboard</td>
+</tr>
+<tr>
+<td>微服务网格</td>
+<td>Dubbo Mesh</td>
+<td>不支持微服务网格</td>
+<td>Service Mesh（Nacos+Dubbo Mesh）</td>
+</tr>
+<tr>
+<td>社区活跃度</td>
+<td>相对较高</td>
+<td>目前较低</td>
+<td>相对较高</td>
+</tr>
+<tr>
+<td>孵化和成熟度</td>
+<td>孵化较早，成熟度较高</td>
+<td>成熟度较高</td>
+<td>孵化较新，但迅速发展</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Spring Cloud Alibaba 是 Spring Cloud 的另一个子项目，与阿里巴巴的分布式应用开发框架相关。它提供了一整套与 Alibaba 生态系统集成的解决方案。</li>
+<li>该项目包括 Nacos（服务注册与发现、配置管理）、Sentinel（流量控制、熔断降级）、RocketMQ（消息队列）等组件，以及与 Alibaba Cloud（阿里云）的集成。它为构建基于 Spring Cloud 的微服务架构提供了丰富的选项。</li>
+<li>据说 SpringCloud Alibaba 项目的发起人已经跑路去了腾讯，并发起了 SpringCloud Tecent 项目，社区发展存在隐忧。</li>
+</ul>
+<blockquote>
+<p>在面试中，微服务一般主要讨论的是 Spring Cloud Netflix，其次是 Spring Cloud Alibaba，Dubbo 更多的是作为一个 RPC 框架来问。</p>
+</blockquote>
+<h3 id="4-说下微服务有哪些组件？"><a href="#4-说下微服务有哪些组件？" class="headerlink" title="4.说下微服务有哪些组件？"></a>4.说下微服务有哪些组件？</h3><p>微服务给系统开发带来了一些问题和挑战，如服务调用的复杂性、分布式事务的处理、服务的动态管理等。为了更好地解决这些问题和挑战，各种微服务治理的组件应运而生，充当微服务架构的基石和支撑。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/99350e76ce2f763ed5ce5ba6594941f8.png" alt="微服务组件示意图"></p>
+<p>微服务组件示意图</p>
+<p>微服务的各个组件和常见实现：</p>
+<ol>
+<li>注册中心：用于服务的注册与发现，管理微服务的地址信息。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix：Eureka、Consul</li>
+<li>Spring Cloud Alibaba：Nacos</li>
+</ul>
+<ol start="3">
+<li>配置中心：用于集中管理微服务的配置信息，可以动态修改配置而不需要重启服务。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix：Spring Cloud Config</li>
+<li>Spring Cloud Alibaba：Nacos Config</li>
+</ul>
+<ol start="5">
+<li>远程调用：用于在不同的微服务之间进行通信和协作。常见的实现保包括：</li>
+</ol>
+<ul>
+<li>RESTful API：如 RestTemplate、Feign</li>
+<li>RPC（远程过程调用）：如 Dubbo、gRPC</li>
+</ul>
+<ol start="7">
+<li>API 网关：作为微服务架构的入口，统一暴露服务，并提供路由、负载均衡、安全认证等功能。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix：Zuul、Gateway</li>
+<li>Spring Cloud Alibaba：Gateway、Apisix 等</li>
+</ul>
+<ol start="9">
+<li>分布式事务：保证跨多个微服务的一致性和原子性操作。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Alibaba：Seata</li>
+</ul>
+<ol start="11">
+<li>熔断器：用于防止微服务之间的故障扩散，提高系统的容错能力。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix：Hystrix</li>
+<li>Spring Cloud Alibaba：Sentinel、Resilience4j</li>
+</ul>
+<ol start="13">
+<li>限流和降级：用于防止微服务过载，对请求进行限制和降级处理。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix：Hystrix</li>
+<li>Spring Cloud Alibaba：Sentinel</li>
+</ul>
+<ol start="15">
+<li>分布式追踪和监控：用于跟踪和监控微服务的请求流程和性能指标。常见的实现包括：</li>
+</ol>
+<ul>
+<li>Spring Cloud Netflix：Spring Cloud Sleuth + Zipkin</li>
+<li>Spring Cloud Alibaba：SkyWalking、Sentinel Dashboard</li>
+</ul>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="5-注册中心是用来干什么的？"><a href="#5-注册中心是用来干什么的？" class="headerlink" title="5.注册中心是用来干什么的？"></a>5.注册中心是用来干什么的？</h3><p>注册中心是用来管理和维护分布式系统中各个服务的地址和元数据的组件。它主要用于实现<code>服务发现</code>和<code>服务注册</code>功能。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/cf3896a6c789eb0dd9c4c414f003ed7c.png" alt="注册中心示意图"></p>
+<p>注册中心示意图</p>
+<p>总结一下注册中心的作用：</p>
+<ol>
+<li><strong>服务注册</strong>：各个服务在启动时向注册中心注册自己的网络地址、服务实例信息和其他相关元数据。这样，其他服务就可以通过注册中心获取到当前可用的服务列表。</li>
+<li><strong>服务发现</strong>：客户端通过向注册中心查询特定服务的注册信息，获得可用的服务实例列表。这样客户端就可以根据需要选择合适的服务进行调用，实现了服务间的解耦。</li>
+<li><strong>负载均衡</strong>：注册中心可以对同一服务的多个实例进行负载均衡，将请求分发到不同的实例上，提高整体的系统性能和可用性。</li>
+<li><strong>故障恢复</strong>：注册中心能够监测和检测服务的状态，当服务实例发生故障或下线时，可以及时更新注册信息，从而保证服务能够正常工作。</li>
+<li><strong>服务治理</strong>：通过注册中心可以进行服务的配置管理、动态扩缩容、服务路由、灰度发布等操作，实现对服务的动态管理和控制。</li>
+</ol>
+<h3 id="6-SpringCloud-可以选择哪些注册中心？"><a href="#6-SpringCloud-可以选择哪些注册中心？" class="headerlink" title="6.SpringCloud 可以选择哪些注册中心？"></a>6.SpringCloud 可以选择哪些注册中心？</h3><p>SpringCloud 可以与多种注册中心进行集成，常见的注册中心包括：</p>
+<ol>
+<li>Eureka：Eureka 是 Netflix 开源的服务发现框架，具有高可用、弹性、可扩展等特点，并与 Spring Cloud 集成良好。</li>
+<li>Consul：Consul 是一种分布式服务发现和配置管理系统，由 HashiCorp 开发。它提供了服务注册、服务发现、健康检查、键值存储等功能，并支持多数据中心部署。</li>
+<li>ZooKeeper：ZooKeeper 是 Apache 基金会开源的分布式协调服务，可以用作服务注册中心。它具有高可用、一致性、可靠性等特点。</li>
+<li>Nacos：Nacos 是阿里巴巴开源的一个动态服务发现、配置管理和服务管理平台。它提供了服务注册和发现、配置管理、动态 DNS 服务等功能。</li>
+<li>etcd：etcd 是 CoreOS 开源的一种分布式键值存储系统，可以被用作服务注册中心。它具有高可用、强一致性、分布式复制等特性。</li>
+</ol>
+<h3 id="7-说下-Eureka、ZooKeeper、Nacos-的区别？"><a href="#7-说下-Eureka、ZooKeeper、Nacos-的区别？" class="headerlink" title="7.说下 Eureka、ZooKeeper、Nacos 的区别？"></a>7.说下 Eureka、ZooKeeper、Nacos 的区别？</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Eureka</th>
+<th>ZooKeeper</th>
+<th>Nacos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开发公司</td>
+<td>Netflix</td>
+<td>Apache 基金会</td>
+<td>阿里巴巴</td>
+</tr>
+<tr>
+<td>CAP</td>
+<td>AP（可用性和分区容忍性）</td>
+<td>CP（一致性和分区容忍性）</td>
+<td>既支持 AP，也支持 CP</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>服务注册与发现</td>
+<td>分布式协调、配置管理、分布式锁</td>
+<td>服务注册与发现、配置管理、服务管理</td>
+</tr>
+<tr>
+<td>定位</td>
+<td>适用于构建基于 HTTP 的微服务架构</td>
+<td>通用的分布式协调服务框架</td>
+<td>适用于微服务和云原生应用</td>
+</tr>
+<tr>
+<td>访问协议</td>
+<td>HTTP</td>
+<td>TCP</td>
+<td>HTTP&#x2F;DNS</td>
+</tr>
+<tr>
+<td>自我保护</td>
+<td>支持</td>
+<td>-</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>数据存储</td>
+<td>内嵌数据库、多个实例形成集群</td>
+<td>ACID 特性的分布式文件系统 ZAB 协议</td>
+<td>内嵌数据库、MySQL 等</td>
+</tr>
+<tr>
+<td>健康检查</td>
+<td>Client Beat</td>
+<td>Keep Alive</td>
+<td>TCP&#x2F;HTTP&#x2F;MYSQL&#x2F;Client Beat</td>
+</tr>
+<tr>
+<td>特点</td>
+<td>简单易用、自我保护机制</td>
+<td>高性能、强一致性</td>
+<td>动态配置管理、流量管理、灰度发布等</td>
+</tr>
+</tbody></table>
+<p>可以看到 Eureka 和 ZooKeeper 的最大区别是一个支持<code>AP</code>，一个支持<code>CP</code>，Nacos 既支持既支持<code>AP</code>，也支持<code>CP</code>。</p>
+<h3 id="8-Eureka-实现原理了解吗？"><a href="#8-Eureka-实现原理了解吗？" class="headerlink" title="8.Eureka 实现原理了解吗？"></a>8.Eureka 实现原理了解吗？</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/477cde58e9553323d74ebac6d5a63079.png" alt="Eureka原理示意图"></p>
+<p>Eureka原理示意图</p>
+<p>Eureka 的实现原理，大概可以从这几个方面来看：</p>
+<ol>
+<li>服务注册与发现: 当一个服务实例启动时，它会向 Eureka Server 发送注册请求，将自己的信息注册到注册中心。Eureka Server 会将这些信息保存在内存中，并提供 REST 接口供其他服务查询。服务消费者可以通过查询服务实例列表来获取可用的服务提供者实例，从而实现服务的发现。</li>
+<li>服务健康检查: Eureka 通过心跳机制来检测服务实例的健康状态。服务实例会定期向 Eureka Server 发送心跳，也就是续约，以表明自己的存活状态。如果 Eureka Server 在一定时间内没有收到某个服务实例的心跳，则会将其标记为不可用，并从服务列表中移除，下线实例。</li>
+<li>服务负载均衡: Eureka 客户端在调用其他服务时，会从本地缓存中获取服务的注册信息。如果缓存中没有对应的信息，则会向 Eureka Server 发送查询请求。Eureka Server 会返回一个可用的服务实例列表给客户端，客户端可以使用负载均衡算法选择其中一个进行调用。</li>
+</ol>
+<blockquote>
+<p>其它的注册中心，如 Nacos、Consul 等等，在服务注册和发现上，实现原理都是大同小异。</p>
+</blockquote>
+<h3 id="9-Eureka-Server-怎么保证高可用？"><a href="#9-Eureka-Server-怎么保证高可用？" class="headerlink" title="9.Eureka Server 怎么保证高可用？"></a>9.Eureka Server 怎么保证高可用？</h3><p>Eureka Server 保证高可用，主要通过这三个方面来实现：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/cbf6eee8064d0ece8abf8b611629136e.png" alt="Eureka Server"></p>
+<p>Eureka Server</p>
+<ol>
+<li>多实例部署: 通过将多个 Eureka Server 实例部署在不同的节点上，可以实现高可用性。当其中一个实例发生故障时，其他实例仍然可以提供服务，并保持注册信息的一致性。</li>
+<li>服务注册信息的复制: 当一个服务实例向 Eureka Server 注册时，每个 Eureka Server 实例都会复制其他实例的注册信息，以保持数据的一致性。当某个 Eureka Server 实例发生故障时，其他实例可以接管其工作，保证整个系统的正常运行。</li>
+<li>自我保护机制: Eureka 还具有自我保护机制。当 Eureka Server 节点在一定时间内没有接收到心跳时，它会进入自我保护模式。在自我保护模式下，Eureka Server 不再剔除注册表中的服务实例，以保护现有的注册信息。这样可以防止由于网络抖动或其他原因导致的误剔除，进一步提高系统的稳定性。</li>
+</ol>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h2><h3 id="10-为什么微服务需要配置中心？"><a href="#10-为什么微服务需要配置中心？" class="headerlink" title="10.为什么微服务需要配置中心？"></a>10.为什么微服务需要配置中心？</h3><p>微服务架构中的每个服务通常都需要一些配置信息，例如数据库连接地址、服务端口、日志级别等。这些配置可能因为不同环境、不同部署实例或者动态运行时需要进行调整和管理。</p>
+<p>微服务的实例一般非常多，如果每个实例都需要一个个地去做这些配置，那么运维成本将会非常大，这时候就需要一个集中化的配置中心，去管理这些配置。</p>
+<h3 id="11-SpringCloud-可以选择哪些配置中心？"><a href="#11-SpringCloud-可以选择哪些配置中心？" class="headerlink" title="11.SpringCloud 可以选择哪些配置中心？"></a>11.SpringCloud 可以选择哪些配置中心？</h3><p>和注册中心一样，SpringCloud 也支持对多种配置中心的集成。常见的配置中心选型包括：</p>
+<ol>
+<li>Spring Cloud Config：官方推荐的配置中心，支持将配置文件存储在 Git、SVN 等版本控制系统中，并提供 RESTful API 进行访问和管理。</li>
+<li>ZooKeeper：一个开源的分布式协调服务，可以用作配置中心。它具有高可用性、一致性和通知机制等特性。</li>
+<li>Consul：另一个开源的分布式服务发现和配置管理工具，也可用作配置中心。支持多种配置文件格式，提供健康检查、故障转移和动态变更等功能。</li>
+<li>Etcd：一个分布式键值存储系统，可用作配置中心。它使用基于 Raft 算法的一致性机制，提供分布式数据一致性保证。</li>
+<li>Apollo：携程开源的配置中心，支持多种语言和框架。提供细粒度的配置权限管理、配置变更通知和灰度发布等高级特性，还有可视化的配置管理界面。</li>
+<li>Nacos：阿里巴巴开源的服务发现、配置管理和服务管理平台，也可以作为配置中心使用。支持服务注册与发现、动态配置管理、服务健康监测和动态 DNS 服务等功能。</li>
+</ol>
+<h3 id="12-Nacos-配置中心的原理了解吗？"><a href="#12-Nacos-配置中心的原理了解吗？" class="headerlink" title="12.Nacos 配置中心的原理了解吗？"></a>12.Nacos 配置中心的原理了解吗？</h3><p>配置中心，说白了就是一句话：配置信息的 CRUD。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/1fe746722ca8f0d4ed608c1402fbd692.png" alt="配置中心"></p>
+<p>配置中心</p>
+<p>具体的实现大概可以分成这么几个部分：</p>
+<ol>
+<li>配置信息存储：Nacos 默认使用内嵌数据库 Derby 来存储配置信息，还可以采用 MySQL 等关系型数据库。</li>
+<li>注册配置信息：服务启动时，Nacos Client 会向 Nacos Server 注册自己的配置信息，这个注册过程就是把配置信息写入存储，并生成版本号。</li>
+<li>获取配置信息：服务运行期间，Nacos Client 通过 API 从 Nacos Server 获取配置信息。Server 根据键查找对应的配置信息，并返回给 Client。</li>
+<li>监听配置变化：Nacos Client 可以通过注册监听器的方式，实现对配置信息的监听。当配置信息发生变化时，Nacos Server 会通知已注册的监听器，并触发相应的回调方法。</li>
+</ol>
+<h3 id="13-Nacos-配置中心长轮询机制？"><a href="#13-Nacos-配置中心长轮询机制？" class="headerlink" title="13.Nacos 配置中心长轮询机制？"></a>13.Nacos 配置中心长轮询机制？</h3><p>一般来说客户端和服务端的交互分为两种：<code>推（Push）</code>和<code>拉（Pull）</code>，Nacos 在<code>Pull</code>的基础上，采用了长轮询来进行配置的动态刷新。</p>
+<p>在长轮询模式下，客户端定时向服务端发起请求，检查配置信息是否发生变更。如果没有变更，服务端会”hold”住这个请求，即暂时不返回结果，直到配置发生变化或达到一定的超时时间。</p>
+<p>具体的实现过程如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/16de67d4619e2844fb0812cf994cd7e7.png" alt="Nacos长轮询"></p>
+<p>Nacos长轮询</p>
+<ol>
+<li>客户端发起 Pull 请求，服务端检查配置是否有变更。如果没有变更，则设置一个定时任务，在一段时间后执行，并将当前的客户端连接加入到等待队列中。</li>
+<li>在等待期间，如果配置发生变更，服务端会立即返回结果给客户端，完成一次”推送”操作。</li>
+<li>如果在等待期间没有配置变更，等待时间达到预设的超时时间后，服务端会自动返回结果给客户端，即使配置没有变更。</li>
+<li>如果在等待期间，通过 Nacos Dashboard 或 API 对配置进行了修改，会触发一个事件机制，服务端会遍历等待队列，找到发生变更的配置项对应的客户端连接，并将变更的数据通过连接返回，完成一次”推送”操作。</li>
+</ol>
+<p>通过长轮询的方式，Nacos 客户端能够实时感知配置的变化，并及时获取最新的配置信息。同时，这种方式也降低了服务端的压力，避免了大量的长连接占用内存资源。</p>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="远程调用"><a href="#远程调用" class="headerlink" title="远程调用"></a>远程调用</h2><h3 id="14-能说下-HTTP-和-RPC-的区别吗？"><a href="#14-能说下-HTTP-和-RPC-的区别吗？" class="headerlink" title="14.能说下 HTTP 和 RPC 的区别吗？"></a>14.能说下 HTTP 和 RPC 的区别吗？</h3><p>HTTP 和 RPC 不算是一个层面上的东西：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/0ed1a1a1b1c6dd753abad1b4b51ed76b.png" alt="三分恶面渣逆袭：HTTP和RPC"></p>
+<p>三分恶面渣逆袭：HTTP和RPC</p>
+<p>HTTP 是应用层协议，用于传输超文本数据，基于请求-响应模型，常用于 Web 开发、API 调用等场景。</p>
+<p>RPC 是远程过程调用协议，用于实现分布式系统中不同节点之间的通信，基于方法调用模型，常用于构建面向服务的微服务架构。</p>
+<p>在微服务架构中，Feign 和 Dubbo 都是用于实现远程调用的框架，Feign 基于 HTTP 协议，Dubbo 基于 RPC 协议。</p>
+<p>如果硬要说区别的话，如下：</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>HTTP</th>
+<th>RPC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定义</td>
+<td>HTTP（超文本传输协议）是一种用于传输超文本的协议。</td>
+<td>RPC（远程过程调用）是一种用于实现分布式系统中不同节点之间通信的协议。</td>
+</tr>
+<tr>
+<td>通信方式</td>
+<td>基于请求-响应模型，客户端发送请求，服务器返回响应。</td>
+<td>基于方法调用模型，客户端调用远程方法并等待结果。</td>
+</tr>
+<tr>
+<td>传输协议</td>
+<td>基于 TCP 协议，可使用其他传输层协议如 TLS&#x2F;SSL 进行安全加密。</td>
+<td>可以使用多种传输协议，如 TCP、UDP 等。</td>
+</tr>
+<tr>
+<td>数据格式</td>
+<td>基于文本，常用的数据格式有 JSON、XML 等。</td>
+<td>可以使用各种数据格式，如二进制、JSON、Protocol Buffers 等。</td>
+</tr>
+<tr>
+<td>接口定义</td>
+<td>使用 RESTful 风格的接口进行定义，常用的方法有 GET、POST、PUT、DELETE 等。</td>
+<td>使用 IDL（接口定义语言）进行接口定义，如 Protocol Buffers、Thrift 等。</td>
+</tr>
+<tr>
+<td>跨语言性</td>
+<td>支持跨语言通信，可以使用 HTTP 作为通信协议实现不同语言之间的通信。</td>
+<td>支持跨语言通信，可以使用 IDL 生成不同语言的客户端和服务端代码。</td>
+</tr>
+<tr>
+<td>灵活性</td>
+<td>更加灵活，适用于不同类型的应用场景，如 Web 开发、API 调用等。</td>
+<td>更加高效，适用于需要高性能和低延迟的分布式系统。</td>
+</tr>
+</tbody></table>
+<h4 id="RPC了解吗？"><a href="#RPC了解吗？" class="headerlink" title="RPC了解吗？"></a>RPC了解吗？</h4><p>RPC（Remote Procedure Call）是一种远程过程调用协议，用于实现分布式系统中不同节点之间的通信。它基于方法调用模型，允许客户端调用远程服务的方法，并等待结果返回。</p>
+<p>像 gRPC、Dubbo、Thrift 等都是 RPC 框架，它们提供了 IDL（接口定义语言）来定义服务接口，以及序列化协议来进行数据传输。</p>
+<blockquote>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/zhishixingqiu/mianshi.html">Java 面试指南（付费）</a>收录的腾讯面经同学 24 面试原题：RPC 了解吗？</li>
+</ol>
+</blockquote>
+<h3 id="15-那-Feign-和-Dubbo-的区别呢？"><a href="#15-那-Feign-和-Dubbo-的区别呢？" class="headerlink" title="15.那 Feign 和 Dubbo 的区别呢？"></a>15.那 Feign 和 Dubbo 的区别呢？</h3><p>这两个才是适合拿来比较的东西：</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>Feign</th>
+<th>Dubbo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定义</td>
+<td>Feign 是一个声明式的 Web 服务客户端，用于简化 HTTP API 的调用。</td>
+<td>Dubbo 是一个分布式服务框架，用于构建面向服务的微服务架构。</td>
+</tr>
+<tr>
+<td>通信方式</td>
+<td>基于 HTTP 协议，使用 RESTful 风格的接口进行定义和调用。</td>
+<td>基于 RPC 协议，支持多种序列化协议如 gRPC、Hessian 等。</td>
+</tr>
+<tr>
+<td>服务发现</td>
+<td>通常结合服务注册中心（如 Eureka、Consul）进行服务发现和负载均衡。</td>
+<td>通过 ZooKeeper、Nacos 等进行服务注册和发现，并提供负载均衡功能。</td>
+</tr>
+<tr>
+<td>服务治理</td>
+<td>不直接提供服务治理功能，需要结合其他组件或框架进行服务治理。</td>
+<td>提供服务注册与发现、负载均衡、容错机制、服务降级等服务治理功能。</td>
+</tr>
+<tr>
+<td>跨语言性</td>
+<td>支持跨语言通信，可以使用 HTTP 作为通信协议实现不同语言之间的通信。</td>
+<td>支持跨语言通信，通过 Dubbo 的 IDL 生成不同语言的客户端和服务端代码。</td>
+</tr>
+<tr>
+<td>生态系统</td>
+<td>集成了 Spring Cloud 生态系统，与 Spring Boot 无缝集成。</td>
+<td>拥有完整的生态系统，包括注册中心、配置中心、监控中心等组件。</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>适用于构建 RESTful 风格的微服务架构，特别适合基于 HTTP 的微服务调用。</td>
+<td>适用于构建面向服务的微服务架构，提供更全面的服务治理和容错机制。</td>
+</tr>
+</tbody></table>
+<p>需要注意的是，Feign 和 Dubbo 并不是互斥的关系。实际上，Dubbo 可以使用 HTTP 协议作为通信方式，而 Feign 也可以集成 RPC 协议进行远程调用。选择使用哪种远程调用方式取决于具体的业务需求和技术栈的选择。</p>
+<h3 id="16-说一下-Fegin"><a href="#16-说一下-Fegin" class="headerlink" title="16.说一下 Fegin?"></a>16.说一下 Fegin?</h3><p>Feign 是一个声明式的 Web 服务客户端，它简化了使用基于 HTTP 的远程服务的开发。</p>
+<p>Feign 是在 RestTemplate 和 Ribbon 的基础上进一步封装，使用 RestTemplate 实现 Http 调用，使用 Ribbon 实现负载均衡。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/d169125c01b90de79271a2ba4229283b.png" alt="Feign封装"></p>
+<p>Feign封装</p>
+<p>Feign 的主要特点和功能包括：</p>
+<ol>
+<li>声明式 API：Feign 允许开发者使用简单的注解来定义和描述对远程服务的访问。通过使用注解，开发者可以轻松地指定 URL、HTTP 方法、请求参数、请求头等信息，使得远程调用变得非常直观和易于理解。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@FeignClient(name = &quot;example&quot;, url = &quot;https://api.example.com&quot;)</span><br><span class="line"> public interface ExampleService &#123;</span><br><span class="line">     @GetMapping(&quot;/endpoint&quot;)</span><br><span class="line">     String getEndpointData();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>集成负载均衡：Feign 集成了 Ribbon 负载均衡器，可以自动实现客户端的负载均衡。它可以根据服务名和可用实例进行动态路由，并分发请求到不同的服务实例上，提高系统的可用性和可伸缩性。</li>
+<li>容错机制：Feign 支持集成 Hystrix 容错框架，可以在调用远程服务时提供容错和断路器功能。当远程服务不可用或响应时间过长时，Feign 可以快速失败并返回预设的响应结果，避免对整个系统造成级联故障。</li>
+</ol>
+<h3 id="17-为什么-Feign-第一次调用耗时很长？"><a href="#17-为什么-Feign-第一次调用耗时很长？" class="headerlink" title="17.为什么 Feign 第一次调用耗时很长？"></a>17.为什么 Feign 第一次调用耗时很长？</h3><p>主要原因是由于 Ribbon 的懒加载机制，当第一次调用发生时，Feign 会触发 Ribbon 的加载过程，包括从服务注册中心获取服务列表、建立连接池等操作，这个加载过程会增加首次调用的耗时。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ribbon:</span><br><span class="line">   eager-load:</span><br><span class="line">     enabled: true</span><br><span class="line">       clients: service-1</span><br></pre></td></tr></table></figure>
+
+<p>那怎么解决这个问题呢？</p>
+<p>可以在应用启动时预热 Feign 客户端，自动触发一次无关紧要的调用，来提前加载 Ribbon 和其他相关组件。这样，就相当于提前进行了第一次调用。</p>
+<h3 id="18-Feign-怎么实现认证传递？"><a href="#18-Feign-怎么实现认证传递？" class="headerlink" title="18.Feign 怎么实现认证传递？"></a>18.Feign 怎么实现认证传递？</h3><p>比较常见的一个做法是，<code>使用拦截器传递认证信息</code>。可以通过实现<code>RequestInterceptor</code>接口来定义拦截器，在拦截器里，把认证信息添加到请求头中，然后将其注册到 Feign 的配置中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line"> public class FeignClientConfig &#123;</span><br><span class="line"></span><br><span class="line">     @Bean</span><br><span class="line">     public RequestInterceptor requestInterceptor() &#123;</span><br><span class="line">         return new RequestInterceptor() &#123;</span><br><span class="line">             @Override</span><br><span class="line">             public void apply(RequestTemplate template) &#123;</span><br><span class="line">                 // 添加认证信息到请求头中</span><br><span class="line">                 template.header(&quot;Authorization&quot;, &quot;Bearer &quot; + getToken());</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     private String getToken() &#123;</span><br><span class="line">         // 获取认证信息的逻辑，可以从SecurityContext或其他地方获取</span><br><span class="line">         // 返回认证信息的字符串形式</span><br><span class="line">         return &quot;your_token&quot;;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="19-Fegin-怎么做负载均衡？Ribbon"><a href="#19-Fegin-怎么做负载均衡？Ribbon" class="headerlink" title="19.Fegin 怎么做负载均衡？Ribbon?"></a>19.Fegin 怎么做负载均衡？Ribbon?</h3><p>在 Feign 中，负载均衡是通过集成 Ribbon 来实现的。</p>
+<p>Ribbon 是 Netflix 开源的一个客户端负载均衡器，可以与 Feign 无缝集成，为 Feign 提供负载均衡的能力。</p>
+<p>Ribbon 通过从服务注册中心获取可用服务列表，并通过负载均衡算法选择合适的服务实例进行请求转发，实现客户端的负载均衡。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/ae4998231c351b393b025bfcab150844.png" alt="客户端负载均衡"></p>
+<p>客户端负载均衡</p>
+<h3 id="20-说说有哪些负载均衡算法？"><a href="#20-说说有哪些负载均衡算法？" class="headerlink" title="20.说说有哪些负载均衡算法？"></a>20.说说有哪些负载均衡算法？</h3><p>常见的负载均衡算法包含以下几种：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/10f8e977199a2b42be5a5f3d47ca798f.png" alt="常见负载均衡算法"></p>
+<p>常见负载均衡算法</p>
+<ol>
+<li><strong>轮询算法（Round Robin）</strong>：轮询算法是最简单的负载均衡算法之一。它按照顺序将请求依次分配给每个后端服务器，循环往复。当请求到达时，负载均衡器按照事先定义的顺序选择下一个服务器。轮询算法适用于后端服务器具有相同的处理能力和性能的场景。</li>
+<li><strong>加权轮询算法（Weighted Round Robin）</strong>：加权轮询算法在轮询算法的基础上增加了权重的概念。每个后端服务器都被赋予一个权重值，权重值越高，被选中的概率就越大。这样可以根据服务器的处理能力和性能调整请求的分配比例，使得性能较高的服务器能够处理更多的请求。</li>
+<li><strong>随机算法（Random）</strong>：随机算法将请求随机分配给后端服务器。每个后端服务器有相等的被选中概率，没有考虑服务器的实际负载情况。这种算法简单快速，适用于后端服务器性能相近且无需考虑请求处理能力的场景。</li>
+<li><strong>加权随机算法（Weighted Random）</strong>：加权随机算法在随机算法的基础上引入了权重的概念。每个后端服务器被赋予一个权重值，权重值越高，被选中的概率就越大。这样可以根据服务器的处理能力和性能调整请求的分配比例。</li>
+<li><strong>最少连接算法（Least Connection）</strong>：最少连接算法会根据后端服务器当前的连接数来决定请求的分配。负载均衡器会选择当前连接数最少的服务器进行请求分配，以保证后端服务器的负载均衡。这种算法适用于后端服务器的处理能力不同或者请求的处理时间不同的场景。</li>
+<li><strong>哈希算法（Hash）</strong>：哈希算法会根据请求的某个特定属性（如客户端 IP 地址、请求 URL 等）计算哈希值，然后根据哈希值选择相应的后端服务器。</li>
+</ol>
+<p>常见的负载均衡器，比如 Ribbion、Gateway 等等，基本都支持这些负载均衡算法。</p>
+<blockquote>
+<p>关于 Dubbo，后面会单独出一期。</p>
+</blockquote>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="服务容灾"><a href="#服务容灾" class="headerlink" title="服务容灾"></a>服务容灾</h2><h3 id="21-什么是服务雪崩？"><a href="#21-什么是服务雪崩？" class="headerlink" title="21.什么是服务雪崩？"></a>21.什么是服务雪崩？</h3><p>在微服务中，假如一个或者多个服务出现故障，如果这时候，依赖的服务还在不断发起请求，或者重试，那么这些请求的压力会不断在下游堆积，导致下游服务的负载急剧增加。不断累计之下，可能会导致故障的进一步加剧，可能会导致级联式的失败，甚至导致整个系统崩溃，这就叫服务雪崩。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/9608f6d00078e3059587d14fa1dad6e0.png" alt="服务雪崩"></p>
+<p>服务雪崩</p>
+<p>一般，为了防止服务雪崩，可以采用这些措施：</p>
+<ol>
+<li>服务高可用部署：确保各个服务都具备高可用性，通过冗余部署、故障转移等方式来减少单点故障的影响。</li>
+<li>限流和熔断：对服务之间的请求进行限流和熔断，以防止过多的请求涌入导致后端服务不可用。</li>
+<li>缓存和降级：合理使用缓存来减轻后端服务的负载压力，并在必要时进行服务降级，保证核心功能的可用性。</li>
+</ol>
+<h3 id="22-什么是服务熔断？什么是服务降级？"><a href="#22-什么是服务熔断？什么是服务降级？" class="headerlink" title="22.什么是服务熔断？什么是服务降级？"></a>22.什么是服务熔断？什么是服务降级？</h3><h4 id="什么是服务熔断？"><a href="#什么是服务熔断？" class="headerlink" title="什么是服务熔断？"></a>什么是服务熔断？</h4><p>服务熔断是微服务架构中的容错机制，用于保护系统免受服务故障或异常的影响。当某个服务出现故障或异常时，服务熔断可以快速隔离该服务，确保系统稳定可用。</p>
+<p>它通过监控服务的调用情况，当错误率或响应时间超过阈值时，触发熔断机制，后续请求将返回默认值或错误信息，避免资源浪费和系统崩溃。</p>
+<p>服务熔断还支持自动恢复，重新尝试对故障服务的请求，确保服务恢复正常后继续使用。</p>
+<h4 id="什么是服务降级？"><a href="#什么是服务降级？" class="headerlink" title="什么是服务降级？"></a>什么是服务降级？</h4><p>服务降级是也是一种微服务架构中的容错机制，用于在系统资源紧张或服务故障时保证核心功能的可用性。</p>
+<p>当系统出现异常情况时，服务降级会主动屏蔽一些非核心或可选的功能，而只提供最基本的功能，以确保系统的稳定运行。通过减少对资源的依赖，服务降级可以保证系统的可用性和性能。</p>
+<p>它可以根据业务需求和系统状况来制定策略，例如替换耗时操作、返回默认响应、返回静态错误页面等。</p>
+<h4 id="有哪些熔断降级方案实现？"><a href="#有哪些熔断降级方案实现？" class="headerlink" title="有哪些熔断降级方案实现？"></a>有哪些熔断降级方案实现？</h4><p>目前常见的服务熔断降级实现方案有这么几种：</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>实现方案</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spring Cloud</td>
+<td>Netflix Hystrix</td>
+<td>- 提供线程隔离、服务降级、请求缓存、请求合并等功能</td>
+</tr>
+</tbody></table>
+<p>- 可与 Spring Cloud 其他组件无缝集成</p>
+<p>- 官方已宣布停止维护，推荐使用 Resilience4j 代替| Spring Cloud|Resilience4j|- 轻量级服务熔断库</p>
+<p>- 提供类似于 Hystrix 的功能</p>
+<p>- 具有更好的性能和更简洁的 API</p>
+<p>- 可与 Spring Cloud 其他组件无缝集成| Spring Cloud Alibaba|Sentinel|- 阿里巴巴开源的流量控制和熔断降级组件</p>
+<p>- 提供实时监控、流量控制、熔断降级等功能</p>
+<p>- 与 Spring Cloud Alibaba 生态系统紧密集成| Dubbo|Dubbo 自带熔断降级机制|- Dubbo 框架本身提供的熔断降级机制</p>
+<p>- 可通过配置实现服务熔断和降级</p>
+<p>- 与 Dubbo 的 RPC 框架紧密集成|</p>
+<h3 id="23-Hystrix-怎么实现服务容错？"><a href="#23-Hystrix-怎么实现服务容错？" class="headerlink" title="23.Hystrix 怎么实现服务容错？"></a>23.Hystrix 怎么实现服务容错？</h3><p>尽管已经不再更新，但是 Hystrix 是非常经典的服务容错开源库，它提供了多种机制来保护系统：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/bfc1fcd689ccab76f23abc3cd1c6ddf3.png" alt="Hystrix服务容错六大机制"></p>
+<p>Hystrix服务容错六大机制</p>
+<ol>
+<li>服务熔断（Circuit Breaker）：Hystrix 通过设置阈值来监控服务的错误率或响应时间。当错误率或响应时间超过预设的阈值时，熔断器将会打开，后续的请求将不再发送到实际的服务提供方，而是返回预设的默认值或错误信息。这样可以快速隔离故障服务，防止故障扩散，提高系统的稳定性和可用性。</li>
+<li>服务降级（Fallback）：当服务熔断打开时，Hystrix 可以提供一个备用的降级方法或返回默认值，以保证系统继续正常运行。开发者可以定义降级逻辑，例如返回缓存数据、执行简化的逻辑或调用其他可靠的服务，以提供有限但可用的功能。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;</span><br><span class="line"></span><br><span class="line"> /**</span><br><span class="line"></span><br><span class="line"> * 服务降级示例</span><br><span class="line"></span><br><span class="line"> **/</span><br><span class="line"> @Service</span><br><span class="line"> public class MyService &#123;</span><br><span class="line"></span><br><span class="line">     @HystrixCommand(fallbackMethod = &quot;fallbackMethod&quot;)</span><br><span class="line">     public String myServiceMethod() &#123;</span><br><span class="line">         // 实际的服务调用逻辑</span><br><span class="line">         // ...</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     public String fallbackMethod() &#123;</span><br><span class="line">         // 降级方法的逻辑，当服务调用失败时会执行此方法</span><br><span class="line">         // 可以返回默认值或执行其他备用逻辑</span><br><span class="line">         // ...</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>请求缓存（Request Caching）：Hystrix 可以缓存对同一请求的响应结果，当下次请求相同的数据时，直接从缓存中获取，避免重复的网络请求，提高系统的性能和响应速度。</li>
+<li>请求合并（Request Collapsing）：Hystrix 可以将多个并发的请求合并为一个批量请求，减少网络开销和资源占用。这对于一些高并发的场景可以有效地减少请求次数，提高系统的性能。</li>
+<li>实时监控和度量（Real-time Monitoring and Metrics）：Hystrix 提供了实时监控和度量功能，可以对服务的执行情况进行监控和统计，包括错误率、响应时间、并发量等指标。通过监控数据，可以及时发现和解决服务故障或性能问题。</li>
+<li>线程池隔离（Thread Pool Isolation）：Hystrix 将每个依赖服务的请求都放在独立的线程池中执行，避免因某个服务的故障导致整个系统的线程资源耗尽。通过线程池隔离，可以提高系统的稳定性和可用性。</li>
+</ol>
+<h3 id="24-Sentinel-怎么实现限流的？"><a href="#24-Sentinel-怎么实现限流的？" class="headerlink" title="24.Sentinel 怎么实现限流的？"></a>24.Sentinel 怎么实现限流的？</h3><p>Sentinel 通过动态管理限流规则，根据定义的规则对请求进行限流控制。具体实现步骤如下：</p>
+<ol>
+<li>定义资源：在 Sentinel 中，资源可以是 URL、方法等，用于标识需要进行限流的请求。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 原本的业务方法.</span><br><span class="line"> @SentinelResource(blockHandler = &quot;blockHandlerForGetUser&quot;)</span><br><span class="line"> public User getUserById(String id) &#123;</span><br><span class="line">     throw new RuntimeException(&quot;getUserById command failed&quot;);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // blockHandler 函数，原方法调用被限流/降级/系统保护的时候调用</span><br><span class="line"> public User blockHandlerForGetUser(String id, BlockException ex) &#123;</span><br><span class="line">     return new User(&quot;admin&quot;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置限流规则：在 Sentinel 的配置文件中定义资源的限流规则。规则可以包括资源名称、限流阈值、限流模式（令牌桶或漏桶）等。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private static void initFlowQpsRule() &#123;</span><br><span class="line">     List&lt;FlowRule&gt; rules = new ArrayList&lt;&gt;();</span><br><span class="line">     FlowRule rule1 = new FlowRule();</span><br><span class="line">     rule1.setResource(resource);</span><br><span class="line">     // Set max qps to 20</span><br><span class="line">     rule1.setCount(20);</span><br><span class="line">     rule1.setGrade(RuleConstant.FLOW_GRADE_QPS);</span><br><span class="line">     rule1.setLimitApp(&quot;default&quot;);</span><br><span class="line">     rules.add(rule1);</span><br><span class="line">     FlowRuleManager.loadRules(rules);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>监控流量：Sentinel 会监控每个资源的流量情况，包括请求的 QPS（每秒请求数）、线程数、响应时间等。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/54206a2d5b5ab4f1387c2d344b5b9e5d.png" alt="Sentinel控制台"></p>
+<p>Sentinel控制台</p>
+<ol start="4">
+<li>限流控制：当请求到达时，Sentinel 会根据资源的限流规则判断是否需要进行限流控制。如果请求超过了限流阈值，则可以进行限制、拒绝或进行其他降级处理。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/ec903e569092136bb03d9e3a89e40474.png" alt="Sentinel总体框架-来源官网"></p>
+<p>Sentinel总体框架-来源官网</p>
+<h4 id="Sentinel-采用的什么限流算法？"><a href="#Sentinel-采用的什么限流算法？" class="headerlink" title="Sentinel 采用的什么限流算法？"></a>Sentinel 采用的什么限流算法？</h4><p>Sentinel 使用滑动窗口限流算法来实现限流。</p>
+<p>滑动窗口限流算法是一种基于时间窗口的限流算法。它将一段时间划分为多个时间窗口，并在每个时间窗口内统计请求的数量。通过动态地调整时间窗口的大小和滑动步长，可以更精确地控制请求的通过速率。</p>
+<blockquote>
+<p>滑动窗口限流可以查看前面的分布式篇。</p>
+</blockquote>
+<h4 id="Sentinel-怎么实现集群限流？"><a href="#Sentinel-怎么实现集群限流？" class="headerlink" title="Sentinel 怎么实现集群限流？"></a>Sentinel 怎么实现集群限流？</h4><p>Sentinel 利用了 Token Server 和 Token Client 的机制来实现集群限流。</p>
+<p>开启集群限流后，Client 向 Token Server 发送请求，Token Server 根据配置的规则决定是否限流。T</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/a387826853b4c459a52a5762eeec8427.png" alt="Token Server和Client"></p>
+<p>Token Server和Client</p>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="服务网关"><a href="#服务网关" class="headerlink" title="服务网关"></a>服务网关</h2><h3 id="25-什么是-API-网关？"><a href="#25-什么是-API-网关？" class="headerlink" title="25.什么是 API 网关？"></a>25.什么是 API 网关？</h3><p>API 网关（API Gateway）是一种中间层服务器，用于集中管理、保护和路由对后端服务的访问。它充当了客户端与后端服务之间的入口点，提供了一组统一的接口来管理和控制 API 的访问。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/544aa9123d085ae1b89bdf0adb8ae50d.png" alt="网关示意图"></p>
+<p>网关示意图</p>
+<p>API 网关的主要功能包括：</p>
+<ol>
+<li>路由转发：API 网关根据请求的 URL 路径或其他标识，将请求路由到相应的后端服务。通过配置路由规则，可以灵活地将请求分发给不同的后端服务。</li>
+<li>负载均衡：API 网关可以在后端服务之间实现负载均衡，将请求平均分发到多个实例上，提高系统的吞吐量和可扩展性。</li>
+<li>安全认证与授权：API 网关可以集中处理身份验证和授权，确保只有经过身份验证的客户端才能访问后端服务。它可以与身份提供者（如 OAuth、OpenID Connect）集成，进行用户认证和授权操作。</li>
+<li>缓存：API 网关可以缓存后端服务的响应，减少对后端服务的请求次数，提高系统性能和响应速度。</li>
+<li>监控与日志：API 网关可以收集和记录请求的指标和日志，提供实时监控和分析，帮助开发人员和运维人员进行故障排查和性能优化。</li>
+<li>数据转换与协议转换：API 网关可以在客户端和后端服务之间进行数据格式转换和协议转换，如将请求从 HTTP 转换为 WebSocket，或将请求的参数进行格式转换，以满足后端服务的需求。</li>
+<li>API 版本管理：API 网关可以管理不同版本的 API，允许同时存在多个 API 版本，并通过路由规则将请求正确地路由到相应的 API 版本上。</li>
+</ol>
+<p>……</p>
+<p>通过使用 API 网关，可以简化前端与后端服务的交互，提供统一的接口和安全性保障，同时也方便了服务治理和监控。它是构建微服务架构和实现 API 管理的重要组件之一。</p>
+<h3 id="26-SpringCloud-可以选择哪些-API-网关？"><a href="#26-SpringCloud-可以选择哪些-API-网关？" class="headerlink" title="26.SpringCloud 可以选择哪些 API 网关？"></a>26.SpringCloud 可以选择哪些 API 网关？</h3><p>使用 SpringCloud 开发，可以采用以下的 API 网关选型：</p>
+<ol>
+<li>Netflix Zuul（已停止更新）：Netflix Zuul 是 Spring Cloud 早期版本中提供的默认 API 网关。它基于 Servlet 技术栈，可以进行路由、过滤、负载均衡等功能。然而，自 2020 年 12 月起，Netflix 宣布停止对 Zuul 1 的维护，转而支持新的 API 网关项目。</li>
+<li>Spring Cloud Gateway：Spring Cloud Gateway 是 Spring Cloud 官方推荐的 API 网关，取代了 Netflix Zuul。它基于非阻塞的 WebFlux 框架，充分利用了响应式编程的优势，并提供了路由、过滤、断路器、限流等特性。Spring Cloud Gateway 还支持与 Spring Cloud 的其他组件集成，如服务发现、负载均衡等。</li>
+<li>Kong：Kong 是一个独立的、云原生的 API 网关和服务管理平台，可以与 Spring Cloud 集成。Kong 基于 Nginx，提供了强大的路由、认证、授权、监控和扩展能力。它支持多种插件和扩展，可满足不同的 API 管理需求。</li>
+<li>APISIX：APISIX 基于 Nginx 和 Lua 开发，它具有强大的路由、流量控制、插件扩展等功能。APISIX 支持灵活的配置方式，可以根据需求进行动态路由、负载均衡和限流等操作。</li>
+</ol>
+<p>……</p>
+<h3 id="27-Spring-Cloud-Gateway-核心概念？"><a href="#27-Spring-Cloud-Gateway-核心概念？" class="headerlink" title="27.Spring Cloud Gateway 核心概念？"></a>27.Spring Cloud Gateway 核心概念？</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/51faf0c8c742b1d86f2c4ac3cd3b8885.png" alt="Gateway原理"></p>
+<p>Gateway原理</p>
+<p>在 Spring Cloud Gateway 里，有三个关键组件：</p>
+<ul>
+<li><strong>Route（路由）</strong>：路由是 Spring Cloud Gateway 的基本构建块，它定义了请求的匹配规则和转发目标。通过配置路由，可以将请求映射到后端的服务实例或 URL 上。路由规则可以根据请求的路径、方法、请求头等条件进行匹配，并指定转发的目标 URI。</li>
+<li><strong>Predicate（断言）</strong>：断言用于匹配请求的条件，如果请求满足断言的条件，则会应用所配置的过滤器。Spring Cloud Gateway 提供了多种内置的断言，如 Path（路径匹配）、Method（请求方法匹配）、Header（请求头匹配）等，同时也支持自定义断言。</li>
+<li><strong>Filter（过滤器）</strong>：过滤器用于对请求进行处理和转换，可以修改请求、响应以及执行其他自定义逻辑。Spring Cloud Gateway 提供了多个内置的过滤器，如请求转发、请求重试、请求限流等。同时也支持自定义过滤器，可以根据需求编写自己的过滤器逻辑。</li>
+</ul>
+<p>我们再来看下 Spring Cloud Gateway 的具体工作流程：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/8b1109d802eccbcbb2f667648fb25505.png" alt="SpringCloud工作流程图-来源官方文档"></p>
+<p>SpringCloud工作流程图-来源官方文档</p>
+<p>又有两个比较重要的概念：</p>
+<ul>
+<li><strong>Gateway Handler（网关处理器）</strong>：网关处理器是 Spring Cloud Gateway 的核心组件，负责将请求转发到匹配的路由上。它根据路由配置和断言条件进行路由匹配，选择合适的路由进行请求转发。网关处理器还会依次应用配置的过滤器链，对请求进行处理和转换。</li>
+<li><strong>Gateway Filter Chain（网关过滤器链）</strong>：网关过滤器链由一系列过滤器组成，按照配置的顺序依次执行。每个过滤器可以在请求前、请求后或请求发生错误时进行处理。过滤器链的执行过程可以修改请求、响应以及执行其他自定义逻辑。</li>
+</ul>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="链路追踪"><a href="#链路追踪" class="headerlink" title="链路追踪"></a>链路追踪</h2><h3 id="28-为什么要用微服务链路追踪？"><a href="#28-为什么要用微服务链路追踪？" class="headerlink" title="28.为什么要用微服务链路追踪？"></a>28.为什么要用微服务链路追踪？</h3><p>在微服务中，有的山下游可能有十几个服务，如果某一环出了问题，排查起来非常困难，所以，就需要进行链路追踪，来帮助排查问题。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/98e74c1a6d5e3a083c266ebb48051c67.png" alt="SkyWalking界面"></p>
+<p>SkyWalking界面</p>
+<p>通过链路追踪，可以可视化地追踪请求从一个微服务到另一个微服务的调用情况。除了排查问题，链路追踪黑还可以帮助优化性能，可视化依赖关系、服务监控和告警。</p>
+<h3 id="29-SpringCloud-可以选择哪些微服务链路追踪方案？"><a href="#29-SpringCloud-可以选择哪些微服务链路追踪方案？" class="headerlink" title="29.SpringCloud 可以选择哪些微服务链路追踪方案？"></a>29.SpringCloud 可以选择哪些微服务链路追踪方案？</h3><p>Spring Cloud 提供了多种选择的微服务链路追踪方案。以下是一些常用的方案：</p>
+<ol>
+<li>Zipkin：Zipkin 是一个开源的分布式实时追踪系统，由 Twitter 开发并贡献给开源社区。Spring Cloud Sleuth 提供了与 Zipkin 的集成，可以通过在微服务中添加相应的依赖和配置，将追踪信息发送到 Zipkin 服务器，并通过 Zipkin UI 进行可视化展示和查询。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/4acc0c39bc776867b76f0ade4c3440b8.png" alt="Zipkin界面"></p>
+<p>Zipkin界面</p>
+<ol start="2">
+<li>Jaeger：Jaeger 是 Uber 开源的分布式追踪系统，也被纳入了 CNCF（云原生计算基金会）的维护。通过使用 Spring Cloud Sleuth 和 Jaeger 客户端库，可以将追踪信息发送到 Jaeger 并进行可视化展示和查询。</li>
+<li>SkyWalking：Apache SkyWalking 是一款开源的应用性能监控与分析系统，提供了对 Java、.NET 和 Node.js 等语言的支持。它可以与 Spring Cloud Sleuth 集成，将追踪数据发送到 SkyWalking 服务器进行可视化展示和分析。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/882b9ae41162ba6bb7c41d9d7ad82736.png" alt="SkyWalking示例界面"></p>
+<p>SkyWalking示例界面</p>
+<ol start="4">
+<li>Pinpoint：Pinpoint 是 Naver 开源的分布式应用性能监控系统，支持 Java 和 .NET。它提供了与 Spring Cloud Sleuth 的集成，可以将追踪数据发送到 Pinpoint 服务器，并通过其 UI 进行分析和监控。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/df73e94d1eb19ca40d150788cee2c360.png" alt="Pinpoint示意图"></p>
+<p>Pinpoint示意图</p>
+<p>这些方案都可以与 Spring Cloud Sleuth 进行集成，Spring Cloud Sleuth 是 Spring Cloud 中的一个组件，提供了在微服务调用时生成追踪信息的能力。</p>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><p>分布式事务可以查看前面的分布式基础篇。</p>
+<h3 id="30-Seata-支持哪些模式的分布式事务？"><a href="#30-Seata-支持哪些模式的分布式事务？" class="headerlink" title="30.Seata 支持哪些模式的分布式事务？"></a>30.Seata 支持哪些模式的分布式事务？</h3><p>Seata 以下几种模式的分布式事务：</p>
+<ol>
+<li>AT（Atomikos）模式：AT 模式是 Seata 默认支持的模式，也是最常用的模式之一。在 AT 模式下，Seata 通过在业务代码中嵌入事务上下文，实现对分布式事务的管理。Seata 会拦截并解析业务代码中的 SQL 语句，通过对数据库连接进行拦截和代理，实现事务的管理和协调。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/5069b45cedaab00a06ab5cc98a0baa6c.png" alt="AT模式示意图"></p>
+<p>AT模式示意图</p>
+<ol start="2">
+<li>TCC（Try-Confirm-Cancel）模式：TCC 模式是一种基于补偿机制的分布式事务模式。在 TCC 模式中，业务逻辑需要实现 Try、Confirm 和 Cancel 三个阶段的操作。Seata 通过调用业务代码中的 Try、Confirm 和 Cancel 方法，并在每个阶段记录相关的操作日志，来实现分布式事务的一致性。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/d8131fd04bb31e3b0ca26016c302e3cb.png" alt="Seata TCC模式"></p>
+<p>Seata TCC模式</p>
+<ol start="3">
+<li>SAGA 模式：SAGA 模式是一种基于事件驱动的分布式事务模式。在 SAGA 模式中，每个服务都可以发布和订阅事件，通过事件的传递和处理来实现分布式事务的一致性。Seata 提供了与 SAGA 模式兼容的 Saga 框架，用于管理和协调分布式事务的各个阶段。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/a36315dedde1aacdda94aebf58bbfd68.png" alt="SAGA模式状态机引擎"></p>
+<p>SAGA模式状态机引擎</p>
+<ol start="4">
+<li>XA 模式：XA 模式是一种基于两阶段提交（Two-Phase Commit）协议的分布式事务模式。在 XA 模式中，Seata 通过与数据库的 XA 事务协议进行交互，实现对分布式事务的管理和协调。XA 模式需要数据库本身支持 XA 事务，并且需要在应用程序中配置相应的 XA 数据源。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/5614543d4fac09e7501379989a44a8c0.png" alt="XA模式示意图"></p>
+<p>XA模式示意图</p>
+<h3 id="31-了解-Seata-的实现原理吗？"><a href="#31-了解-Seata-的实现原理吗？" class="headerlink" title="31.了解 Seata 的实现原理吗？"></a>31.了解 Seata 的实现原理吗？</h3><p>Seata 的实现原理主要包括三个核心组件：事务协调器（Transaction Coordinator）、事务管理器（Transaction Manager）和资源管理器（Resource Manager）。</p>
+<ul>
+<li><strong>事务协调器（Transaction Coordinator）</strong>：事务协调器负责协调和管理分布式事务的整个过程。它接收事务的开始和结束请求，并根据事务的状态进行协调和处理。事务协调器还负责记录和管理事务的全局事务 ID（Global Transaction ID）和分支事务 ID（Branch Transaction ID）。</li>
+<li><strong>事务管理器（Transaction Manager）</strong>：事务管理器负责全局事务的管理和控制。它协调各个分支事务的提交或回滚，并保证分布式事务的一致性和隔离性。事务管理器还负责与事务协调器进行通信，并将事务的状态变更进行持久化。</li>
+<li><strong>资源管理器（Resource Manager）</strong>：资源管理器负责管理和控制各个参与者（Participant）的事务操作。它与事务管理器进行通信，并根据事务管理器的指令执行相应的事务操作，包括提交和回滚。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/48ce581297c73a18e00f430681c1b964.png" alt="Seata领域模型"></p>
+<p>Seata领域模型</p>
+<p>Seata 的实现原理基于<strong>两阶段提交（Two-Phase Commit）协议</strong>，具体的机制如下：</p>
+<ol>
+<li>一阶段：在事务提交的过程中，首先进行预提交阶段。事务协调器向各个资源管理器发送预提交请求，资源管理器执行相应的事务操作并返回执行结果。在此阶段，业务数据和回滚日志记录在同一个本地事务中提交，并释放本地锁和连接资源。</li>
+<li>二阶段：在预提交阶段成功后，进入真正的提交阶段。此阶段主要包括提交异步化和回滚反向补偿两个步骤：</li>
+</ol>
+<ul>
+<li>提交异步化：事务协调器发出真正的提交请求，各个资源管理器执行最终的提交操作。这个阶段的操作是非常快速的，以确保事务的提交效率。</li>
+<li>回滚反向补偿：如果在预提交阶段中有任何一个资源管理器返回失败结果，事务协调器发出回滚请求，各个资源管理器执行回滚操作，利用一阶段的回滚日志进行反向补偿。</li>
+</ul>
+<h4 id="Seata-的事务执行流程是什么样的？"><a href="#Seata-的事务执行流程是什么样的？" class="headerlink" title="Seata 的事务执行流程是什么样的？"></a>Seata 的事务执行流程是什么样的？</h4><p>Seata 事务的执行流程可以简要概括为以下几个步骤：</p>
+<ol>
+<li>事务发起方（Transaction Starter）发起全局事务：事务发起方是指发起分布式事务的应用程序或服务。它向 Seata 的事务协调器发送全局事务的开始请求，生成全局事务 ID（Global Transaction ID）。</li>
+<li>事务协调器创建全局事务记录：事务协调器接收到全局事务的开始请求后，会为该事务创建相应的全局事务记录，并生成分支事务 ID（Branch Transaction ID）。</li>
+<li>分支事务注册：事务发起方将全局事务 ID 和分支事务 ID 发送给各个参与者（Participant），即资源管理器。参与者将分支事务 ID 注册到本地事务管理器，并将事务的执行结果反馈给事务协调器。</li>
+<li>执行业务逻辑：在分布式事务的上下文中，各个参与者执行各自的本地事务，即执行业务逻辑和数据库操作。</li>
+<li>预提交阶段：事务发起方向事务协调器发送预提交请求，事务协调器将预提交请求发送给各个参与者。</li>
+<li>执行本地事务确认：参与者接收到预提交请求后，执行本地事务的确认操作，并将本地事务的执行结果反馈给事务协调器。</li>
+<li>全局事务提交或回滚：事务协调器根据参与者反馈的结果进行判断，如果所有参与者的本地事务都执行成功，事务协调器发送真正的提交请求给参与者，参与者执行最终的提交操作；如果有任何一个参与者的本地事务执行失败，事务协调器发送回滚请求给参与者，参与者执行回滚操作。</li>
+<li>完成全局事务：事务协调器接收到参与者的提交或回滚结果后，根据结果更新全局事务的状态，并通知事务发起方全局事务的最终结果。</li>
+</ol>
+<h4 id="全局事务-ID-和分支事务-ID-是怎么传递的？"><a href="#全局事务-ID-和分支事务-ID-是怎么传递的？" class="headerlink" title="全局事务 ID 和分支事务 ID 是怎么传递的？"></a>全局事务 ID 和分支事务 ID 是怎么传递的？</h4><p>全局事务 ID 和分支事务 ID 在分布式事务中通过上下文传递的方式进行传递。常见的传递方式包括参数传递、线程上下文传递和消息中间件传递。具体的传递方式可以根据业务场景和技术选型进行选择和调整。</p>
+<h4 id="Seata-的事务回滚是怎么实现的？"><a href="#Seata-的事务回滚是怎么实现的？" class="headerlink" title="Seata 的事务回滚是怎么实现的？"></a>Seata 的事务回滚是怎么实现的？</h4><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/9badf29259da5932defbce509d3b169e.png" alt="事务日志记录"></p>
+<p>事务日志记录</p>
+<p>Seata 的事务回滚是通过回滚日志实现的。每个参与者在执行本地事务期间生成回滚日志，记录了对数据的修改操作。</p>
+<p>当需要回滚事务时，事务协调器向参与者发送回滚请求，参与者根据回滚日志中的信息执行撤销操作，将数据恢复到事务开始前的状态。</p>
+<p>回滚日志的管理和存储是 Seata 的核心机制，可以选择将日志存储在不同的介质中。通过回滚日志的持久化和恢复，Seata 确保了事务的一致性和恢复性。</p>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+<h2 id="服务监控"><a href="#服务监控" class="headerlink" title="服务监控"></a>服务监控</h2><h3 id="32-你们的服务怎么做监控和告警？"><a href="#32-你们的服务怎么做监控和告警？" class="headerlink" title="32.你们的服务怎么做监控和告警？"></a>32.你们的服务怎么做监控和告警？</h3><p>我们使用 Prometheus 和 Grafana 来实现整个微服务集群的监控和告警：</p>
+<ol>
+<li>Prometheus：Prometheus 是一个开源的监控系统，具有灵活的数据模型和强大的查询语言，能够收集和存储时间序列数据。它可以通过 HTTP 协议定期拉取微服务的指标数据，并提供可扩展的存储和查询功能。</li>
+<li>Grafana：Grafana 是一个开源的可视化仪表板工具，可以与 Prometheus 结合使用，创建实时和历史数据的仪表板。Grafana 提供了丰富的图表和可视化选项，可以帮助用户更好地理解和分析微服务的性能和状态。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/250cb02220303993a2b842f5054aa51d.png" alt="Dashboard"></p>
+<p>Dashboard</p>
+<h3 id="33-你们的服务怎么做日志收集？"><a href="#33-你们的服务怎么做日志收集？" class="headerlink" title="33.你们的服务怎么做日志收集？"></a>33.你们的服务怎么做日志收集？</h3><p>日志收集有很多种方案，我们用的是<code>ELK</code>：</p>
+<ul>
+<li><strong>Elasticsearch</strong>：Elasticsearch 是一个分布式搜索和分析引擎，用于存储和索引大量的日志数据。它提供了快速的搜索和聚合功能，可以高效地处理大规模的日志数据。</li>
+<li><strong>Logstash</strong>：Logstash 是一个用于收集、过滤和转发日志数据的工具。它可以从各种来源（如文件、网络、消息队列等）收集日志数据，并对数据进行处理和转换，然后将其发送到 Elasticsearch 进行存储和索引。</li>
+<li><strong>Kibana</strong>：Kibana 是一个用于日志数据可视化和分析的工具。它提供了丰富的图表、仪表盘和搜索功能，可以帮助用户实时监控和分析日志数据，发现潜在的问题和趋势。</li>
+</ul>
+<p>简单说，这三者里<strong>Elasticsearch</strong>提供数据存储和检索能力，<strong>Logstash</strong>负责将日志收集到 ES，<strong>Kibana</strong>负责日志数据的可视化分析。</p>
+<p>使用 ELK 进行微服务日志收集的一般流程如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/paicoding/4f735b4934d90c3b55fc4b644d22f5c0.png" alt="ELK流程"></p>
+<p>ELK流程</p>
+<ol>
+<li>在每个微服务中配置日志输出：将微服务的日志输出到标准输出（stdout）或日志文件。</li>
+<li>使用 Logstash 收集日志：配置 Logstash 收集器，通过配置输入插件（如文件输入、网络输入等）监听微服务的日志输出，并进行过滤和处理。</li>
+<li>将日志数据发送到 Elasticsearch：配置 Logstash 的输出插件，将经过处理的日志数据发送到 Elasticsearch 进行存储和索引。</li>
+<li>使用 Kibana 进行可视化和分析：通过 Kibana 连接到 Elasticsearch，创建仪表盘、图表和搜索查询，实时监控和分析微服务的日志数据。</li>
+</ol>
+<p>除了应用最广泛的 ELK，还有一些其它的方案比如<code>Fluentd</code>、<code>Graylog</code>、<code>Loki</code>、<code>Filebeat</code>，一些云厂商也提供了付费方案，比如阿里云的<code>sls</code>。</p>
+<blockquote>
+<p>1.3 万字 33 张手绘图，详解 33 道微服务（Dubbo、Spring Cloud）面试高频题（让天下没有难背的八股），面渣背会这些八股文，这次吊打面试官，我觉得稳了（手动 dog）。整理：沉默王二，戳<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IgY6cU_5Xic-2KAAhxK9MA">转载链接</a>，作者：三分恶，戳<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/S8_I9mDNh7XnnQaXJFr2CQ">原文链接</a>。</p>
+</blockquote>
+<hr>
+<p><em>没有什么使我停留——除了目的，纵然岸旁有玫瑰、有绿荫、有宁静的港湾，我是不系之舟</em>。</p>
+<p><strong>系列内容</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/javase.html">面渣逆袭 Java SE 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/javathread.html">面渣逆袭 Java 集合框架篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/collection.html">面渣逆袭 Java 并发编程篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/jvm.html">面渣逆袭 JVM 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/spring.html">面渣逆袭 Spring 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/redis.html">面渣逆袭 Redis 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/mybatis.html">面渣逆袭 MyBatis 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/mysql.html">面渣逆袭 MySQL 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/os.html">面渣逆袭操作系统篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/network.html">面渣逆袭计算机网络篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/rocketmq.html">面渣逆袭 RocketMQ 篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/fenbushi.html">面渣逆袭分布式篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/weifuwu.html">面渣逆袭微服务篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/shejimoshi.html">面渣逆袭设计模式篇 👍</a></li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/linux.html">面渣逆袭 Linux 篇 👍</a></li>
+</ul>
+<hr>
+<p>GitHub 上标星 10000+ 的开源知识库《<a target="_blank" rel="noopener" href="https://github.com/itwanger/toBeBetterJavaer">二哥的 Java 进阶之路</a>》第一版 PDF 终于来了！包括 Java 基础语法、数组&amp;字符串、OOP、集合框架、Java IO、异常处理、Java 新特性、网络编程、NIO、并发编程、JVM 等等，共计 32 万余字，500+张手绘图，可以说是通俗易懂、风趣幽默……详情戳：<a target="_blank" rel="noopener" href="https://javabetter.cn/overview/">太赞了，GitHub 上标星 10000+ 的 Java 教程</a></p>
+<p>微信搜 <strong>沉默王二</strong> 或扫描下方二维码关注二哥的原创公众号沉默王二，回复 <strong>222</strong> 即可免费领取。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.tobebetterjavaer.com/tobebetterjavaer/images/gongzhonghao.png"></p>
+
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">设计模式学习笔记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">RocketMQ学习笔记</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%A7%88"><span class="toc-text">概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%9F"><span class="toc-text">1.什么是微服务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%B8%A6%E6%9D%A5%E4%BA%86%E5%93%AA%E4%BA%9B%E6%8C%91%E6%88%98%EF%BC%9F"><span class="toc-text">2.微服务带来了哪些挑战？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%8E%B0%E5%9C%A8%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B5%81%E8%A1%8C%E7%9A%84%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="toc-text">3.现在有哪些流行的微服务解决方案？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E4%B8%89%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%E5%90%97%EF%BC%9F"><span class="toc-text">这三种方案有什么区别吗？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AF%B4%E4%B8%8B%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E7%BB%84%E4%BB%B6%EF%BC%9F"><span class="toc-text">4.说下微服务有哪些组件？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-text">注册中心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-text">5.注册中心是用来干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-SpringCloud-%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E5%93%AA%E4%BA%9B%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%EF%BC%9F"><span class="toc-text">6.SpringCloud 可以选择哪些注册中心？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%AF%B4%E4%B8%8B-Eureka%E3%80%81ZooKeeper%E3%80%81Nacos-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">7.说下 Eureka、ZooKeeper、Nacos 的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-Eureka-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">8.Eureka 实现原理了解吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Eureka-Server-%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%9F"><span class="toc-text">9.Eureka Server 怎么保证高可用？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="toc-text">配置中心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%9C%80%E8%A6%81%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%EF%BC%9F"><span class="toc-text">10.为什么微服务需要配置中心？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-SpringCloud-%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E5%93%AA%E4%BA%9B%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%EF%BC%9F"><span class="toc-text">11.SpringCloud 可以选择哪些配置中心？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-Nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E7%9A%84%E5%8E%9F%E7%90%86%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">12.Nacos 配置中心的原理了解吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-Nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%95%BF%E8%BD%AE%E8%AF%A2%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">13.Nacos 配置中心长轮询机制？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8"><span class="toc-text">远程调用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E8%83%BD%E8%AF%B4%E4%B8%8B-HTTP-%E5%92%8C-RPC-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%90%97%EF%BC%9F"><span class="toc-text">14.能说下 HTTP 和 RPC 的区别吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RPC%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">RPC了解吗？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E9%82%A3-Feign-%E5%92%8C-Dubbo-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%91%A2%EF%BC%9F"><span class="toc-text">15.那 Feign 和 Dubbo 的区别呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E8%AF%B4%E4%B8%80%E4%B8%8B-Fegin"><span class="toc-text">16.说一下 Fegin?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-%E4%B8%BA%E4%BB%80%E4%B9%88-Feign-%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%B0%83%E7%94%A8%E8%80%97%E6%97%B6%E5%BE%88%E9%95%BF%EF%BC%9F"><span class="toc-text">17.为什么 Feign 第一次调用耗时很长？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-Feign-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E4%BC%A0%E9%80%92%EF%BC%9F"><span class="toc-text">18.Feign 怎么实现认证传递？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-Fegin-%E6%80%8E%E4%B9%88%E5%81%9A%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%9FRibbon"><span class="toc-text">19.Fegin 怎么做负载均衡？Ribbon?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-%E8%AF%B4%E8%AF%B4%E6%9C%89%E5%93%AA%E4%BA%9B%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-text">20.说说有哪些负载均衡算法？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%AE%B9%E7%81%BE"><span class="toc-text">服务容灾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9%EF%BC%9F"><span class="toc-text">21.什么是服务雪崩？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%EF%BC%9F"><span class="toc-text">22.什么是服务熔断？什么是服务降级？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD%EF%BC%9F"><span class="toc-text">什么是服务熔断？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%EF%BC%9F"><span class="toc-text">什么是服务降级？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E7%86%94%E6%96%AD%E9%99%8D%E7%BA%A7%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="toc-text">有哪些熔断降级方案实现？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-Hystrix-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%AE%B9%E9%94%99%EF%BC%9F"><span class="toc-text">23.Hystrix 怎么实现服务容错？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-Sentinel-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E9%99%90%E6%B5%81%E7%9A%84%EF%BC%9F"><span class="toc-text">24.Sentinel 怎么实现限流的？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Sentinel-%E9%87%87%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-text">Sentinel 采用的什么限流算法？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sentinel-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E9%9B%86%E7%BE%A4%E9%99%90%E6%B5%81%EF%BC%9F"><span class="toc-text">Sentinel 怎么实现集群限流？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3"><span class="toc-text">服务网关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#25-%E4%BB%80%E4%B9%88%E6%98%AF-API-%E7%BD%91%E5%85%B3%EF%BC%9F"><span class="toc-text">25.什么是 API 网关？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-SpringCloud-%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E5%93%AA%E4%BA%9B-API-%E7%BD%91%E5%85%B3%EF%BC%9F"><span class="toc-text">26.SpringCloud 可以选择哪些 API 网关？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#27-Spring-Cloud-Gateway-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9F"><span class="toc-text">27.Spring Cloud Gateway 核心概念？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA"><span class="toc-text">链路追踪</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#28-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%EF%BC%9F"><span class="toc-text">28.为什么要用微服务链路追踪？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#29-SpringCloud-%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E5%93%AA%E4%BA%9B%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="toc-text">29.SpringCloud 可以选择哪些微服务链路追踪方案？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#30-Seata-%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%EF%BC%9F"><span class="toc-text">30.Seata 支持哪些模式的分布式事务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E4%BA%86%E8%A7%A3-Seata-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%90%97%EF%BC%9F"><span class="toc-text">31.了解 Seata 的实现原理吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Seata-%E7%9A%84%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">Seata 的事务执行流程是什么样的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E4%BA%8B%E5%8A%A1-ID-%E5%92%8C%E5%88%86%E6%94%AF%E4%BA%8B%E5%8A%A1-ID-%E6%98%AF%E6%80%8E%E4%B9%88%E4%BC%A0%E9%80%92%E7%9A%84%EF%BC%9F"><span class="toc-text">全局事务 ID 和分支事务 ID 是怎么传递的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Seata-%E7%9A%84%E4%BA%8B%E5%8A%A1%E5%9B%9E%E6%BB%9A%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="toc-text">Seata 的事务回滚是怎么实现的？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%9B%91%E6%8E%A7"><span class="toc-text">服务监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E4%BD%A0%E4%BB%AC%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%80%8E%E4%B9%88%E5%81%9A%E7%9B%91%E6%8E%A7%E5%92%8C%E5%91%8A%E8%AD%A6%EF%BC%9F"><span class="toc-text">32.你们的服务怎么做监控和告警？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#33-%E4%BD%A0%E4%BB%AC%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%80%8E%E4%B9%88%E5%81%9A%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%EF%BC%9F"><span class="toc-text">33.你们的服务怎么做日志收集？</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
