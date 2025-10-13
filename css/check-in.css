@@ -3,12 +3,12 @@
     --text-color: #333333;
     --day-bg: #ffffff;
     --day-border: #ddd;
-    --checked-bg: #ab47bc;
+    --checked-bg: #1976D2;  /* 蓝色 - 已打卡背景 */
     /* 将浅紫色块文字颜色设置为黑色 */
-    --single-archive-bg: #ba68c8;
+    --single-archive-bg: #42A5F5;  /* 浅蓝色 - 单篇文章背景 */
     --single-archive-text: black;
     /* 将深紫色块文字颜色设置为黑色 */
-    --multiple-archives-bg: #9c27b0;
+    --multiple-archives-bg: #0D47A1;  /* 深蓝色 - 多篇文章背景 */
     --multiple-archives-text: black;
     --checked-text: white;
 }
@@ -18,11 +18,11 @@
     --text-color: #ffffff;
     --day-bg: #2d2d2d;
     --day-border: #444;
-    --checked-bg: #8e24aa;
+    --checked-bg: #42A5F5;  /* 暗色模式下的蓝色 */
     --checked-text: black;
-    --single-archive-bg: #ba68c8;
+    --single-archive-bg: #64B5F6;  /* 暗色模式下的浅蓝色 */
     --single-archive-text: black;
-    --multiple-archives-bg: #7b1fa2;
+    --multiple-archives-bg: #1976D2;  /* 暗色模式下的深蓝色 */
     --multiple-archives-text: black;
 }
 
@@ -94,7 +94,7 @@
     margin-bottom: 10px;
     margin-left: -6px;
     gap: 1px;
-    color: #8a27a6;
+    color: #1976D2;  /* 蓝色 - 星期名称颜色 */
 }
 
 .calendar-weekdays div,
@@ -271,7 +271,7 @@
     font-family: inherit; /* 继承父元素字体 */
     font-weight: bold;
     margin-bottom: 8px;
-    color: #821c94;
+    color: #1976D2;  /* 蓝色 - 侧边栏日历头部颜色 */
 }
 
 .sidebar-check-in .month-selector select {
