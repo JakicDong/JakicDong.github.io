@@ -80,7 +80,7 @@
   --text-code: #14181f;
 }
 :root[data-theme="dark"] {
-  --site-bg: #55595e /* 大背景调整为更亮的灰色 */;
+  --site-bg: #1c1e21;
   --card: #373843;
   --block: #26262c;
   --block-border: #383942;
@@ -152,7 +152,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --site-bg: #55595e /* 大背景调整为更亮的灰色 */;
+    --site-bg: #1c1e21;
     --card: #373843;
     --block: #26262c;
     --block-border: #383942;
@@ -6147,7 +6147,7 @@ details.toc[open] >div.body section .header+.doc_tree {
 }
 .l_left {
   background-size: cover;
-  background-image: url("https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/newbackground3.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/newbackground2.jpg");
 }
 .l_left .leftbar-container {
   height: 100%;
@@ -7574,7 +7574,7 @@ body>.sitebg {
   right: 0;
   bottom: 0;
   background-size: cover;
-  background-image: url("https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/newbackground3.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/newbackground2.jpg");
 }
 body>.sitebg .siteblur {
   width: 100%;
