@@ -1,0 +1,950 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>MYDB项目笔记 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="MYDB的学习过程及知识点记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MYDB项目笔记">
+<meta property="og:url" content="https://jakicdong.github.io/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="MYDB的学习过程及知识点记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018151518.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018154211.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018154622.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018155117.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018155327.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018162437.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018163454.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018163545.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018164703.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018164739.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018164808.png">
+<meta property="article:published_time" content="2025-10-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-18T08:59:46.431Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="项目">
+<meta property="article:tag" content="技术派">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018151518.png">
+  
+  
+  
+  <meta name="keywords" content="项目,技术派">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="语雀" target="_blank" rel="noopener" href="https://www.yuque.com/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item active" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%B4%BE%E8%81%AA%E6%98%8E%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG项目笔记</span></a><a class="item" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记</span></a><a class="item" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应的一些知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/09/09/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AD%98%E6%A1%A3/"><span class="title">简历存档</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记</span></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/25/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unitu%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%A5%BD%E7%94%A8%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%88%96%E6%93%8D%E4%BD%9C/"><span class="title">好用的快捷键和操作</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="title">个人博客搭建</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">算法学习笔记</span></a><a class="item" href="/2025/06/01/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E6%A8%A1%E7%89%88/"><span class="title">博客模板</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/10/18/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.18%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.10.18学习日记</span></a><a class="item title" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span></a><a class="item title" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%B4%BE%E8%81%AA%E6%98%8E%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG项目笔记</span></a><a class="item title" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应的一些知识点</span></a><a class="item title" href="/2025/10/17/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.17%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.10.17学习日记</span></a><a class="item title" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记</span></a><a class="item title" href="/2025/10/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.10.16学习日记</span></a><a class="item title" href="/2025/10/15/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.15%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.10.15学习日记</span></a><a class="item title" href="/2025/10/14/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.14%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.10.14学习日记</span></a><a class="item title" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="title">个人博客搭建</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-10-17T16:00:00.000Z">2025-10-18</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-18T08:59:46.431Z">2025-10-18</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>MYDB项目笔记</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><h2 id="MYDB项目结构"><a href="#MYDB项目结构" class="headerlink" title="MYDB项目结构"></a>MYDB项目结构</h2><p><strong>整体结构</strong></p>
+<p>MYDB 分为后端和前端，前后端通过 <code>socket</code> 进行交互。<br>前端（客户端）的职责很单一，读取用户输入，并发送到后端执行，输出返回结果，并等待下一次输入。<br>MYDB 后端则需要解析 SQL，如果是合法的 SQL，就尝试执行并返回结果。不包括解析器，MYDB 的后端划分为五个模块，每个模块都又一定的职责，通过接口向其依赖的模块提供方法。五个模块如下：</p>
+<ol>
+<li>Transaction Manager (TM)</li>
+<li>Data Manager (DM)</li>
+<li>Version Manager (VM)</li>
+<li>Index Manager (IM)</li>
+<li>Table Manager (TBM)</li>
+</ol>
+<p>这是五个模块的依赖关系图:</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018151518.png" alt="20251018151518"></p>
+<p>每个模块的职责如下：</p>
+<ol>
+<li>TM 通过维护 XID 文件来维护事务的状态，并提供接口供其他模块来查询某个事务的状态。</li>
+<li>DM 直接管理数据库 DB 文件和日志文件。DM 的主要职责有：1) 分页管理 DB 文件，并进行缓存；2) 管理日志文件，保证在发生错误时可以根据日志进行恢复；3) 抽象 DB 文件为 DataItem 供上层模块使用，并提供缓存。</li>
+<li>VM 基于两段锁协议实现了调度序列的可串行化，并实现了 MVCC 以消除读写阻塞。同时实现了两种隔离级别。</li>
+<li>IM 实现了基于 B+ 树的索引，BTW，目前 where 只支持已索引字段。</li>
+<li>TBM 实现了对字段和表的管理。同时，解析 SQL 语句，并根据语句操作表。</li>
+</ol>
+<h2 id="TM-Transaction-Manager-事务管理器"><a href="#TM-Transaction-Manager-事务管理器" class="headerlink" title="TM(Transaction Manager) 事务管理器"></a>TM(Transaction Manager) 事务管理器</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>TM模块主要用于<strong>管理事务，包括开始、提交、回滚事务</strong>，以及检查事务的状态。在类中需要定义一些常量来管理事务如<code>LEN_XID_HEADER_LENGTH、XID_FIELD_SIZE、FIELD_TRAN_ACTIVE、FIELD_TRAN_COMMITTED、FIELD_TRAN_ABORTED、SUPER_XID和XID_SUFFIX</code>，分别表示XID文件头长度、每个事务的占用长度、事务的三种状态、超级事务、XID文件后缀。</p>
+<p>还需定义一个<code>RandomAccessFile</code> 类型的<code>file</code>和一个<code>FileChannel</code>类型的<code>fc</code>，用于操作<code>XID</code>文件。还有一个<code>xidCounter</code>用于记录事务的数量，以及一个Lock类用于保证线程安全。然后会在构造函数中给file和fc赋值，然后调用<code>checkXIDCounter</code>方法检查<code>XID</code>文件是否合法。  </p>
+<p><code>begin</code>方法用于开始一个新的事务，<code>commit</code>方法用于提交事务，<code>abort</code>方法用于回滚事务。这三个方法内部都会调用<code>updateXID</code>方法，将事务ID和事务状态写入到XID文件中。<code>begin</code>还会调用另外一个<code>incrXIDCounter</code>方法，用于将XID +1并更新XID Header。</p>
+<p><code>isActive、isCommitted</code>和<code>isAborted</code>方法用于检查事务是否处于活动、已提交或已回滚状态。这三个方法内部都会调用checkXID方法，检查XID文件中的事务状态是否与给定的状态相等；close方法用于关闭文件通道和文件。</p>
+<h3 id="XID文件"><a href="#XID文件" class="headerlink" title="XID文件"></a>XID文件</h3><ol>
+<li><strong>XID 的定义和规则：</strong><ul>
+<li>每个事务都有一个唯一的事务标识符 XID，从 1 开始递增，并且 XID 0 被特殊定义为超级事务（Super Transaction）。</li>
+<li>XID 0 用于表示在没有申请事务的情况下进行的操作，其状态永远是 committed。</li>
+</ul>
+</li>
+<li><strong>事务的状态：</strong><ul>
+<li>每个事务可以处于三种状态之一：active（正在进行，尚未结束）、committed（已提交）和aborted（已撤销或回滚）。</li>
+</ul>
+</li>
+<li><strong>XID 文件的结构和管理：</strong><ul>
+<li>TransactionManager 负责维护一个 XID 格式的文件，用于记录各个事务的状态。</li>
+<li>XID 文件中为每个事务分配了一个字节的空间，用来保存其状态。</li>
+<li>XID 文件的头部保存了一个 8 字节的数字，记录了这个 XID 文件管理的事务的个数。</li>
+<li>因此，事务 XID 在文件中的状态存储在 (XID-1)+8 字节的位置处，其中 XID-1 是因为 XID 0（超级事务）的状态不需要记录。</li>
+</ul>
+</li>
+</ol>
+<h3 id="TM接口"><a href="#TM接口" class="headerlink" title="TM接口"></a>TM接口</h3><p>在<code>TransactionManager</code>中提供了一些接口供其他模块调用，用来创建事务和查询事务的状态；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TransactionManager</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="title function_">begin</span><span class="params">()</span>; <span class="comment">//开启事务</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">commit</span><span class="params">(<span class="type">long</span> xid)</span>;  <span class="comment">//提交事务</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">abort</span><span class="params">(<span class="type">long</span> xid)</span>;   <span class="comment">//撤销或回滚事务</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isActive</span><span class="params">(<span class="type">long</span> xid)</span>; <span class="comment">//查询一个事务的状态是否正在运行</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isCommitted</span><span class="params">(<span class="type">long</span> xid)</span>;  <span class="comment">//查询一个事务的状态是否已经提交</span></span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">isAborted</span><span class="params">(<span class="type">long</span> xid)</span>;    <span class="comment">//查询一个事务的状态是否撤销或回滚</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>;   <span class="comment">//关闭事务</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何实现TM的"><a href="#如何实现TM的" class="headerlink" title="如何实现TM的?"></a>如何实现TM的?</h3><h4 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TransactionManagerImpl</span> <span class="keyword">implements</span> <span class="title class_">TransactionManager</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// XID文件头长度</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">LEN_XID_HEADER_LENGTH</span> <span class="operator">=</span> <span class="number">8</span>;</span><br><span class="line">    <span class="comment">// 每个事务的占用长度</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">XID_FIELD_SIZE</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 事务的三种状态</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">FIELD_TRAN_ACTIVE</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">//正在进行，尚未结束</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">FIELD_TRAN_COMMITTED</span> <span class="operator">=</span> <span class="number">1</span>;<span class="comment">//已提交</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span> <span class="variable">FIELD_TRAN_ABORTED</span> <span class="operator">=</span> <span class="number">2</span>;<span class="comment">//已撤销(回滚)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 超级事务，永远为commited状态</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">SUPER_XID</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// XID文件后缀</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">XID_SUFFIX</span> <span class="operator">=</span> <span class="string">&quot;.xid&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="checkXIDCounter"><a href="#checkXIDCounter" class="headerlink" title="checkXIDCounter"></a>checkXIDCounter</h4><p>在构造函数创建了一个 <code>TransactionManager</code> 之后，首先要对 XID 文件进行校验，以保证这是一个合法的 XID 文件。校验的方式也很简单，通过文件头的 8 字节数字<strong>反推文件的理论长度</strong>，与文件的实际长度做对比。如果不同则认为 XID 文件不合法。对于校验没有通过的，会直接通过 panic 方法，强制停机。在一些基础模块中出现错误都会如此处理，无法恢复的错误只能直接停机。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018154211.png" alt="20251018154211"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 检查XID文件是否合法</span></span><br><span class="line"><span class="comment"> * 读取XID_FILE_HEADER中的xidcounter，根据它计算文件的理论长度，对比实际长度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">checkXIDCounter</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化文件长度为0</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">fileLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 获取文件的长度，RandomAccessFile在构造函数中赋值</span></span><br><span class="line">        fileLen = file.length();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e1) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，抛出BadXIDFileException错误</span></span><br><span class="line">        Panic.panic(Error.BadXIDFileException);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果文件长度小于XID头部长度，抛出BadXIDFileException错误</span></span><br><span class="line">    <span class="keyword">if</span> (fileLen &lt; LEN_XID_HEADER_LENGTH) &#123;</span><br><span class="line">        Panic.panic(Error.BadXIDFileException);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分配一个长度为XID头部长度的ByteBuffer</span></span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> ByteBuffer.allocate(LEN_XID_HEADER_LENGTH);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 将文件通道的位置设置为0</span></span><br><span class="line">        fc.position(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">// 从文件通道读取数据到ByteBuffer</span></span><br><span class="line">        fc.read(buf);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，抛出错误</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将ByteBuffer的内容解析为长整型，作为xidCounter</span></span><br><span class="line">    <span class="built_in">this</span>.xidCounter = Parser.parseLong(buf.array()); </span><br><span class="line">    <span class="comment">// 计算xidCounter+1对应的XID位置</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> getXidPosition(<span class="built_in">this</span>.xidCounter + <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 如果计算出的XID位置与文件长度不符，抛出BadXIDFileException错误</span></span><br><span class="line">    <span class="keyword">if</span> (end != fileLen) &#123;</span><br><span class="line">        Panic.panic(Error.BadXIDFileException);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将数组前八位转换成长整数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> buf 需要转换的字节数组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 转换后的数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">parseLong</span><span class="params">(<span class="type">byte</span>[] buf)</span> &#123;</span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buffer</span> <span class="operator">=</span> ByteBuffer.wrap(buf, <span class="number">0</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> buffer.getLong();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testBufferGetLong</span><span class="params">()</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建一个包含8个字节的字节数组</span></span><br><span class="line">    <span class="comment">//因为long 在Java中占用8个字节，每个字节占用8位，一下数组可以转换成一个long数字</span></span><br><span class="line">    <span class="comment">// 00000000 00000000 00000000 00000000 00000000 00000000 00001010 00000001</span></span><br><span class="line">    <span class="comment">// 1010 00000001 --&gt; 2561</span></span><br><span class="line">    <span class="type">byte</span>[] byteArray = <span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="comment">// 使用ByteBuffer.wrap方法将字节数组包装为一个ByteBuffer对象</span></span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buffer</span> <span class="operator">=</span> ByteBuffer.wrap(byteArray);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用getLong方法从ByteBuffer中读取一个长整型数</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">longValue</span> <span class="operator">=</span> buffer.getLong();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出读取的长整型数</span></span><br><span class="line">    System.out.println(<span class="string">&quot;The long value is: &quot;</span> + longValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="getXidPosition"><a href="#getXidPosition" class="headerlink" title="getXidPosition"></a>getXidPosition</h4><p>根据事务xid取得其在xid文件中对应的位置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据事务xid取得其在xid文件中对应的位置</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">long</span> <span class="title function_">getXidPosition</span><span class="params">(<span class="type">long</span> xid)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> LEN_XID_HEADER_LENGTH + (xid - <span class="number">1</span>) * XID_FIELD_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="begin"><a href="#begin" class="headerlink" title="begin()"></a>begin()</h4><p><code>**begin()**</code> 方法会开始一个事务，更具体的，首先设置 <code>xidCounter+1</code> 事务的状态为 <code>active</code>，随后 <code>xidCounter</code> 自增，并更新文件头。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开始一个事务，并返回XID</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">begin</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 锁定计数器，防止并发问题</span></span><br><span class="line">    counterLock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// xidCounter是当前事务的计数器，每开始一个新的事务，就将其加1</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">xid</span> <span class="operator">=</span> xidCounter + <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// 调用updateXID方法，将新的事务ID和事务状态（这里是活动状态）写入到XID文件中</span></span><br><span class="line">        updateXID(xid, FIELD_TRAN_ACTIVE);</span><br><span class="line">        <span class="comment">// 调用incrXIDCounter方法，将事务计数器加1，并更新XID文件的头部信息</span></span><br><span class="line">        incrXIDCounter();</span><br><span class="line">        <span class="comment">// 返回新的事务ID</span></span><br><span class="line">        <span class="keyword">return</span> xid;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">// 释放锁</span></span><br><span class="line">        counterLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="updateXid"><a href="#updateXid" class="headerlink" title="updateXid"></a>updateXid</h4><p>更新事务<code>ID</code>状态,<code>commit()</code>和<code>abort()</code>方法就可以直接借助 <code>updateXID()</code> 方法实现。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018154622.png" alt="20251018154622"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新xid事务的状态为status</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">updateXID</span><span class="params">(<span class="type">long</span> xid, <span class="type">byte</span> status)</span> &#123;</span><br><span class="line">    <span class="comment">// 获取事务xid在xid文件中对应的位置</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">offset</span> <span class="operator">=</span> getXidPosition(xid);</span><br><span class="line">    <span class="comment">// 创建一个长度为XID_FIELD_SIZE的字节数组</span></span><br><span class="line">    <span class="type">byte</span>[] tmp = <span class="keyword">new</span> <span class="title class_">byte</span>[XID_FIELD_SIZE];</span><br><span class="line">    <span class="comment">// 将事务状态设置为status</span></span><br><span class="line">    tmp[<span class="number">0</span>] = status;</span><br><span class="line">    <span class="comment">// 使用字节数组创建一个ByteBuffer</span></span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> ByteBuffer.wrap(tmp);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 将文件通道的位置设置为offset</span></span><br><span class="line">        fc.position(offset);</span><br><span class="line">        <span class="comment">// 将ByteBuffer中的数据写入到文件通道</span></span><br><span class="line">        fc.write(buf);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，调用Panic.panic方法处理</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 强制将文件通道中的所有未写入的数据写入到磁盘</span></span><br><span class="line">        fc.force(<span class="literal">false</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，调用Panic.panic方法处理</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="incrXIDCounter"><a href="#incrXIDCounter" class="headerlink" title="incrXIDCounter"></a>incrXIDCounter</h4><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018155117.png" alt="20251018155117"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将XID加一，并更新XID Header</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">incrXIDCounter</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 事务总数加一</span></span><br><span class="line">    xidCounter++;</span><br><span class="line">    <span class="comment">// 将新的事务总数转换为字节数组，并用ByteBuffer包装</span></span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> ByteBuffer.wrap(Parser.long2Byte(xidCounter));</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 将文件通道的位置设置为0，即文件的开始位置</span></span><br><span class="line">        fc.position(<span class="number">0</span>);</span><br><span class="line">        <span class="comment">// 将ByteBuffer中的数据写入到文件通道，即更新了XID文件的头部信息</span></span><br><span class="line">        fc.write(buf);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，调用Panic.panic方法处理</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 强制将文件通道中的所有未写入的数据写入到磁盘</span></span><br><span class="line">        fc.force(<span class="literal">false</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，调用Panic.panic方法处理</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将长整型值写入到字节缓冲区，将其转成为8字节的二进制形式，然后将这个8个字节写入到字节缓冲区</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">byte</span>[] long2Byte(<span class="type">long</span> value) &#123;</span><br><span class="line">    <span class="keyword">return</span> ByteBuffer.allocate(Long.SIZE / Byte.SIZE).putLong(value).array();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="checkXID"><a href="#checkXID" class="headerlink" title="checkXID"></a>checkXID</h4><p><code>**isActive()、isCommitted() **</code>和 <code>**isAborted()**</code> 都是检查一个 <strong>xid</strong> 的状态</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018155327.png" alt="20251018155327"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个方法，接收一个事务ID（xid）和一个状态（status）作为参数</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">checkXID</span><span class="params">(<span class="type">long</span> xid, <span class="type">byte</span> status)</span> &#123;</span><br><span class="line">    <span class="comment">// 计算事务ID在XID文件中的位置</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">offset</span> <span class="operator">=</span> getXidPosition(xid);</span><br><span class="line">    <span class="comment">// 创建一个新的字节缓冲区（ByteBuffer），长度为XID_FIELD_SIZE</span></span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> ByteBuffer.wrap(<span class="keyword">new</span> <span class="title class_">byte</span>[XID_FIELD_SIZE]);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 将文件通道的位置设置为offset</span></span><br><span class="line">        fc.position(offset);</span><br><span class="line">        <span class="comment">// 从文件通道读取数据到字节缓冲区</span></span><br><span class="line">        fc.read(buf);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果出现异常，调用Panic.panic方法处理</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 检查字节缓冲区的第一个字节是否等于给定的状态</span></span><br><span class="line">    <span class="comment">// 如果等于，返回true，否则返回false</span></span><br><span class="line">    <span class="keyword">return</span> buf.array()[<span class="number">0</span>] == status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Data-Manager-DM-数据管理器"><a href="#Data-Manager-DM-数据管理器" class="headerlink" title="Data Manager (DM) 数据管理器"></a>Data Manager (DM) 数据管理器</h2><h3 id="引用计数缓存框架"><a href="#引用计数缓存框架" class="headerlink" title="引用计数缓存框架"></a>引用计数缓存框架</h3><blockquote>
+<p><strong>原文</strong><br> WHY NOT LRU?<br>由于分页管理和数据项（DataItem）管理都涉及缓存，这里设计一个更通用的缓存框架。<br>看到这里，估计你们也开始犯嘀咕了，为啥使用引用计数策略，而不使用 “极为先进的” LRU 策略呢？<br>这里首先从缓存的接口设计说起，如果使用 LRU 缓存，那么只需要设计一个 get(key) 接口即可，释放缓存可以在缓存满了之后自动完成。设想这样一个场景：某个时刻缓存满了，缓存驱逐了一个资源，这时上层模块想要将某个资源强制刷回数据源，这个资源恰好是刚刚被驱逐的资源。那么上层模块就发现，这个数据在缓存里消失了，这时候就陷入了一种尴尬的境地：是否有必要做回源操作？</p>
+<ol>
+<li>不回源。由于没法确定缓存被驱逐的时间，更没法确定被驱逐之后数据项是否被修改，这样是极其不安全的</li>
+<li>回源。如果数据项被驱逐时的数据和现在又是相同的，那就是一次无效回源</li>
+<li>放回缓存里，等下次被驱逐时回源。看起来解决了问题，但是此时缓存已经满了，这意味着你还需要驱逐一个资源才能放进去。这有可能会导致缓存抖动问题</li>
+</ol>
+</blockquote>
+<p>当然我们可以记录下资源的最后修改时间，并且让缓存记录下资源被驱逐的时间。但是……</p>
+<blockquote>
+<p>如无必要，无增实体。 —— 奥卡姆剃刀<br>问题的根源还是，LRU 策略中，资源驱逐不可控，上层模块无法感知。而引用计数策略正好解决了这个问题，只有上层模块主动释放引用，缓存在确保没有模块在使用这个资源了，才会去驱逐资源。<br>这就是引用计数法了。增加了一个方法 release(key)，用于在上册模块不使用某个资源时，释放对资源的引用。当引用归零时，缓存就会驱逐这个资源。<br>同样，在缓存满了之后，引用计数法无法自动释放缓存，此时应该直接报错（和 JVM 似的，直接 OOM）</p>
+</blockquote>
+<p>引用计数缓存框架是一种通用的缓存策略，与LRU（最近最少使用）相比，它采用了不同的资源管理方式。在引用计数缓存框架中，<strong>缓存的释放是由上层模块主动调用释放方法来触发的</strong>，而不是被动地由缓存管理器自动驱逐。当某个资源不再被上层模块引用时，通过调用释放方法来释放对该资源的引用。只有当资源的引用计数归零时，缓存才会驱逐该资源。这种方式可以确保缓存中的资源只有在确实不再被使用时才会被释放，<strong>避免了不必要的资源驱逐和回源操作</strong>。</p>
+<p><strong>回溯</strong><br>在数据库中，<strong>回源操作</strong>通常指的是从磁盘或者其他持久化存储介质中重新加载数据到内存中。这通常发生在数据库系统需要访问的数据不在内存中时。由于内存访问速度远高于磁盘访问速度，数据库系统会尽量将数据保留在内存中以提高访问速度。当需要访问的数据不在内存中时，数据库系统就需要从磁盘中加载数据，这个过程就称为回源操作。<br>回源操作的性能开销相对较高，因为它涉及到磁盘I&#x2F;O操作，而磁盘I&#x2F;O操作通常比内存访问速度慢得多。因此，数据库系统通常会采取各种策略来尽量减少回源操作的次数，例如通过缓存机制、预读取等方式来提高数据在内存中的命中率，以降低对磁盘的访问需求。</p>
+<h4 id="如何实现引用计数缓存"><a href="#如何实现引用计数缓存" class="headerlink" title="如何实现引用计数缓存"></a>如何实现引用计数缓存</h4><h5 id="AbstractCache"><a href="#AbstractCache" class="headerlink" title="AbstractCache&lt;T&gt;"></a><code>AbstractCache&lt;T&gt;</code></h5><p>在<code>**common**</code>包中定义了一个<code>AbstractCache&lt;T&gt;</code>抽象类，以及两个抽象方法，留给实现类去实现具体的操作;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 当资源不在缓存时的获取行为</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">abstract</span> T <span class="title function_">getForCache</span><span class="params">(<span class="type">long</span> key)</span> <span class="keyword">throws</span> Exception;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 当资源被驱逐时的写回行为</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">releaseForCache</span><span class="params">(T obj)</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h5><p>除了普通的缓存功能之外，还需要维护另外一个计数。除此之外，为了应付多线程的场景，还需要记录哪些资源从数据源获取中。</p>
+<ol>
+<li><code>private HashMap&lt;Long, T&gt; cache;</code>：这是一个 <strong>HashMap</strong> 对象，用于存储实际缓存的数据。键是资源的唯一标识符（通常是资源的ID或哈希值），值是缓存的资源对象（类型为 <strong>T</strong>）。在这个缓存框架中，<strong>cache</strong> 承担了普通缓存功能，即存储实际的资源数据。</li>
+<li><code>private HashMap&lt;Long, Integer&gt; references;</code>：这是另一个 <strong>HashMap</strong> 对象，用于记录每个资源的引用个数。键是资源的唯一标识符，值是一个整数，表示该资源当前的引用计数。引用计数表示有多少个模块或线程正在使用特定的资源。通过跟踪引用计数，可以确定何时可以安全地释放资源。</li>
+<li><code>private HashMap&lt;Long, Boolean&gt; getting;</code>：这是第三个 <strong>HashMap</strong> 对象，用于记录哪些资源当前正在从数据源获取中。键是资源的唯一标识符，值是一个布尔值，表示该资源是否正在被获取中。在多线程环境下，当某个线程尝试从数据源获取资源时，需要标记该资源正在被获取，以避免其他线程重复获取相同的资源。这个 <strong>getting</strong> 映射用于处理多线程场景下的并发访问问题。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> HashMap&lt;Long, T&gt; cache;                     <span class="comment">// 实际缓存的数据</span></span><br><span class="line"><span class="keyword">private</span> HashMap&lt;Long, Integer&gt; references;          <span class="comment">// 元素的引用个数</span></span><br><span class="line"><span class="keyword">private</span> HashMap&lt;Long, Boolean&gt; getting;             <span class="comment">// 正在获取某资源的线程</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="get"><a href="#get" class="headerlink" title="get()"></a><code>get()</code></h5><p>从<code>get()</code>中获取资源，以下流程图不规范，理解大概意思即可</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018162437.png" alt="20251018162437"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从缓存中获取资源</span></span><br><span class="line"><span class="keyword">protected</span> T <span class="title function_">get</span><span class="params">(<span class="type">long</span> key)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">// 循环直到获取资源</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取锁</span></span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">if</span> (getting.containsKey(key)) &#123;</span><br><span class="line">            <span class="comment">// 如果其他线程正在获取这个资源，那么当前线程将等待一毫秒然后继续循环</span></span><br><span class="line">            lock.unlock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cache.containsKey(key)) &#123;</span><br><span class="line">            <span class="comment">// 如果资源已经在缓存中，直接返回资源，并增加引用计数</span></span><br><span class="line">            <span class="type">T</span> <span class="variable">obj</span> <span class="operator">=</span> cache.get(key);</span><br><span class="line">            references.put(key, references.get(key) + <span class="number">1</span>);</span><br><span class="line">            lock.unlock();</span><br><span class="line">            <span class="keyword">return</span> obj;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果资源不在缓存中，尝试获取资源。如果缓存已满，抛出异常</span></span><br><span class="line">        <span class="keyword">if</span> (maxResource &gt; <span class="number">0</span> &amp;&amp; count == maxResource) &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">            <span class="keyword">throw</span> Error.CacheFullException;</span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">        getting.put(key, <span class="literal">true</span>);</span><br><span class="line">        lock.unlock();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 尝试获取资源</span></span><br><span class="line">    <span class="type">T</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        obj = getForCache(key);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        count--;</span><br><span class="line">        getting.remove(key);</span><br><span class="line">        lock.unlock();</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将获取到的资源添加到缓存中，并设置引用计数为1</span></span><br><span class="line">    lock.lock();</span><br><span class="line">    getting.remove(key);</span><br><span class="line">    cache.put(key, obj);</span><br><span class="line">    references.put(key, <span class="number">1</span>);</span><br><span class="line">    lock.unlock();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="release"><a href="#release" class="headerlink" title="release()"></a><code>release()</code></h5><p>释放一个缓存<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018163454.png" alt="20251018163454"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 强行释放一个缓存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">release</span><span class="params">(<span class="type">long</span> key)</span> &#123;</span><br><span class="line">    lock.lock(); <span class="comment">// 获取锁</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ref</span> <span class="operator">=</span> references.get(key) - <span class="number">1</span>; <span class="comment">// 获取资源的引用计数并减一</span></span><br><span class="line">        <span class="keyword">if</span> (ref == <span class="number">0</span>) &#123; <span class="comment">// 如果引用计数为0</span></span><br><span class="line">            <span class="type">T</span> <span class="variable">obj</span> <span class="operator">=</span> cache.get(key); <span class="comment">// 从缓存中获取资源</span></span><br><span class="line">            releaseForCache(obj); <span class="comment">// 处理资源的释放</span></span><br><span class="line">            references.remove(key); <span class="comment">// 从引用计数的映射中移除资源</span></span><br><span class="line">            cache.remove(key); <span class="comment">// 从缓存中移除资源</span></span><br><span class="line">            count--; <span class="comment">// 将缓存中的资源计数减一</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 如果引用计数不为0</span></span><br><span class="line">            references.put(key, ref); <span class="comment">// 更新资源的引用计数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock(); <span class="comment">// 释放锁</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="close"><a href="#close" class="headerlink" title="close()"></a><code>close()</code></h5><p>关闭缓存，释放所有缓存信息<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018163545.png" alt="20251018163545"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 关闭缓存，写回所有资源</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//获取所有资源key</span></span><br><span class="line">        Set&lt;Long&gt; keys = cache.keySet();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">long</span> key : keys) &#123;</span><br><span class="line">            <span class="comment">//获取缓存</span></span><br><span class="line">            <span class="type">T</span> <span class="variable">obj</span> <span class="operator">=</span> cache.get(key);</span><br><span class="line">            <span class="comment">//释放缓存</span></span><br><span class="line">            releaseForCache(obj);</span><br><span class="line">            <span class="comment">//引用计数移除缓存</span></span><br><span class="line">            references.remove(key);</span><br><span class="line">            <span class="comment">//实际缓存移除缓存</span></span><br><span class="line">            cache.remove(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">//释放锁</span></span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="共享内存数组"><a href="#共享内存数组" class="headerlink" title="共享内存数组"></a>共享内存数组</h3><h4 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h4><p>这里得提一个 Java 很蛋疼的地方。<br>Java 中，将数组看作一个对象，在内存中，也是以对象的形式存储的。而 c、cpp 和 go 之类的语言，数组是用指针来实现的。这就是为什么有一种说法：<br>只有 Java 有真正的数组<br>但这对这个项目似乎不是一个好消息。譬如 golang，可以执行下面语句：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array1 [<span class="number">10</span>]<span class="type">int64</span></span><br><span class="line">array2 := array1[<span class="number">5</span>:]</span><br></pre></td></tr></table></figure>
+<p>Copy<br>这种情况下，array2 和 array1 的第五个元素到最后一个元素，是共用同一片内存的，即使这两个数组的长度不同。<br>这在 Java 中是无法实现的（什么是高级语言啊~）。<br>在 Java 中，当你执行类似 subArray 的操作时，只会在底层进行一个复制，无法同一片内存。<br>于是，我写了一个 SubArray 类，来（松散地）规定这个数组的可使用范围：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SubArray</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">byte</span>[] raw;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> start;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> end;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SubArray</span><span class="params">(<span class="type">byte</span>[] raw, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.raw = raw;</span><br><span class="line">        <span class="built_in">this</span>.start = start;</span><br><span class="line">        <span class="built_in">this</span>.end = end;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h4><p>因为这个数组没啥讲的，通过案例进行演示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSubArray</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//创建一个1~10的数组</span></span><br><span class="line">    <span class="type">byte</span>[] subArray = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">10</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; subArray.length; i++) &#123;</span><br><span class="line">        subArray[i] = (<span class="type">byte</span>) (i+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建两个SubArray</span></span><br><span class="line">    <span class="type">SubArray</span> <span class="variable">sub1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SubArray</span>(subArray,<span class="number">3</span>,<span class="number">7</span>);</span><br><span class="line">    <span class="type">SubArray</span> <span class="variable">sub2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SubArray</span>(subArray,<span class="number">6</span>,<span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//修改共享数组数据</span></span><br><span class="line">    sub1.raw[<span class="number">4</span>] = (<span class="type">byte</span>)<span class="number">44</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印原始数组</span></span><br><span class="line">    System.out.println(<span class="string">&quot;Original Array: &quot;</span>);</span><br><span class="line">    printArray(subArray);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印共享数组</span></span><br><span class="line">    System.out.println(<span class="string">&quot;SubArray1: &quot;</span>);</span><br><span class="line">    printSubArray(sub1);</span><br><span class="line">    System.out.println(<span class="string">&quot;SubArray2: &quot;</span>);</span><br><span class="line">    printSubArray(sub2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">printArray</span><span class="params">(<span class="type">byte</span>[] array)</span>&#123;</span><br><span class="line">    System.out.println(Arrays.toString(array));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">printSubArray</span><span class="params">(SubArray subArray)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> subArray.start; i &lt;= subArray.end; i++) &#123;</span><br><span class="line">        System.out.print(subArray.raw[i] + <span class="string">&quot;\t&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-------------------------演示结果----------------------------</span><br><span class="line">Original Array: </span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">44</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line">SubArray1: </span><br><span class="line"><span class="number">4</span>	<span class="number">44</span>	<span class="number">6</span>	<span class="number">7</span>	<span class="number">8</span>	</span><br><span class="line">SubArray2: </span><br><span class="line"><span class="number">7</span>	<span class="number">8</span>	<span class="number">9</span>	<span class="number">10</span>	</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据页的缓存和管理"><a href="#数据页的缓存和管理" class="headerlink" title="数据页的缓存和管理"></a>数据页的缓存和管理</h3><p>本节主要内容就是 DM 模块向下对文件系统的抽象部分。DM 将文件系统抽象成页面，每次对文件系统的读写都是以页面为单位的。同样，从文件系统读进来的数据也是以页面为单位进行缓存的。</p>
+<p>这里参考大部分数据库的设计，将默认数据页大小定为 8K。如果想要提升向数据库写入大量数据情况下的性能的话，也可以适当增大这个值。</p>
+<p>上一节我们已经实现了一个通用的缓存框架，那么这一节我们需要缓存页面，就可以直接借用那个缓存的框架了。但是首先，需要定义出页面的结构。<strong>注意这个页面是存储在内存中的</strong>，与已经持久化到磁盘的抽象页面有区别。</p>
+<p>数据库中实现页面缓存的相关设计和实现。</p>
+<ol>
+<li><strong>页面结构定义</strong>：<ul>
+<li>页面（Page）是存储在内存中的数据单元，其结构包括：<ul>
+<li>pageNumber：页面的页号，从<strong>1</strong>开始计数。</li>
+<li>data：实际包含的字节数据。</li>
+<li>dirty：标志着页面是否是脏页面，在缓存驱逐时，脏页面需要被写回磁盘。</li>
+<li>lock：用于页面的锁。</li>
+<li>PageCache：保存了一个 PageCache 的引用，方便在拿到 Page 的引用时可以快速对页面的缓存进行释放操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PageImpl</span> <span class="keyword">implements</span> <span class="title class_">Page</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span>[] data;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> dirty;</span><br><span class="line">    <span class="keyword">private</span> Lock lock;</span><br><span class="line">    <span class="keyword">private</span> PageCache pc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>页面缓存接口定义</strong>：</p>
+<ul>
+<li>定义了页面缓存的接口，包括新建页面、获取页面、释放页面、关闭缓存、根据最大页号截断缓存、获取当前页面数量以及刷新页面等方法。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PageCache</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">newPage</span><span class="params">(<span class="type">byte</span>[] initData)</span>; <span class="comment">// 创建新页面并返回页号</span></span><br><span class="line">    Page <span class="title function_">getPage</span><span class="params">(<span class="type">int</span> pgno)</span> <span class="keyword">throws</span> Exception; <span class="comment">// 根据页号获取页面</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>; <span class="comment">// 关闭缓存并释放资源</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">release</span><span class="params">(Page page)</span>; <span class="comment">// 释放页面资源</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">truncateByBgno</span><span class="params">(<span class="type">int</span> maxPgno)</span>; <span class="comment">// 截断超过指定页号的页面</span></span><br><span class="line">    <span class="type">int</span> <span class="title function_">getPageNumber</span><span class="params">()</span>; <span class="comment">// 获取当前最大页号</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">flushPage</span><span class="params">(Page pg)</span>; <span class="comment">// 强制将页面写入持久存储</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>页面缓存实现</strong>：</p>
+<ul>
+<li>页面缓存的具体实现类需要继承抽象缓存框架，并实现具体的 getForCache() 和 releaseForCache() 方法。</li>
+<li>getForCache() 方法用于从文件中读取页面数据，并将其包裹成 Page 返回。</li>
+<li>releaseForCache() 方法用于在驱逐页面时决定是否将脏页面写回到文件系统。</li>
+</ul>
+</li>
+<li><p><strong>页面写回文件系统</strong>：</p>
+<ul>
+<li>页面缓存在驱逐页面时，根据页面是否是脏页面决定是否将其写回到文件系统。</li>
+<li>写回操作使用文件锁来保证写入的原子性和线程安全性。</li>
+</ul>
+</li>
+<li><p><strong>新建页面</strong>：</p>
+<ul>
+<li>新建页面时，页面缓存会自增页面数量，并在写入文件系统后返回新建页面的页号。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//PageCache 还使用了一个 AtomicInteger，来记录了当前打开的数据库文件有多少页。</span></span><br><span class="line"><span class="comment">//这个数字在数据库文件被打开时就会被计算，并在新建页面时自增。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">newPage</span><span class="params">(<span class="type">byte</span>[] initData)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">pgno</span> <span class="operator">=</span> pageNumbers.incrementAndGet();</span><br><span class="line">    <span class="type">Page</span> <span class="variable">pg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PageImpl</span>(pgno, initData, <span class="literal">null</span>);</span><br><span class="line">    flush(pg);  <span class="comment">// 新建的页面需要立刻写回</span></span><br><span class="line">    <span class="keyword">return</span> pgno;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>限制条件</strong>：</p>
+<ul>
+<li>数据库中不允许同一条数据跨页存储，即单条数据的大小不能超过数据库页面的大小。</li>
+</ul>
+</li>
+</ol>
+<h4 id="getForCache"><a href="#getForCache" class="headerlink" title="getForCache()"></a><code>getForCache()</code></h4><p>获取数据页的页面缓存，并将其包裹成<code>Page</code><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018164703.png" alt="20251018164703"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据pageNumber从数据库文件中读取页数据，并包裹成Page</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> Page <span class="title function_">getForCache</span><span class="params">(<span class="type">long</span> key)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">// 将key转换为页码</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">pgno</span> <span class="operator">=</span> (<span class="type">int</span>) key;</span><br><span class="line">    <span class="comment">// 计算页码对应的偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">offset</span> <span class="operator">=</span> PageCacheImpl.pageOffset(pgno);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分配一个大小为PAGE_SIZE的ByteBuffer</span></span><br><span class="line">    <span class="type">ByteBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> ByteBuffer.allocate(PAGE_SIZE);</span><br><span class="line">    <span class="comment">// 锁定文件，确保线程安全</span></span><br><span class="line">    fileLock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 设置文件通道的位置为计算出的偏移量</span></span><br><span class="line">        fc.position(offset);</span><br><span class="line">        <span class="comment">// 从文件通道读取数据到ByteBuffer</span></span><br><span class="line">        fc.read(buf);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 如果发生异常，调用Panic.panic方法处理</span></span><br><span class="line">        Panic.panic(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 无论是否发生异常，都要解锁</span></span><br><span class="line">    fileLock.unlock();</span><br><span class="line">    <span class="comment">// 使用读取到的数据、页码和当前对象创建一个新的PageImpl对象并返回</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">PageImpl</span>(pgno, buf.array(), <span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">PageImpl</span><span class="params">(<span class="type">int</span> pageNumber, <span class="type">byte</span>[] data, PageCache pc)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.pageNumber = pageNumber; <span class="comment">// 设置页面的页号</span></span><br><span class="line">    <span class="built_in">this</span>.data = data; <span class="comment">// 设置页面实际包含的字节数据</span></span><br><span class="line">    <span class="built_in">this</span>.pc = pc; <span class="comment">// 设置页面缓存</span></span><br><span class="line">    lock = <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(); <span class="comment">// 初始化一个新的可重入锁</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="releaseForCache"><a href="#releaseForCache" class="headerlink" title="releaseForCache() "></a><code>releaseForCache() </code></h4><p>当一个Page对象（页面）不再需要在缓存中保留时，就会调用这个方法。如果这个页面被标记为”dirty”（即，这个页面的内容已经被修改，但还没有写回到磁盘），那么这个方法就会调用flush方法，将这个页面的内容写回到磁盘。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018164739.png" alt="20251018164739"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">releaseForCache</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (pg.isDirty()) &#123;</span><br><span class="line">        flush(pg);</span><br><span class="line">        pg.setDirty(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">flush</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">pgno</span> <span class="operator">=</span> pg.getPageNumber(); <span class="comment">// 获取Page的页码</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">offset</span> <span class="operator">=</span> pageOffset(pgno); <span class="comment">// 计算Page在文件中的偏移量</span></span><br><span class="line"></span><br><span class="line">    fileLock.lock(); <span class="comment">// 加锁，确保线程安全</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">ByteBuffer</span> <span class="variable">buf</span> <span class="operator">=</span> ByteBuffer.wrap(pg.getData()); <span class="comment">// 将Page的数据包装成ByteBuffer</span></span><br><span class="line">        fc.position(offset); <span class="comment">// 设置文件通道的位置</span></span><br><span class="line">        fc.write(buf); <span class="comment">// 将数据写入到文件中</span></span><br><span class="line">        fc.force(<span class="literal">false</span>); <span class="comment">// 强制将数据从操作系统的缓存刷新到磁盘</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        Panic.panic(e); <span class="comment">// 如果发生异常，调用Panic.panic方法处理</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        fileLock.unlock(); <span class="comment">// 最后，无论是否发生异常，都要解锁</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="recoverInsert-和recoverUpdate"><a href="#recoverInsert-和recoverUpdate" class="headerlink" title="recoverInsert()和recoverUpdate()"></a><code>recoverInsert()</code>和<code>recoverUpdate()</code></h4><p><code>** recoverInsert() **</code>和 <code>**recoverUpdate()**</code> 用于在数据库崩溃后重新打开时，恢复例程直接插入数据以及修改数据使用。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251018164808.png" alt="20251018164808"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将raw插入pg中的offset位置，并将pg的offset设置为较大的offset</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recoverInsert</span><span class="params">(Page pg, <span class="type">byte</span>[] raw, <span class="type">short</span> offset)</span> &#123;</span><br><span class="line">    pg.setDirty(<span class="literal">true</span>); <span class="comment">// 将pg的dirty标志设置为true，表示pg的数据已经被修改</span></span><br><span class="line">    System.arraycopy(raw, <span class="number">0</span>, pg.getData(), offset, raw.length); <span class="comment">// 将raw的数据复制到pg的数据中的offset位置</span></span><br><span class="line"></span><br><span class="line">    <span class="type">short</span> <span class="variable">rawFSO</span> <span class="operator">=</span> getFSO(pg.getData()); <span class="comment">// 获取pg的当前空闲空间偏移量</span></span><br><span class="line">    <span class="keyword">if</span> (rawFSO &lt; offset + raw.length) &#123; <span class="comment">// 如果当前的空闲空间偏移量小于offset + raw.length</span></span><br><span class="line">        setFSO(pg.getData(), (<span class="type">short</span>) (offset + raw.length)); <span class="comment">// 将pg的空闲空间偏移量设置为offset + raw.length</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将raw插入pg中的offset位置，不更新update</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recoverUpdate</span><span class="params">(Page pg, <span class="type">byte</span>[] raw, <span class="type">short</span> offset)</span> &#123;</span><br><span class="line">    pg.setDirty(<span class="literal">true</span>); <span class="comment">// 将pg的dirty标志设置为true，表示pg的数据已经被修改</span></span><br><span class="line">    System.arraycopy(raw, <span class="number">0</span>, pg.getData(), offset, raw.length); <span class="comment">// 将raw的数据复制到pg的数据中的offset位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据页的管理"><a href="#数据页的管理" class="headerlink" title="数据页的管理"></a>数据页的管理</h3><h4 id="第一页"><a href="#第一页" class="headerlink" title="第一页"></a>第一页</h4><p>数据库文件的第一个，用与做一些特殊用途，比如存储一些元数据，用于启动检查等。在MYDB 中的第一页，只是用来做启动检查。</p>
+<ol>
+<li>每次数据库启动时，会生成一串随机字节，存储在 <strong>100~107</strong> 字节</li>
+<li>在正常数据库关闭时，会将这串字节拷贝到第一页的 <strong>108~115</strong>字节</li>
+<li>数据库每次启动时，都会检查第一页两处的字节是否相同；用来判断上次是否正常关闭，是否需要进行数据的恢复流程</li>
+</ol>
+<h4 id="启动初始化字节"><a href="#启动初始化字节" class="headerlink" title="启动初始化字节"></a>启动初始化字节</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置&quot;ValidCheck&quot;为打开状态</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setVcOpen</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    pg.setDirty(<span class="literal">true</span>);</span><br><span class="line">    setVcOpen(pg.getData());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setVcOpen</span><span class="params">(<span class="type">byte</span>[] raw)</span> &#123;</span><br><span class="line">    <span class="comment">// 随机生成8字节的数据，并拷贝到第一页的 100~107 字节</span></span><br><span class="line">    System.arraycopy(RandomUtil.randomBytes(LEN_VC), <span class="number">0</span>, raw, OF_VC, LEN_VC);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="关闭时拷贝字节"><a href="#关闭时拷贝字节" class="headerlink" title="关闭时拷贝字节"></a>关闭时拷贝字节</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置&quot;ValidCheck&quot;为关闭状态</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setVcClose</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    pg.setDirty(<span class="literal">true</span>);</span><br><span class="line">    setVcClose(pg.getData());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置&quot;ValidCheck&quot;为关闭状态</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setVcClose</span><span class="params">(<span class="type">byte</span>[] raw)</span> &#123;</span><br><span class="line">    <span class="comment">// 将&quot;ValidCheck&quot;设置为关闭状态</span></span><br><span class="line">    <span class="comment">// 通过复制raw数组中的一部分元素来实现</span></span><br><span class="line">    <span class="comment">// 具体来说，就是将raw数组中从OF_VC开始的LEN_VC个元素复制到raw数组中从OF_VC+LEN_VC开始的位置</span></span><br><span class="line">    <span class="comment">// 即 100~107 拷贝到 108~115</span></span><br><span class="line">    System.arraycopy(raw, OF_VC, raw, OF_VC + LEN_VC, LEN_VC);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="校验字节"><a href="#校验字节" class="headerlink" title="校验字节"></a>校验字节</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查&quot;ValidCheck&quot;是否有效</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">checkVc</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> checkVc(pg.getData());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查&quot;ValidCheck&quot;是否有效</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">checkVc</span><span class="params">(<span class="type">byte</span>[] raw)</span> &#123;</span><br><span class="line">    <span class="comment">// 比较 100~107 和 108~115 处字节是否相等</span></span><br><span class="line">    <span class="keyword">return</span> Arrays.equals(Arrays.copyOfRange(raw, OF_VC, OF_VC + LEN_VC), Arrays.copyOfRange(raw, OF_VC + LEN_VC, OF_VC + <span class="number">2</span> * LEN_VC));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="普通页"><a href="#普通页" class="headerlink" title="普通页"></a>普通页</h4><p>一个普通页面是以 2字节无符号数起始，因为一个页面最大容量为 8k，而二字节的范围是 0到2^16-1，所以2字节作为初始完全足够表达这一页空闲位置的偏移量。<br>对于普通页的管理，基本上都是围绕着 <code>**FSO（Free Space Offset）**</code>进行管理的；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置空闲空间偏移量</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setFSO</span><span class="params">(<span class="type">byte</span>[] raw, <span class="type">short</span> ofData)</span> &#123;</span><br><span class="line">    <span class="comment">// 将空闲空间偏移量的值复制到字节数组的指定位置</span></span><br><span class="line">    System.arraycopy(Parser.short2Byte(ofData), <span class="number">0</span>, raw, OF_FREE, OF_DATA); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取pg的空闲空间偏移量</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">short</span> <span class="title function_">getFSO</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> getFSO(pg.getData()); <span class="comment">// 返回pg的数据的空闲空间偏移量</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取空闲空间偏移量</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">short</span> <span class="title function_">getFSO</span><span class="params">(<span class="type">byte</span>[] raw)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Parser.parseShort(Arrays.copyOfRange(raw, <span class="number">0</span>, <span class="number">2</span>)); <span class="comment">// 返回字节数组的前两个字节表示的短整数值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取页面的空闲空间大小</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getFreeSpace</span><span class="params">(Page pg)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> PageCache.PAGE_SIZE - (<span class="type">int</span>) getFSO(pg.getData()); <span class="comment">// 返回页面的空闲空间大小</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="insert"><a href="#insert" class="headerlink" title="insert()"></a><code>insert()</code></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将raw插入pg中，返回插入位置</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">short</span> <span class="title function_">insert</span><span class="params">(Page pg, <span class="type">byte</span>[] raw)</span> &#123;</span><br><span class="line">    pg.setDirty(<span class="literal">true</span>); <span class="comment">// 将pg的dirty标志设置为true，表示pg的数据已经被修改</span></span><br><span class="line">    <span class="type">short</span> <span class="variable">offset</span> <span class="operator">=</span> getFSO(pg.getData()); <span class="comment">// 获取pg的空闲空间偏移量</span></span><br><span class="line">    System.arraycopy(raw, <span class="number">0</span>, pg.getData(), offset, raw.length); <span class="comment">// 将raw的数据复制到pg的数据中的offset位置</span></span><br><span class="line">    setFSO(pg.getData(), (<span class="type">short</span>) (offset + raw.length)); <span class="comment">// 更新pg的空闲空间偏移量</span></span><br><span class="line">    <span class="keyword">return</span> offset; <span class="comment">// 返回插入位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Version-Manager-VM-版本管理器"><a href="#Version-Manager-VM-版本管理器" class="headerlink" title="Version Manager (VM) 版本管理器"></a>Version Manager (VM) 版本管理器</h2><h2 id="Index-Manager-IM-索引管理器"><a href="#Index-Manager-IM-索引管理器" class="headerlink" title="Index Manager (IM) 索引管理器"></a>Index Manager (IM) 索引管理器</h2><h2 id="Table-Manager-TBM-表结构管理器"><a href="#Table-Manager-TBM-表结构管理器" class="headerlink" title="Table Manager (TBM) 表结构管理器"></a>Table Manager (TBM) 表结构管理器</h2>
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/10/18/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.18%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.10.18学习日记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/10/17/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B410%E6%9C%88/2025.10.17%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.10.17学习日记</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MYDB%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-text">MYDB项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TM-Transaction-Manager-%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">TM(Transaction Manager) 事务管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XID%E6%96%87%E4%BB%B6"><span class="toc-text">XID文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TM%E6%8E%A5%E5%8F%A3"><span class="toc-text">TM接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0TM%E7%9A%84"><span class="toc-text">如何实现TM的?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%B8%B8%E9%87%8F"><span class="toc-text">定义常量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#checkXIDCounter"><span class="toc-text">checkXIDCounter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getXidPosition"><span class="toc-text">getXidPosition</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#begin"><span class="toc-text">begin()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updateXid"><span class="toc-text">updateXid</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#incrXIDCounter"><span class="toc-text">incrXIDCounter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#checkXID"><span class="toc-text">checkXID</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Manager-DM-%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">Data Manager (DM) 数据管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6"><span class="toc-text">引用计数缓存框架</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%BC%93%E5%AD%98"><span class="toc-text">如何实现引用计数缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AbstractCache"><span class="toc-text">AbstractCache&lt;T&gt;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="toc-text">引用计数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#get"><span class="toc-text">get()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#release"><span class="toc-text">release()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#close"><span class="toc-text">close()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E6%95%B0%E7%BB%84"><span class="toc-text">共享内存数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E6%96%87"><span class="toc-text">原文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%94%E7%A4%BA"><span class="toc-text">演示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%A1%B5%E7%9A%84%E7%BC%93%E5%AD%98%E5%92%8C%E7%AE%A1%E7%90%86"><span class="toc-text">数据页的缓存和管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#getForCache"><span class="toc-text">getForCache()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#releaseForCache"><span class="toc-text">releaseForCache() </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#recoverInsert-%E5%92%8CrecoverUpdate"><span class="toc-text">recoverInsert()和recoverUpdate()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%A1%B5%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-text">数据页的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%A1%B5"><span class="toc-text">第一页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%97%E8%8A%82"><span class="toc-text">启动初始化字节</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E6%97%B6%E6%8B%B7%E8%B4%9D%E5%AD%97%E8%8A%82"><span class="toc-text">关闭时拷贝字节</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%AD%97%E8%8A%82"><span class="toc-text">校验字节</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E9%A1%B5"><span class="toc-text">普通页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#insert"><span class="toc-text">insert()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Version-Manager-VM-%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">Version Manager (VM) 版本管理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Index-Manager-IM-%E7%B4%A2%E5%BC%95%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">Index Manager (IM) 索引管理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Table-Manager-TBM-%E8%A1%A8%E7%BB%93%E6%9E%84%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">Table Manager (TBM) 表结构管理器</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
