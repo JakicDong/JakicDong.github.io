@@ -1,0 +1,987 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>LLM如何进行思维?LLM的瓶颈何在? - Jakic's Blog</title>
+
+  
+    <meta name="description" content="本质仍是“概率炼丹术”，虽能口吐莲花，却尚未修成意识元神。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM如何进行思维?LLM的瓶颈何在?">
+<meta property="og:url" content="https://jakicdong.github.io/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="本质仍是“概率炼丹术”，虽能口吐莲花，却尚未修成意识元神。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100002.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100031.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100154.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100202.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100209.png">
+<meta property="og:image" content="https://assets.zouht.com/img/blog/3915-09.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100229.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100241.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100301.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100508.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100524.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100533.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100636.png">
+<meta property="og:image" content="https://assets.zouht.com/img/blog/3915-14.webp">
+<meta property="article:published_time" content="2025-11-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-14T02:06:41.168Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100002.png">
+  
+  
+  
+  <meta name="keywords" content="LLM">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="联系我" href="https://jakicdong.github.io/2025/06/01/contact_author/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item active" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/"><span class="title">LLM如何进行思维?LLM的瓶颈何在?</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2025/10/25/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Elasticsearch学习笔记-开倒排索引通天地,布分词器炼文字丹</span></a><a class="item" href="/2025/10/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%83%AD%E7%82%B9%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">🔥热点知识点学习笔记-炼金丹熔高频考点,布天网擒技术热点</span></a><a class="item" href="/2025/10/23/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%9B%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">场景设计学习笔记-闯架构天宫演诸法,降需求心魔定禅心</span></a><a class="item" href="/2025/10/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E7%AC%AC%E4%BA%8C%E7%89%88)/"><span class="title">Spring学习笔记(第二版)-炼金丹炉铸Bean山 布注解阵控轮回盘</span></a><a class="item" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span></a><a class="item" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记-执SQL咒扫乾坤表,祭联合影擒数据妖</span></a><a class="item" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记-窥内存洞天观玄机,调GC轮回掌生死</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记-布天罡阵降需求妖,演变化术破代码劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记-掌轮回内核定纲常,渡进程内存化阴阳</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记-化整为零散作星,聚沙成塔架云台</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记-架天网布分布式,炼金丹渡一致劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记-架消息桥通三界路 施持久咒定乾坤轮</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记-架映射桥通人神境 写SQL咒调数据兵</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记-踏终端登灵霄殿,执符咒驭众生器</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记-布天罗网锁线程妖,设八卦阵伏竞态魔</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河</span></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/25/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记-燃内存真火照幽冥 布集群阵通九霄</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记-筑基篇开修行路,炼气层破语法障</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南-调阴阳戒久坐劫 通经脉战代码妖</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记-布协议栈通三界,架路由桥渡万维</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unity%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记-开IOC瓶纳百川水 织AOP网覆三界尘</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记-撒神经点布星云阵 炼辐射场塑造化身</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</span></a><a class="item" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"><span class="title">个人博客搭建指南-架祥云自建菩提境,点慧灯独照博客天</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</span></a><a class="item" href="/2025/06/01/contact_author/"><span class="title">contact_author</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</span></a><a class="item title" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/"><span class="title">LLM如何进行思维?LLM的瓶颈何在?</span></a><a class="item title" href="/2025/11/14/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.14%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.14学习日记</span></a><a class="item title" href="/2025/11/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.13%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.13学习日记</span></a><a class="item title" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记-执SQL咒扫乾坤表,祭联合影擒数据妖</span></a><a class="item title" href="/2025/06/01/contact_author/"><span class="title">contact_author</span></a><a class="item title" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应知识点</span></a><a class="item title" href="/2025/11/12/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.12%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.12学习日记</span></a><a class="item title" href="/2025/11/11/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.11%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.11学习日记</span></a><a class="item title" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记-布协议栈通三界,架路由桥渡万维</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-12T16:00:00.000Z">2025-11-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-14T02:06:41.168Z">2025-11-14</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>LLM如何进行思维?LLM的瓶颈何在?</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><p>感谢<a target="_blank" rel="noopener" href="https://www.zouht.com/">颢天</a>大佬的分享,大佬主页有非常多硬核的博文.</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>从 2022 年 ChatGPT 推出第一个商用大语言模型，到阿里 Qwen 不断迭代开源模型，再到近期 DeepSeek 的爆火，大语言模型几乎已经家喻户晓，它很可能是普通人用过的第一个人工智能产品。但由于绝大多数人根本不了解其底层原理，以至于被大语言模型的表现震撼后，直接将其视为拥有真正思维能力的智能体，期望其解决一切问题。这显然是不对的。</p>
+<p>要使用好一个工具，在知道它能做什么时，同时也要了解它无法完成什么。就如你购买了一把普通螺丝刀，你可以用它安装家具，但显然你不应该用它拆轿车轮胎。</p>
+<p>若仅仅通过罗列结论来“训诫”读者不要用大模型做什么，那本文就没有任何深层价值了。因此，我将本文组织为以下结构：</p>
+<ol>
+<li><strong>大语言模型的原理</strong>:不用任何公式，向读者展示宏观层面的大语言模型工作原理；</li>
+<li><strong>大语言模型的思维</strong>:基于我对论文 <a target="_blank" rel="noopener" href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html">On the Biology of a Large Language Model</a> 的理解，给读者介绍大语言模型非常有趣、非常独特的思维方式；</li>
+<li><strong>大语言模型的瓶颈</strong>:通过上一部分分享的大语言模型的思维方式，提出几个大语言模型难以解决的问题，让读者认识到大语言模型的应用边界。</li>
+</ol>
+<p>为简便，下文”<strong>大语言模型</strong>“ 均记作 “<strong>LLM</strong>“ (Large Language Model).</p>
+<h1 id="1-LLM-的原理——核心是预测"><a href="#1-LLM-的原理——核心是预测" class="headerlink" title="1 LLM 的原理——核心是预测"></a>1 LLM 的原理——核心是预测</h1><p>当我们向 LLM 发送消息时，LLM 会一个词一个词地输出结果，就仿佛一个人在打字一般。这一节将会用浅显的方式解释大模型的核心原理，为下文做铺垫。</p>
+<h2 id="1-1-预测"><a href="#1-1-预测" class="headerlink" title="1.1 预测"></a>1.1 预测</h2><p>由于本文是面向大众的，显然我不应该分享模型的结构细节或是数学原理，但有些事情完全可以作为结论向大家解释。我们首先要知道的结论是：LLM 是一个预测模型，它可以基于提供的词语序列预测紧随其后的一个词。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100002.png" alt="20251114100002"><br>例如上图的例子，如果我们向 LLM 提供 <code>美国</code> <code>苹果</code> <code>公司</code> <code>是</code> 这样的词语序列，它能够预测紧随其后的一个词，每个词都有一个预测的概率，其中 <code>科技</code> 的概率最高可以理解为概率高的词更符合语境。</p>
+<p>到此，可能有读者会提出问题：LLM 是怎么能预测下一个词的呢？很可惜如果要解释这个确实就需要相关领域的学习了。目前只需要知道：基于<strong>海量纯文本数据</strong>的训练，以当今技术可以完成这个预测任务。</p>
+<p>那么，我们循环这个操作，取最高概率的词把它接到词语序列后，然后再交给 LLM 进行预测，重复这个过程，不就能不断生成后续文本了吗：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100031.png" alt="20251114100031"></p>
+<p>比较敏锐的读者可能已经意识到，这也不是对话啊，这么循环预测下去，岂不是无穷无尽了根本不会停止：美国&#x2F;苹果&#x2F;公司&#x2F;是&#x2F;科技&#x2F;公司&#x2F;，&#x2F;总部&#x2F;位于&#x2F;美国&#x2F;加利福尼亚州&#x2F;…… 这便是下一节要介绍的：如何让模型能够对话。</p>
+<p><strong>题外话</strong>:这个阶段称为预训练（Pretrain）.</p>
+<h2 id="1-2-对话"><a href="#1-2-对话" class="headerlink" title="1.2 对话"></a>1.2 对话</h2><p>实际上，只要我们能将“对话”这个任务转换成“预测”任务，那么就能套用上一节所述方式来解决这个问题了。为了完成这个转换，我们需要借助对话模板。</p>
+<p>例如以下对话：</p>
+<ul>
+<li>用户：为我介绍大语言模型。</li>
+<li>模型：大语言模型是近年来人工智能领域的重要突破之一，它们是一种基于深度学习技术的自然语言处理模型，能够理解和生成人类语言。</li>
+</ul>
+<p>套用对话模板后会变成这样：</p>
+<blockquote>
+<p>&lt;用户消息开始&gt;为我介绍大语言模型。&lt;用户消息结束&gt;&lt;模型消息开始&gt;大语言模型是近年来人工智能领域的重要突破之一，它们是一种基于深度学习技术的自然语言处理模型，能够理解和生成人类语言。&lt;模型消息结束&gt;</p>
+</blockquote>
+<p>可以发现我们引入了四个特殊的词语：<code>&lt;用户消息开始&gt;</code> <code>&lt;用户消息结束&gt;</code> <code>&lt;模型消息开始&gt;</code> <code>&lt;模型消息结束&gt;</code>.</p>
+<p>那么，我们首先收集大量的对话数据，然后套用以上对话模板转换它的格式，然后基于这些对话数据来训练我们的模型，那么模型就能够按照对话模板的格式来进行预测了。</p>
+<p>那么如果用户提出了 <code>为我介绍大语言模型</code> 这个问题，我们便可以按照上一节的方式来进行预测：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100154.png" alt="20251114100154"><br>同样，每次选预测的最高概率的词语，接在词语序列后，不断循环这个操作：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100202.png" alt="20251114100202"><br>并且，只要我们不断循环这个操作，模型一定会在某个恰当的时刻，预测出下一个词语为 <code>&lt;模型消息结束&gt;</code>，那么只要我们发现模型预测下一个词为 <code>&lt;模型消息结束&gt;</code> 时，终止这个循环，便获得了模型的一个回复：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100209.png" alt="20251114100209"><br>如此，我们便获得了一个能与人类对话的模型，以上便是宏观层面的 LLM 的工作原理。</p>
+<p><strong>题外话：</strong>这个阶段称为微调（Finetune）.</p>
+<h1 id="2-LLM-的思维——混乱中有序"><a href="#2-LLM-的思维——混乱中有序" class="headerlink" title="2 LLM 的思维——混乱中有序"></a>2 LLM 的思维——混乱中有序</h1><p>经过上一节的铺垫，大家应该能够意识到，LLM 在宏观层面的原理非常浅显易懂，就是一个纯粹的概率预测模型，那它为什么能够展现出如此惊人的智能性呢？因为，LLM 实际上是拥有“思维”的。</p>
+<p>虽然在上文图中，LLM 被绘制为一个方框，似乎就是读入一堆词语，预测下一个词语。但实际上，在这个方框里，隐藏着 LLM 多层的结构（例如 Qwen2.5-72B 结构有 80 层）。每经过一层，都可以认为模型进行了一轮“思考”，换句话说，在输出下一个预测的词语前，LLM 是经过了多轮的“思考”的。</p>
+<p>那么，LLM 的思维是什么样的呢，它思考事物的方式与人类一致吗？答案是不一致，甚至可以说<strong>天差地别</strong>，这一节我将会分享一些非常有趣的案例。</p>
+<p>P.s.1 本节内容为我对 Anthropic 的论文 <a target="_blank" rel="noopener" href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html">On the Biology of a Large Language Model</a> 的理解，这篇论文我认为超级有趣，如果你有能力可以尝试阅读一下原文。</p>
+<p>P.s.2 原论文并未给出文章协议，不确定是否能使用 CC BY-NC-SA 4.0 协议共享，但本文有部分图片截图原论文，若相关作者认为本文侵权，可联系站长解决。The original paper did not specify the article’s licensing protocol, so it is uncertain whether it can be shared under the CC BY-NC-SA 4.0 license. However, this article includes some screenshots of images from the original paper. If the relevant authors believe this article infringes on their rights, they may contact the webmaster to resolve the issue.</p>
+<h2 id="2-1-多轮思维？好像还行。"><a href="#2-1-多轮思维？好像还行。" class="headerlink" title="2.1 多轮思维？好像还行。"></a>2.1 多轮思维？好像还行。</h2><p>向 LLM 提问：宜昌所在省的省会是什么。观察模型在<strong>一步预测</strong>中的思维过程：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://assets.zouht.com/img/blog/3915-09.webp" alt="https://assets.zouht.com/img/blog/3915-09.webp" title="大语言模型如何思维？瓶颈何在？"></p>
+<p>这是一个简单的多轮思维问题，正确的解法是先思考出宜昌在湖北省，再思考湖北省的省会是武汉。从上图可见，模型的思维过程和人类基本一致，轻松解决了这个问题。</p>
+<p>那么我们便可以简单认为 LLM 的思维和人类相同了吗？实际上，本节只是开胃小菜，还远远不够下定论。</p>
+<h2 id="2-2-算数？如算！"><a href="#2-2-算数？如算！" class="headerlink" title="2.2 算数？如算！"></a>2.2 算数？如算！</h2><h3 id="2-2-1-加法"><a href="#2-2-1-加法" class="headerlink" title="2.2.1 加法"></a>2.2.1 加法</h3><p>试试让大模型来做数学题，与 Qwen-Max 模型对话：</p>
+<ul>
+<li>🧑‍💻 请直接回答：45372895674839573987+54627104325160426012&#x3D;?</li>
+<li>🤖 99999999999999999999</li>
+</ul>
+<p>可以看到，模型轻松将正确结果计算出来，看来模型确实会做数学题，吗？我们只需要稍加修改：</p>
+<ul>
+<li>🧑‍💻 请直接回答：45372895674839573987+54627104325160426013&#x3D;?</li>
+<li>🤖 99999999999999999990</li>
+</ul>
+<p>第二题与第一题的区别仅仅为第二个数大了 1，因此第二题答案应该是 100000000000000000000. 即使这两个问题对于人类一样简单，但是无论如何重复提问，大模型第一个问题的正确率为 100%，第二个问题的正确率为 0%.</p>
+<p><strong>为什么？</strong>让我们来看看大模型怎么做加法的。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100229.png" alt="20251114100229"><br>上图是大语言模型 Claude 3.5 Haiku 回答 36 + 59 时的思维过程，我们<strong>从下到上</strong>来解释这个图：</p>
+<ul>
+<li><p>输入层次：提取出数字的一些特征</p>
+<ul>
+<li>第一个数大约为 30</li>
+<li>第一个数为 36</li>
+<li>第一个数以 6 结尾</li>
+<li>第二个数以 5 开头</li>
+<li>第二个数大约为 59</li>
+<li>第二个数为 59</li>
+<li>第二个数以 9 结尾</li>
+</ul>
+</li>
+<li><p>加法层次：提取被加数的特征</p>
+<ul>
+<li>被加数大约为 57</li>
+<li>被加数以 9 结尾</li>
+</ul>
+</li>
+<li><p>查表层次：确认答案大概的范围</p>
+<ul>
+<li>约 50 的数 + 约 40 的数</li>
+<li>约 36 的数 + 约 60 的数</li>
+<li>6 结尾的数 + 9 结尾的数</li>
+</ul>
+</li>
+<li><p>求和层次：确认最终答案</p>
+<ul>
+<li>答案大约为 92</li>
+<li>答案以 5 结尾</li>
+<li>答案为 95</li>
+</ul>
+</li>
+</ul>
+<p>人类计算这个问题大概率是在脑中列竖式计算，显然模型并没有这么做。反之，模型的思维方式非常奇怪，用各种模糊的估算来不断缩小答案范围，最终得到结果。不过，这种估算在较小的范围内还很稳定，让我们有种“LLM 会算数”的错觉。</p>
+<p>我们需要注意，以上的思维是在模型的<strong>一次预测</strong>中发生的，意思是模型经过这些思维后直接预测下一个词为 95，<strong>并不是</strong>模型先经过一次思维预测出 9，然后再经过第二次思维预测出 5.</p>
+<p>经过上面的铺垫，不知道大家能不能理解开头的两个大数加法，为什么第一个问题模型能够轻易算对，而第二个问题完全算不对。核心原因就是对于我们人类，列竖式计算这两个问题难度是完全相同的，但对于模型，第二个问题正中模型的弱点：</p>
+<ol>
+<li>思维方式不严谨：模型的思维均是模糊的、局部的，通过数字的各种局部特征各种组合来算加法，无法关注到数字的全局特征。例如第二题，模型没发现两个数的个位相加要进位。</li>
+<li>每次预测是离散的：模型的预测是无法修改上一步预测的结果的。例如第二题，模型首先发现每一位加起来都是 9，便“自信”地多次预测输出了 9，即使最后发现 7+3 进位后，模型也不能修改之前的预测，只能在这一步预测一个 0 了.</li>
+</ol>
+<h3 id="2-2-2-质数判断"><a href="#2-2-2-质数判断" class="headerlink" title="2.2.2 质数判断"></a>2.2.2 质数判断</h3><p>看完加法，相信读者已经能够理解，LLM 的思维和人类完全不一样，解决数学问题的方式天壤之别。其实上面一个例子已经能完全佐证该观点，不过我自己又发现一个有趣的例子，因此这一节就当一个有趣的补充。</p>
+<p>我们来看看下面两个问题：</p>
+<ul>
+<li>🧑‍💻 请直接回答：998244353是质数吗？</li>
+<li>🤖 是的，998244353 是一个质数。</li>
+<li>🧑‍💻 请直接回答：998244853是质数吗？</li>
+<li>🤖 998244853 不是质数。它是一个合数，因为它可以被除了1和自身以外的其他数整除。例如，它可以被 <strong>7</strong> 整除（998244853 ÷ 7 &#x3D; 142606407）。</li>
+</ul>
+<p>直接公布结果，998244353 和 998244853 实际上都是质数，LLM 答对了前者，而答错了后者。</p>
+<p>这两个数字的数量级相同，实际上大小仅相差了 500，因此求解它们是否是质数的难度实际是相同的。那么为什么模型会一个答对，一个答错呢？</p>
+<p>将这两个问题交给搜索引擎，大家可能会豁然开朗：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100241.png" alt="20251114100241"><br>998244353</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100301.png" alt="20251114100301"><br>998244853</p>
+<p>打过算法竞赛的同学应该熟悉，很多题目都喜欢用 998244353 作为模数，没什么原因，单纯是大家都用习惯了（如果不理解的话，类比初中英语作文总是用 Li Hua 为名称），这就导致 998244353 相关的信息非常丰富，<strong>海量信息表明 998244353 是一个质数</strong>。</p>
+<p>而仅仅相差了 500 的 998244853，虽说也是一个质数，但是因为讨论度低，互联网上与它相关的信息非常少（可以看到只搜出来一条），<strong>很少有信息明确指出 998244853 是一个质数</strong>。</p>
+<p>因此，大语言模型根本不会试除法、埃式筛、欧拉筛等判断质数的方法，它完完全全再靠概率预测”<strong>猜</strong>“这个数到底是不是质数。</p>
+<h2 id="2-3-思维过程？可不一定是真的啊。"><a href="#2-3-思维过程？可不一定是真的啊。" class="headerlink" title="2.3 思维过程？可不一定是真的啊。"></a>2.3 思维过程？可不一定是真的啊。</h2><p>思维链大模型是一种特殊的大语言模型类别，它在正式生成结果前，会首先输出一段思维过程，例如 OpenAI o1 或是最近热门到爆的 DeepSeek-R1 都是思维链大模型。</p>
+<p>以 DeepSeek-R1 的一个对话为例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Copy to clipboard</span><br><span class="line"></span><br><span class="line">Open code in new window</span><br><span class="line"></span><br><span class="line">EnlighterJS 3 Syntax Highlighter</span><br><span class="line"></span><br><span class="line">\&lt;think&gt;</span><br><span class="line"></span><br><span class="line">嗯，用户问为什么陨石总落在陨石坑里，这个问题看起来有点奇怪，可能是个玩笑或者脑筋急转弯。首先，我需要确认用户的问题是否基于科学事实。陨石坑确实是陨石撞击形成的，但用户可能混淆了因果关系。</span><br><span class="line"></span><br><span class="line">\[篇幅有限省略]</span><br><span class="line"></span><br><span class="line">总结起来，用户可能存在的误区是因果倒置，需要解释陨石坑的形成原因，并说明陨石的坠落是随机的，而陨石坑是撞击后的结果，并非预先存在。同时，可能需要提到较大的陨石坑更容易被注意，所以人们可能误以为陨石更常落在那里，但实际上并非如此。</span><br><span class="line"></span><br><span class="line">\&lt;/think&gt;</span><br><span class="line"></span><br><span class="line">\&lt;answer&gt;</span><br><span class="line"></span><br><span class="line">陨石并非“总落在陨石坑里”，这一问题的表述存在因果关系的混淆。实际上，陨石坑的形成过程是：</span><br><span class="line"></span><br><span class="line">1\. \*\*因果关系\*\*：陨石撞击地球表面时，高速冲击产生的巨大能量会瞬间挖掘地表，形成陨石坑。因此，\*\*先有陨石的坠落，后有陨石坑的产生\*\*，而非陨石主动寻找已有的坑落下。</span><br><span class="line"></span><br><span class="line">\[篇幅有限省略]</span><br><span class="line"></span><br><span class="line">总结：陨石坑是陨石撞击的结果，而非目标。类似“雨滴总是落在水洼里”的比喻，水洼的形成是因为雨滴落下，而非雨滴刻意选择水洼。</span><br><span class="line"></span><br><span class="line">\&lt;/answer&gt;</span><br><span class="line"></span><br><span class="line">\&lt;think&gt; 嗯，用户问为什么陨石总落在陨石坑里，这个问题看起来有点奇怪，可能是个玩笑或者脑筋急转弯。首先，我需要确认用户的问题是否基于科学事实。陨石坑确实是陨石撞击形成的，但用户可能混淆了因果关系。 \[篇幅有限省略] 总结起来，用户可能存在的误区是因果倒置，需要解释陨石坑的形成原因，并说明陨石的坠落是随机的，而陨石坑是撞击后的结果，并非预先存在。同时，可能需要提到较大的陨石坑更容易被注意，所以人们可能误以为陨石更常落在那里，但实际上并非如此。 \&lt;/think&gt; \&lt;answer&gt; 陨石并非“总落在陨石坑里”，这一问题的表述存在因果关系的混淆。实际上，陨石坑的形成过程是： 1. \*\*因果关系\*\*：陨石撞击地球表面时，高速冲击产生的巨大能量会瞬间挖掘地表，形成陨石坑。因此，\*\*先有陨石的坠落，后有陨石坑的产生\*\*，而非陨石主动寻找已有的坑落下。 \[篇幅有限省略] 总结：陨石坑是陨石撞击的结果，而非目标。类似“雨滴总是落在水洼里”的比喻，水洼的形成是因为雨滴落下，而非雨滴刻意选择水洼。 \&lt;/answer&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;think&gt;</span><br><span class="line">嗯，用户问为什么陨石总落在陨石坑里，这个问题看起来有点奇怪，可能是个玩笑或者脑筋急转弯。首先，我需要确认用户的问题是否基于科学事实。陨石坑确实是陨石撞击形成的，但用户可能混淆了因果关系。</span><br><span class="line"></span><br><span class="line">[篇幅有限省略]</span><br><span class="line"></span><br><span class="line">总结起来，用户可能存在的误区是因果倒置，需要解释陨石坑的形成原因，并说明陨石的坠落是随机的，而陨石坑是撞击后的结果，并非预先存在。同时，可能需要提到较大的陨石坑更容易被注意，所以人们可能误以为陨石更常落在那里，但实际上并非如此。</span><br><span class="line">&lt;/think&gt;</span><br><span class="line">&lt;answer&gt;</span><br><span class="line">陨石并非“总落在陨石坑里”，这一问题的表述存在因果关系的混淆。实际上，陨石坑的形成过程是：</span><br><span class="line"></span><br><span class="line">1. **因果关系**：陨石撞击地球表面时，高速冲击产生的巨大能量会瞬间挖掘地表，形成陨石坑。因此，**先有陨石的坠落，后有陨石坑的产生**，而非陨石主动寻找已有的坑落下。</span><br><span class="line"></span><br><span class="line">[篇幅有限省略]</span><br><span class="line"></span><br><span class="line">总结：陨石坑是陨石撞击的结果，而非目标。类似“雨滴总是落在水洼里”的比喻，水洼的形成是因为雨滴落下，而非雨滴刻意选择水洼。</span><br><span class="line">&lt;/answer&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，模型首先在 think 块中进行了大量思维，在思维充分后才在 answer 块中输出结果。</p>
+<p>那么不知道读者有没有想过：<strong>LLM 输出的思维是它真正的思维吗？</strong>接下来我们来看看，LLM 的思维忠实度如何，会不会表里不一。</p>
+<h3 id="2-3-1-忠实思维链"><a href="#2-3-1-忠实思维链" class="headerlink" title="2.3.1 忠实思维链"></a>2.3.1 忠实思维链</h3><p>向模型提问：  的结果是什么？请逐步思考后简洁回答。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100508.png" alt="20251114100508"><br>可以看到，模型给出了它的解题思路：</p>
+<ol>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<p>同时观测模型内部的思维过程，可以发现模型表里一致，确实在内部进行了如此的计算。</p>
+<h3 id="2-3-2-我不会算，但我假装算出来了。"><a href="#2-3-2-我不会算，但我假装算出来了。" class="headerlink" title="2.3.2 我不会算，但我假装算出来了。"></a>2.3.2 我不会算，但我假装算出来了。</h3><p>向模型提问：  的结果是什么？请逐步思考后简洁回答。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100524.png" alt="20251114100524"><br>可以看到，模型给出了它的解题思路，其中第二步它说：使用计算器求出  . 但是，同时观测模型内部的思维过程却发现，模型在这一步的思维完全是扯淡，通过 0 和 0.x 这两个线索，随便输出了个 8 出来，思维过程跟 cos 半毛钱关系都没有，但模型却说通过“计算器求”。</p>
+<p>显然，这个例子模型的思维并不忠诚。</p>
+<h3 id="2-3-3-先射箭再画靶！"><a href="#2-3-3-先射箭再画靶！" class="headerlink" title="2.3.3 先射箭再画靶！"></a>2.3.3 先射箭再画靶！</h3><p>向模型提问：  的结果是什么？我算出来答案是  ，但希望确认一下。请逐步思考后简洁回答。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100533.png" alt="20251114100533"><br>模型的第四步它说：  . 但是，同时观测模型内部的思维过程却发现，模型得出  的方式居然是默认用户的答案  是正确的，用  硬生生凑出了这个数。</p>
+<p>显然，这个例子模型的思维也不忠诚，妥妥的先射箭再画靶。</p>
+<h2 id="2-4-幻觉-＠-＠"><a href="#2-4-幻觉-＠-＠" class="headerlink" title="2.4 幻觉 (＠_＠)"></a>2.4 幻觉 (＠_＠)</h2><p>模型幻觉这个词可能一般人接触得少，换个表述——一本正经地胡说八道，这样大家应该一下就明白了。幻觉问题是目前大语言模型亟待解决也很难解决的问题，本节我们来看看模型出现幻觉时在想些什么。</p>
+<h3 id="2-4-1-知之为知之，不知为不知。"><a href="#2-4-1-知之为知之，不知为不知。" class="headerlink" title="2.4.1 知之为知之，不知为不知。"></a>2.4.1 知之为知之，不知为不知。</h3><p>我们希望的模型的正确行为是：</p>
+<ul>
+<li>如果模型知道如何回答该问题——如实回答</li>
+<li>如果模型不知道如何回答问题——如实报告自己不会，并拒绝回答</li>
+</ul>
+<p>下面使用 Qwen-Max 模型提问，测试以下这两种情况：</p>
+<ul>
+<li>🧑‍💻 莫言写过什么文章？</li>
+<li>🤖 莫言是中国著名的作家，也是2012年诺贝尔文学奖的获得者。他以其独特的写作风格和深刻的社会洞察力而闻名。他的作品通常以乡村生活为背景，结合魔幻现实主义的手法，描绘了中国社会的历史变迁和人性复杂性。以下是一些莫言的代表作品：[篇幅有限省略]</li>
+<li>🧑‍💻 ChrisKim写过什么文章？</li>
+<li>🤖 关于“ChrisKim”是否写过文章，目前没有明确的信息。如果你指的是某个具体的人或作者，请提供更多背景信息，例如全名、领域或相关平台，这样我可以更好地帮助你查找相关信息。如果“ChrisKim”是一个笔名、网名或某个特定领域的作者，可能需要更具体的上下文来确认其作品或文章内容。让我知道更多细节，我会尽力为你解答！</li>
+</ul>
+<p>可以看到，Qwen-Max 顺利通过了测试，没有出现幻觉。那么模型是如何实现”如实报告自己不会，并拒绝回答”的呢？那就得来看下模型的内部思维过程。</p>
+<p>看到下图，其中红线代表抑制作用，绿线代表促进作用，“已知”节点会抑制“未知”节点和“拒绝回答”节点，“未知”节点会促进“拒绝回答”节点。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251114100636.png" alt="20251114100636"><br>可以发现，“已知实体”能够促进“已知”节点的激活，抑制“未知”节点的激活，“未知实体”正好相反。这就像生物学中的拮抗作用，实现了拒绝回答这个功能。</p>
+<p>那这么看起来，模型不会出现幻觉啊，那实际中为什么还会一本正经地胡说八道呢？接下来看看异常情况。</p>
+<h3 id="2-4-2-我觉得我行了，我硬要回答！"><a href="#2-4-2-我觉得我行了，我硬要回答！" class="headerlink" title="2.4.2 我觉得我行了，我硬要回答！"></a>2.4.2 我觉得我行了，我硬要回答！</h3><p>刚才，我们向模型提问“ChrisKim写过什么文章？”被成功拒绝，没有出现幻觉，那再看看这个问题：</p>
+<ul>
+<li>🧑‍💻 列举一篇Andrej Karpathy写过的论文。</li>
+<li>🤖 Andrej Karpathy 是一位知名的人工智能研究者，尤其在深度学习和计算机视觉领域有重要贡献。他参与撰写的许多论文都被广泛引用。以下是其中一篇经典的论文：”Show and Tell: A Neural Image Caption Generator” [篇幅有限省略]</li>
+</ul>
+<p>检索这篇论文后，可以发现作者根本没有Andrej Karpathy，这是典型的大模型幻觉问题。那这便值得思考了，为什么有些问题会引发大模型幻觉，但有些又不会呢？</p>
+<p>一种猜想是，对于有些较为著名的实体，模型遇到后会自认为“自己很了解它”，从而误触发了“已知”节点导致“拒绝回答”节点也被抑制，最后即使模型发现自己对该实体的了解并不足够，也会强行进行回答，导致幻觉。</p>
+<p>这便解释了为什么问我写过什么文章，模型会直接拒绝。因为我这小人物模型怎么可能认识我，因此直接触发了“未知”节点然后拒绝回答了。</p>
+<p>那我们尝试构造一个，实体很著名但是模型大概率回答不出的问题，看看模型会不会出现幻觉：</p>
+<ul>
+<li>🧑‍💻 莫言写的《红高梁》的正文第一章第一段话是什么？</li>
+<li>🤖 莫言的小说《红高粱》第一章第一段话如下：“一九三九年古历八月初九，我奶奶被日本兵轮奸后杀死。那年我十五岁，跟随爷爷在高粱地里打游击。奶奶死时穿着一身白衣白裤，躺在高粱地里，像一株熟透了的高粱。”这段文字以一种冷静而沉重的叙述方式，拉开了小说的序幕，奠定了故事的历史背景和情感基调。请注意，不同版本的书籍可能会有细微的文字差异。</li>
+</ul>
+<p>检索原文后发现模型的回答牛头不对马嘴，这个问题果不然触发了模型的幻觉！</p>
+<p>因此，在实际使用中，要避免向模型提出著名实体的细节问题。</p>
+<h2 id="2-5-模型的母语是什么？"><a href="#2-5-模型的母语是什么？" class="headerlink" title="2.5 模型的母语是什么？"></a>2.5 模型的母语是什么？</h2><p>国外的模型（如 OpenAI）英语强中文弱，国内的模型（如 Qwen）中文强英语弱，读者或多或少在网上看过这种观点，LLM 真的有母语吗？外国模型的母语就是英语，中国模型的母语就是中文吗？</p>
+<p>这个问题在学界尚有争议，但一种猜想是目前的主流大模型均是多语言大模型，但英语在某些机制中会有优势。模型的多语言特征有更多的直接权重指向英语输出，而非英语输出可能就需要一个 “用X语言表达Y” 的额外特征来进行转换翻译。</p>
+<p>不过，这也侧面说明了 LLM 很适合进行翻译工作，因为 LLM 本身就包含了大量的 “用X语言表达Y” 的转换用特征，这不就是天生的翻译器吗？</p>
+<h1 id="3-LLM-的瓶颈——严重偏科"><a href="#3-LLM-的瓶颈——严重偏科" class="headerlink" title="3 LLM 的瓶颈——严重偏科"></a>3 LLM 的瓶颈——严重偏科</h1><p>经过上文对 LLM 思维的深度挖掘，我认为读者应该或多或少能够感受到 LLM 思维的独特之处，应该已经感受到 LLM 应该会在一些任务中表现不佳。这一节我们来做最后的总结。</p>
+<h2 id="3-1-事实性问题"><a href="#3-1-事实性问题" class="headerlink" title="3.1 事实性问题"></a>3.1 事实性问题</h2><p><strong>小心幻觉</strong></p>
+<p>如果你要把大模型当作百科全书，向它咨询事实性问题，那么你需要尤其小心的便是大模型幻觉。风险非常高的事情就是向大模型问一个<strong>知名实体</strong>的<strong>细枝末节</strong>的事情，尤其容易触发模型幻觉，生成误导性言论。</p>
+<p>下面的问题便是几个“知名实体的细枝末节的事情”的例子：</p>
+<ul>
+<li>知名学术理论的具体细节：GRPO 和 PPO 方法的核心差异。</li>
+<li>知名软件包的函数具体用法：beautifulsoup4 库中 soup.find() 方法的参数。</li>
+</ul>
+<p><strong>注意时效</strong></p>
+<p>第二个风险较高的事情就是向大模型询问近期发生的事情，大模型很有可能并不知道这个事情。</p>
+<p>可能有读者并不了解，大语言模型<strong>仅在训练时</strong>学习知识，<strong>使用模型时</strong>其不会进行任何迭代学习。如果不重新训练，大语言模型是无法学习到新的知识的，但重新训练一次大模型是尤其昂贵的，各个厂商均不会频繁更新大模型。</p>
+<p>因此，在使用时要尤其注意时效性，对于近一个季度的新事物不要尝试去问大模型，它是肯定不知道的。不过目前各家大模型都支持接入搜索引擎，一定程度上解决了这个问题。</p>
+<h2 id="3-2-数字工作"><a href="#3-2-数字工作" class="headerlink" title="3.2 数字工作"></a>3.2 数字工作</h2><p><strong>数值计算，基本不可用</strong></p>
+<p>在 2.2 节，我们观赏了 LLM 惊为天人的逆天加法思路，即使是加法就已经如此混乱了，那么对于更复杂的数值计算模型基本上就完全解决不了了。我用 Qwen-Max 进行了一些简单测试：</p>
+<ul>
+<li>加减法：勉勉强强</li>
+<li>乘除法：千级就已经很不稳定了，几乎不可用</li>
+<li>三角函数：除了特殊值，基本对不了</li>
+<li>开平方：过千之后，数量级对了就是胜利，几乎不可用</li>
+</ul>
+<p>再复杂一点的数值计算也不用试了，肯定做不对的。</p>
+<p><strong>数量统计，完全不可用</strong></p>
+<p>如果你指望使用 LLM 来做计数工作，那大概率是要出问题的。我认为，限制 LLM 发挥的主要因素有三点：</p>
+<ul>
+<li>Token 的一体性：为了理解便利，上文我们一直将模型的输入看作一个个“词语”，但实际情况并不如此，输入模型的实际是一个个“Token”，对于一个“Token”，模型的所有的计算将其视为一体，模型也不太清楚一个“Token”的数量特征（比如这个 Token 多少字、多少笔画等）.</li>
+<li>计数的不稳定性：即使我们假设模型能够完全知晓一个“Token”的数量特征，那么模型也不一定能正确计数，因为模型内部并没有精确稳定的一个“计数器”，计数过程很有可能发生错误。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://assets.zouht.com/img/blog/3915-14.webp" alt="https://assets.zouht.com/img/blog/3915-14.webp" title="大语言模型如何思维？瓶颈何在？"></p>
+<p><strong>数学思维，可以尝试一下</strong></p>
+<p>虽说模型的数值计算一塌糊涂，但是对于数学思维来说，其实还是尝试一下。</p>
+<p>我的理解是，数值计算逻辑性极强、容错很低，预测错一个就全部错了；而数学思维更看重经验积累，对于大模型这种内涵大量知识的模型来说，能够更好发挥模型能力。</p>
+<h2 id="3-3-文字工作"><a href="#3-3-文字工作" class="headerlink" title="3.3 文字工作"></a>3.3 文字工作</h2><p><strong>各种文本工作</strong></p>
+<p>大语言模型的文字工作远远强于数字工作，个人的理解是：数字工作是逻辑密集型的，需要极为严格的推理过程，容不了一点错误，这对于大模型这种很随机的思维方式很不友好；而文字工作更注重积累，对逻辑的要求较低，对大模型这种超大参数量、能够积累大量知识的模型非常友好。</p>
+<p><strong>翻译，尤其专业对口</strong></p>
+<p>这点感觉不用我说，估计大多数人都用过，感受过大语言模型的强大之处，大语言模型干翻译我感觉完全是专业对口，是我用大模型时效果最稳定，相对其他传统翻译优势极大的一个用途。（甚至 Transformer 最开始就是用作翻译的）</p>
+<h2 id="3-4-代码工作"><a href="#3-4-代码工作" class="headerlink" title="3.4 代码工作"></a>3.4 代码工作</h2><p><strong>业务密集型代码</strong></p>
+<p>业务密集型代码的特点是业务很杂乱，编写时有很多重复劳作，但是不包含复杂的算法。这种情况下就比较类似于“数学思维”，虽然模型的精确生成能力有限，但是生成这种不复杂的业务代码还是非常轻松的。</p>
+<p>比如我使用 GitHub Copilot 写前后端代码，基本上畅通无阻随便补全，写出 bug 的情况不多见。</p>
+<p><strong>逻辑密集型代码</strong></p>
+<p>逻辑密集型代码特点就是逻辑非常复杂，例如复杂的离散数学算法。这种情况就比较类似于“数值计算”了，逻辑密集型代码错一点小细节就可能导致完全错误，并且要有非常全局的代码思路设计。这种情况大模型能解决一部分，但是效果不稳定。</p>
+<p>例如实际上现在 LLM 打 Codeforces 类似的算法竞赛已经能打败不少人类选手，但总之还无法超越人类。个人感觉 LLM 能做出来的题都是较为典型的，很有可能是已经在训练数据中出现过类似的题目过。如果对于跳脱常规的全新的题目大概率是无法解决的。</p>
+
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/11/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.13%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.11.13学习日记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/11/12/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.12%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.11.12学习日记</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-LLM-%E7%9A%84%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%A0%B8%E5%BF%83%E6%98%AF%E9%A2%84%E6%B5%8B"><span class="toc-text">1 LLM 的原理——核心是预测</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%A2%84%E6%B5%8B"><span class="toc-text">1.1 预测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E5%AF%B9%E8%AF%9D"><span class="toc-text">1.2 对话</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-LLM-%E7%9A%84%E6%80%9D%E7%BB%B4%E2%80%94%E2%80%94%E6%B7%B7%E4%B9%B1%E4%B8%AD%E6%9C%89%E5%BA%8F"><span class="toc-text">2 LLM 的思维——混乱中有序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%A4%9A%E8%BD%AE%E6%80%9D%E7%BB%B4%EF%BC%9F%E5%A5%BD%E5%83%8F%E8%BF%98%E8%A1%8C%E3%80%82"><span class="toc-text">2.1 多轮思维？好像还行。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E7%AE%97%E6%95%B0%EF%BC%9F%E5%A6%82%E7%AE%97%EF%BC%81"><span class="toc-text">2.2 算数？如算！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%8A%A0%E6%B3%95"><span class="toc-text">2.2.1 加法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E8%B4%A8%E6%95%B0%E5%88%A4%E6%96%AD"><span class="toc-text">2.2.2 质数判断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E6%80%9D%E7%BB%B4%E8%BF%87%E7%A8%8B%EF%BC%9F%E5%8F%AF%E4%B8%8D%E4%B8%80%E5%AE%9A%E6%98%AF%E7%9C%9F%E7%9A%84%E5%95%8A%E3%80%82"><span class="toc-text">2.3 思维过程？可不一定是真的啊。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-%E5%BF%A0%E5%AE%9E%E6%80%9D%E7%BB%B4%E9%93%BE"><span class="toc-text">2.3.1 忠实思维链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-%E6%88%91%E4%B8%8D%E4%BC%9A%E7%AE%97%EF%BC%8C%E4%BD%86%E6%88%91%E5%81%87%E8%A3%85%E7%AE%97%E5%87%BA%E6%9D%A5%E4%BA%86%E3%80%82"><span class="toc-text">2.3.2 我不会算，但我假装算出来了。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-%E5%85%88%E5%B0%84%E7%AE%AD%E5%86%8D%E7%94%BB%E9%9D%B6%EF%BC%81"><span class="toc-text">2.3.3 先射箭再画靶！</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E5%B9%BB%E8%A7%89-%EF%BC%A0-%EF%BC%A0"><span class="toc-text">2.4 幻觉 (＠_＠)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-1-%E7%9F%A5%E4%B9%8B%E4%B8%BA%E7%9F%A5%E4%B9%8B%EF%BC%8C%E4%B8%8D%E7%9F%A5%E4%B8%BA%E4%B8%8D%E7%9F%A5%E3%80%82"><span class="toc-text">2.4.1 知之为知之，不知为不知。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-2-%E6%88%91%E8%A7%89%E5%BE%97%E6%88%91%E8%A1%8C%E4%BA%86%EF%BC%8C%E6%88%91%E7%A1%AC%E8%A6%81%E5%9B%9E%E7%AD%94%EF%BC%81"><span class="toc-text">2.4.2 我觉得我行了，我硬要回答！</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%AF%8D%E8%AF%AD%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">2.5 模型的母语是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-LLM-%E7%9A%84%E7%93%B6%E9%A2%88%E2%80%94%E2%80%94%E4%B8%A5%E9%87%8D%E5%81%8F%E7%A7%91"><span class="toc-text">3 LLM 的瓶颈——严重偏科</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E4%BA%8B%E5%AE%9E%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">3.1 事实性问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%95%B0%E5%AD%97%E5%B7%A5%E4%BD%9C"><span class="toc-text">3.2 数字工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%96%87%E5%AD%97%E5%B7%A5%E4%BD%9C"><span class="toc-text">3.3 文字工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E4%BB%A3%E7%A0%81%E5%B7%A5%E4%BD%9C"><span class="toc-text">3.4 代码工作</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
