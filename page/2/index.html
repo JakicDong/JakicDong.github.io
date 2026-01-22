@@ -807,11 +807,25 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
   });
 </script>
 
+<!-- Coze 聊天悬浮按钮占位符 -->
+<div id="coze-chat-placeholder" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 9998; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease;">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="white"/>
+  </svg>
+</div>
+
 <script type="text/javascript">
 var webSdkScript = document.createElement('script');
 webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
 document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
+  // SDK 加载成功后，隐藏占位符
+  var placeholder = document.getElementById('coze-chat-placeholder');
+  if (placeholder) {
+    placeholder.style.display = 'none';
+  }
+  
+  // 初始化 Coze Web Chat Client
   new CozeWebSDK.WebChatClient({
     "config": {
       "type": "app",
@@ -828,6 +842,16 @@ webSdkScript.onload = function () {
       }
     }
   });
+}
+
+// 如果 SDK 加载失败，占位符保持显示
+webSdkScript.onerror = function() {
+  var placeholder = document.getElementById('coze-chat-placeholder');
+  if (placeholder) {
+    placeholder.style.cursor = 'not-allowed';
+    placeholder.style.opacity = '0.7';
+    placeholder.title = 'Coze SDK 加载失败，请检查网络连接';
+  }
 }
 </script>
 
