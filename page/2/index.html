@@ -809,6 +809,8 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
 
 <script type="text/javascript">
 (function() {
+  console.log('[Coze Plugin] 开始初始化...');
+  
   // 动态构建 API Base URL（运行时检测）
   function getApiBaseUrl() {
     const hostname = window.location.hostname;
@@ -824,56 +826,96 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
   }
 
   // Coze SDK 地址
-  // 如果配置了自定义地址则使用，否则尝试从 Coze 服务地址加载
-  // 注意：如果 SDK 地址为空，请确保 Coze 服务在指定端口提供了 SDK 文件
-  // 或者配置 sdkUrl 为 Coze 官方 CDN 地址
-  const sdkUrl = '' || (getApiBaseUrl() + '/web-sdk/index.js');
+  // 如果配置了自定义地址则使用，否则从本地 Coze 服务加载
+  const configuredSdkUrl = '';
+  let sdkUrl = '';
   
-  // 如果 SDK URL 仍然为空，给出提示
-  if (!sdkUrl) {
-    console.warn('Coze SDK URL 未配置，请在主题配置中设置 coze.sdkUrl');
-    return;
+  if (configuredSdkUrl && configuredSdkUrl.trim() !== '') {
+    // 使用配置的 SDK 地址
+    sdkUrl = configuredSdkUrl;
+    console.log('[Coze Plugin] 使用配置的 SDK 地址:', sdkUrl);
+  } else {
+    // 从本地 Coze 服务加载 SDK
+    const apiBaseUrl = getApiBaseUrl();
+    // 尝试常见的 SDK 路径
+    sdkUrl = apiBaseUrl + '/web-sdk/index.js';
+    console.log('[Coze Plugin] 从本地服务加载 SDK:', sdkUrl);
+    console.log('[Coze Plugin] 如果此路径不正确，请在配置中设置 coze.sdkUrl');
   }
   
   // 加载 Coze Web SDK
   var webSdkScript = document.createElement('script');
   webSdkScript.src = sdkUrl;
   webSdkScript.async = true;
-  document.head.appendChild(webSdkScript);
+  webSdkScript.crossOrigin = 'anonymous';
+  
+  console.log('[Coze Plugin] 正在加载 SDK 脚本:', sdkUrl);
   
   webSdkScript.onload = function () {
-    // 确保 CozeWebSDK 已加载
-    if (typeof CozeWebSDK === 'undefined' || !CozeWebSDK.WebChatClient) {
-      console.error('Coze Web SDK 加载失败');
-      return;
-    }
+    console.log('[Coze Plugin] SDK 脚本加载成功');
     
-    try {
-      // 初始化 Coze Web Chat Client
-      new CozeWebSDK.WebChatClient({
-        "config": {
-          "type": "app",
-          "appInfo": {
-            "appId": "7594744377281347584",
-            "workflowId": "7594773612482002944"
-          }
-        },
-        "auth": {
-          "type": "token",
-          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-          onRefreshToken: function () {
-            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
-          }
-        }
+    // 等待 SDK 完全初始化
+    setTimeout(function() {
+      // 检查 CozeWebSDK 是否可用
+      if (typeof CozeWebSDK === 'undefined') {
+        console.error('[Coze Plugin] CozeWebSDK 未定义，请检查 SDK 是否正确加载');
+        return;
+      }
+      
+      if (!CozeWebSDK.WebChatClient) {
+        console.error('[Coze Plugin] CozeWebSDK.WebChatClient 不存在');
+        console.log('[Coze Plugin] 可用的 CozeWebSDK 属性:', Object.keys(CozeWebSDK));
+        return;
+      }
+      
+      console.log('[Coze Plugin] 开始初始化 WebChatClient...');
+      console.log('[Coze Plugin] 配置信息:', {
+        appId: '7594744377281347584',
+        workflowId: '7594773612482002944',
+        token: 'pat_824d6b760a23f2f2...'
       });
-    } catch (error) {
-      console.error('Coze Web Chat Client 初始化失败:', error);
-    }
+      
+      try {
+        // 初始化 Coze Web Chat Client
+        const client = new CozeWebSDK.WebChatClient({
+          "config": {
+            "type": "app",
+            "appInfo": {
+              "appId": "7594744377281347584",
+              "workflowId": "7594773612482002944"
+            }
+          },
+          "auth": {
+            "type": "token",
+            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+            onRefreshToken: function () {
+              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+            }
+          }
+        });
+        
+        console.log('[Coze Plugin] WebChatClient 初始化成功', client);
+      } catch (error) {
+        console.error('[Coze Plugin] WebChatClient 初始化失败:', error);
+        console.error('[Coze Plugin] 错误堆栈:', error.stack);
+      }
+    }, 200);
   };
   
-  webSdkScript.onerror = function() {
-    console.error('Coze Web SDK 脚本加载失败，请检查 SDK 地址是否正确:', sdkUrl);
+  webSdkScript.onerror = function(error) {
+    console.error('[Coze Plugin] SDK 脚本加载失败!');
+    console.error('[Coze Plugin] SDK 地址:', sdkUrl);
+    console.error('[Coze Plugin] 错误信息:', error);
+    console.error('[Coze Plugin] 请检查:');
+    console.error('  1. Coze 服务是否在 localhost:8888 运行');
+    console.error('  2. SDK 路径是否正确（当前尝试: ' + sdkUrl + '）');
+    console.error('  3. 是否存在跨域问题（CORS）');
+    console.error('  4. 浏览器控制台 Network 标签中该请求的状态');
   };
+  
+  // 将脚本添加到页面
+  document.head.appendChild(webSdkScript);
+  console.log('[Coze Plugin] SDK 脚本标签已添加到页面');
 })();
 </script>
 
