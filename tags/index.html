@@ -153,6 +153,34 @@
           <span class='name'>TecHub</span>
         </a>
       
+        <a class='tag' href="/tags/JVM/">
+          <span class='name'>JVM</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E9%9B%86%E5%90%88/">
+          <span class='name'>集合</span>
+        </a>
+      
+        <a class='tag' href="/tags/MybatisPlus/">
+          <span class='name'>MybatisPlus</span>
+        </a>
+      
+        <a class='tag' href="/tags/java/">
+          <span class='name'>java</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91/">
+          <span class='name'>并发</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81/">
+          <span class='name'>跨域支持</span>
+        </a>
+      
+        <a class='tag' href="/tags/Go/">
+          <span class='name'>Go</span>
+        </a>
+      
         <a class='tag' href="/tags/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91/">
           <span class='name'>远程开发</span>
         </a>
@@ -181,16 +209,20 @@
           <span class='name'>分布式</span>
         </a>
       
+        <a class='tag' href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+          <span class='name'>设计模式</span>
+        </a>
+      
         <a class='tag' href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
           <span class='name'>操作系统</span>
         </a>
       
-        <a class='tag' href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-          <span class='name'>微服务</span>
+        <a class='tag' href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+          <span class='name'>计算机网络</span>
         </a>
       
-        <a class='tag' href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-          <span class='name'>设计模式</span>
+        <a class='tag' href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+          <span class='name'>微服务</span>
         </a>
       
         <a class='tag' href="/tags/%E7%AE%80%E5%8E%86/">
@@ -201,36 +233,8 @@
           <span class='name'>知识点</span>
         </a>
       
-        <a class='tag' href="/tags/JVM/">
-          <span class='name'>JVM</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91/">
-          <span class='name'>并发</span>
-        </a>
-      
-        <a class='tag' href="/tags/MybatisPlus/">
-          <span class='name'>MybatisPlus</span>
-        </a>
-      
-        <a class='tag' href="/tags/java/">
-          <span class='name'>java</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E9%9B%86%E5%90%88/">
-          <span class='name'>集合</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81/">
-          <span class='name'>跨域支持</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
-          <span class='name'>计算机网络</span>
-        </a>
-      
-        <a class='tag' href="/tags/Go/">
-          <span class='name'>Go</span>
+        <a class='tag' href="/tags/STOMP/">
+          <span class='name'>STOMP</span>
         </a>
       
         <a class='tag' href="/tags/%E6%A8%A1%E8%BF%90%E7%AE%97/">
@@ -243,10 +247,6 @@
       
         <a class='tag' href="/tags/picgo/">
           <span class='name'>picgo</span>
-        </a>
-      
-        <a class='tag' href="/tags/STOMP/">
-          <span class='name'>STOMP</span>
         </a>
       
         <a class='tag' href="/tags/COZE/">
@@ -281,14 +281,6 @@
           <span class='name'>sql</span>
         </a>
       
-        <a class='tag' href="/tags/ES/">
-          <span class='name'>ES</span>
-        </a>
-      
-        <a class='tag' href="/tags/Elasticsearch/">
-          <span class='name'>Elasticsearch</span>
-        </a>
-      
         <a class='tag' href="/tags/LLM/">
           <span class='name'>LLM</span>
         </a>
@@ -299,6 +291,14 @@
       
         <a class='tag' href="/tags/RabbitMQ/">
           <span class='name'>RabbitMQ</span>
+        </a>
+      
+        <a class='tag' href="/tags/ES/">
+          <span class='name'>ES</span>
+        </a>
+      
+        <a class='tag' href="/tags/Elasticsearch/">
+          <span class='name'>Elasticsearch</span>
         </a>
       
         <a class='tag' href="/tags/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/">
@@ -951,6 +951,38 @@
     }
   });
 </script>
+<script type="text/javascript">
+(function() {
+  var webSdkScript = document.createElement('script');
+  webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+  document.head.appendChild(webSdkScript);
+  webSdkScript.onload = function () {
+    if (typeof CozeWebSDK !== 'undefined') {
+      new CozeWebSDK.WebChatClient({
+        "config": {
+          "type": "app",
+          "appInfo": {
+            "appId": "7594744377281348000",
+            "workflowId": "7594773612482003000"
+          }
+        },
+        "auth": {
+          "type": "token",
+          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+          onRefreshToken: function () {
+            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+          }
+        }
+      });
+    }
+  };
+  webSdkScript.onerror = function() {
+    console.error('Failed to load Coze SDK from: http://localhost:8888/static/chat-sdk.js');
+  };
+})();
+</script>
+
+
 
 
 <!-- inject -->

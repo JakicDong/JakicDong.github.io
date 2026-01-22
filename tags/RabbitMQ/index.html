@@ -723,6 +723,38 @@ http://localhost...</p></div><div class="meta cap"><span class="cap" id="post-me
     }
   });
 </script>
+<script type="text/javascript">
+(function() {
+  var webSdkScript = document.createElement('script');
+  webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+  document.head.appendChild(webSdkScript);
+  webSdkScript.onload = function () {
+    if (typeof CozeWebSDK !== 'undefined') {
+      new CozeWebSDK.WebChatClient({
+        "config": {
+          "type": "app",
+          "appInfo": {
+            "appId": "7594744377281348000",
+            "workflowId": "7594773612482003000"
+          }
+        },
+        "auth": {
+          "type": "token",
+          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+          onRefreshToken: function () {
+            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+          }
+        }
+      });
+    }
+  };
+  webSdkScript.onerror = function() {
+    console.error('Failed to load Coze SDK from: http://localhost:8888/static/chat-sdk.js');
+  };
+})();
+</script>
+
+
 
 
 <!-- inject -->
