@@ -989,13 +989,14 @@ Redis学习笔记3&#x2F;57 学习中,正在完善笔记.
       }
     });
     
-    // 加载 Coze Web SDK
-    console.log('开始加载 Coze SDK 脚本...');
-    var webSdkScript = document.createElement('script');
-    webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
-    webSdkScript.async = true;
-    // 移除 crossOrigin，避免 CORS 问题（本地开发通常不需要）
-    // webSdkScript.crossOrigin = 'anonymous';
+    // 延迟加载 Coze Web SDK（等页面主要内容加载完成后再加载）
+    function loadCozeSDK() {
+      console.log('开始加载 Coze SDK 脚本...');
+      var webSdkScript = document.createElement('script');
+      // 使用本地 SDK 文件（需要先复制到 source/js/ 目录）
+      webSdkScript.src = '/js/chat-sdk.js';
+      webSdkScript.async = true;
+      webSdkScript.defer = true;
     
     webSdkScript.onload = function () {
       console.log('✅ Coze SDK 脚本标签加载成功');
@@ -1062,40 +1063,59 @@ Redis学习笔记3&#x2F;57 学习中,正在完善笔记.
       createPlaceholder();
     }
     
-    // 检查脚本是否已存在
-    var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
-    if (existingScript) {
-      console.log('Coze SDK 脚本已存在，检查是否已加载');
-      var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-      if (CozeSDK) {
-        console.log('SDK 已加载，直接初始化');
-        installScriptInterceptor(); // 安装拦截器
-        setTimeout(initCoze, 100);
-      } else {
-        console.log('SDK 脚本存在但未加载，等待加载...');
-        existingScript.addEventListener('load', function() {
+      // 检查脚本是否已存在
+      var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
+      if (existingScript) {
+        console.log('Coze SDK 脚本已存在，检查是否已加载');
+        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+        if (CozeSDK) {
+          console.log('SDK 已加载，直接初始化');
           installScriptInterceptor(); // 安装拦截器
-          setTimeout(initCoze, 200);
-        });
-        // 如果已经加载完成，直接尝试初始化
-        setTimeout(function() {
-          installScriptInterceptor();
-          initCoze();
-        }, 500);
-      }
-    } else {
-      console.log('正在添加 Coze SDK 脚本标签到 head...');
-      console.log('脚本 URL:', webSdkScript.src);
-      
-      // 确保 head 存在
-      if (!document.head) {
-        console.error('document.head 不存在，等待 DOM 加载...');
-        document.addEventListener('DOMContentLoaded', function() {
-          document.head.appendChild(webSdkScript);
-        });
+          setTimeout(initCoze, 100);
+        } else {
+          console.log('SDK 脚本存在但未加载，等待加载...');
+          existingScript.addEventListener('load', function() {
+            installScriptInterceptor(); // 安装拦截器
+            setTimeout(initCoze, 200);
+          });
+          // 如果已经加载完成，直接尝试初始化
+          setTimeout(function() {
+            installScriptInterceptor();
+            initCoze();
+          }, 500);
+        }
       } else {
-        document.head.appendChild(webSdkScript);
-        console.log('✅ 脚本标签已添加到 head');
+        console.log('正在添加 Coze SDK 脚本标签到 head...');
+        console.log('脚本 URL:', webSdkScript.src);
+        
+        // 确保 head 存在
+        if (!document.head) {
+          console.error('document.head 不存在，等待 DOM 加载...');
+          document.addEventListener('DOMContentLoaded', function() {
+            document.head.appendChild(webSdkScript);
+          });
+        } else {
+          document.head.appendChild(webSdkScript);
+          console.log('✅ 脚本标签已添加到 head');
+        }
+      }
+    }
+    
+    // 延迟加载策略：等页面主要内容加载完成后再加载 SDK
+    // 使用 requestIdleCallback 或延迟执行，避免阻塞页面渲染
+    if (window.requestIdleCallback) {
+      // 浏览器空闲时加载
+      requestIdleCallback(function() {
+        setTimeout(loadCozeSDK, 1000); // 额外延迟 1 秒
+      }, { timeout: 3000 });
+    } else {
+      // 降级方案：页面加载完成 2 秒后加载
+      if (document.readyState === 'complete') {
+        setTimeout(loadCozeSDK, 2000);
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(loadCozeSDK, 2000);
+        });
       }
     }
   })();
