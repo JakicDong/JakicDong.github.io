@@ -800,26 +800,58 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
       console.log('CozeSDK 类型:', typeof CozeSDK);
       console.log('CozeSDK 的可用属性 (Object.keys):', Object.keys(CozeSDK));
       console.log('CozeSDK 的所有属性 (Object.getOwnPropertyNames):', Object.getOwnPropertyNames(CozeSDK));
+      
+      // 使用 Reflect.ownKeys 获取所有键（包括 Symbol）
+      var allKeys = Reflect.ownKeys(CozeSDK);
+      console.log('CozeSDK 的所有键 (Reflect.ownKeys):', allKeys);
+      
+      // 检查 _esModule 属性（使用多种方式）
+      var isESModule = false;
+      try {
+        isESModule = CozeSDK._esModule === true;
+      } catch(e) {}
+      if (!isESModule) {
+        try {
+          var desc = Object.getOwnPropertyDescriptor(CozeSDK, '_esModule');
+          if (desc && desc.value === true) {
+            isESModule = true;
+          }
+        } catch(e) {}
+      }
+      if (!isESModule && allKeys.includes('_esModule')) {
+        isESModule = true;
+      }
+      
       console.log('CozeSDK 是否为函数:', typeof CozeSDK === 'function');
-      console.log('CozeSDK 是否为 ES Module:', CozeSDK._esModule === true);
+      console.log('CozeSDK 是否为 ES Module:', isESModule);
       
       // 尝试多种方式获取 WebChatClient
       var WebChatClient = null;
       var clientSource = '';
       
-      // 如果是 ES Module，优先检查 default 导出
-      if (CozeSDK._esModule === true) {
-        console.log('检测到 ES Module，检查 default 导出...');
-        if (CozeSDK.default) {
-          console.log('找到 default 导出:', CozeSDK.default);
+      // 检查 default 属性（ES Module 通常有 default 导出）
+      console.log('检查 default 属性...');
+      var hasDefault = false;
+      try {
+        hasDefault = 'default' in CozeSDK || CozeSDK.default !== undefined;
+        if (hasDefault) {
+          console.log('找到 default 属性:', CozeSDK.default);
+          console.log('default 类型:', typeof CozeSDK.default);
           if (typeof CozeSDK.default === 'function') {
             WebChatClient = CozeSDK.default;
-            clientSource = 'CozeSDK.default (ES Module)';
-          } else if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
-            WebChatClient = CozeSDK.default.WebChatClient;
-            clientSource = 'CozeSDK.default.WebChatClient (ES Module)';
+            clientSource = 'CozeSDK.default';
+            console.log('✅ 使用 CozeSDK.default 作为构造函数');
+          } else if (CozeSDK.default && typeof CozeSDK.default === 'object') {
+            console.log('default 是对象，检查其属性:', Object.keys(CozeSDK.default));
+            if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
+              WebChatClient = CozeSDK.default.WebChatClient;
+              clientSource = 'CozeSDK.default.WebChatClient';
+              console.log('✅ 使用 CozeSDK.default.WebChatClient 作为构造函数');
+            }
           }
         }
+      } catch(e) {
+        console.log('访问 default 属性时出错:', e);
       }
       
       // 尝试直接访问属性
@@ -846,6 +878,49 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
         } else if (CozeSDK.default.default && typeof CozeSDK.default.default === 'function') {
           WebChatClient = CozeSDK.default.default;
           clientSource = 'CozeSDK.default.default';
+        }
+      }
+      
+      // 如果还没找到，尝试遍历所有属性（包括 Symbol）
+      if (!WebChatClient) {
+        console.log('=== 遍历所有属性查找构造函数 ===');
+        for (var i = 0; i < allKeys.length; i++) {
+          var key = allKeys[i];
+          if (key === '_esModule' || key === 'Symbol(Symbol.toStringTag)') {
+            continue; // 跳过这些属性
+          }
+          try {
+            var value = CozeSDK[key];
+            var valueType = typeof value;
+            console.log('检查属性:', key, '类型:', valueType);
+            if (valueType === 'function') {
+              console.log('  找到函数:', key, value.prototype ? '[可能是构造函数]' : '');
+              // 如果函数名包含 Client 或 Chat，优先尝试
+              var keyStr = String(key);
+              if (keyStr.includes('Client') || keyStr.includes('Chat')) {
+                WebChatClient = value;
+                clientSource = 'CozeSDK[' + keyStr + ']';
+                console.log('✅ 尝试使用:', clientSource);
+                break;
+              }
+            } else if (valueType === 'object' && value !== null) {
+              // 如果是对象，检查其属性
+              var objKeys = Object.keys(value);
+              console.log('  对象属性:', objKeys);
+              for (var j = 0; j < objKeys.length; j++) {
+                var objKey = objKeys[j];
+                if (typeof value[objKey] === 'function' && (objKey.includes('Client') || objKey.includes('Chat'))) {
+                  WebChatClient = value[objKey];
+                  clientSource = 'CozeSDK[' + String(key) + '].' + objKey;
+                  console.log('✅ 尝试使用:', clientSource);
+                  break;
+                }
+              }
+              if (WebChatClient) break;
+            }
+          } catch(e) {
+            console.log('  访问属性时出错:', e);
+          }
         }
       }
       
