@@ -804,19 +804,43 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
 <!-- Coze 插件已加载，页面路径: tags/项目/index.html, 是否主页: true -->
 <script type="text/javascript">
   (function() {
+    console.log('=== Coze 插件脚本开始执行 ===');
+    
     // 初始化函数
     function initCoze() {
+      console.log('开始初始化 Coze...');
       var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
       
+      console.log('检查 CozeSDK:', {
+        CozeWebSDK: typeof window.CozeWebSDK,
+        Coze: typeof window.Coze,
+        coze: typeof window.coze,
+        CozeSDK: typeof window.CozeSDK,
+        found: !!CozeSDK
+      });
+      
       if (!CozeSDK) {
+        console.error('❌ 未找到 CozeSDK 全局变量');
+        console.log('window 对象中的 Coze 相关变量:', Object.keys(window).filter(k => k.toLowerCase().includes('coze')));
         return;
       }
+      
+      console.log('✅ 找到 CozeSDK:', CozeSDK);
       
       var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
       
+      console.log('检查 WebChatClient:', {
+        hasWebChatClient: !!CozeSDK.WebChatClient,
+        using: WebChatClient === CozeSDK ? 'CozeSDK 本身' : 'CozeSDK.WebChatClient'
+      });
+      
       if (!WebChatClient) {
+        console.error('❌ 未找到 WebChatClient 构造函数');
+        console.log('CozeSDK 的可用属性:', Object.keys(CozeSDK));
         return;
       }
+      
+      console.log('✅ 找到 WebChatClient:', WebChatClient);
       
       try {
         var apiBaseUrl = "http://localhost:8888";
@@ -845,14 +869,19 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
           clientConfig.apiBaseUrl = apiBaseUrl;
         }
         
+        console.log('创建 WebChatClient，配置:', JSON.stringify(clientConfig, null, 2));
         var client = new WebChatClient(clientConfig);
+        console.log('✅ WebChatClient 创建成功:', client);
+        console.log('客户端对象:', client);
       } catch (error) {
-        console.error('Coze 初始化失败:', error);
+        console.error('❌ Coze 初始化失败:', error);
+        console.error('错误详情:', error.message, error.stack);
       }
     }
     
     // 设置 API 基础 URL
     var apiBaseUrl = "http://localhost:8888";
+    console.log('API 基础 URL:', apiBaseUrl);
     window.COZE_API_BASE_URL = apiBaseUrl;
     window.COZE_BASE_URL = apiBaseUrl;
     
@@ -860,6 +889,7 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
     var originalFetch = window.fetch;
     window.fetch = function(url, options) {
       if (typeof url === 'string' && url.includes('localhost:4000')) {
+        console.log('拦截 fetch 请求，重定向:', url, '->', url.replace('localhost:4000', 'localhost:8888'));
         url = url.replace('localhost:4000', 'localhost:8888');
       }
       return originalFetch.apply(this, arguments);
@@ -869,36 +899,59 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
     var originalXHROpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function(method, url, ...args) {
       if (typeof url === 'string' && url.includes('localhost:4000')) {
+        console.log('拦截 XHR 请求，重定向:', url, '->', url.replace('localhost:4000', 'localhost:8888'));
         url = url.replace('localhost:4000', 'localhost:8888');
       }
       return originalXHROpen.call(this, method, url, ...args);
     };
     
     // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
+    var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
+    console.log('准备加载 Coze SDK，URL:', sdkUrl);
+    
     var webSdkScript = document.createElement('script');
-    webSdkScript.src = apiBaseUrl + '/static/chat-sdk.js';
+    webSdkScript.src = sdkUrl;
     webSdkScript.async = true;
     webSdkScript.defer = true;
     
     webSdkScript.onload = function () {
+      console.log('✅ Coze SDK 脚本加载成功');
       var retryCount = 0;
       var maxRetries = 10;
       
       function tryInit() {
+        retryCount++;
+        console.log('尝试初始化 (' + retryCount + '/' + maxRetries + ')...');
         var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
         
         if (CozeSDK) {
+          console.log('✅ SDK 已就绪，开始初始化');
           initCoze();
         } else if (retryCount < maxRetries) {
-          retryCount++;
+          console.log('SDK 尚未就绪，等待中...');
           setTimeout(tryInit, 300);
+        } else {
+          console.error('❌ SDK 加载超时，尝试直接初始化');
+          initCoze(); // 即使超时也尝试初始化
         }
       }
       
       setTimeout(tryInit, 100);
     };
     
+    webSdkScript.onerror = function(e) {
+      console.error('❌ Coze SDK 脚本加载失败');
+      console.error('错误事件:', e);
+      console.error('脚本 URL:', sdkUrl);
+      console.error('请检查：');
+      console.error('1. 服务是否运行在', apiBaseUrl);
+      console.error('2. 文件路径是否正确：/static/chat-sdk.js');
+      console.error('3. 是否有 CORS 问题');
+    };
+    
+    console.log('添加脚本标签到 head，URL:', sdkUrl);
     document.head.appendChild(webSdkScript);
+    console.log('脚本标签已添加到 DOM');
   })();
 </script>
 
