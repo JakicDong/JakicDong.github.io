@@ -1262,40 +1262,102 @@ Java并...</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg 
     webSdkScript.async = true;
     webSdkScript.defer = true;
     
-    webSdkScript.onload = function () {
-      console.log('✅ Coze SDK 脚本加载成功');
-      var retryCount = 0;
-      var maxRetries = 10;
-      
-      function tryInit() {
-        retryCount++;
-        console.log('尝试初始化 (' + retryCount + '/' + maxRetries + ')...');
-        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+      webSdkScript.onload = function () {
+        console.log('✅ Coze SDK 脚本加载成功');
+        var retryCount = 0;
+        var maxRetries = 20; // 增加重试次数
         
-        if (CozeSDK) {
-          console.log('✅ SDK 已就绪，开始初始化');
-          initCoze();
-        } else if (retryCount < maxRetries) {
-          console.log('SDK 尚未就绪，等待中...');
-          setTimeout(tryInit, 300);
-        } else {
-          console.error('❌ SDK 加载超时，尝试直接初始化');
-          initCoze(); // 即使超时也尝试初始化
+        function tryInit() {
+          retryCount++;
+          console.log('尝试初始化 (' + retryCount + '/' + maxRetries + ')...');
+          var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+          
+          // 检查 SDK 是否有实际内容（不只是空的 Module）
+          var hasContent = false;
+          if (CozeSDK) {
+            var keys = Object.keys(CozeSDK);
+            var allKeys = Reflect.ownKeys(CozeSDK);
+            // 如果有除了 __esModule 和 Symbol.toStringTag 之外的属性，说明有内容
+            hasContent = allKeys.length > 2 || (CozeSDK.default !== undefined);
+            
+            if (hasContent) {
+              console.log('✅ SDK 已就绪（有内容），开始初始化');
+              initCoze();
+              return;
+            } else if (retryCount < maxRetries) {
+              console.log('SDK 对象存在但内容为空，等待 SDK 完全初始化...');
+              console.log('当前属性:', allKeys);
+              setTimeout(tryInit, 500); // 增加等待时间
+              return;
+            }
+          }
+          
+          if (!CozeSDK && retryCount < maxRetries) {
+            console.log('SDK 尚未就绪，等待中...');
+            setTimeout(tryInit, 300);
+          } else {
+            console.error('❌ SDK 加载超时，尝试直接初始化');
+            console.log('最后检查的 CozeSDK:', CozeSDK);
+            if (CozeSDK) {
+              console.log('CozeSDK 的所有键:', Reflect.ownKeys(CozeSDK));
+            }
+            initCoze(); // 即使超时也尝试初始化
+          }
         }
-      }
-      
-      setTimeout(tryInit, 100);
-    };
+        
+        // 延迟更长时间再开始初始化，给 SDK 更多时间
+        setTimeout(tryInit, 500);
+      };
     
-    webSdkScript.onerror = function(e) {
-      console.error('❌ Coze SDK 脚本加载失败');
-      console.error('错误事件:', e);
-      console.error('脚本 URL:', sdkUrl);
-      console.error('请检查：');
-      console.error('1. 服务是否运行在', apiBaseUrl);
-      console.error('2. 文件路径是否正确：/static/chat-sdk.js');
-      console.error('3. 是否有 CORS 问题');
-    };
+      webSdkScript.onerror = function(e) {
+        console.error('❌ Coze SDK 脚本加载失败');
+        console.error('错误事件:', e);
+        console.error('脚本 URL:', sdkUrl);
+        console.error('请检查：');
+        console.error('1. 服务是否运行在', apiBaseUrl);
+        console.error('2. 文件路径是否正确：/static/chat-sdk.js');
+        console.error('3. 是否有 CORS 问题');
+        
+        // 尝试检查文件是否存在
+        fetch(sdkUrl, { method: 'HEAD' })
+          .then(function(response) {
+            console.log('文件存在，状态码:', response.status);
+            if (response.status === 200) {
+              console.log('文件可以访问，可能是脚本执行错误');
+            }
+          })
+          .catch(function(error) {
+            console.error('文件无法访问:', error);
+          });
+      };
+      
+      // 在脚本加载后，检查所有可能的全局变量
+      webSdkScript.addEventListener('load', function() {
+        setTimeout(function() {
+          console.log('=== 脚本加载后检查所有全局变量 ===');
+          var allWindowKeys = Object.keys(window);
+          var cozeRelated = [];
+          for (var i = 0; i < allWindowKeys.length; i++) {
+            var key = allWindowKeys[i];
+            if (key.toLowerCase().includes('coze') || 
+                key.toLowerCase().includes('chat') || 
+                key.toLowerCase().includes('client')) {
+              var value = window[key];
+              cozeRelated.push({
+                key: key,
+                type: typeof value,
+                isFunction: typeof value === 'function',
+                value: value
+              });
+            }
+          }
+          if (cozeRelated.length > 0) {
+            console.log('找到相关的全局变量:', cozeRelated);
+          } else {
+            console.log('未找到相关的全局变量');
+          }
+        }, 1000);
+      });
     
     console.log('添加脚本标签到 head，URL:', sdkUrl);
     document.head.appendChild(webSdkScript);
