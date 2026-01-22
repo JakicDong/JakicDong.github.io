@@ -790,25 +790,14 @@ Java...</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg sty
 </script>
 
 <script type="text/javascript">
-console.log('[Coze Plugin] 开始加载 SDK:', 'http://localhost:8888/static/chat-sdk.js');
 var webSdkScript = document.createElement('script');
 webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
 document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
-  console.log('[Coze Plugin] SDK 加载成功，等待 SDK 完全初始化...');
-  
-  // 等待 SDK 完全初始化
-  setTimeout(function() {
-    console.log('[Coze Plugin] 检查 SDK 结构...');
-    console.log('[Coze Plugin] CozeWebSDK:', typeof CozeWebSDK);
-    console.log('[Coze Plugin] CozeWebSDK 属性:', Object.keys(CozeWebSDK || {}));
-    
-    // 尝试不同的初始化方式
-    let initialized = false;
-    
-    // 方式1: CozeWebSDK.WebChatClient (构造函数)
-    if (CozeWebSDK && CozeWebSDK.WebChatClient && typeof CozeWebSDK.WebChatClient === 'function') {
-      console.log('[Coze Plugin] 尝试方式1: new CozeWebSDK.WebChatClient()');
+  // 等待 SDK 完全初始化，尝试多次
+  function tryInit() {
+    if (typeof CozeWebSDK !== 'undefined' && CozeWebSDK && CozeWebSDK.WebChatClient) {
+      console.log('[Coze Plugin] SDK 已就绪，开始初始化...');
       try {
         new CozeWebSDK.WebChatClient({
           "config": {
@@ -826,83 +815,23 @@ webSdkScript.onload = function () {
             }
           }
         });
-        console.log('[Coze Plugin] 初始化成功 (方式1)');
-        initialized = true;
+        console.log('[Coze Plugin] 初始化成功');
       } catch (error) {
-        console.error('[Coze Plugin] 方式1失败:', error);
-      }
-    }
-    
-    // 方式2: CozeWebSDK.WebChatClient (普通函数)
-    if (!initialized && CozeWebSDK && CozeWebSDK.WebChatClient && typeof CozeWebSDK.WebChatClient === 'object') {
-      console.log('[Coze Plugin] 尝试方式2: CozeWebSDK.WebChatClient (对象)');
-      console.log('[Coze Plugin] WebChatClient 属性:', Object.keys(CozeWebSDK.WebChatClient || {}));
-      
-      // 尝试查找 create 或 init 方法
-      const possibleMethods = ['create', 'init', 'createClient', 'initClient'];
-      for (let method of possibleMethods) {
-        if (CozeWebSDK.WebChatClient[method] && typeof CozeWebSDK.WebChatClient[method] === 'function') {
-          console.log('[Coze Plugin] 找到方法:', method);
-          try {
-            CozeWebSDK.WebChatClient[method]({
-              "config": {
-                "type": "app",
-                "appInfo": {
-                  "appId": "7594744377281347584",
-                  "workflowId": "7594773612482002944"
-                }
-              },
-              "auth": {
-                "type": "token",
-                "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-                onRefreshToken: function () {
-                  return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
-                }
-              }
-            });
-            console.log('[Coze Plugin] 初始化成功 (方式2, 方法: ' + method + ')');
-            initialized = true;
-            break;
-          } catch (error) {
-            console.error('[Coze Plugin] 方式2失败 (方法: ' + method + '):', error);
-          }
+        console.error('[Coze Plugin] 初始化失败:', error);
+        console.log('[Coze Plugin] CozeWebSDK 类型:', typeof CozeWebSDK);
+        console.log('[Coze Plugin] CozeWebSDK.WebChatClient 类型:', typeof CozeWebSDK.WebChatClient);
+        console.log('[Coze Plugin] CozeWebSDK 属性:', Object.keys(CozeWebSDK || {}));
+        if (CozeWebSDK.WebChatClient) {
+          console.log('[Coze Plugin] WebChatClient 属性:', Object.keys(CozeWebSDK.WebChatClient || {}));
         }
       }
+    } else {
+      // 如果 SDK 还没准备好，等待后重试
+      setTimeout(tryInit, 100);
     }
-    
-    // 方式3: 直接使用 CozeWebSDK
-    if (!initialized && CozeWebSDK && typeof CozeWebSDK === 'function') {
-      console.log('[Coze Plugin] 尝试方式3: new CozeWebSDK()');
-      try {
-        new CozeWebSDK({
-          "config": {
-            "type": "app",
-            "appInfo": {
-              "appId": "7594744377281347584",
-              "workflowId": "7594773612482002944"
-            }
-          },
-          "auth": {
-            "type": "token",
-            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-            onRefreshToken: function () {
-              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
-            }
-          }
-        });
-        console.log('[Coze Plugin] 初始化成功 (方式3)');
-        initialized = true;
-      } catch (error) {
-        console.error('[Coze Plugin] 方式3失败:', error);
-      }
-    }
-    
-    if (!initialized) {
-      console.error('[Coze Plugin] 所有初始化方式都失败了');
-      console.error('[Coze Plugin] 请检查 SDK 文档，确认正确的初始化方式');
-      console.error('[Coze Plugin] SDK 完整结构:', CozeWebSDK);
-    }
-  }, 500);
+  }
+  // 立即尝试一次，如果失败则等待后重试
+  setTimeout(tryInit, 100);
 }
 webSdkScript.onerror = function(error) {
   console.error('[Coze Plugin] SDK 加载失败:', error);
