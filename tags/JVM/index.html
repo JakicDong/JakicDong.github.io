@@ -926,14 +926,15 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
       }
     });
     
-    // 延迟加载 Coze Web SDK（等页面主要内容加载完成后再加载）
+    // 完全异步加载 Coze Web SDK（不阻塞页面渲染）
     function loadCozeSDK() {
-      console.log('开始加载 Coze SDK 脚本...');
+      console.log('开始异步加载 Coze SDK 脚本...');
       var webSdkScript = document.createElement('script');
       // 使用本地 SDK 文件（需要先复制到 source/js/ 目录）
       webSdkScript.src = '/js/chat-sdk.js';
-      webSdkScript.async = true;
-      webSdkScript.defer = true;
+      webSdkScript.async = true; // 异步加载，不阻塞 HTML 解析
+      webSdkScript.defer = false; // async 模式下 defer 无效，设为 false
+      webSdkScript.setAttribute('loading', 'lazy'); // 标记为懒加载
     
     webSdkScript.onload = function () {
       console.log('✅ Coze SDK 脚本标签加载成功');
@@ -1022,38 +1023,94 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
           }, 500);
         }
       } else {
-        console.log('正在添加 Coze SDK 脚本标签到 head...');
+        console.log('正在异步添加 Coze SDK 脚本标签...');
         console.log('脚本 URL:', webSdkScript.src);
         
-        // 确保 head 存在
-        if (!document.head) {
-          console.error('document.head 不存在，等待 DOM 加载...');
-          document.addEventListener('DOMContentLoaded', function() {
-            document.head.appendChild(webSdkScript);
-          });
+        // 使用 requestAnimationFrame 确保不阻塞渲染
+        function addScript() {
+          var target = document.head || document.getElementsByTagName('head')[0] || document.body;
+          if (target) {
+            target.appendChild(webSdkScript);
+            console.log('✅ 脚本标签已异步添加到 DOM');
+          } else {
+            // 如果 DOM 还没准备好，等待一下
+            setTimeout(addScript, 100);
+          }
+        }
+        
+        // 使用 requestAnimationFrame 延迟到下一帧，避免阻塞
+        if (window.requestAnimationFrame) {
+          requestAnimationFrame(addScript);
         } else {
-          document.head.appendChild(webSdkScript);
-          console.log('✅ 脚本标签已添加到 head');
+          setTimeout(addScript, 0);
         }
       }
     }
     
-    // 延迟加载策略：等页面主要内容加载完成后再加载 SDK
-    // 使用 requestIdleCallback 或延迟执行，避免阻塞页面渲染
-    if (window.requestIdleCallback) {
-      // 浏览器空闲时加载
-      requestIdleCallback(function() {
-        setTimeout(loadCozeSDK, 1000); // 额外延迟 1 秒
-      }, { timeout: 3000 });
-    } else {
-      // 降级方案：页面加载完成 2 秒后加载
+    // 完全异步加载策略：不阻塞页面渲染
+    // 策略1: 等待页面完全加载 + 用户交互（滚动/点击）后再加载
+    // 策略2: 如果用户没有交互，则在页面加载后延迟更长时间（5秒）再加载
+    var sdkLoaded = false;
+    var loadTimeout = null;
+    
+    function triggerLoad() {
+      if (sdkLoaded) return;
+      sdkLoaded = true;
+      if (loadTimeout) {
+        clearTimeout(loadTimeout);
+        loadTimeout = null;
+      }
+      console.log('触发 Coze SDK 异步加载');
+      loadCozeSDK();
+    }
+    
+    // 监听用户交互事件（滚动、点击、鼠标移动）
+    var interactionEvents = ['scroll', 'click', 'mousemove', 'touchstart', 'keydown'];
+    var interactionHandler = function() {
+      // 用户有交互，延迟 1 秒后加载（避免频繁触发）
+      if (!sdkLoaded && !loadTimeout) {
+        loadTimeout = setTimeout(triggerLoad, 1000);
+      }
+      // 移除事件监听器（只触发一次）
+      interactionEvents.forEach(function(event) {
+        window.removeEventListener(event, interactionHandler, { passive: true });
+      });
+    };
+    
+    // 添加交互监听（使用 passive 选项，不阻塞滚动性能）
+    interactionEvents.forEach(function(event) {
+      window.addEventListener(event, interactionHandler, { passive: true });
+    });
+    
+    // 备用方案：如果用户没有交互，页面加载完成后延迟 5 秒再加载
+    function setupFallbackLoad() {
+      if (sdkLoaded) return;
+      
       if (document.readyState === 'complete') {
-        setTimeout(loadCozeSDK, 2000);
+        setTimeout(function() {
+          if (!sdkLoaded) {
+            console.log('用户无交互，延迟加载 Coze SDK');
+            triggerLoad();
+          }
+        }, 5000);
       } else {
         window.addEventListener('load', function() {
-          setTimeout(loadCozeSDK, 2000);
-        });
+          setTimeout(function() {
+            if (!sdkLoaded) {
+              console.log('用户无交互，延迟加载 Coze SDK');
+              triggerLoad();
+            }
+          }, 5000);
+        }, { once: true });
       }
+    }
+    
+    // 使用 requestIdleCallback 设置备用加载（不阻塞主线程）
+    if (window.requestIdleCallback) {
+      requestIdleCallback(setupFallbackLoad, { timeout: 8000 });
+    } else {
+      // 降级方案：延迟执行
+      setTimeout(setupFallbackLoad, 1000);
     }
   })();
 </script>
