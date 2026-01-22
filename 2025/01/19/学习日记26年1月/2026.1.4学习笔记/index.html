@@ -322,7 +322,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/">RabbitMQ项目使用</a></div><div class="item" id="next"></div></section></div>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</a></div><div class="item" id="next"></div></section></div>
 
 
 
@@ -980,57 +980,25 @@ var webSdkScript = document.createElement('script');
 webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
 document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
-  console.log('[Coze] SDK 加载完成');
-  console.log('[Coze] CozeWebSDK:', typeof CozeWebSDK, CozeWebSDK);
-  
-  // 检查 CozeWebSDK 的结构
-  if (typeof CozeWebSDK !== 'undefined') {
-    console.log('[Coze] CozeWebSDK 的键:', Object.keys(CozeWebSDK));
-    console.log('[Coze] CozeWebSDK.WebChatClient:', typeof CozeWebSDK.WebChatClient);
-    
-    // 尝试不同的调用方式
-    if (typeof CozeWebSDK.WebChatClient === 'function') {
-      new CozeWebSDK.WebChatClient({
-        "config": {
-          "type": "app",
-          "appInfo": {
-            "appId": "7594744377281348000",
-            "workflowId": "7594773612482003000"
-          }
-        },
-        "auth": {
-          "type": "token",
-          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-          onRefreshToken: function () {
-            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-          }
+  // SDK 加载完成后，等待一下让 SDK 完全初始化
+  setTimeout(function() {
+    new CozeWebSDK.WebChatClient({
+      "config": {
+        "type": "app",
+        "appInfo": {
+          "appId": "7594744377281348000",
+          "workflowId": "7594773612482003000"
         }
-      });
-    } else if (typeof CozeWebSDK.createWebChatClient === 'function') {
-      // 可能是 createWebChatClient 方法
-      CozeWebSDK.createWebChatClient({
-        "config": {
-          "type": "app",
-          "appInfo": {
-            "appId": "7594744377281348000",
-            "workflowId": "7594773612482003000"
-          }
-        },
-        "auth": {
-          "type": "token",
-          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-          onRefreshToken: function () {
-            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-          }
+      },
+      "auth": {
+        "type": "token",
+        "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+        onRefreshToken: function () {
+          return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
         }
-      });
-    } else {
-      console.error('[Coze] 无法找到正确的初始化方法');
-      console.log('[Coze] CozeWebSDK 完整对象:', JSON.stringify(CozeWebSDK, null, 2));
-    }
-  } else {
-    console.error('[Coze] CozeWebSDK 未定义');
-  }
+      }
+    });
+  }, 100);
 }
 </script>
 
