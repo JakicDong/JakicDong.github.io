@@ -780,30 +780,7 @@ cd &#x2F;d D:&#x2F;sys&#x2F;Desktop&#x2F;Workplace&#x2F;gs&#x2F;rosbagrosbag_tes
 
 <!-- Coze 插件已加载，页面路径: page/12/index.html, 是否主页: true -->
 <script type="text/javascript">
-  // 完全延迟执行：将整个脚本包装在延迟函数中，不阻塞页面加载
   (function() {
-    'use strict';
-    
-    // 配置信息（提前提取，避免在函数内部重复访问）
-    var apiBaseUrl = "http://localhost:8888";
-    var sdkUrlRaw = '/js/chat-sdk.js';
-    // 如果 SDK URL 是相对路径，使用配置的 apiBaseUrl
-    var sdkUrl = sdkUrlRaw.startsWith('http') ? sdkUrlRaw : (apiBaseUrl + (sdkUrlRaw.startsWith('/') ? '' : '/') + sdkUrlRaw);
-    
-    var cozeConfig = {
-      apiBaseUrl: apiBaseUrl,
-      appId: "7594744377281347584",
-      workflowId: "7594773612482002944",
-      token: "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-      sdkUrl: sdkUrl
-    };
-    
-    console.log('Coze 插件初始化，配置:', {
-      apiBaseUrl: cozeConfig.apiBaseUrl,
-      sdkUrl: cozeConfig.sdkUrl,
-      sdkUrlRaw: sdkUrlRaw
-    });
-    
     // 初始化函数
     function initCoze() {
       var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
@@ -819,29 +796,30 @@ cd &#x2F;d D:&#x2F;sys&#x2F;Desktop&#x2F;Workplace&#x2F;gs&#x2F;rosbagrosbag_tes
       }
       
       try {
+        var apiBaseUrl = "http://localhost:8888";
         var clientConfig = {
           "config": {
             "type": "app",
             "appInfo": {
-              "appId": cozeConfig.appId,
-              "workflowId": cozeConfig.workflowId
+              "appId": "7594744377281347584",
+              "workflowId": "7594773612482002944"
             }
           },
           "auth": {
             "type": "token",
-            "token": cozeConfig.token,
+            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
             onRefreshToken: function () {
-              return cozeConfig.token;
+              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
             }
           }
         };
         
-        if (cozeConfig.apiBaseUrl) {
-          clientConfig.config.baseURL = cozeConfig.apiBaseUrl;
-          clientConfig.config.apiUrl = cozeConfig.apiBaseUrl;
-          clientConfig.config.serverUrl = cozeConfig.apiBaseUrl;
-          clientConfig.baseURL = cozeConfig.apiBaseUrl;
-          clientConfig.apiBaseUrl = cozeConfig.apiBaseUrl;
+        if (apiBaseUrl) {
+          clientConfig.config.baseURL = apiBaseUrl;
+          clientConfig.config.apiUrl = apiBaseUrl;
+          clientConfig.config.serverUrl = apiBaseUrl;
+          clientConfig.baseURL = apiBaseUrl;
+          clientConfig.apiBaseUrl = apiBaseUrl;
         }
         
         var client = new WebChatClient(clientConfig);
@@ -849,211 +827,55 @@ cd &#x2F;d D:&#x2F;sys&#x2F;Desktop&#x2F;Workplace&#x2F;gs&#x2F;rosbagrosbag_tes
         console.error('Coze 初始化失败:', error);
       }
     }
-  
-    // 设置全局配置和拦截器（立即执行，确保在脚本加载前生效）
-    function setupInterceptors() {
-      // 设置全局配置
-      window.COZE_API_BASE_URL = cozeConfig.apiBaseUrl;
-      window.COZE_BASE_URL = cozeConfig.apiBaseUrl;
-      
-      // 拦截 fetch 请求
-      if (!window.__COZE_FETCH_INTERCEPTED__) {
-        window.__COZE_FETCH_INTERCEPTED__ = true;
-        var originalFetch = window.fetch;
-        window.fetch = function(url, options) {
-          if (typeof url === 'string' && url.includes('localhost:4000')) {
-            url = url.replace('localhost:4000', 'localhost:8888');
-          }
-          return originalFetch.apply(this, arguments);
-        };
-      }
-      
-      // 拦截 XMLHttpRequest
-      if (!window.__COZE_XHR_INTERCEPTED__) {
-        window.__COZE_XHR_INTERCEPTED__ = true;
-        var originalXHROpen = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function(method, url, ...args) {
-          if (typeof url === 'string' && url.includes('localhost:4000')) {
-            url = url.replace('localhost:4000', 'localhost:8888');
-          }
-          return originalXHROpen.call(this, method, url, ...args);
-        };
-      }
-      
-      // 拦截动态 script 标签加载（拦截 SDK 内部创建的脚本中的 4000 端口请求）
-      if (!window.__COZE_SCRIPT_INTERCEPTED__) {
-        window.__COZE_SCRIPT_INTERCEPTED__ = true;
-        var originalCreateElement = document.createElement;
-        document.createElement = function(tagName) {
-          var element = originalCreateElement.call(document, tagName);
-          if (tagName.toLowerCase() === 'script') {
-            // 拦截 setAttribute（只拦截包含 4000 端口或需要重定向的请求）
-            var originalSetAttribute = element.setAttribute;
-            element.setAttribute = function(name, value) {
-              if (name === 'src' && typeof value === 'string') {
-                // 拦截所有包含 localhost:4000 的请求
-                if (value.includes('localhost:4000')) {
-                  value = value.replace('localhost:4000', 'localhost:8888');
-                }
-                // 如果是相对路径的 chunk 文件，使用配置的 apiBaseUrl
-                else if (!value.startsWith('http') && (value.includes('/static/') || value.includes('chunk'))) {
-                  value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
-                }
-              }
-              return originalSetAttribute.call(this, name, value);
-            };
-          }
-          return element;
-        };
-      }
-    }
     
-    // 立即设置拦截器，确保在脚本加载前生效
-    setupInterceptors();
-  
-    // 完全异步加载 Coze Web SDK
-    function loadCozeSDK() {
-      console.log('loadCozeSDK 被调用，SDK URL:', cozeConfig.sdkUrl);
-      
-      // 检查脚本是否已存在
-      var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
-      if (existingScript) {
-        console.log('发现已存在的脚本标签');
-        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-        if (CozeSDK) {
-          setTimeout(initCoze, 100);
-          return;
-        }
-        existingScript.addEventListener('load', function() {
-          setTimeout(initCoze, 200);
-        }, { once: true });
-        return;
-      }
-      
-      // 创建并加载脚本
-      console.log('开始加载 Coze SDK，URL:', cozeConfig.sdkUrl);
-      var webSdkScript = document.createElement('script');
-      webSdkScript.async = true;
-      webSdkScript.setAttribute('loading', 'lazy');
-      
-      // 直接设置 src，避免拦截器干扰
-      webSdkScript.setAttribute('src', cozeConfig.sdkUrl);
-      
-      webSdkScript.onload = function () {
-        console.log('Coze SDK 脚本加载成功');
-        var retryCount = 0;
-        var maxRetries = 10;
-        
-        function tryInit() {
-          var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-          if (CozeSDK) {
-            console.log('Coze SDK 已就绪，开始初始化');
-            initCoze();
-          } else if (retryCount < maxRetries) {
-            retryCount++;
-            setTimeout(tryInit, 300);
-          } else {
-            console.error('Coze SDK 加载超时');
-          }
-        }
-        
-        setTimeout(tryInit, 100);
-      };
-      
-      webSdkScript.onerror = function(e) {
-        console.error('Coze SDK 加载失败:', e);
-        console.error('尝试加载的 URL:', cozeConfig.sdkUrl);
-      };
-      
-      // 异步添加到 DOM
-      function addScript() {
-        var target = document.head || document.getElementsByTagName('head')[0] || document.body;
-        if (target) {
-          console.log('添加脚本标签到 DOM');
-          target.appendChild(webSdkScript);
-        } else {
-          setTimeout(addScript, 100);
-        }
-      }
-      
-      if (window.requestAnimationFrame) {
-        requestAnimationFrame(addScript);
-      } else {
-        setTimeout(addScript, 0);
-      }
-    }
-  
-    // 异步加载策略：不阻塞页面渲染，但确保能正常加载
-    var sdkLoaded = false;
-    var loadTimeout = null;
+    // 设置 API 基础 URL
+    var apiBaseUrl = "http://localhost:8888";
+    window.COZE_API_BASE_URL = apiBaseUrl;
+    window.COZE_BASE_URL = apiBaseUrl;
     
-    function triggerLoad() {
-      if (sdkLoaded) {
-        console.log('SDK 已加载，跳过');
-        return;
+    // 拦截 fetch 请求，将 localhost:4000 的请求重定向到正确的端口
+    var originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+      if (typeof url === 'string' && url.includes('localhost:4000')) {
+        url = url.replace('localhost:4000', 'localhost:8888');
       }
-      console.log('triggerLoad 被调用，开始加载 SDK');
-      sdkLoaded = true;
-      if (loadTimeout) {
-        clearTimeout(loadTimeout);
-        loadTimeout = null;
-      }
-      loadCozeSDK();
-    }
-    
-    // 策略1: 用户交互后立即加载（缩短延迟，确保能触发）
-    var interactionEvents = ['scroll', 'click', 'touchstart', 'mousemove'];
-    var interactionHandler = function() {
-      if (!sdkLoaded && !loadTimeout) {
-        // 用户交互后延迟 500ms 再加载，减少对交互响应的影响
-        loadTimeout = setTimeout(triggerLoad, 500);
-      }
-      // 移除事件监听器（只触发一次）
-      interactionEvents.forEach(function(event) {
-        window.removeEventListener(event, interactionHandler, { passive: true });
-      });
+      return originalFetch.apply(this, arguments);
     };
     
-    // 立即添加交互监听（不延迟，确保能捕获用户交互）
-    interactionEvents.forEach(function(event) {
-      window.addEventListener(event, interactionHandler, { passive: true });
-    });
+    // 拦截 XMLHttpRequest
+    var originalXHROpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, ...args) {
+      if (typeof url === 'string' && url.includes('localhost:4000')) {
+        url = url.replace('localhost:4000', 'localhost:8888');
+      }
+      return originalXHROpen.call(this, method, url, ...args);
+    };
     
-    // 策略2: 页面加载完成后延迟加载（确保一定能加载）
-    function setupFallbackLoad() {
-      if (sdkLoaded) return;
+    // 加载 Coze Web SDK
+    var webSdkScript = document.createElement('script');
+    webSdkScript.src = '/js/chat-sdk.js';
+    webSdkScript.async = true;
+    webSdkScript.defer = true;
+    
+    webSdkScript.onload = function () {
+      var retryCount = 0;
+      var maxRetries = 10;
       
-      function delayedLoad() {
-        if (!sdkLoaded) {
-          triggerLoad();
+      function tryInit() {
+        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+        
+        if (CozeSDK) {
+          initCoze();
+        } else if (retryCount < maxRetries) {
+          retryCount++;
+          setTimeout(tryInit, 300);
         }
       }
       
-      // 页面加载完成后延迟 2 秒加载
-      if (document.readyState === 'complete') {
-        setTimeout(delayedLoad, 2000);
-      } else {
-        window.addEventListener('load', function() {
-          setTimeout(delayedLoad, 2000);
-        }, { once: true });
-      }
-    }
+      setTimeout(tryInit, 100);
+    };
     
-    // 策略3: DOM 加载完成后就开始准备（更早触发）
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(setupFallbackLoad, 1000);
-      }, { once: true });
-    } else {
-      // DOM 已经加载完成，立即设置备用加载
-      setTimeout(setupFallbackLoad, 500);
-    }
-    
-    // 策略4: 使用 requestIdleCallback 在浏览器空闲时加载（不阻塞主线程）
-    // 但设置较短的超时时间，确保能及时加载
-    if (window.requestIdleCallback) {
-      requestIdleCallback(setupFallbackLoad, { timeout: 3000 });
-    }
+    document.head.appendChild(webSdkScript);
   })();
 </script>
 
