@@ -790,12 +790,17 @@ JavaSE八股15&#x2F;56
     'use strict';
     
     // 配置信息（提前提取，避免在函数内部重复访问）
+    var apiBaseUrl = "http://localhost:8888";
+    var sdkUrlRaw = '/js/chat-sdk.js';
+    // 如果 SDK URL 是相对路径，使用配置的 apiBaseUrl
+    var sdkUrl = sdkUrlRaw.startsWith('http') ? sdkUrlRaw : (apiBaseUrl + (sdkUrlRaw.startsWith('/') ? '' : '/') + sdkUrlRaw);
+    
     var cozeConfig = {
-      apiBaseUrl: "http://localhost:8888",
+      apiBaseUrl: apiBaseUrl,
       appId: "7594744377281347584",
       workflowId: "7594773612482002944",
       token: "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-      sdkUrl: '/js/chat-sdk.js'
+      sdkUrl: sdkUrl
     };
     
     // 初始化函数
@@ -844,62 +849,92 @@ JavaSE八股15&#x2F;56
       }
     }
   
-    // 设置全局配置和拦截器（仅在需要时执行）
+    // 设置全局配置和拦截器（立即执行，确保在脚本加载前生效）
     function setupInterceptors() {
       // 设置全局配置
       window.COZE_API_BASE_URL = cozeConfig.apiBaseUrl;
       window.COZE_BASE_URL = cozeConfig.apiBaseUrl;
       
       // 拦截 fetch 请求
-      var originalFetch = window.fetch;
-      window.fetch = function(url, options) {
-        if (typeof url === 'string' && url.includes('localhost:4000')) {
-          url = url.replace('localhost:4000', 'localhost:8888');
-        }
-        return originalFetch.apply(this, arguments);
-      };
+      if (!window.__COZE_FETCH_INTERCEPTED__) {
+        window.__COZE_FETCH_INTERCEPTED__ = true;
+        var originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+          if (typeof url === 'string' && url.includes('localhost:4000')) {
+            url = url.replace('localhost:4000', 'localhost:8888');
+          }
+          return originalFetch.apply(this, arguments);
+        };
+      }
       
       // 拦截 XMLHttpRequest
-      var originalXHROpen = XMLHttpRequest.prototype.open;
-      XMLHttpRequest.prototype.open = function(method, url, ...args) {
-        if (typeof url === 'string' && url.includes('localhost:4000')) {
-          url = url.replace('localhost:4000', 'localhost:8888');
-        }
-        return originalXHROpen.call(this, method, url, ...args);
-      };
+      if (!window.__COZE_XHR_INTERCEPTED__) {
+        window.__COZE_XHR_INTERCEPTED__ = true;
+        var originalXHROpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...args) {
+          if (typeof url === 'string' && url.includes('localhost:4000')) {
+            url = url.replace('localhost:4000', 'localhost:8888');
+          }
+          return originalXHROpen.call(this, method, url, ...args);
+        };
+      }
       
-      // 拦截动态 script 标签加载
-      var scriptInterceptorInstalled = false;
-      if (!scriptInterceptorInstalled) {
-        scriptInterceptorInstalled = true;
+      // 拦截动态 script 标签加载（拦截所有包含 4000 端口的请求）
+      if (!window.__COZE_SCRIPT_INTERCEPTED__) {
+        window.__COZE_SCRIPT_INTERCEPTED__ = true;
         var originalCreateElement = document.createElement;
         document.createElement = function(tagName) {
           var element = originalCreateElement.call(document, tagName);
           if (tagName.toLowerCase() === 'script') {
+            // 拦截 setAttribute
             var originalSetAttribute = element.setAttribute;
             element.setAttribute = function(name, value) {
               if (name === 'src' && typeof value === 'string') {
-                if (value.includes('/static/') && !value.startsWith('http://localhost:8888')) {
-                  if (value.includes('localhost:4000')) {
-                    value = value.replace('localhost:4000', 'localhost:8888');
-                  } else if (!value.startsWith('http')) {
-                    value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
-                  }
+                // 拦截所有包含 localhost:4000 的请求
+                if (value.includes('localhost:4000')) {
+                  value = value.replace('localhost:4000', 'localhost:8888');
+                }
+                // 如果是相对路径且不是以 http 开头，使用配置的 apiBaseUrl
+                else if (!value.startsWith('http') && (value.includes('/js/') || value.includes('/static/'))) {
+                  value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
                 }
               }
               return originalSetAttribute.call(this, name, value);
             };
+            // 拦截直接赋值 src 属性
+            var srcDescriptor = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src') || 
+                                 Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'src');
+            if (srcDescriptor && srcDescriptor.set) {
+              var originalSrcSetter = srcDescriptor.set;
+              Object.defineProperty(element, 'src', {
+                set: function(value) {
+                  if (typeof value === 'string') {
+                    // 拦截所有包含 localhost:4000 的请求
+                    if (value.includes('localhost:4000')) {
+                      value = value.replace('localhost:4000', 'localhost:8888');
+                    }
+                    // 如果是相对路径且不是以 http 开头，使用配置的 apiBaseUrl
+                    else if (!value.startsWith('http') && (value.includes('/js/') || value.includes('/static/'))) {
+                      value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
+                    }
+                  }
+                  originalSrcSetter.call(this, value);
+                },
+                get: srcDescriptor.get,
+                configurable: true
+              });
+            }
           }
           return element;
         };
       }
     }
+    
+    // 立即设置拦截器，确保在脚本加载前生效
+    setupInterceptors();
   
     // 完全异步加载 Coze Web SDK
     function loadCozeSDK() {
-      // 设置拦截器
-      setupInterceptors();
-      
       // 检查脚本是否已存在
       var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
       if (existingScript) {
