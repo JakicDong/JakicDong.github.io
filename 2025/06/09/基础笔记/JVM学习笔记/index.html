@@ -1,0 +1,971 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>JVM学习笔记 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="运行时数据区域 程序计数器记录正在执行的虚拟机字节码指令的地址,如果是本地方法则为空. Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于存储局部变量表、操作数栈、常量池引⽤等信息。从⽅法调⽤直⾄执⾏完成的过程，对应着⼀个栈帧在 Java 虚拟机栈中⼊栈和出栈的过程。 该区域可能抛出的异常:  当线程请求的栈深度超过最⼤值，会抛出 StackOverflowError 异常； 栈进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM学习笔记">
+<meta property="og:url" content="https://jakicdong.github.io/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="运行时数据区域 程序计数器记录正在执行的虚拟机字节码指令的地址,如果是本地方法则为空. Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于存储局部变量表、操作数栈、常量池引⽤等信息。从⽅法调⽤直⾄执⾏完成的过程，对应着⼀个栈帧在 Java 虚拟机栈中⼊栈和出栈的过程。 该区域可能抛出的异常:  当线程请求的栈深度超过最⼤值，会抛出 StackOverflowError 异常； 栈进">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609141513.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609143505.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609144105.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609152610.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609152758.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609152919.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153430.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153248.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153430.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153520.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609154539.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609154609.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609160423.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609163418.png">
+<meta property="article:published_time" content="2025-06-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-30T11:53:36.907Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609141513.png">
+  
+  
+  
+  <meta name="keywords" content="基础,JVM">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="联系我" href="https://jakicdong.github.io/2025/06/01/contact_author/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/"><span class="title">LLM如何进行思维?LLM的瓶颈何在?</span></a><a class="item" href="/2025/10/25/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Elasticsearch学习笔记-开倒排索引通天地,布分词器炼文字丹</span></a><a class="item" href="/2025/10/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%83%AD%E7%82%B9%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">🔥热点知识点学习笔记-炼金丹熔高频考点,布天网擒技术热点</span></a><a class="item" href="/2025/10/23/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%9B%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">场景设计学习笔记-闯架构天宫演诸法,降需求心魔定禅心</span></a><a class="item" href="/2025/10/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E7%AC%AC%E4%BA%8C%E7%89%88)/"><span class="title">Spring学习笔记(第二版)-炼金丹炉铸Bean山 布注解阵控轮回盘</span></a><a class="item" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span></a><a class="item" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记-执SQL咒扫乾坤表,祭联合影擒数据妖</span></a><a class="item" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记-窥内存洞天观玄机,调GC轮回掌生死</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记-布天罡阵降需求妖,演变化术破代码劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记-掌轮回内核定纲常,渡进程内存化阴阳</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记-化整为零散作星,聚沙成塔架云台</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记-架消息桥通三界路 施持久咒定乾坤轮</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记-架天网布分布式,炼金丹渡一致劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记-架映射桥通人神境 写SQL咒调数据兵</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记-踏终端登灵霄殿,执符咒驭众生器</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记-布天罗网锁线程妖,设八卦阵伏竞态魔</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河</span></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记-燃内存真火照幽冥 布集群阵通九霄</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记-筑基篇开修行路,炼气层破语法障</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南-调阴阳戒久坐劫 通经脉战代码妖</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记-布协议栈通三界,架路由桥渡万维</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unity%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记-开IOC瓶纳百川水 织AOP网覆三界尘</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记-撒神经点布星云阵 炼辐射场塑造化身</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item active" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"><span class="title">个人博客搭建指南-架祥云自建菩提境,点慧灯独照博客天</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</span></a><a class="item" href="/2025/06/01/contact_author/"><span class="title">contact_author</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/01/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B026%E5%B9%B41%E6%9C%88/2026.1.4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.1.19学习日记</span></a><a class="item title" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item title" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item title" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item title" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.22%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.22学习日记</span></a><a class="item title" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.16学习日记</span></a><a class="item title" href="/2025/12/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.9学习日记</span></a><a class="item title" href="/2025/12/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.9学习日记</span></a><a class="item title" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item title" href="/2025/11/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.19学习日记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-08T16:00:00.000Z">2025-06-09</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-30T11:53:36.907Z">2025-06-30</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>JVM学习笔记</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><h2 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609141513.png" alt="20250609141513"></p>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>记录正在执行的虚拟机字节码指令的地址,如果是本地方法则为空.</p>
+<h3 id="Java虚拟机栈"><a href="#Java虚拟机栈" class="headerlink" title="Java虚拟机栈"></a>Java虚拟机栈</h3><p>每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于存储局部变量表、操作数栈、常量池引⽤等信息。从⽅法调⽤直⾄执⾏完成的过程，对应着⼀个栈帧在 Java 虚拟机栈中⼊栈和出栈的过程。</p>
+<p>该区域可能抛出的异常:</p>
+<ul>
+<li>当线程请求的栈深度超过最⼤值，会抛出 StackOverflowError 异常；</li>
+<li>栈进⾏动态扩展时如果⽆法申请到⾜够内存，会抛出 OutOfMemoryError 异常。</li>
+</ul>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>本地方法栈和Java虚拟机栈类似,区别在于本地方法栈为虚拟机使用到的 Native ⽅法服务.</p>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>所有对象都在这⾥分配内存，是垃圾收集的主要区域（”GC 堆”）。<br>现代垃圾收集器基本都是采⽤分代收集算法，其主要的思想是针对不同类型的对象采取不同的垃圾回收算法。可以将堆分成两块：</p>
+<ul>
+<li>新⽣代（Young Generation）</li>
+<li>⽼年代（Old Generation）<br>堆不需要连续内存，并且可以动态增加其内存，增加失败会抛出 OutOfMemoryError 异常。</li>
+</ul>
+<h3 id="⽅法区"><a href="#⽅法区" class="headerlink" title="⽅法区"></a>⽅法区</h3><p>⽤于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。<br>和堆⼀样不需要连续的内存，并且可以动态扩展，动态扩展失败⼀样会抛出 OutOfMemoryError 异常。<br>在 JDK 1.8 之后，原来永久代的数据被分到了堆和元空间中。元空间存储类的元信息，静态变量和常量池等放⼊堆中。</p>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>是⽅法区的⼀部分。<br>Class ⽂件中的常量池（编译器⽣成的字⾯量和符号引⽤）会在类加载后被放⼊这个区域。<br>除了在编译期⽣成的常量，还允许动态⽣成，例如 String 类的 intern()。</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>JDK 1.4 新引⼊了 NIO 类，它可以使⽤ Native 函数库直接分配堆外内存，然后通过 Java 堆⾥的 DirectByteBuffer对象作为这块内存的引⽤进⾏操作。这样能在⼀些场景中显著提⾼性能，因为避免了在堆内存和堆外内存来回拷⻉数据。</p>
+<h3 id="理解运行时的数据区"><a href="#理解运行时的数据区" class="headerlink" title="理解运行时的数据区"></a>理解运行时的数据区</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609143505.png" alt="20250609143505"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609144105.png" alt="20250609144105"></p>
+<h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p>垃圾收集主要是针对堆和⽅法区进⾏。程序计数器、虚拟机栈和本地⽅法栈这三个区域属于线程私有的，只存在于线程的⽣命周期内，线程结束之后就会消失，因此不需要对这三个区域进⾏垃圾回收。</p>
+<h3 id="判断一个对象是否可被回收"><a href="#判断一个对象是否可被回收" class="headerlink" title="判断一个对象是否可被回收"></a>判断一个对象是否可被回收</h3><h4 id="1-引⽤计数算法"><a href="#1-引⽤计数算法" class="headerlink" title="1. 引⽤计数算法"></a>1. 引⽤计数算法</h4><p>为对象添加⼀个引⽤计数器，当对象增加⼀个引⽤时计数器加 1，引⽤失效时计数器减 1。引⽤计数为 0 的对象可被回收。</p>
+<p>但由于对象之间循环引用的存在，引⽤计数器也会失效。</p>
+<h4 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2. 可达性分析算法"></a>2. 可达性分析算法</h4><p>以 GC Roots 为起始点进⾏搜索，可达的对象都是存活的，不可达的对象可被回收。<br>Java 虚拟机使⽤该算法来判断对象是否可被回收，GC Roots ⼀般包含以下内容：</p>
+<ul>
+<li>虚拟机栈中局部变量表中引⽤的对象</li>
+<li>本地⽅法栈中 JNI 中引⽤的对象</li>
+<li>⽅法区中类静态属性引⽤的对象</li>
+<li>⽅法区中的常量引⽤的对象</li>
+</ul>
+<h4 id="3-方法区的回收"><a href="#3-方法区的回收" class="headerlink" title="3. 方法区的回收"></a>3. 方法区的回收</h4><p>因为⽅法区主要存放永久代对象，⽽永久代对象的回收率⽐新⽣代低很多，所以在⽅法区上进⾏回收性价⽐不⾼。<br>主要是对常量池的回收和对类的卸载。<br>为了避免内存溢出，在⼤量使⽤反射和动态代理的场景都需要虚拟机具备类卸载功能。<br>类的卸载条件很多，需要满⾜以下三个条件，并且满⾜了条件也不⼀定会被卸载：</p>
+<ul>
+<li>该类所有的实例都已经被回收，此时堆中不存在该类的任何实例。</li>
+<li>加载该类的 ClassLoader 已经被回收。</li>
+<li>该类对应的 Class 对象没有在任何地⽅被引⽤，也就⽆法在任何地⽅通过反射访问该类⽅法。</li>
+</ul>
+<h4 id="4-finalize"><a href="#4-finalize" class="headerlink" title="4. finalize()"></a>4. finalize()</h4><p>类似 C++ 的析构函数，⽤于关闭外部资源。但是⽤ try-finally 可以做得更好，并且 finalize ⽅法运⾏代价很⾼，不确定性⼤，⽆法保证各个对象的调⽤顺序，因此最好不要使⽤。</p>
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><p>⽆论是通过引⽤计数算法判断对象的引⽤数量，还是通过可达性分析算法判断对象是否可达，判定对象是否可被回收都与引⽤有关。Java 提供了四种强度不同的引⽤类型。</p>
+<h4 id="1-强引⽤"><a href="#1-强引⽤" class="headerlink" title="1. 强引⽤"></a>1. 强引⽤</h4><p>被强引⽤关联的对象不会被回收。<br>使⽤ new ⼀个新对象的⽅式来创建强引⽤。<br><code>Object obj = new Object();</code></p>
+<h4 id="2-软引⽤"><a href="#2-软引⽤" class="headerlink" title="2. 软引⽤"></a>2. 软引⽤</h4><p>被软引⽤关联的对象只有在内存不够的情况下才会被回收。使⽤ SoftReference 类来创建软引⽤。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">SoftReference&lt;Object&gt; sf = <span class="keyword">new</span> <span class="title class_">SoftReference</span>&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="literal">null</span>; <span class="comment">// 使对象只被软引⽤关联</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-弱引⽤"><a href="#3-弱引⽤" class="headerlink" title="3. 弱引⽤"></a>3. 弱引⽤</h4><p>被弱引⽤关联的对象⼀定会被回收，也就是说它只能存活到下⼀次垃圾回收发⽣之前。使⽤ WeakReference 类来<br>创建弱引⽤。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">WeakReference&lt;Object&gt; wf = <span class="keyword">new</span> <span class="title class_">WeakReference</span>&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="4-虚引⽤"><a href="#4-虚引⽤" class="headerlink" title="4. 虚引⽤"></a>4. 虚引⽤</h4><p>⼜称为幽灵引⽤或者幻影引⽤，⼀个对象是否有虚引⽤的存在，不会对其⽣存时间造成影响，也⽆法通过虚引⽤得到⼀个对象。<br>为⼀个对象设置虚引⽤的唯⼀⽬的是能在这个对象被回收时收到⼀个系统通知。使⽤ PhantomReference 来创建虚引⽤。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">PhantomReference&lt;Object&gt; pf = <span class="keyword">new</span> <span class="title class_">PhantomReference</span>&lt;Object&gt;(obj, <span class="literal">null</span>);</span><br><span class="line">obj = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h3><h4 id="1-标记-清除算法"><a href="#1-标记-清除算法" class="headerlink" title="1. 标记-清除算法"></a>1. 标记-清除算法</h4><p>最基础的收集算法，分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。<br>不足:</p>
+<ul>
+<li>效率问题，标记和清除两个过程的效率都不⾼；</li>
+<li>空间问题，会产⽣⼤量不连续的内存碎⽚，导致⽆法给⼤对象分配内存。</li>
+</ul>
+<h4 id="2-标记-整理算法"><a href="#2-标记-整理算法" class="headerlink" title="2. 标记-整理算法"></a>2. 标记-整理算法</h4><p>让所有存活的对象都向⼀端移动，然后直接清理掉端边界以外的内存。</p>
+<ul>
+<li>优点: 不会产⽣内存碎⽚</li>
+<li>不⾜: 需要移动⼤量对象，处理效率⽐较低。</li>
+</ul>
+<h4 id="3-复制算法"><a href="#3-复制算法" class="headerlink" title="3. 复制算法"></a>3. 复制算法</h4><p>将内存划分为⼤⼩相等的两块，每次只使⽤其中⼀块，当这⼀块内存⽤完了就将还存活的对象复制到另⼀块上⾯，然后再把使⽤过的内存空间进⾏⼀次清理。<br>不⾜是只使⽤了内存的⼀半。</p>
+<h4 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4. 分代收集算法"></a>4. 分代收集算法</h4><p>现在的商业虚拟机采⽤分代收集算法，它根据对象存活周期将内存划分为⼏块，不同块采⽤适当的收集算法。⼀般将堆分为新⽣代和⽼年代。</p>
+<ul>
+<li>新⽣代使⽤：复制算法</li>
+<li>⽼年代使⽤：标记 - 清除 或者 标记 - 整理 算法</li>
+</ul>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609152610.png" alt="20250609152610"><br>以上是 HotSpot 虚拟机中的 7 个垃圾收集器，连线表示垃圾收集器可以配合使⽤。</p>
+<ul>
+<li>单线程与多线程：单线程指的是垃圾收集器只使⽤⼀个线程，⽽多线程使⽤多个线程；</li>
+<li>串⾏与并⾏：串⾏指的是垃圾收集器与⽤户程序交替执⾏，这意味着在执⾏垃圾收集的时候需要停顿⽤户程<br>序；并⾏指的是垃圾收集器和⽤户程序同时执⾏。除了 CMS 和 G1 之外，其它垃圾收集器都是以串⾏的⽅式执⾏。</li>
+</ul>
+<h3 id="1-Serial-收集器"><a href="#1-Serial-收集器" class="headerlink" title="1. Serial 收集器"></a>1. Serial 收集器</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609152758.png" alt="20250609152758"><br>串行的垃圾收集器，是最基本、历史最悠久的垃圾收集器。单CPU环境下，Serial 收集器由于没有线程交互的开销，可以获得最高的单线程收集效率。</p>
+<ul>
+<li>优点: 简单、容易实现</li>
+<li>缺点: 单线程、停顿时间⻓</li>
+</ul>
+<h3 id="2-ParNew-收集器"><a href="#2-ParNew-收集器" class="headerlink" title="2. ParNew 收集器"></a>2. ParNew 收集器</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609152919.png" alt="20250609152919"><br>ParNew 收集器是 Serial 收集器的多线程版本，它是 Server 场景下默认的新⽣代收集器，除了性能原因外，主要是因为除了 Serial 收集器，只有它能与 CMS 收集器配合使⽤。</p>
+<h3 id="3-Parallel-Scavenge-收集器"><a href="#3-Parallel-Scavenge-收集器" class="headerlink" title="3. Parallel Scavenge 收集器"></a>3. Parallel Scavenge 收集器</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153430.png" alt="20250609153430"><br>与 ParNew ⼀样是多线程收集器。<br>其它收集器⽬标是尽可能缩短垃圾收集时⽤户线程的停顿时间，⽽它的⽬标是达到⼀个可控制的吞吐量，因此它被称为“吞吐量优先”收集器。这⾥的吞吐量指 CPU ⽤于运⾏⽤户程序的时间占总时间的⽐值。</p>
+<h3 id="4-Serial-Old-收集器"><a href="#4-Serial-Old-收集器" class="headerlink" title="4. Serial Old 收集器"></a>4. Serial Old 收集器</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153248.png" alt="20250609153248"><br>是 Serial 收集器的⽼年代版本，也是给 Client 场景下的虚拟机使⽤。如果⽤在 Server 场景下，它有两⼤⽤途：</p>
+<ul>
+<li>在 JDK 1.5 以及之前版本（Parallel Old 诞⽣以前）中与 Parallel Scavenge 收集器搭配使⽤。</li>
+<li>作为 CMS 收集器的后备预案，在并发收集发⽣ Concurrent Mode Failure 时使⽤。</li>
+</ul>
+<h3 id="5-Parallel-Old-收集器"><a href="#5-Parallel-Old-收集器" class="headerlink" title="5. Parallel Old 收集器"></a>5. Parallel Old 收集器</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153430.png" alt="20250609153430"><br>是 Parallel Scavenge 收集器的⽼年代版本。<br>在注重吞吐量以及 CPU 资源敏感的场合，都可以优先考虑 Parallel Scavenge 加 Parallel Old 收集器。</p>
+<h3 id="6-CMS-收集器"><a href="#6-CMS-收集器" class="headerlink" title="6. CMS 收集器"></a>6. CMS 收集器</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609153520.png" alt="20250609153520"><br>CMS（Concurrent Mark Sweep），Mark Sweep 指的是标记 - 清除算法。<br>分为以下四个流程：</p>
+<ul>
+<li>初始标记：仅仅只是标记⼀下 GC Roots 能直接关联到的对象，速度很快，需要停顿。</li>
+<li>并发标记：进⾏ GC Roots Tracing 的过程，它在整个回收过程中耗时最⻓，不需要停顿。</li>
+<li>重新标记：为了修正并发标记期间因⽤户程序继续运作⽽导致标记产⽣变动的那⼀部分对象的标记记录，需要停顿。</li>
+<li>并发清除：不需要停顿。</li>
+</ul>
+<p>在整个过程中耗时最⻓的并发标记和并发清除过程中，收集器线程都可以与⽤户线程⼀起⼯作，不需要进⾏停顿。<br>具有以下缺点：</p>
+<ul>
+<li>吞吐量低：低停顿时间是以牺牲吞吐量为代价的，导致 CPU 利⽤率不够⾼。</li>
+<li>⽆法处理浮动垃圾，可能出现 Concurrent Mode Failure。浮动垃圾是指并发清除阶段由于⽤户线程继续运⾏⽽产⽣的垃圾，这部分垃圾只能到下⼀次 GC 时才能进⾏回收。由于浮动垃圾的存在，因此需要预留出⼀部分内存，意味着 CMS 收集不能像其它收集器那样等待⽼年代快满的时候再回收。如果预留的内存不够存放浮动垃圾，就会出现 Concurrent Mode Failure，这时虚拟机将临时启⽤ Serial Old 来替代 CMS。</li>
+<li>标记 - 清除算法导致的空间碎⽚，往往出现⽼年代空间剩余，但⽆法找到⾜够⼤连续空间来分配当前对象，不得不提前触发⼀次 Full GC。</li>
+</ul>
+<h3 id="7-G1-收集器"><a href="#7-G1-收集器" class="headerlink" title="7. G1 收集器"></a>7. G1 收集器</h3><p>G1（Garbage-First），它是⼀款⾯向服务端应⽤的垃圾收集器，在多 CPU 和⼤内存的场景下有很好的性能。<br>堆被分为新⽣代和⽼年代，其它收集器进⾏收集的范围都是整个新⽣代或者⽼年代，⽽ G1 可以直接对新⽣代和⽼年代⼀起回收。<br>G1 把堆划分成多个⼤⼩相等的独⽴区域（Region），新⽣代和⽼年代不再物理隔离。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609154539.png" alt="20250609154539"><br>通过引⼊ Region 的概念，从⽽将原来的⼀整块内存空间划分成多个的⼩空间，使得每个⼩空间可以单独进⾏垃圾回收。<br>这种划分⽅法带来了很⼤的灵活性，使得可预测的停顿时间模型成为可能。通过记录每个 Region 垃圾回收时间以及回收所获得的空间（这两个值是通过过去回收的经验获得），并维护⼀个优先列表，每次根据允许的收集时间，优先回收价值最⼤的 Region。<br>每个 Region 都有⼀个 Remembered Set，⽤来记录该 Region 对象的引⽤对象所在的 Region。通过使⽤Remembered Set，在做可达性分析的时候就可以避免全堆扫描。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609154609.png" alt="20250609154609"></p>
+<p>如果不计算维护 Remembered Set 的操作，G1 收集器的运作⼤致可划分为以下⼏个步骤：</p>
+<ul>
+<li>初始标记</li>
+<li>并发标记</li>
+<li>最终标记：为了修正在并发标记期间因⽤户程序继续运作⽽导致标记产⽣变动的那⼀部分标记记录，虚拟机将这段时间对象变化记录在线程的 Remembered Set Logs ⾥⾯，最终标记阶段需要把 Remembered Set Logs的数据合并到 Remembered Set 中。这阶段需要停顿线程，但是可并⾏执⾏。</li>
+<li>筛选回收：⾸先对各个 Region 中的回收价值和成本进⾏排序，根据⽤户所期望的 GC 停顿时间来制定回收计划。此阶段其实也可以做到与⽤户程序⼀起并发执⾏，但是因为只回收⼀部分 Region，时间是⽤户可控制的，⽽且停顿⽤户线程将⼤幅度提⾼收集效率。</li>
+</ul>
+<p>具备如下特点：</p>
+<ul>
+<li>空间整合：整体来看是基于“标记 - 整理”算法实现的收集器，从局部（两个 Region 之间）上来看是基于“复制”算法实现的，这意味着运⾏期间不会产⽣内存空间碎⽚。</li>
+<li>可预测的停顿：能让使⽤者明确指定在⼀个⻓度为 M 毫秒的时间⽚段内，消耗在 GC 上的时间不得超过 N 毫秒。</li>
+</ul>
+<h2 id="内存分配与回收策略’"><a href="#内存分配与回收策略’" class="headerlink" title="内存分配与回收策略’"></a>内存分配与回收策略’</h2><h3 id="Minor-GC-和-Full-GC"><a href="#Minor-GC-和-Full-GC" class="headerlink" title="Minor GC 和 Full GC"></a>Minor GC 和 Full GC</h3><ul>
+<li>Minor GC：回收新⽣代，因为新⽣代对象存活时间很短，因此 Minor GC 会频繁执⾏，执⾏的速度⼀般也会⽐较快。</li>
+<li>Full GC：回收⽼年代和新⽣代，⽼年代对象存活时间⻓，因此 Full GC 很少执⾏，执⾏速度会⽐ Minor GC 慢很多。</li>
+</ul>
+<h3 id="内存分配策略"><a href="#内存分配策略" class="headerlink" title="内存分配策略"></a>内存分配策略</h3><ol>
+<li>对象优先在 Eden 分配<br>⼤多数情况下，对象在新⽣代 Eden 上分配，当 Eden 空间不够时，发起 Minor GC。</li>
+<li>⼤对象直接进⼊⽼年代<br>⼤对象是指需要连续内存空间的对象，最典型的⼤对象是那种很⻓的字符串以及数组。<br>经常出现⼤对象会提前触发垃圾收集以获取⾜够的连续空间分配给⼤对象。<br>-XX:PretenureSizeThreshold，⼤于此值的对象直接在⽼年代分配，避免在 Eden 和 Survivor之间的⼤量内存复制。</li>
+<li>⻓期存活的对象进⼊⽼年代<br>为对象定义年龄计数器，对象在 Eden 出⽣并经过 Minor GC 依然存活，将移动到 Survivor中，年龄就增加 1 岁，增加到⼀定年龄则移动到⽼年代中。<br>-XX:MaxTenuringThreshold ⽤来定义年龄的阈值。</li>
+<li>动态对象年龄判定<br>虚拟机并不是永远要求对象的年龄必须达到 MaxTenuringThreshold 才能晋升⽼年代，如果在Survivor 中相同年龄所有对象⼤⼩的总和⼤于 Survivor 空间的⼀半，则年龄⼤于或等于该年龄的对象可以直接进⼊⽼年代，⽆需等到 MaxTenuringThreshold 中要求的年龄。</li>
+<li>空间分配担保<br>在发⽣ Minor GC 之前，虚拟机先检查⽼年代最⼤可⽤的连续空间是否⼤于新⽣代所有对象总空间，如果条件成⽴的话，那么 Minor GC 可以确认是安全的。<br>如果不成⽴的话虚拟机会查看 HandlePromotionFailure 的值是否允许担保失败，如果允许那么就会继续检查⽼年代最⼤可⽤的连续空间是否⼤于历次晋升到⽼年代对象的平均⼤⼩，如果⼤于，将尝试着进⾏⼀次 Minor GC；如果⼩于，或者 HandlePromotionFailure 的值不允许冒险，那么就要进⾏⼀次 Full GC。</li>
+</ol>
+<h3 id="Full-GC-的触发条件"><a href="#Full-GC-的触发条件" class="headerlink" title="Full GC 的触发条件"></a>Full GC 的触发条件</h3><p>对于 Minor GC，其触发条件⾮常简单，当 Eden 空间满时，就将触发⼀次 Minor GC。⽽ Full<br>GC 则相对复杂，有以下条件：</p>
+<ol>
+<li>调⽤ System.gc()<br>只是建议虚拟机执⾏ Full GC，但是虚拟机不⼀定真正去执⾏。不建议使⽤这种⽅式，⽽是让<br>虚拟机管理内存。</li>
+<li>⽼年代空间不⾜<br>⽼年代空间不⾜的常⻅场景为前⽂所讲的⼤对象直接进⼊⽼年代、⻓期存活的对象进⼊⽼年代等。为了避免以上原因引起的 Full GC，应当尽量不要创建过⼤的对象以及数组。除此之外，可以通过 -Xmn 虚拟机参数调⼤新⽣代的⼤⼩，让对象尽量在新⽣代被回收掉，不进⼊⽼年代。还可以通过 -XX:MaxTenuringThreshold 调⼤对象进⼊⽼年代的年龄，让对象在新⽣代多存活⼀段时间。</li>
+<li>空间分配担保失败<br>使⽤复制算法的 Minor GC 需要⽼年代的内存空间作担保，如果担保失败会执⾏⼀次 FullGC。具体内容请参考上⾯的第 5 ⼩节。</li>
+<li>JDK 1.7 及以前的永久代空间不⾜<br>在 JDK 1.7 及以前，HotSpot 虚拟机中的⽅法区是⽤永久代实现的，永久代中存放的为⼀些Class 的信息、常量、静态变量等数据。当系统中要加载的类、反射的类和调⽤的⽅法较多时，永久代可能会被占满，在未配置为采⽤CMS GC 的情况下也会执⾏ Full GC。如果经过 Full GC 仍然回收不了，那么虚拟机会抛出java.lang.OutOfMemoryError。为避免以上原因引起的 Full GC，可采⽤的⽅法为增⼤永久代空间或转为使⽤ CMS GC。</li>
+<li>Concurrent Mode Failure<br>执⾏ CMS GC 的过程中同时有对象要放⼊⽼年代，⽽此时⽼年代空间不⾜（可能是 GC 过程中浮动垃圾过多导致暂时性的空间不⾜），便会报 Concurrent Mode Failure 错误，并触发Full GC。</li>
+</ol>
+<h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><p>类是在运⾏期间第⼀次使⽤时动态加载的，⽽不是⼀次性加载所有类。因为如果⼀次性加载，会占⽤很多的内存。</p>
+<h3 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609160423.png" alt="20250609160423"></p>
+<p><strong>包括以下 7 个阶段：</strong></p>
+<ul>
+<li>加载（Loading）</li>
+<li>验证（Verification）</li>
+<li>准备（Preparation）</li>
+<li>解析（Resolution）</li>
+<li>初始化（Initialization）</li>
+<li>使⽤（Using）</li>
+<li>卸载（Unloading）</li>
+</ul>
+<h3 id="类的加载过程"><a href="#类的加载过程" class="headerlink" title="类的加载过程"></a>类的加载过程</h3><p>包含了加载、验证、准备、解析和初始化这 5 个阶段。</p>
+<p><strong>1. 加载</strong><br>加载是类加载的⼀个阶段，注意不要混淆。加载过程完成以下三件事：</p>
+<ul>
+<li>通过类的完全限定名称获取定义该类的⼆进制字节流。</li>
+<li>将该字节流表示的静态存储结构转换为⽅法区的运⾏时存储结构。</li>
+<li>在内存中⽣成⼀个代表该类的 Class 对象，作为⽅法区中该类各种数据的访问⼊⼝。</li>
+</ul>
+<p>其中⼆进制字节流可以从以下⽅式中获取：</p>
+<ul>
+<li>从 ZIP 包读取，成为 JAR、EAR、WAR 格式的基础。</li>
+<li>从⽹络中获取，最典型的应⽤是 Applet。</li>
+<li>运⾏时计算⽣成，例如动态代理技术，在 java.lang.reflect.Proxy 使⽤ProxyGenerator.generateProxyClass 的代理类的⼆进制字节流。由其他⽂件⽣成，例如由 JSP ⽂件⽣成对应的 Class 类。</li>
+</ul>
+<p><strong>2. 验证</strong><br>确保 Class ⽂件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机⾃身的安全。</p>
+<p><strong>3. 准备</strong><br>类变量是被 static 修饰的变量，准备阶段为类变量分配内存并设置初始值，使⽤的是⽅法区的内存。应该注意到，实例化不是类加载的⼀个过程，类加载发⽣在所有实例化操作之前，并且类加载只进⾏⼀次，实例化可以进⾏多次。<br>初始值⼀般为 0 值，例如下⾯的类变量 value 被初始化为 0 ⽽不是 123。<br><code>public static int value = 123;</code><br>如果类变量是常量，那么它将初始化为表达式所定义的值⽽不是 0。例如下⾯的常量 value 被<br>初始化为 123 ⽽不是 0。<br><code>public static final int value = 123;</code></p>
+<p><strong>4. 解析</strong><br>将常量池的符号引⽤替换为直接引⽤的过程。<br>其中解析过程在某些情况下可以在初始化阶段之后再开始，这是为了⽀持 Java 的动态绑定。</p>
+<p><strong>5. 初始化</strong><br>初始化阶段才真正开始执⾏类中定义的 Java 程序代码。</p>
+<p>初始化阶段是虚拟机执⾏类构造器<code>&lt;clinit&gt;() </code>⽅法的过程。在准备阶段，类变量已经赋过⼀次系统要求的初始值，⽽在初始化阶段，根据程序员通过程序制定的主观计划去初始化类变量和其它资源。</p>
+<p><code>&lt;clinit&gt;() </code>是由编译器⾃动收集类中所有类变量的赋值动作和静态语句块中的语句合并产⽣的，编译器收集的顺序由语句在源⽂件中出现的顺序决定。特别注意的是，静态语句块只能访问到定义在它之前的类变量，定义在它之后的类变量只能赋值，不能访问。例如以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">i = <span class="number">0</span>; <span class="comment">// 给变量赋值可以正常编译通过</span></span><br><span class="line">System.out.print(i); <span class="comment">// 这句编译器会提示“⾮法向前引⽤”</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于⽗类的 <clinit>() ⽅法先执⾏，也就意味着⽗类中定义的静态语句块的执⾏要优先于⼦<br>类。例如以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Parent</span> &#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">A</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">A = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Sub</span> <span class="keyword">extends</span> <span class="title class_">Parent</span> &#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">B</span> <span class="operator">=</span> A;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">System.out.println(Sub.B); <span class="comment">// 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>静态代码块和赋值动作是按照代码的顺序执行的。<br>接⼝中不可以使⽤静态语句块，但仍然有类变量初始化的赋值操作，因此接⼝与类⼀样都会⽣成<code> &lt;clinit&gt;</code>() ⽅法。</p>
+<p>但接⼝与类不同的是，执⾏接⼝的 <code>&lt;clinit&gt;()</code> ⽅法不需要先执⾏⽗接⼝的 <code>&lt;clinit&gt;()</code> ⽅法。只有当⽗接⼝中定义的变量使⽤时，⽗接⼝才会初始化。另外，接⼝的实现类在初始化时也⼀样不会执⾏接⼝的 <code>&lt;clinit&gt;() </code>⽅法。虚拟机会保证⼀个类的 <code>&lt;clinit&gt;() </code>⽅法在多线程环境下被正确的加锁和同步，如果多个线程同时初始化⼀个类，只会有⼀个线程执⾏这个类的 <code>&lt;clinit&gt;()</code> ⽅法，其它线程都会阻塞等待，直到活动线程执⾏ <code>&lt;clinit&gt;()</code> ⽅法完毕。</p>
+<p>如果在⼀个类的<code>&lt;clinit&gt;()</code>⽅法中有耗时的操作，就可能造成多个线程阻塞，在实际过程中此种阻塞很隐蔽。</p>
+<h3 id="类的初始化时机"><a href="#类的初始化时机" class="headerlink" title="类的初始化时机"></a>类的初始化时机</h3><h4 id="1-主动引用"><a href="#1-主动引用" class="headerlink" title="1.主动引用"></a>1.主动引用</h4><p>虚拟机规范中并没有强制约束何时进⾏加载，但是规范严格规定了有且只有下列五种情况必须对类进⾏初始化（加载、验证、准备都会随之发⽣）:</p>
+<ol>
+<li>遇到 new、getstatic、putstatic 或 invokestatic 这 4 条字节码指令时，如果类没有进⾏过初始化，则需要先触发其初始化。</li>
+<li>使⽤ java.lang.reflect 包的方法对类进⾏反射调⽤的时候，如果类没有进⾏过初始化，则需要先触发其初始化。</li>
+<li>当初始化⼀个类时，如果发现其父类还没有进⾏过初始化，则需要先触发其父类的初始化。</li>
+<li>当虚拟机启动时，⽤于执⾏主类（包含 main() ⽅法的那个类）的初始化。</li>
+<li>使⽤ JDK 7 新加入的动态语言⽀持时，如果⼀个 java.lang.invoke.MethodHandle 实例最后的解析结果 REF_getStatic、REF_putStatic、REF_invokeStatic 的⽅法句柄，并且这个⽅法句柄所对应的类没有进⾏过初始化，则需要先出触发其初始化。</li>
+</ol>
+<h4 id="2-被动引用"><a href="#2-被动引用" class="headerlink" title="2.被动引用"></a>2.被动引用</h4><p>以上 5 种场景中的⾏为称为对⼀个类进⾏主动引⽤。除此之外，所有引⽤类的⽅式都不会触发初始化，称为被动引⽤。被动引⽤的常⻅例⼦包括：通过⼦类引⽤⽗类的静态字段，不会导致⼦类初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(SubClass.value); <span class="comment">// value 字段在 SuperClass 中定义</span></span><br></pre></td></tr></table></figure>
+<p>通过数组定义来引⽤类，不会触发此类的初始化。该过程会对数组类进⾏初始化，数组类是⼀个由虚拟机⾃动⽣成的、直接继承⾃ Object 的⼦类，其中包含了数组的属性和⽅法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SuperClass[] sca = <span class="keyword">new</span> <span class="title class_">SuperClass</span>[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+<p>常量在编译阶段会存⼊调⽤类的常量池中，本质上并没有直接引⽤到定义常量的类，因此不会触发定义常量的类的初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(ConstClass.HELLOWORLD);</span><br></pre></td></tr></table></figure>
+
+<h3 id="类加载器分类"><a href="#类加载器分类" class="headerlink" title="类加载器分类"></a>类加载器分类</h3><p>从 Java 虚拟机的⻆度来讲，只存在以下两种不同的类加载器：</p>
+<ul>
+<li>启动类加载器（Bootstrap ClassLoader），使⽤ C++ 实现，是虚拟机⾃身的⼀部分；</li>
+<li>所有其它类的加载器，使⽤ Java 实现，独⽴于虚拟机，继承⾃抽象类java.lang.ClassLoader。</li>
+</ul>
+<p>从 Java 开发⼯程的⻆度来看，类加载器可以划分得更细致一些：</p>
+<ul>
+<li>启动类加载器（Bootstrap ClassLoader）：这个类加载器负责将存放在 <code>&lt;JAVA_HOME&gt;\lib</code> 目录中的，或者被 <code>-Xbootclasspath</code> 参数所指定的路径中的，并且是虚拟机识别的（仅按照文件名识别，如 rt.jar，名字不符合的类库即使放在 lib 目录中也不会被加载）类库加载到虚拟机内存中。启动类加载器无法被 Java 程序直接引⽤，用户在编写自定义类加载器时，如果需要把加载请求委派给启动类加载器去处理，那么直接⽤ null 代替即可。</li>
+<li>扩展类加载器（Extension ClassLoader）：这个类加载器是在类 java.lang.ClassLoader 的构造函数中被调⽤的。它负责将 <JAVA_HOME>&#x2F;lib&#x2F;ext 或者被 java.ext.dir 系统变量所指定路径中的所有类库加载到内存中，开发者可以直接使⽤扩展类加载器。</li>
+<li>应用程序类加载器（Application ClassLoader）：这个类加载器是在类 java.lang.ClassLoader 的构造函数中被调⽤的。由于这个类加载器是 ClassLoader 中的 getSystemClassLoader() 方法的返回值，所以也被称为系统类加载器。它负责将⽤户类路径（ClassPath）上所指定的类库加载到内存中。开发者可以直接使⽤这个类加载器，如果应⽤程序中没有定义过⾃定义的类加载器，一般情况下这个就是程序中默认的类加载器。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250609163418.png" alt="20250609163418"></p>
+<ol>
+<li>⼯作过程<br>⼀个类加载器⾸先将类加载请求转发到⽗类加载器，只有当⽗类加载器⽆法完成时才尝试⾃⼰加载。</li>
+<li>好处<br>使得 Java 类随着它的类加载器⼀起具有⼀种带有优先级的层次关系，从⽽使得基础类得到统⼀。<br>例如 java.lang.Object 存放在 rt.jar 中，如果编写另外⼀个 java.lang.Object 并放到 ClassPath中，程序可以编译通过。<br>由于双亲委派模型的存在，所以在 rt.jar 中的 Object ⽐在 ClassPath 中的 Object 优先级更⾼，这是因为 rt.jar 中的 Object 使⽤的是启动类加载器，⽽ ClassPath 中的 Object 使⽤的是应⽤程序类加载器。rt.jar 中的 Object 优先级更⾼，那么程序中所有的 Object 都是这个Object。</li>
+</ol>
+
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/06/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B46%E6%9C%88/2025.6.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.6.10学习日记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B46%E6%9C%88/2025.6.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.6.9学习日记</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F"><span class="toc-text">运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-text">Java虚拟机栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86"><span class="toc-text">堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%BD%85%E6%B3%95%E5%8C%BA"><span class="toc-text">⽅法区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="toc-text">运行时常量池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="toc-text">直接内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-text">理解运行时的数据区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86"><span class="toc-text">垃圾收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E5%8F%AF%E8%A2%AB%E5%9B%9E%E6%94%B6"><span class="toc-text">判断一个对象是否可被回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BC%95%E2%BD%A4%E8%AE%A1%E6%95%B0%E7%AE%97%E6%B3%95"><span class="toc-text">1. 引⽤计数算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95"><span class="toc-text">2. 可达性分析算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%9B%9E%E6%94%B6"><span class="toc-text">3. 方法区的回收</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-finalize"><span class="toc-text">4. finalize()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="toc-text">引用类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BC%BA%E5%BC%95%E2%BD%A4"><span class="toc-text">1. 强引⽤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BD%AF%E5%BC%95%E2%BD%A4"><span class="toc-text">2. 软引⽤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%BC%B1%E5%BC%95%E2%BD%A4"><span class="toc-text">3. 弱引⽤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%99%9A%E5%BC%95%E2%BD%A4"><span class="toc-text">4. 虚引⽤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="toc-text">垃圾收集算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="toc-text">1. 标记-清除算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="toc-text">2. 标记-整理算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="toc-text">3. 复制算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="toc-text">4. 分代收集算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Serial-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">1. Serial 收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ParNew-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">2. ParNew 收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Parallel-Scavenge-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">3. Parallel Scavenge 收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Serial-Old-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">4. Serial Old 收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Parallel-Old-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">5. Parallel Old 收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-CMS-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">6. CMS 收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-G1-%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-text">7. G1 收集器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5%E2%80%99"><span class="toc-text">内存分配与回收策略’</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Minor-GC-%E5%92%8C-Full-GC"><span class="toc-text">Minor GC 和 Full GC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-text">内存分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Full-GC-%E7%9A%84%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="toc-text">Full GC 的触发条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-text">类加载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">类的生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="toc-text">类的加载过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E6%9C%BA"><span class="toc-text">类的初始化时机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%BB%E5%8A%A8%E5%BC%95%E7%94%A8"><span class="toc-text">1.主动引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%A2%AB%E5%8A%A8%E5%BC%95%E7%94%A8"><span class="toc-text">2.被动引用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%88%86%E7%B1%BB"><span class="toc-text">类加载器分类</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>undefined
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>

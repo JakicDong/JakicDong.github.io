@@ -1,0 +1,1223 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="HashMap为饕餮鼎，LinkedList似蜃楼链——施主可要修习这「集合小乾坤」的造化？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河">
+<meta property="og:url" content="https://jakicdong.github.io/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="HashMap为饕餮鼎，LinkedList似蜃楼链——施主可要修习这「集合小乾坤」的造化？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/java%E9%9B%86%E5%90%88%E4%B8%BB%E8%A6%81%E5%85%B3%E7%B3%BB.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801105907.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112309.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112729.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112820.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112835.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112927.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110446.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110550.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110642.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110656.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110718.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110809.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110844.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804111421.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804112156.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804112648.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804112738.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805110954.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/%E5%B7%A6%E6%97%8B.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/%E5%8F%B3%E6%97%8B.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805111220.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805111458.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805112313.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806102113.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806102353.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806104546.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806110901.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806113025.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807100856.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807100911.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807101227.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807101806.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807101928.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102317.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102413.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102739.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102747.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102803.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103037.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103056.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103127.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103211.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103239.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103405.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103452.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103509.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103648.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103717.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103755.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103841.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807104323.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807104412.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807104847.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807110317.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807110500.png">
+<meta property="article:published_time" content="2025-07-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-23T02:48:52.370Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/java%E9%9B%86%E5%90%88%E4%B8%BB%E8%A6%81%E5%85%B3%E7%B3%BB.png">
+  
+  
+  
+  <meta name="keywords" content="基础,Java">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="联系我" href="https://jakicdong.github.io/2025/06/01/contact_author/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/"><span class="title">LLM如何进行思维?LLM的瓶颈何在?</span></a><a class="item" href="/2025/10/25/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Elasticsearch学习笔记-开倒排索引通天地,布分词器炼文字丹</span></a><a class="item" href="/2025/10/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%83%AD%E7%82%B9%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">🔥热点知识点学习笔记-炼金丹熔高频考点,布天网擒技术热点</span></a><a class="item" href="/2025/10/23/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%9B%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">场景设计学习笔记-闯架构天宫演诸法,降需求心魔定禅心</span></a><a class="item" href="/2025/10/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E7%AC%AC%E4%BA%8C%E7%89%88)/"><span class="title">Spring学习笔记(第二版)-炼金丹炉铸Bean山 布注解阵控轮回盘</span></a><a class="item" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span></a><a class="item" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记-执SQL咒扫乾坤表,祭联合影擒数据妖</span></a><a class="item" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记-窥内存洞天观玄机,调GC轮回掌生死</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记-布天罡阵降需求妖,演变化术破代码劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记-掌轮回内核定纲常,渡进程内存化阴阳</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记-化整为零散作星,聚沙成塔架云台</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记-架消息桥通三界路 施持久咒定乾坤轮</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记-架天网布分布式,炼金丹渡一致劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记-架映射桥通人神境 写SQL咒调数据兵</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记-踏终端登灵霄殿,执符咒驭众生器</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记-布天罗网锁线程妖,设八卦阵伏竞态魔</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item active" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记-燃内存真火照幽冥 布集群阵通九霄</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记-筑基篇开修行路,炼气层破语法障</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南-调阴阳戒久坐劫 通经脉战代码妖</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记-布协议栈通三界,架路由桥渡万维</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unity%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记-开IOC瓶纳百川水 织AOP网覆三界尘</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记-撒神经点布星云阵 炼辐射场塑造化身</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"><span class="title">个人博客搭建指南-架祥云自建菩提境,点慧灯独照博客天</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</span></a><a class="item" href="/2025/06/01/contact_author/"><span class="title">contact_author</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/01/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B026%E5%B9%B41%E6%9C%88/2026.1.4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.1.19学习日记</span></a><a class="item title" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item title" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item title" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item title" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.22%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.22学习日记</span></a><a class="item title" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.16学习日记</span></a><a class="item title" href="/2025/12/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.9学习日记</span></a><a class="item title" href="/2025/12/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.9学习日记</span></a><a class="item title" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item title" href="/2025/11/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.19学习日记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-31T16:00:00.000Z">2025-08-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-23T02:48:52.370Z">2025-10-23</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><h3 id="1-🌟说说有哪些常见的集合框架？"><a href="#1-🌟说说有哪些常见的集合框架？" class="headerlink" title="1.🌟说说有哪些常见的集合框架？"></a>1.🌟说说有哪些常见的集合框架？</h3><ul>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://javabetter.cn/collection/gailan.html">二哥的 Java 进阶之路：Java 集合框架</a></li>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://javabetter.cn/thread/BlockingQueue.html">阻塞队列 BlockingQueue</a>。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/java%E9%9B%86%E5%90%88%E4%B8%BB%E8%A6%81%E5%85%B3%E7%B3%BB.png" alt="java集合主要关系"></p>
+<p>集合框架可以分为两条大的支线：</p>
+<p>①、第一条支线 <code>Collection</code>，主要由 List、Set、Queue 组成：</p>
+<ul>
+<li>List 代表有序、可重复的集合，典型代表就是封装了动态数组的 <a target="_blank" rel="noopener" href="https://javabetter.cn/collection/arraylist.html">ArrayList</a> 和封装了链表的 <a target="_blank" rel="noopener" href="https://javabetter.cn/collection/linkedlist.html">LinkedList</a>；</li>
+<li>Set 代表无序、不可重复的集合，典型代表就是 HashSet 和 TreeSet；</li>
+<li>Queue 代表队列，典型代表就是双端队列 <a target="_blank" rel="noopener" href="https://javabetter.cn/collection/arraydeque.html">ArrayDeque</a>，以及优先级队列 <a target="_blank" rel="noopener" href="https://javabetter.cn/collection/PriorityQueue.html">PriorityQueue</a>。</li>
+</ul>
+<p>②、第二条支线 <code>Map</code>，代表键值对的集合，典型代表就是 <a target="_blank" rel="noopener" href="https://javabetter.cn/collection/hashmap.html">HashMap</a>。</p>
+<p>另外一个回答版本：</p>
+<p>①、<code>Collection</code> 接口：最基本的集合框架表示方式，提供了添加、删除、清空等基本操作，它主要有三个子接口：</p>
+<ul>
+<li><code>List</code>：一个有序的集合，可以包含重复的元素。实现类包括 ArrayList、LinkedList 等。</li>
+<li><code>Set</code>：一个不包含重复元素的集合。实现类包括 HashSet、LinkedHashSet、TreeSet 等。</li>
+<li><code>Queue</code>：一个用于保持元素队列的集合。实现类包括 PriorityQueue、ArrayDeque 等。</li>
+</ul>
+<p>②、<code>Map</code> 接口：表示键值对的集合，一个键映射到一个值。键不能重复，每个键只能对应一个值。Map 接口的实现类包括 HashMap、LinkedHashMap、TreeMap 等。</p>
+<h4 id="集合框架有哪几个常用工具类？"><a href="#集合框架有哪几个常用工具类？" class="headerlink" title="集合框架有哪几个常用工具类？"></a>集合框架有哪几个常用工具类？</h4><p>集合框架位于 <code>java.util</code> 包下，提供了两个常用的工具类：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/common-tool/collections.html">Collections</a>：提供了一些对集合进行排序、二分查找、同步的静态方法。</li>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/common-tool/arrays.html">Arrays</a>：提供了一些对数组进行排序、打印、和 List 进行转换的静态方法。</li>
+</ul>
+<h4 id="简单介绍一下队列"><a href="#简单介绍一下队列" class="headerlink" title="简单介绍一下队列"></a>简单介绍一下队列</h4><p>Java 中的队列主要通过 <code>Queue</code> 接口和并发包下的 <code>BlockingQueue</code> 两个接口来实现。</p>
+<p>优先级队列 <code>PriorityQueue</code> 实现了 <code>Queue</code> 接口，是一个无界队列，它的元素按照自然顺序排序或者 <code>Comparator</code> 比较器进行排序。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801105907.png" alt="20250801105907"></p>
+<p>双端队列 <code>ArrayDeque</code> 也实现了 <code>Queue</code> 接口，是一个基于数组的，可以在两端插入和删除元素的队列。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112309.png" alt="20250801112309"></p>
+<p>LinkedList 实现了 Queue 接口的子类 Deque，所以也可以当做双端队列来使用。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112729.png" alt="20250801112729"></p>
+<h4 id="用过哪些集合类，它们的优劣？"><a href="#用过哪些集合类，它们的优劣？" class="headerlink" title="用过哪些集合类，它们的优劣？"></a>用过哪些集合类，它们的优劣？</h4><p>我常用的集合类有 ArrayList、LinkedList、HashMap、LinkedHashMap。</p>
+<ol>
+<li><p>ArrayList 可以看作是一个<strong>动态数组</strong>，可以在需要时动态扩容数组的容量，只不过需要复制元素到新的数组。优点是访问速度快，可以通过索引直接查找到元素。缺点是插入和删除元素可能需要移动或者复制元素。</p>
+</li>
+<li><p>LinkedList 是一个<strong>双向链表</strong>，适合频繁的插入和删除操作。优点是插入和删除元素的时候只需要改变节点的前后指针，缺点是访问元素时需要遍历链表。</p>
+</li>
+<li><p>HashMap 是一个基于哈希表的键值对集合。优点是可以根据键的哈希值快速查找到值，但有可能会发生哈希冲突，并且不保留键值对的插入顺序。</p>
+</li>
+<li><p>LinkedHashMap 在 HashMap 的基础上增加了一个双向链表来保持键值对的插入顺序。</p>
+</li>
+</ol>
+<h4 id="队列和栈的区别了解吗？"><a href="#队列和栈的区别了解吗？" class="headerlink" title="队列和栈的区别了解吗？"></a>队列和栈的区别了解吗？</h4><p>队列是一种先进先出（FIFO, First-In-First-Out）的数据结构，第一个加入队列的元素会成为第一个被移除的元素。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112820.png" alt="20250801112820"></p>
+<p>栈是一种后进先出（LIFO, Last-In-First-Out）的数据结构，最后一个加入栈的元素会成为第一个被移除的元素。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112835.png" alt="20250801112835"></p>
+<h4 id="哪些是线程安全的容器？"><a href="#哪些是线程安全的容器？" class="headerlink" title="哪些是线程安全的容器？"></a>哪些是线程安全的容器？</h4><p>像 Vector、Hashtable、ConcurrentHashMap、CopyOnWriteArrayList、ConcurrentLinkedQueue、ArrayBlockingQueue、LinkedBlockingQueue 都是线程安全的。</p>
+<h4 id="Collection-继承了哪些接口？"><a href="#Collection-继承了哪些接口？" class="headerlink" title="Collection 继承了哪些接口？"></a>Collection 继承了哪些接口？</h4><p>Collection 继承了 <code>Iterable</code> 接口，这意味着所有实现 <code>Collection</code> 接口的类都必须实现 <code>iterator()</code> 方法，之后就可以使用增强型 for 循环遍历集合中的元素了。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250801112927.png" alt="20250801112927"></p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p><a target="_blank" rel="noopener" href="https://javabetter.cn/sidebar/sanfene/collection.html#list">List 推荐阅读文章</a></p>
+<h3 id="2-🌟ArrayList-和-LinkedList-有什么区别？"><a href="#2-🌟ArrayList-和-LinkedList-有什么区别？" class="headerlink" title="2.🌟ArrayList 和 LinkedList 有什么区别？"></a>2.🌟ArrayList 和 LinkedList 有什么区别？</h3><p>推荐阅读：<a target="_blank" rel="noopener" href="https://javabetter.cn/collection/list-war-2.html">二哥的 Java 进阶之路：ArrayList 和 LinkedList</a></p>
+<p>ArrayList 是基于<strong>数组</strong>实现的，LinkedList 是基于<strong>链表</strong>实现的。</p>
+<h4 id="ArrayList-和-LinkedList-的用途有什么不同？"><a href="#ArrayList-和-LinkedList-的用途有什么不同？" class="headerlink" title="ArrayList 和 LinkedList 的用途有什么不同？"></a>ArrayList 和 LinkedList 的用途有什么不同？</h4><p>多数情况下，ArrayList 更利于<code>查找</code>，LinkedList 更利于<code>增删</code>。</p>
+<p>①、由于 ArrayList 是基于数组实现的，所以 <code>get(int index)</code> 可以直接通过数组下标获取，时间复杂度是 O(1)；LinkedList 是基于链表实现的，<code>get(int index)</code> 需要遍历链表，时间复杂度是 O(n)。</p>
+<p>当然，<code>get(E element)</code> 这种查找，两种集合都需要遍历通过 equals 比较获取元素，所以时间复杂度都是 O(n)。</p>
+<p>②、ArrayList 如果增删的是数组的尾部，时间复杂度是 O(1)；如果 add 的时候涉及到扩容，时间复杂度会上升到 O(n)。</p>
+<p>但如果插入的是中间的位置，就需要把插入位置后的元素向前或者向后移动，甚至还有可能触发扩容，效率就会低很多，变成 O(n)。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110446.png" alt="20250804110446"></p>
+<p><code>LinkedList</code> 因为是链表结构，插入和删除只需要改变前置节点、后置节点和插入节点的引用，因此不需要移动元素。</p>
+<p>如果是在链表的头部插入或者删除，时间复杂度是 O(1)；如果是在链表的中间插入或者删除，时间复杂度是 O(n)，因为需要遍历链表找到插入位置；如果是在链表的尾部插入或者删除，时间复杂度是 O(1)。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110550.png" alt="20250804110550"></p>
+<h4 id="ArrayList-和-LinkedList-是否支持随机访问？"><a href="#ArrayList-和-LinkedList-是否支持随机访问？" class="headerlink" title="ArrayList 和 LinkedList 是否支持随机访问？"></a>ArrayList 和 LinkedList 是否支持随机访问？</h4><p>①、ArrayList 是基于数组的，也实现了 <code>RandomAccess</code> 接口，所以它支持随机访问，可以通过下标直接获取元素。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110642.png" alt="20250804110642"></p>
+<p>②、LinkedList 是基于链表的，所以它没法根据下标直接获取元素，不支持随机访问。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110656.png" alt="20250804110656"></p>
+<h4 id="ArrayList-和-LinkedList-内存占用有何不同？"><a href="#ArrayList-和-LinkedList-内存占用有何不同？" class="headerlink" title="ArrayList 和 LinkedList 内存占用有何不同？"></a>ArrayList 和 LinkedList 内存占用有何不同？</h4><p>ArrayList 是基于数组的，是一块连续的内存空间，所以它的内存占用是比较紧凑的；但如果涉及到扩容，就会重新分配内存，空间是原来的 1.5 倍。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110718.png" alt="20250804110718"></p>
+<p>LinkedList 是基于链表的，每个节点都有一个指向下一个节点和上一个节点的引用，于是每个节点占用的内存空间比 ArrayList 稍微大一点。</p>
+<h4 id="ArrayList-和-LinkedList-的使用场景有什么不同？"><a href="#ArrayList-和-LinkedList-的使用场景有什么不同？" class="headerlink" title="ArrayList 和 LinkedList 的使用场景有什么不同？"></a>ArrayList 和 LinkedList 的使用场景有什么不同？</h4><p>ArrayList 适用于：</p>
+<ul>
+<li>随机访问频繁：需要频繁通过索引访问元素的场景。</li>
+<li>读取操作远多于写入操作：如存储不经常改变的列表。</li>
+<li>末尾添加元素：需要频繁在列表末尾添加元素的场景。</li>
+</ul>
+<p>LinkedList 适用于：</p>
+<ul>
+<li>频繁插入和删除：在列表中间频繁插入和删除元素的场景。</li>
+<li>不需要快速随机访问：顺序访问多于随机访问的场景。</li>
+<li>队列和栈：由于其双向链表的特性，LinkedList 可以实现队列（FIFO）和栈（LIFO）。</li>
+</ul>
+<h4 id="链表和数组有什么区别？"><a href="#链表和数组有什么区别？" class="headerlink" title="链表和数组有什么区别？"></a>链表和数组有什么区别？</h4><ul>
+<li>数组在内存中占用的是一块连续的存储空间，因此我们可以通过数组下标快速访问任意元素。数组在创建时必须指定大小，一旦分配内存，数组的大小就固定了。</li>
+<li>链表的元素存储在于内存中的任意位置，每个节点通过指针指向下一个节点。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110809.png" alt="20250804110809"></p>
+<h3 id="3-ArrayList-的扩容机制了解吗？"><a href="#3-ArrayList-的扩容机制了解吗？" class="headerlink" title="3.ArrayList 的扩容机制了解吗？"></a>3.ArrayList 的扩容机制了解吗？</h3><p>了解。当往 <code>ArrayList</code> 中添加元素时，会先检查是否需要扩容，如果当前容量+1 超过数组长度，就会进行扩容。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804110844.png" alt="20250804110844"></p>
+<p>扩容后的新数组长度是原来的 1.5 倍，然后再把原数组的值拷贝到新数组中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">grow</span><span class="params">(<span class="type">int</span> minCapacity)</span> &#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldCapacity</span> <span class="operator">=</span> elementData.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">newCapacity</span> <span class="operator">=</span> oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-ArrayList-怎么序列化的知道吗？"><a href="#4-ArrayList-怎么序列化的知道吗？" class="headerlink" title="4.ArrayList 怎么序列化的知道吗？"></a>4.ArrayList 怎么序列化的知道吗？</h3><p>在 ArrayList 中，<code>writeObject</code> 方法被重写了，用于自定义序列化逻辑：只序列化有效数据，因为 <code>elementData</code> 数组的容量一般大于实际的元素数量，声明的时候也加了 <code>transient</code> 关键字。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804111421.png" alt="20250804111421"></p>
+<h4 id="为什么-ArrayList-不直接序列化元素数组呢？"><a href="#为什么-ArrayList-不直接序列化元素数组呢？" class="headerlink" title="为什么 ArrayList 不直接序列化元素数组呢？"></a>为什么 ArrayList 不直接序列化元素数组呢？</h4><p>出于效率的考虑，数组可能长度 100，但实际只用了 50，剩下的 50 没用到，也就不需要序列化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span></span><br><span class="line">    <span class="keyword">throws</span> java.io.IOException &#123;</span><br><span class="line">    <span class="comment">// 将当前 ArrayList 的结构进行序列化</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">expectedModCount</span> <span class="operator">=</span> modCount;</span><br><span class="line">    s.defaultWriteObject(); <span class="comment">// 序列化非 transient 字段</span></span><br><span class="line">    <span class="comment">// 序列化数组的大小</span></span><br><span class="line">    s.writeInt(size);</span><br><span class="line">    <span class="comment">// 序列化每个元素</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">        s.writeObject(elementData[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 检查是否在序列化期间发生了并发修改</span></span><br><span class="line">    <span class="keyword">if</span> (modCount != expectedModCount) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ConcurrentModificationException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-快速失败fail-fast了解吗？"><a href="#5-快速失败fail-fast了解吗？" class="headerlink" title="5.快速失败fail-fast了解吗？"></a>5.快速失败fail-fast了解吗？</h3><p><code>fail—fast</code> 是 Java 集合的一种错误检测机制。</p>
+<p>在用迭代器遍历集合对象时，如果线程 A 遍历过程中，线程 B 对集合对象的内容进行了修改，就会抛出 <code>Concurrent Modification Exception</code>。</p>
+<p>迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 <code>modCount</code> 变量。集合在被遍历期间如果内容发生变化，就会改变<code>modCount</code>的值。每当迭代器使用 <code>hashNext()/next()</code>遍历下一个元素之前，都会检测 <code>modCount</code> 变量是否为 <code>expectedmodCount</code> 值，是的话就返回遍历；否则抛出异常，终止遍历。</p>
+<p>异常的抛出条件是检测到 <code>modCount！=expectedmodCount</code> 这个条件。如果集合发生变化时修改 modCount 值刚好又设置为了 expectedmodCount 值，则异常不会抛出。因此，不能依赖于这个异常是否抛出而进行并发操作的编程，这个异常只建议用于检测并发修改的 bug。</p>
+<p><code>java.util</code> 包下的集合类都是快速失败的，不能在多线程下发生并发修改（迭代过程中被修改），比如 <code>ArrayList</code> 类。</p>
+<h4 id="什么是安全失败（fail—safe）呢？"><a href="#什么是安全失败（fail—safe）呢？" class="headerlink" title="什么是安全失败（fail—safe）呢？"></a>什么是安全失败（fail—safe）呢？</h4><p>采用<strong>安全失败机制</strong>的集合容器，在遍历时不是直接在集合内容上访问的，而是<strong>先复制原有集合内容</strong>，在拷贝的集合上进行遍历。</p>
+<p>原理：由于迭代时是对原集合的拷贝进行遍历，所以在遍历过程中对原集合所作的修改并不能被迭代器检测到，所以不会触发 <code>Concurrent Modification Exception</code>。</p>
+<p>缺点：基于拷贝内容的优点是避免了 <code>Concurrent Modification Exception</code>，但同样地，迭代器并不能访问到修改后的内容，即：迭代器遍历的是开始遍历那一刻拿到的集合拷贝，在遍历期间原集合发生的修改迭代器是不知道的。</p>
+<p>场景：<code>java.util.concurrent</code> 包下的容器都是安全失败，可以在多线程下并发使用，并发修改，比如 <code>CopyOnWriteArrayList</code> 类。</p>
+<h3 id="6-有哪几种实现-ArrayList-线程安全的方法？"><a href="#6-有哪几种实现-ArrayList-线程安全的方法？" class="headerlink" title="6.有哪几种实现 ArrayList 线程安全的方法？"></a>6.有哪几种实现 ArrayList 线程安全的方法？</h3><p>常用的有两种。</p>
+<p>可以使用 <code>Collections.synchronizedList()</code> 方法，它可以返回一个线程安全的 List。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">SynchronizedList</span> <span class="variable">list</span> <span class="operator">=</span> Collections.synchronizedList(<span class="keyword">new</span> <span class="title class_">ArrayList</span>());</span><br></pre></td></tr></table></figure>
+<p>内部是通过 <a target="_blank" rel="noopener" href="https://javabetter.cn/thread/synchronized-1.html">synchronized 关键字</a>加锁来实现的。</p>
+<p>也可以直接使用 <a target="_blank" rel="noopener" href="https://javabetter.cn/thread/CopyOnWriteArrayList.html">CopyOnWriteArrayList</a>，它是线程安全的 ArrayList，遵循写时复制的原则，每当对列表进行修改时，都会创建一个新副本，这个新副本会替换旧的列表，而对旧列表的所有读取操作仍然在原有的列表上进行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CopyOnWriteArrayList</span> <span class="variable">list</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CopyOnWriteArrayList</span>();</span><br></pre></td></tr></table></figure>
+<p>通俗的讲，CopyOnWrite 就是当我们往一个容器添加元素的时候，不直接往容器中添加，而是先复制出一个新的容器，然后在新的容器里添加元素，添加完之后，再将原容器的引用指向新的容器。多个线程在读的时候，不需要加锁，因为当前容器不会添加任何元素。这样就实现了线程安全。</p>
+<h4 id="ArrayList-和-Vector-的区别？"><a href="#ArrayList-和-Vector-的区别？" class="headerlink" title="ArrayList 和 Vector 的区别？"></a>ArrayList 和 Vector 的区别？</h4><p>Vector 属于 JDK 1.0 时期的遗留类，不推荐使用，仍然保留着是因为 Java 希望向后兼容。</p>
+<p>ArrayList 是在 JDK 1.2 时引入的，用于替代 Vector 作为主要的非同步动态数组实现。因为 Vector 所有的方法都使用了 synchronized 关键字进行同步，所以单线程环境下效率较低。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804112156.png" alt="20250804112156"></p>
+<h3 id="7-CopyOnWriteArrayList-了解多少？"><a href="#7-CopyOnWriteArrayList-了解多少？" class="headerlink" title="7.CopyOnWriteArrayList 了解多少？"></a>7.CopyOnWriteArrayList 了解多少？</h3><p><code>CopyOnWriteArrayList</code> 就是线程安全版本的 <code>ArrayList</code>。</p>
+<p><code>CopyOnWrite</code>——写时复制，已经明示了它的原理。</p>
+<p><code>CopyOnWriteArrayList</code> 采用了一种读写分离的并发策略。<code>CopyOnWriteArrayList</code> 容器允许并发读，<strong>读操作是无锁的</strong>。至于写操作，比如说向容器中添加一个元素，首先将当前容器复制一份，然后在新副本上执行写操作，结束之后再将原容器的引用指向新容器。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804112648.png" alt="20250804112648"></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p><code>Map</code> 中最重要的就是 <code>HashMap</code> 了，面试基本被问出包浆了，一定要好好准备。</p>
+<h3 id="8-🌟能说一下-HashMap-的底层数据结构吗？"><a href="#8-🌟能说一下-HashMap-的底层数据结构吗？" class="headerlink" title="8.🌟能说一下 HashMap 的底层数据结构吗？"></a>8.🌟能说一下 HashMap 的底层数据结构吗？</h3><p>推荐阅读：<a target="_blank" rel="noopener" href="https://javabetter.cn/collection/hashmap.html">二哥的 Java 进阶之路：详解 HashMap</a></p>
+<p>JDK 8 中 HashMap 的数据结构是<code>数组</code>+<code>链表</code>+<code>红黑树</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250804112738.png" alt="20250804112738"></p>
+<p>数组用来存储键值对，每个键值对可以通过索引直接拿到，索引是通过对键的哈希值进行进一步的 <code>hash()</code> 处理得到的。</p>
+<p>当多个键经过哈希处理后得到相同的索引时，需要通过链表来解决哈希冲突——将具有相同索引的键值对通过链表存储起来。</p>
+<p>不过，<code>链表</code>过长时，查询效率会比较低，于是当<code>链表</code>的长度超过 8 时（且数组的长度大于 64），<code>链表</code>就会转换为<code>红黑树</code>。红黑树的查询效率是<code> O(logn)</code>，比链表的 <code>O(n)</code> 要快。</p>
+<p><code>hash()</code> 方法的目标是尽量减少哈希冲突，保证元素能够均匀地分布在数组的每个位置上。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果键的哈希值已经在数组中存在，其对应的值将被新值覆盖。</p>
+<p>HashMap 的初始容量是 16，随着元素的不断添加，HashMap 就需要进行扩容，阈值是<code>capacity * loadFactor</code>，capacity 为容量，loadFactor 为负载因子，默认为 0.75。</p>
+<p>扩容后的数组大小是原来的 2 倍，然后把原来的元素重新计算哈希值，放到新的数组中。</p>
+<h3 id="9-你对红黑树了解多少？"><a href="#9-你对红黑树了解多少？" class="headerlink" title="9.你对红黑树了解多少？"></a>9.你对红黑树了解多少？</h3><p>红黑树是一种<strong>自平衡</strong>的<strong>二叉查找树</strong>：</p>
+<ol>
+<li>每个节点要么是红色，要么是黑色；</li>
+<li><strong>根节点永远是黑色</strong>；</li>
+<li>所有的<strong>叶子节点都是是黑色的</strong>（下图中的 NULL 节点）；</li>
+<li>红色节点的子节点一定是黑色的；</li>
+<li>从<strong>任一节点到其每个叶子</strong>的所有简单路径都<strong>包含相同数目的黑色节点</strong>。</li>
+</ol>
+<p><strong>红黑树口诀</strong>:<br><code>左根右</code> , <code>根叶黑</code> .<br><code>不红红</code> , <code>黑路同</code>.</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805110954.png" alt="20250805110954"></p>
+<h4 id="为什么不用二叉树？"><a href="#为什么不用二叉树？" class="headerlink" title="为什么不用二叉树？"></a>为什么不用二叉树？</h4><p>二叉树是最基本的树结构，每个节点最多有两个子节点，但是二叉树<strong>容易出现极端情况</strong>，比如插入的数据是有序的，那么二叉树就会退化成链表，查询效率就会变成 O(n)。</p>
+<h4 id="为什么不用平衡二叉树？"><a href="#为什么不用平衡二叉树？" class="headerlink" title="为什么不用平衡二叉树？"></a>为什么不用平衡二叉树？</h4><p>平衡二叉树比红黑树的要求更高，<strong>每个节点的左右子树的高度最多相差 1</strong>，这种高度的平衡保证了极佳的查找效率，但在进行插入和删除操作时，<strong>可能需要频繁地进行旋转来维持树的平衡</strong>，维护成本更高。</p>
+<h4 id="为什么用红黑树？"><a href="#为什么用红黑树？" class="headerlink" title="为什么用红黑树？"></a>为什么用红黑树？</h4><p>链表的查找时间复杂度是 <code>O(n)</code>，当链表长度较长时，查找性能会下降。红黑树是一种折中的方案，<strong>查找、插入、删除</strong>的时间复杂度都是 <code>O(log n)</code>。</p>
+<h3 id="10-红黑树怎么保持平衡的？"><a href="#10-红黑树怎么保持平衡的？" class="headerlink" title="10.红黑树怎么保持平衡的？"></a>10.红黑树怎么保持平衡的？</h3><p><code>旋转</code>和<code>染色</code>。</p>
+<p>①、通过左旋和右旋来调整树的结构，避免某一侧过深。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/%E5%B7%A6%E6%97%8B.png" alt="左旋"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/%E5%8F%B3%E6%97%8B.png" alt="右旋"></p>
+<p>②、染⾊，修复红黑规则，从而保证树的高度不会失衡。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805111220.png" alt="20250805111220"></p>
+<h3 id="11-🌟HashMap-的-put-流程知道吗？"><a href="#11-🌟HashMap-的-put-流程知道吗？" class="headerlink" title="11.🌟HashMap 的 put 流程知道吗？"></a>11.🌟HashMap 的 put 流程知道吗？</h3><p>哈希寻址 → 处理哈希冲突（链表还是红黑树）→ 判断是否需要扩容 → 插入&#x2F;覆盖节点。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805111458.png" alt="20250805111458"></p>
+<p>详细版：</p>
+<p>第一步，通过 <code>hash</code> 方法进一步扰动哈希值，以减少哈希冲突。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步，进行第一次的数组扩容；并使用哈希值和数组长度进行取模运算，确定索引位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">    n = (tab = resize()).length;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>)</span><br><span class="line">    tab[i] = newNode(hash, key, value, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+<p>如果当前位置为空，直接将键值对插入该位置；<br>否则判断当前位置的第一个节点是否与新节点的 key 相同，如果相同直接覆盖 value，如果不同，说明发生哈希冲突。</p>
+<p>如果是链表，将新节点添加到链表的尾部；如果<strong>链表长度大于等于 8</strong>，则将链表转换为红黑树。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> V <span class="title function_">put</span><span class="params">(K key, V value)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> putVal(hash(key), key, value, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> V <span class="title function_">putVal</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">boolean</span> onlyIfAbsent, <span class="type">boolean</span> evict)</span> &#123;</span><br><span class="line">    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="type">int</span> n, i;</span><br><span class="line">    <span class="comment">// 如果 table 为空，先进行初始化</span></span><br><span class="line">    <span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">        n = (tab = resize()).length;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 计算索引位置，并找到对应的桶</span></span><br><span class="line">    <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>)</span><br><span class="line">        tab[i] = newNode(hash, key, value, <span class="literal">null</span>); <span class="comment">// 如果桶为空，直接插入</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        Node&lt;K,V&gt; e; K k;</span><br><span class="line">        <span class="comment">// 检查第一个节点是否匹配</span></span><br><span class="line">        <span class="keyword">if</span> (p.hash == hash &amp;&amp; ((k = p.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">            e = p; <span class="comment">// 覆盖</span></span><br><span class="line">        <span class="comment">// 如果是树节点，放入树中</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="built_in">this</span>, tab, hash, key, value);</span><br><span class="line">        <span class="comment">// 如果是链表，遍历插入到尾部</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>; ; ++binCount) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((e = p.next) == <span class="literal">null</span>) &#123;</span><br><span class="line">                    p.next = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">                    <span class="comment">// 如果链表长度达到阈值，转换为红黑树</span></span><br><span class="line">                    <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>)</span><br><span class="line">                        treeifyBin(tab, hash);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (e.hash == hash &amp;&amp; ((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                    <span class="keyword">break</span>; <span class="comment">// 覆盖</span></span><br><span class="line">                p = e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123; <span class="comment">// 如果找到匹配的 key，则覆盖旧值</span></span><br><span class="line">            <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">            <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="literal">null</span>)</span><br><span class="line">                e.value = value;</span><br><span class="line">            afterNodeAccess(e);</span><br><span class="line">            <span class="keyword">return</span> oldValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ++modCount; <span class="comment">// 修改计数器</span></span><br><span class="line">    <span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">        resize(); <span class="comment">// 检查是否需要扩容</span></span><br><span class="line">    afterNodeInsertion(evict);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每次插入新元素后，检查是否需要扩容，如果当前元素个数大于阈值（<code>capacity * loadFactor</code>），则进行扩容，扩容后的数组大小是原来的 2 倍；并且重新计算每个节点的索引，进行数据重新分布。</p>
+<h4 id="只重写元素的-equals-方法没重写-hashCode，put-的时候会发生什么"><a href="#只重写元素的-equals-方法没重写-hashCode，put-的时候会发生什么" class="headerlink" title="只重写元素的 equals 方法没重写 hashCode，put 的时候会发生什么?"></a>只重写元素的 equals 方法没重写 hashCode，put 的时候会发生什么?</h4><p>如果只重写 <code>equals</code> 方法，没有重写 <code>hashCode</code> 方法，那么会导致 <code>equals</code> 相等的两个对象，<code>hashCode</code> 不相等，这样的话，两个对象会被 <code>put</code> 到数组中不同的位置，导致 <code>get</code> 的时候，无法获取到正确的值。</p>
+<h3 id="12-HashMap-怎么查找元素的呢？"><a href="#12-HashMap-怎么查找元素的呢？" class="headerlink" title="12.HashMap 怎么查找元素的呢？"></a>12.HashMap 怎么查找元素的呢？</h3><p>通过<code>哈希值定位索引</code> → <code>定位桶</code> → <code>检查第一个节点</code> → <code>遍历链表或红黑树查找</code> → <code>返回结果</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250805112313.png" alt="20250805112313"></p>
+<h3 id="13-HashMap-的-hash-函数是怎么设计的"><a href="#13-HashMap-的-hash-函数是怎么设计的" class="headerlink" title="13.HashMap 的 hash 函数是怎么设计的?"></a>13.HashMap 的 hash 函数是怎么设计的?</h3><p>先拿到 key 的哈希值，是一个 32 位的 int 类型数值，然后再让哈希值的<strong>高 16 位和低 16 位进行异或操作</strong>，这样能保证哈希分布均匀。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="comment">// 如果 key 为 null，返回 0；否则，使用 hashCode 并进行扰动</span></span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="14-为什么-hash-函数能减少哈希冲突？"><a href="#14-为什么-hash-函数能减少哈希冲突？" class="headerlink" title="14.为什么 hash 函数能减少哈希冲突？"></a>14.为什么 hash 函数能减少哈希冲突？</h3><p>快速回答：哈希表的索引是通过 <code>h &amp; (n-1)</code> 计算的，n 是底层数组的容量；n-1 和某个哈希值做 <code>&amp;</code>运算，相当于截取了最低的四位。如果数组的容量很小，只取 h 的低位很容易导致哈希冲突。</p>
+<p>通过异或操作将 <code>h</code> 的高位引入低位，可以<strong>增加哈希值的随机性</strong>，从而减少哈希冲突。</p>
+<p>解释一下。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806102113.png" alt="20250806102113"></p>
+<p>以初始长度 16 为例，16-1&#x3D;15。2 进制表示是<code>0000 0000 0000 0000 0000 0000 0000 1111</code>。只取最后 4 位相等于哈希值的高位都丢弃了。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806102353.png" alt="20250806102353"></p>
+<p>比如说 <code>1111 1111 1111 1111 1111 1111 1111 1111</code>，取最后 4 位，也就是 1111。</p>
+<p><code>1110 1111 1111 1111 1111 1111 1111 1111</code>，取最后 4 位，也是 1111。</p>
+<p>不就发生哈希冲突了吗？</p>
+<p>这时候 hash 函数 <code>(h = key.hashCode()) ^ (h &gt;&gt;&gt; 16)</code> 就派上用场了。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806104546.png" alt="20250806104546"></p>
+<p>将哈希值无符号<code>右移 16 位</code>，意味着原哈希值的<code>高 16 位</code>被移到了<code>低 16 位</code>的位置。这样，原始哈希值的高 16 位和低 16 位就可以参与到最终用于索引计算的低位中。</p>
+<p>选择 16 位是因为它是 32 位整数的一半，这样处理<strong>既考虑了高位的信息，又没有完全忽视低位原本的信息</strong>，从而达到了一种微妙的平衡状态。</p>
+<p>举个例子（数组长度为 16）。</p>
+<ul>
+<li>第一个键值对的键：h1 &#x3D; 0001 0010 0011 0100 0101 0110 0111 1000</li>
+<li>第二个键值对的键：h2 &#x3D; 0001 0010 0011 0101 0101 0110 0111 1000</li>
+</ul>
+<p>如果没有 <code>hash</code> 函数，直接取低 4 位，那么 h1 和 h2 的低 4 位都是 1000，也就是说两个键值对都会放在数组的第 8 个位置。</p>
+<p>来看一下 hash 函数的处理过程。</p>
+<p>①、对于第一个键<code>h1</code>的计算：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原始: 0001 0010 0011 0100 0101 0110 0111 1000</span><br><span class="line">右移: 0000 0000 0000 0000 0001 0010 0011 0100</span><br><span class="line">异或: ---------------------------------------</span><br><span class="line">结果: 0001 0010 0011 0100 0100 0100 0100 1100</span><br></pre></td></tr></table></figure>
+<p>②、对于第二个键h2的计算：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原始: 0001 0010 0011 0101 0101 0110 0111 1000</span><br><span class="line">右移: 0000 0000 0000 0000 0001 0010 0011 0101</span><br><span class="line">异或: ---------------------------------------</span><br><span class="line">结果: 0001 0010 0011 0101 0100 0100 0100 1101</span><br></pre></td></tr></table></figure>
+<p>通过上述计算，我们可以看到<code>h1</code>和<code>h2</code>经过<code>h ^ (h &gt;&gt;&gt; 16)</code>操作后得到了不同的结果。</p>
+<p>现在，考虑数组长度为 16 时（需要最低 4 位来确定索引）：</p>
+<p>对于h1的最低 4 位是1100（十进制中为 12）<br>对于h2的最低 4 位是1101（十进制中为 13）<br>这样，h1和h2就会被分别放在数组的第 12 个位置和第 13 个位置上，从而避免了哈希冲突。</p>
+<h3 id="15-为什么-HashMap-的容量是-2-的幂次方？"><a href="#15-为什么-HashMap-的容量是-2-的幂次方？" class="headerlink" title="15.为什么 HashMap 的容量是 2 的幂次方？"></a>15.为什么 HashMap 的容量是 2 的幂次方？</h3><p>是为了<strong>快速定位元素在底层数组中的下标</strong>。</p>
+<p>HashMap 是通过 <code>hash &amp; (n-1)</code> 来定位元素下标的，n 为数组的大小，也就是 HashMap 底层数组的容量。</p>
+<p>数组长度-1 正好相当于一个“低位掩码”——掩码的低位最好全是 1，这样 &amp; 运算才有意义，否则结果一定是 0。</p>
+<p>2 幂次方刚好是偶数，偶数-1 是奇数，奇数的二进制最后一位是 1，也就保证了 <code>hash &amp;(length-1)</code> 的最后一位可能为 0，也可能为 1（取决于 hash 的值），这样可以保证哈希值的均匀分布。</p>
+<p>换句话说，&amp; 操作的结果就是<strong>将哈希值的高位全部归零，只保留低位值</strong>。</p>
+<blockquote>
+<p>a&amp;b 的结果是：a、b 中对应位同时为 1，则结果为 1，否则为 0。例如 5&amp;3&#x3D;1，5 的二进制是 0101，3 的二进制是 0011，5&amp;3&#x3D;0001&#x3D;1。</p>
+</blockquote>
+<p>假设某哈希值的二进制为 <code>10100101 11000100 00100101</code>，用它来做 &amp; 运算，我们来看一下结果。</p>
+<p>已知 HashMap 的初始长度为 16，16-1&#x3D;15，二进制是 <code>00000000 00000000 00001111</code>（高位用 0 来补齐）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    10100101 11000100 00100101</span><br><span class="line">&amp;	00000000 00000000 00001111</span><br><span class="line">----------------------------------</span><br><span class="line">    00000000 00000000 00000101</span><br></pre></td></tr></table></figure>
+<p>因为 15 的高位全部是 0，所以 &amp; 运算后的高位结果肯定也是 0，只剩下 4 个低位 <code>0101</code>，也就是十进制的 5。</p>
+<p>这样，哈希值为 <code>10100101 11000100 00100101</code> 的键就会放在数组的第 5 个位置上。</p>
+<h4 id="对数组长度取模定位数组下标，这块有没有优化策略？"><a href="#对数组长度取模定位数组下标，这块有没有优化策略？" class="headerlink" title="对数组长度取模定位数组下标，这块有没有优化策略？"></a>对数组长度取模定位数组下标，这块有没有优化策略？</h4><p>快速回答：HashMap 的策略是将取模运算 <code>hash % table.length</code> 优化为位运算 <code>hash &amp; (length - 1)</code>。</p>
+<p>因为<strong>当数组的长度是 2 的 N 次幂时</strong>，<code>hash &amp; (length - 1) = hash % length</code>。</p>
+<p>比如说 <code>9 % 4 = 1</code>，9 的二进制是 <code>1001</code>，<code>4 - 1 = 3</code>，3 的二进制是 <code>0011</code>，<code>9 &amp; 3 = 1001 &amp; 0011 = 0001 = 1</code>。</p>
+<p>再比如说 <code>10 % 4 = 2</code>，10 的二进制是 <code>1010</code>，<code>4 - 1 = 3</code>，3 的二进制是 <code>0011</code>，<code>10 &amp; 3 = 1010 &amp; 0011 = 0010 = 2</code>。</p>
+<p>当数组的长度不是 2 的 n 次方时，<code>hash % length</code> 和 <code>hash &amp; (length - 1)</code> 的结果就不一致了。</p>
+<p>比如说 <code>7 % 3 = 1</code>，7 的二进制是 <code>0111</code>，<code>3 - 1 = 2</code>，2 的二进制是 <code>0010</code>，<code>7 &amp; 2 = 0111 &amp; 0010 = 0010 = 2</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806110901.png" alt="20250806110901"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    1110 (hash = 14)</span><br><span class="line">&amp;   0111 (length - 1 = 7)</span><br><span class="line"> ------------------------------</span><br><span class="line">    0110 (结果 = 6)</span><br></pre></td></tr></table></figure>
+
+<p>保留 14 的最低 3 位，高位被清零。</p>
+<p>从此，两个运算 <code>hash % length</code> 和 <code>hash &amp; (length - 1)</code> 有了完美的闭环。在计算机中，位运算的速度要远高于取余运算，因为计算机本质上就是二进制嘛。</p>
+<h4 id="说说什么是取模运算？"><a href="#说说什么是取模运算？" class="headerlink" title="说说什么是取模运算？"></a>说说什么是取模运算？</h4><p>在 Java 中，通常使用 <code>%</code> 运算符来表示取余，用 <code>Math.floorMod()</code> 来表示取模。</p>
+<p>当操作数都是正数的话，取模运算和取余运算的结果是一样的；只有操作数出现负数的情况下，结果才会不同。</p>
+<p><strong>取模运算的商向负无穷靠近；取余运算的商向 0 靠近</strong>。这是导致它们两个在处理有负数情况下，结果不同的根本原因。</p>
+<p>当数组的长度是 2 的 n 次幂时，<code>取模运算/取余运算</code>可以用<code>位运算</code>来代替，效率更高，毕竟计算机本身只认二进制。</p>
+<p>比如说，7 对 3 取余，和 7 对 3 取模，结果都是 1。因为两者都是基于除法运算的，7 &#x2F; 3 的商是 2，余数是 1。</p>
+<p>对于 HashMap 来说，它需要通过 <code>hash % table.length</code> 来确定元素在数组中的位置。</p>
+<p>比如说，数组长度是 3，<code>hash</code> 是 7，那么 <code>7 % 3</code> 的结果就是 1，也就是此时可以把元素放在下标为 1 的位置。</p>
+<p>当 <code>hash</code> 是 8，<code>8 % 3</code> 的结果就是 2，也就是可以把元素放在下标为 2 的位置。</p>
+<p>当 <code>hash</code> 是 9，<code>9 % 3</code> 的结果就是 0，也就是可以把元素放在下标为 0 的位置上。</p>
+<p>是不是很奇妙，数组的大小为 3，刚好 3 个位置都利用上了。</p>
+<h3 id="16-如果初始化-HashMap，传一个-17-的容量，它会怎么处理？"><a href="#16-如果初始化-HashMap，传一个-17-的容量，它会怎么处理？" class="headerlink" title="16.如果初始化 HashMap，传一个 17 的容量，它会怎么处理？"></a>16.如果初始化 HashMap，传一个 17 的容量，它会怎么处理？</h3><p>HashMap 会将容量调整到大于等于 17 的<code>最小的 2 的幂次方</code>，也就是 32。</p>
+<p>这是因为哈希表的大小最好是 2 的 N 次幂，这样可以通过 <code>(n - 1) &amp; hash</code> 高效计算出索引值。</p>
+<p>解释一下。</p>
+<p>在 HashMap 的初始化构造方法中，有这样⼀段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">HashMap</span><span class="params">(<span class="type">int</span> initialCapacity, <span class="type">float</span> loadFactor)</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">this</span>.loadFactor = loadFactor;</span><br><span class="line">    <span class="built_in">this</span>.threshold = tableSizeFor(initialCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>阀值 threshold 会通过⽅法<code> tableSizeFor()</code> 进⾏计算。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">tableSizeFor</span><span class="params">(<span class="type">int</span> cap)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> cap - <span class="number">1</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">2</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">4</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">8</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">16</span>;</span><br><span class="line">    <span class="keyword">return</span> (n &lt; <span class="number">0</span>) ? <span class="number">1</span> : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>①、<code>int n = cap - 1;</code> 避免刚好是 2 的幂次方时，容量直接翻倍。</p>
+<p>②、接下来通过不断右移（<code>&gt;&gt;&gt;</code>）并与自身进行或运算（<code>|=</code>），将 n 的二进制表示中的所有低位设置为 1。</p>
+<ul>
+<li><code>n |= n &gt;&gt;&gt; 1;</code> 将最高位的 1 扩展到下一位。</li>
+<li><code>n |= n &gt;&gt;&gt; 2;</code> 扩展到后两位。</li>
+<li>依此类推，直到 <code>n |= n &gt;&gt;&gt; 16;</code>，扩展到后十六位，这样从最高位的 1 到最低位，就都变成了 1。</li>
+</ul>
+<p>③、如果 n 小于 0，说明 cap 是负数，直接返回 1。</p>
+<p>如果 n 大于或等于 <code>MAXIMUM_CAPACITY</code>（通常是<code>1 &lt;&lt; 30</code>），则返回 <code>MAXIMUM_CAPACITY</code>。</p>
+<p>否则，返回 <code>n + 1</code>，这是因为 n 的所有低位都是 1，所以 <code>n + 1</code> 就是大于 cap 的最小的 2 的幂次方。</p>
+<h4 id="初始化-HashMap-的时候需要传入容量吗？"><a href="#初始化-HashMap-的时候需要传入容量吗？" class="headerlink" title="初始化 HashMap 的时候需要传入容量吗？"></a>初始化 HashMap 的时候需要传入容量吗？</h4><p>如果预先知道 Map 将存储大量键值对，<strong>提前指定一个足够大的初始容量</strong>可以减少因扩容导致的<strong>重哈希操作</strong>。</p>
+<p>因为每次扩容时，HashMap 需要将现有的元素插入到新的数组中，这个过程相对耗时，尤其是当 Map 中已有大量数据时。</p>
+<p>当然了，过大的初始容量会浪费内存，特别是当实际存储的元素远少于初始容量时。如果不指定初始容量，HashMap 将使用默认的初始容量 <code>16</code>。</p>
+<h3 id="17-你还知道哪些哈希函数的构造方法呢？"><a href="#17-你还知道哪些哈希函数的构造方法呢？" class="headerlink" title="17.你还知道哪些哈希函数的构造方法呢？"></a>17.你还知道哪些哈希函数的构造方法呢？</h3><p>①、<strong>除留取余法</strong>：<code>H(key)=key%p(p&lt;=N)</code>，关键字除以一个不大于哈希表长度的正整数 p，所得余数为地址，当然 HashMap 里进行了优化改造，效率更高，散列也更均衡。</p>
+<p>除此之外，还有这几种常见的哈希函数构造方法：</p>
+<p>②、<strong>直接定址法</strong>：直接根据<code>key</code>来映射到对应的数组位置，例如 1232 放到下标 1232 的位置。</p>
+<p>③、<strong>数字分析法</strong>：取<code>key</code>的某些数字（例如十位和百位）作为映射的位置</p>
+<p>④、<strong>平方取中法</strong>：取<code>key</code>平方的中间几位作为映射的位置</p>
+<p>⑤、将<code>key</code>分割成位数相同的几段，然后把它们的叠加和作为映射的位置。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250806113025.png" alt="20250806113025"></p>
+<h3 id="18-解决哈希冲突的方法有哪些？"><a href="#18-解决哈希冲突的方法有哪些？" class="headerlink" title="18.解决哈希冲突的方法有哪些？"></a>18.解决哈希冲突的方法有哪些？</h3><p>简版回答：我知道的有 3 种，<code>再哈希法</code>、<code>开放地址法</code>和<code>拉链法</code>。</p>
+<h4 id="什么是再哈希法？"><a href="#什么是再哈希法？" class="headerlink" title="什么是再哈希法？"></a>什么是再哈希法？</h4><p>准备两套哈希算法，当发生哈希冲突的时候，使用另外一种哈希算法，直到找到空槽为止。对哈希算法的设计要求比较高。</p>
+<h4 id="什么是开放地址法？"><a href="#什么是开放地址法？" class="headerlink" title="什么是开放地址法？"></a>什么是开放地址法？</h4><p>遇到哈希冲突的时候，就去寻找下一个空的槽。有 3 种方法：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807100856.png" alt="20250807100856"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807100911.png" alt="20250807100911"></p>
+<h4 id="什么是拉链法？"><a href="#什么是拉链法？" class="headerlink" title="什么是拉链法？"></a>什么是拉链法？</h4><p>也就是链地址法，当发生哈希冲突的时候，使用链表将冲突的元素串起来。<code>HashMap</code> 采用的正是拉链法。</p>
+<h4 id="怎么判断-key-相等呢？"><a href="#怎么判断-key-相等呢？" class="headerlink" title="怎么判断 key 相等呢？"></a>怎么判断 key 相等呢？</h4><p>依赖于<code>key</code>的<code>equals()</code>方法和<code>hashCode()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br></pre></td></tr></table></figure>
+<p>①、<code>hashCode()</code> ：使用key的<code>hashCode()</code>方法计算key的哈希码。</p>
+<p>②、<code>equals()</code> ：当两个key的哈希码相同时，HashMap还会调用key的<code>equals()</code>方法进行精确比较。只有当<code>equals()</code>方法返回true时，两个key才被认为是完全相同的。</p>
+<p>如果两个key的引用指向了同一个对象，那么它们的<code>hashCode()</code>和<code>equals()</code>方法都会返回true，所以在 equals 判断之前可以先使用<code>==</code>运算符判断一次。</p>
+<h3 id="19-为什么-HashMap-链表转红黑树的阈值为-8-呢？"><a href="#19-为什么-HashMap-链表转红黑树的阈值为-8-呢？" class="headerlink" title="19.为什么 HashMap 链表转红黑树的阈值为 8 呢？"></a>19.为什么 HashMap 链表转红黑树的阈值为 8 呢？</h3><p>树化发生在 table 数组的长度大于 64，且链表的长度大于 8 的时候。</p>
+<p>为什么是 8 呢？源码的注释也给出了答案。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807101227.png" alt="20250807101227"></p>
+<p>红黑树节点的大小大概是普通节点大小的两倍，所以转红黑树，牺牲了空间换时间，更多的是一种兜底的策略，保证极端情况下的查找效率。</p>
+<p>阈值为什么要选 8 呢？和统计学有关。理想情况下，使用随机哈希码，链表里的节点符合泊松分布，出现节点个数的概率是递减的，节点个数为 8 的情况，发生概率仅为<code>0.00000006</code>。</p>
+<p>至于红黑树转回链表的阈值为什么是 6，而不是 8？是因为如果这个阈值也设置成 8，假如发生碰撞，节点增减刚好在 8 附近，会发生链表和红黑树的不断转换，导致资源浪费。</p>
+<h3 id="20-HashMap扩容发生在什么时候呢？"><a href="#20-HashMap扩容发生在什么时候呢？" class="headerlink" title="20.HashMap扩容发生在什么时候呢？"></a>20.HashMap扩容发生在什么时候呢？</h3><p>当键值对数量超过阈值，也就是<code>容量 * 负载因子</code>时。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807101806.png" alt="20250807101806"></p>
+<h4 id="默认的负载因子是多少？"><a href="#默认的负载因子是多少？" class="headerlink" title="默认的负载因子是多少？"></a>默认的负载因子是多少？</h4><p><code>0.75</code>。</p>
+<h4 id="初始容量是多少？"><a href="#初始容量是多少？" class="headerlink" title="初始容量是多少？"></a>初始容量是多少？</h4><p>16。</p>
+<p>1 左移 4 位，<code>0000 0001 → 0001 0000</code>，也就是 2 的 4 次方。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DEFAULT_INITIAL_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br></pre></td></tr></table></figure>
+<h4 id="为什么使用-1-4-而不是直接写-16？"><a href="#为什么使用-1-4-而不是直接写-16？" class="headerlink" title="为什么使用 1 &lt;&lt; 4 而不是直接写 16？"></a>为什么使用 1 &lt;&lt; 4 而不是直接写 16？</h4><p>写 <code>1 &lt;&lt; 4</code> 主要是为了强调这个值是 2 的幂次方，而不是一个完全随机的选择。</p>
+<p>无论 HashMap 是否扩容，其底层的数组长度都应该是 2 的幂次方，因为这样可以通过位运算快速计算出元素的索引。</p>
+<h4 id="为什么选择-0-75-作为-HashMap-的默认负载因子呢？"><a href="#为什么选择-0-75-作为-HashMap-的默认负载因子呢？" class="headerlink" title="为什么选择 0.75 作为 HashMap 的默认负载因子呢？"></a>为什么选择 0.75 作为 HashMap 的默认负载因子呢？</h4><p>这是一个经验值。如果设置得太低，如 <code>0.5</code>，会浪费空间；如果设置得太高，如 <code>0.9</code>，会增加哈希冲突。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807101928.png" alt="20250807101928"></p>
+<p>0.75 是 JDK 作者经过大量验证后得出的最优解，能够最大限度减少 rehash 的次数。</p>
+<h3 id="21-🌟HashMap的扩容机制了解吗？"><a href="#21-🌟HashMap的扩容机制了解吗？" class="headerlink" title="21.🌟HashMap的扩容机制了解吗？"></a>21.🌟HashMap的扩容机制了解吗？</h3><p>扩容时，HashMap 会创建一个新的数组，其容量是原来的<strong>两倍</strong>。然后遍历旧哈希表中的元素，将其重新分配到新的哈希表中。</p>
+<p>如果当前桶中只有一个元素，那么直接通过键的哈希值与数组大小取模锁定新的索引位置：<code>e.hash &amp; (newCap - 1)</code>。</p>
+<p>如果当前桶是红黑树，那么会调用 <code>split()</code> 方法分裂树节点，以保证树的平衡。</p>
+<p>如果当前桶是链表，会通过旧键的哈希值与旧的数组大小取模 <code>(e.hash &amp; oldCap) == 0</code> 来作为判断条件，如果条件为真，元素保留在原索引的位置；否则元素移动到原索引 + 旧数组大小的位置。</p>
+<h4 id="JDK-7-扩容的时候有什么问题？"><a href="#JDK-7-扩容的时候有什么问题？" class="headerlink" title="JDK 7 扩容的时候有什么问题？"></a>JDK 7 扩容的时候有什么问题？</h4><p>JDK 7 在扩容的时候使用头插法来重新插入链表节点，这样会导致链表无法保持原有的顺序。</p>
+<p>详细解释一下。</p>
+<p>JDK 7 是通过哈希值与数组大小-1 进行与运算确定元素下标的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">indexFor</span><span class="params">(<span class="type">int</span> h, <span class="type">int</span> length)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> h &amp; (length-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来假设：</p>
+<ul>
+<li>数组 table 的长度为 2</li>
+<li>键的哈希值为 3、7、5</li>
+</ul>
+<p>取模运算后，键发生了哈希冲突，它们都需要放到 table[1] 的桶上。那么扩容前就是这个样子：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102317.png" alt="20250807102317"></p>
+<p>假设负载因子 <code>loadFactor</code> 为 1，也就是当元素的个数大于 table 的长度时进行扩容。</p>
+<p>扩容后的数组容量为 4。</p>
+<ul>
+<li>key 3 取模（3%4）后是 3，放在 <code>table[3]</code> 上。</li>
+<li>key 7 取模（7%4）后是 3，放在 <code>table[3]</code> 上的链表头部。</li>
+<li>key 5 取模（5%4）后是 1，放在 <code>table[1]</code> 上。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102413.png" alt="20250807102413"></p>
+<p>可以看到，由于 JDK 采用的是头插法，7 跑到 3 的前面了，原来的顺序是 3、7、5，7 在 3 的后面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Entry&lt;K,V&gt; e : oldTable) &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">null</span> != e) &#123;</span><br><span class="line">        Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> indexFor(e.hash, newCapacity);</span><br><span class="line">        e.next = newTable[i];</span><br><span class="line">        newTable[i] = e;</span><br><span class="line">        e = next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最好的情况就是，扩容后的 7 还在 3 的后面，保持原来的顺序。</p>
+<h4 id="JDK-8-是怎么解决这个问题的？"><a href="#JDK-8-是怎么解决这个问题的？" class="headerlink" title="JDK 8 是怎么解决这个问题的？"></a>JDK 8 是怎么解决这个问题的？</h4><p>JDK 8 改用了尾插法，并且当 <code>(e.hash &amp; oldCap) == 0</code> 时，元素保留在原索引的位置；否则元素移动到<code>原索引 + 旧数组大小</code>的位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Node&lt;K,V&gt; loHead = <span class="literal">null</span>, loTail = <span class="literal">null</span>;</span><br><span class="line">Node&lt;K,V&gt; hiHead = <span class="literal">null</span>, hiTail = <span class="literal">null</span>;</span><br><span class="line">Node&lt;K,V&gt; next;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    next = e.next;</span><br><span class="line">    <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (loTail == <span class="literal">null</span>)</span><br><span class="line">            loHead = e;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            loTail.next = e;</span><br><span class="line">        loTail = e;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (hiTail == <span class="literal">null</span>)</span><br><span class="line">            hiHead = e;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            hiTail.next = e;</span><br><span class="line">        hiTail = e;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">while</span> ((e = next) != <span class="literal">null</span>);</span><br><span class="line"><span class="keyword">if</span> (loHead != <span class="literal">null</span>)</span><br><span class="line">    newTab[j] = loHead;</span><br><span class="line"><span class="keyword">if</span> (hiHead != <span class="literal">null</span>)</span><br><span class="line">    newTab[j + oldCap] = hiHead;</span><br></pre></td></tr></table></figure>
+<p>由于扩容时，数组长度会翻倍，例如：16 → 32， 因此，新数组的索引范围是原索引范围的两倍。</p>
+<p>原索引 <code>index = (n - 1) &amp; hash</code>，扩容后的新索引就是 <code>index = (2n - 1) &amp; hash</code>。</p>
+<p>也就是说，如果 <code>(e.hash &amp; oldCap) == 0</code>，元素在新数组中的位置与旧位置相同；否则，元素在新数组中的位置是旧位置 + 旧数组大小。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102739.png" alt="20250807102739"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102747.png" alt="20250807102747"></p>
+<p>这样可以避免重新计算所有元素的哈希值，<strong>只需检查高位的某一位</strong>，就可以快速确定新位置。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807102803.png" alt="20250807102803"></p>
+<h4 id="扩容的时候每个节点都要进行位运算吗？"><a href="#扩容的时候每个节点都要进行位运算吗？" class="headerlink" title="扩容的时候每个节点都要进行位运算吗？"></a>扩容的时候每个节点都要进行位运算吗？</h4><p>不需要。HashMap 会通过 <code>(e.hash &amp; oldCap)</code> 来判断节点是否需要移动，0 的话保留原索引；1 才需要移动到新索引（原索引 + oldCap）。</p>
+<p>这样就避免了 <code>hashCode</code> 的重新计算，大大提升了扩容的性能。</p>
+<p>所以，哪怕有几十万条数据，可能只有一半的数据才需要移动到新位置。另外，位运算的计算速度非常快，因此，尽管扩容操作涉及到遍历整个哈希表并对每个节点进行判断，但这部分操作的计算成本是相对较低的。</p>
+<h3 id="22-JDK-8-对-HashMap-做了哪些优化呢？"><a href="#22-JDK-8-对-HashMap-做了哪些优化呢？" class="headerlink" title="22.JDK 8 对 HashMap 做了哪些优化呢？"></a>22.JDK 8 对 HashMap 做了哪些优化呢？</h3><p>①、底层数据结构由数组 + 链表改成了数组 + 链表或红黑树的结构。</p>
+<p>如果多个键映射到了同一个哈希值，链表会变得很长，在最坏的情况下，当所有的键都映射到同一个桶中时，性能会退化到 <code>O(n)</code>，而红黑树的时间复杂度是 <code>O(logn)</code>。</p>
+<p>②、链表的插入方式由<code>头插法</code>改为了<code>尾插法</code>。头插法在扩容后容易改变原来链表的顺序。</p>
+<p>③、扩容的时机由插入时判断改为插入后判断，这样可以避免在每次插入时都进行不必要的扩容检查，因为有可能插入后仍然不需要扩容。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103037.png" alt="20250807103037"></p>
+<p>④、哈希扰动算法也进行了优化。JDK 7 是通过多次移位和异或运算来实现的。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103056.png" alt="20250807103056"></p>
+<p>JDK 8 让 hash 值的高 16 位和低 16 位进行了异或运算，让高位的信息也能参与到低位的计算中，这样可以极大程度上减少哈希碰撞。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103127.png" alt="20250807103127"></p>
+<h3 id="23-你能自己设计实现一个-HashMap-吗？"><a href="#23-你能自己设计实现一个-HashMap-吗？" class="headerlink" title="23.你能自己设计实现一个 HashMap 吗？"></a>23.你能自己设计实现一个 HashMap 吗？</h3><p>(手撕HashMap)<br>可以，我先说一下整体的设计思路：</p>
+<ul>
+<li><p>第一步，实现一个 <code>hash</code> 函数，对键的 <code>hashCode</code> 进行扰动。</p>
+</li>
+<li><p>第二步，实现一个<code>拉链法</code>的方法来解决哈希冲突。</p>
+</li>
+<li><p>第三步，扩容后，重新计算<code>哈希值</code>，将元素放到新的数组中。</p>
+</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103211.png" alt="20250807103211"></p>
+<p>完整代码：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103239.png" alt="20250807103239"></p>
+<h3 id="24-🌟HashMap-是线程安全的吗？"><a href="#24-🌟HashMap-是线程安全的吗？" class="headerlink" title="24.🌟HashMap 是线程安全的吗？"></a>24.🌟HashMap 是线程安全的吗？</h3><p>推荐阅读：<a target="_blank" rel="noopener" href="https://javabetter.cn/collection/hashmap.html#_04%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8">HashMap 详解</a></p>
+<p>HashMap 不是线程安全的，主要有以下几个问题：</p>
+<p>①、多线程下扩容会死循环。JDK7 中的 HashMap 使用的是头插法来处理链表，在多线程环境下扩容会出现环形链表，造成死循环。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103405.png" alt="20250807103405"></p>
+<p>不过，JDK 8 时通过尾插法修复了这个问题，扩容时会保持链表原来的顺序。</p>
+<p>②、多线程在进行 put 元素的时候，可能会导致元素丢失。因为计算出来的位置可能会被其他线程覆盖掉，比如说一个县城 put 3 的时候，另外一个线程 put 了 7，就把 3 给弄丢了。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103452.png" alt="20250807103452"></p>
+<p>③、put 和 get 并发时，可能导致 get 为 null。线程 1 执行 put 时，因为元素个数超出阈值而扩容，线程 2 此时执行 get，就有可能出现这个问题。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103509.png" alt="20250807103509"></p>
+<p>因为线程 1 执行完 table &#x3D; newTab 之后，线程 2 中的 table 已经发生了改变，比如说索引 3 的键值对移动到了索引 7 的位置，此时线程 2 去 get 索引 3 的元素就 get 不到了。</p>
+<h3 id="25-🌟怎么解决-HashMap-线程不安全的问题呢？"><a href="#25-🌟怎么解决-HashMap-线程不安全的问题呢？" class="headerlink" title="25.🌟怎么解决 HashMap 线程不安全的问题呢？"></a>25.🌟怎么解决 HashMap 线程不安全的问题呢？</h3><p>在早期的 JDK 版本中，可以用 <code>Hashtable</code> 来保证线程安全。<code>Hashtable</code> 在方法上加了 <a target="_blank" rel="noopener" href="https://javabetter.cn/thread/synchronized-1.html">synchronized 关键字</a>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103648.png" alt="20250807103648"></p>
+<p>另外，可以通过 <code>Collections.synchronizedMap</code> 方法返回一个线程安全的 Map，内部是通过 <code>synchronized</code> 对象锁来保证线程安全的，比在方法上直接加 <code>synchronized</code> 关键字更轻量级。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103717.png" alt="20250807103717"></p>
+<p>更优雅的解决方案是使用并发工具包下的 <a target="_blank" rel="noopener" href="https://javabetter.cn/thread/ConcurrentHashMap.html">ConcurrentHashMap</a>，使用了<a target="_blank" rel="noopener" href="https://javabetter.cn/thread/cas.html">CAS</a>+ <a target="_blank" rel="noopener" href="https://javabetter.cn/thread/synchronized-1.html">synchronized 关键字</a>来保证线程安全。<br>(分段锁+CAS)<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103755.png" alt="20250807103755"></p>
+<h3 id="26-HashMap-内部节点是有序的吗？"><a href="#26-HashMap-内部节点是有序的吗？" class="headerlink" title="26.HashMap 内部节点是有序的吗？"></a>26.HashMap 内部节点是有序的吗？</h3><p>无序的，根据 <code>hash</code> 值随机插入。</p>
+<h3 id="27-讲讲-LinkedHashMap-怎么实现有序的？"><a href="#27-讲讲-LinkedHashMap-怎么实现有序的？" class="headerlink" title="27.讲讲 LinkedHashMap 怎么实现有序的？"></a>27.讲讲 LinkedHashMap 怎么实现有序的？</h3><p><code>LinkedHashMap</code> 在 <code>HashMap</code> 的基础上维护了一个双向链表，通过 <code>before</code> 和 <code>after</code> 标识前置节点和后置节点。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807103841.png" alt="20250807103841"></p>
+<p>从而实现插入的顺序或访问顺序。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807104323.png" alt="20250807104323"></p>
+<h3 id="28-讲讲-TreeMap-怎么实现有序的？"><a href="#28-讲讲-TreeMap-怎么实现有序的？" class="headerlink" title="28.讲讲 TreeMap 怎么实现有序的？"></a>28.讲讲 TreeMap 怎么实现有序的？</h3><p><code>TreeMap</code> 通过 <code>key</code> 的比较器来决定元素的顺序，如果没有指定比较器，那么 <code>key</code> 必须实现 <a target="_blank" rel="noopener" href="https://javabetter.cn/collection/comparable-omparator.html">Comparable 接口</a>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807104412.png" alt="20250807104412"></p>
+<p><code>TreeMap</code> 的底层是红黑树，红黑树是一种自平衡的二叉查找树，每个节点都大于其左子树中的任何节点，小于其右子节点树种的任何节点。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807104847.png" alt="20250807104847"></p>
+<p>插入或者删除元素时通过旋转和染色来保持树的平衡。</p>
+<p>查找的时候从根节点开始，利用二叉查找树的特点，逐步向左子树或者右子树递归查找，直到找到目标元素。</p>
+<h3 id="29-TreeMap-和-HashMap-的区别"><a href="#29-TreeMap-和-HashMap-的区别" class="headerlink" title="29.TreeMap 和 HashMap 的区别"></a>29.TreeMap 和 HashMap 的区别</h3><p>①、<code>HashMap</code> 是基于数组+链表+红黑树实现的，<code>put</code> 元素的时候会先计算 <code>key</code> 的哈希值，然后通过哈希值计算出元素在数组中的存放下标，然后将元素插入到指定的位置，如果发生哈希冲突，会使用链表来解决，如果链表长度大于 8，会转换为红黑树。</p>
+<p>②、<code>TreeMap</code> 是基于红黑树实现的，<code>put</code> 元素的时候会先判断根节点是否为空，如果为空，直接插入到根节点，如果不为空，会通过 <code>key</code> 的比较器来判断元素应该插入到左子树还是右子树。</p>
+<p>在没有发生哈希冲突的情况下，<code>HashMap</code> 的查找效率是 <code>O(1)</code>。适用于<strong>查找操作比较频繁</strong>的场景。</p>
+<p><code>TreeMap</code> 的查找效率是 <code>O(logn)</code>。并且保证了元素的顺序，因此适用于<strong>需要大量范围查找</strong>或者<strong>有序遍历</strong>的场景。</p>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><h3 id="30-讲讲-HashSet-的底层实现？"><a href="#30-讲讲-HashSet-的底层实现？" class="headerlink" title="30.讲讲 HashSet 的底层实现？"></a>30.讲讲 HashSet 的底层实现？</h3><p><code>HashSet</code> 是由 <code>HashMap</code> 实现的，只不过值由一个固定的 <code>Object</code> 对象填充，而键用于操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HashSet</span>&lt;E&gt;</span><br><span class="line">    <span class="keyword">extends</span> <span class="title class_">AbstractSet</span>&lt;E&gt;</span><br><span class="line">    <span class="keyword">implements</span> <span class="title class_">Set</span>&lt;E&gt;, Cloneable, java.io.Serializable</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">5024744406713321676L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line">    <span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">PRESENT</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际开发中，<code>HashSet</code> 并不常用，比如，如果我们需要按照顺序存储一组元素，那么 <code>ArrayList</code> 和 <code>LinkedList</code> 更适合；如果我们需要存储键值对并根据键进行查找，那么 <code>HashMap</code> 可能更适合。</p>
+<p><code>HashSet</code> 主要用于去重，比如，我们需要统计一篇文章中有多少个不重复的单词，就可以使用 <code>HashSet</code> 来实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个 HashSet 对象</span></span><br><span class="line">HashSet&lt;String&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加元素</span></span><br><span class="line">set.add(<span class="string">&quot;沉默&quot;</span>);</span><br><span class="line">set.add(<span class="string">&quot;王二&quot;</span>);</span><br><span class="line">set.add(<span class="string">&quot;陈清扬&quot;</span>);</span><br><span class="line">set.add(<span class="string">&quot;沉默&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出 HashSet 的元素个数</span></span><br><span class="line">System.out.println(<span class="string">&quot;HashSet size: &quot;</span> + set.size()); <span class="comment">// output: 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历 HashSet</span></span><br><span class="line"><span class="keyword">for</span> (String s : set) &#123;</span><br><span class="line">    System.out.println(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>HashSet</code> 会自动去重，因为它是用 <code>HashMap</code> 实现的，<code>HashMap</code> 的键是唯一的，相同键会覆盖掉原来的键，于是第二次 add 一个相同键的元素会直接覆盖掉第一次的键。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807110317.png" alt="20250807110317"></p>
+<h4 id="HashSet-和-ArrayList-的区别"><a href="#HashSet-和-ArrayList-的区别" class="headerlink" title="HashSet 和 ArrayList 的区别"></a>HashSet 和 ArrayList 的区别</h4><p><code>ArrayList</code> 是基于动态数组实现的，<code>HashSet</code> 是基于 <code>HashMap</code> 实现的。</p>
+<p><code>ArrayList</code> 允许重复元素和 <code>null</code> 值，可以有多个相同的元素；<code>HashSet</code> 保证每个元素唯一，不允许重复元素，基于元素的 <code>hashCode</code> 和 <code>equals</code> 方法来确定元素的唯一性。</p>
+<p><code>ArrayList</code> 保持元素的插入顺序，可以通过索引访问元素；<code>HashSet</code> 不保证元素的顺序，元素的存储顺序依赖于哈希算法，并且可能随着元素的添加或删除而改变。</p>
+<h4 id="HashSet-怎么判断元素重复，重复了是否-put"><a href="#HashSet-怎么判断元素重复，重复了是否-put" class="headerlink" title="HashSet 怎么判断元素重复，重复了是否 put"></a>HashSet 怎么判断元素重复，重复了是否 put</h4><p><code>HashSet</code> 的 <code>add</code> 方法是通过调用 <code>HashMap</code> 的 <code>put</code> 方法实现的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">add</span><span class="params">(E e)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以 <code>HashSet</code> 判断元素重复的逻辑底层依然是 <code>HashMap</code> 的底层逻辑：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20250807110500.png" alt="20250807110500"></p>
+<p><code>HashMap</code> 在插入元素时，通常需要三步：</p>
+<p>第一步，通过 <code>hash</code> 方法计算 <code>key</code> 的哈希值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步，数组进行第一次扩容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">    n = (tab = resize()).length;</span><br></pre></td></tr></table></figure>
+
+<p>第三步，根据哈希值计算 key 在数组中的下标，如果对应下标正好没有存放数据，则直接插入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>)</span><br><span class="line">    tab[i] = newNode(hash, key, value, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果对应下标已经有数据了，就需要判断是否为相同的 key，是则覆盖 value，否则需要判断是否为树节点，是则向树中插入节点，否则向链表中插入数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    Node&lt;K,V&gt; e; K k;</span><br><span class="line">    <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line">        ((k = p.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">        e = p;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">        e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="built_in">this</span>, tab, hash, key, value);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>; ; ++binCount) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((e = p.next) == <span class="literal">null</span>) &#123;</span><br><span class="line">                p.next = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">                <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></span><br><span class="line">                    treeifyBin(tab, hash);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                ((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            p = e;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也就是说，<code>HashSet</code> 通过元素的哈希值来判断元素是否重复，如果重复了，会覆盖原来的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (e != <span class="literal">null</span>) &#123; <span class="comment">// existing mapping for key</span></span><br><span class="line">    <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">    <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="literal">null</span>)</span><br><span class="line">        e.value = value;</span><br><span class="line">    afterNodeAccess(e);</span><br><span class="line">    <span class="keyword">return</span> oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/08/02/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B48%E6%9C%88/2025.8.2%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.8.2学习日记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/08/01/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B48%E6%9C%88/2025.8.1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2025.8.1学习日记</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%F0%9F%8C%9F%E8%AF%B4%E8%AF%B4%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%EF%BC%9F"><span class="toc-text">1.🌟说说有哪些常见的集合框架？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E6%9C%89%E5%93%AA%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%9F"><span class="toc-text">集合框架有哪几个常用工具类？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E9%98%9F%E5%88%97"><span class="toc-text">简单介绍一下队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E8%BF%87%E5%93%AA%E4%BA%9B%E9%9B%86%E5%90%88%E7%B1%BB%EF%BC%8C%E5%AE%83%E4%BB%AC%E7%9A%84%E4%BC%98%E5%8A%A3%EF%BC%9F"><span class="toc-text">用过哪些集合类，它们的优劣？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%9F%E5%88%97%E5%92%8C%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">队列和栈的区别了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%AA%E4%BA%9B%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%AE%B9%E5%99%A8%EF%BC%9F"><span class="toc-text">哪些是线程安全的容器？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Collection-%E7%BB%A7%E6%89%BF%E4%BA%86%E5%93%AA%E4%BA%9B%E6%8E%A5%E5%8F%A3%EF%BC%9F"><span class="toc-text">Collection 继承了哪些接口？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List"><span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%F0%9F%8C%9FArrayList-%E5%92%8C-LinkedList-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">2.🌟ArrayList 和 LinkedList 有什么区别？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList-%E5%92%8C-LinkedList-%E7%9A%84%E7%94%A8%E9%80%94%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="toc-text">ArrayList 和 LinkedList 的用途有什么不同？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList-%E5%92%8C-LinkedList-%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81%E9%9A%8F%E6%9C%BA%E8%AE%BF%E9%97%AE%EF%BC%9F"><span class="toc-text">ArrayList 和 LinkedList 是否支持随机访问？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList-%E5%92%8C-LinkedList-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E6%9C%89%E4%BD%95%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="toc-text">ArrayList 和 LinkedList 内存占用有何不同？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList-%E5%92%8C-LinkedList-%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="toc-text">ArrayList 和 LinkedList 的使用场景有什么不同？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%92%8C%E6%95%B0%E7%BB%84%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">链表和数组有什么区别？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-ArrayList-%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">3.ArrayList 的扩容机制了解吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-ArrayList-%E6%80%8E%E4%B9%88%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F"><span class="toc-text">4.ArrayList 怎么序列化的知道吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-ArrayList-%E4%B8%8D%E7%9B%B4%E6%8E%A5%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%83%E7%B4%A0%E6%95%B0%E7%BB%84%E5%91%A2%EF%BC%9F"><span class="toc-text">为什么 ArrayList 不直接序列化元素数组呢？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5fail-fast%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">5.快速失败fail-fast了解吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5%EF%BC%88fail%E2%80%94safe%EF%BC%89%E5%91%A2%EF%BC%9F"><span class="toc-text">什么是安全失败（fail—safe）呢？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E5%AE%9E%E7%8E%B0-ArrayList-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">6.有哪几种实现 ArrayList 线程安全的方法？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList-%E5%92%8C-Vector-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">ArrayList 和 Vector 的区别？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-CopyOnWriteArrayList-%E4%BA%86%E8%A7%A3%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-text">7.CopyOnWriteArrayList 了解多少？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%F0%9F%8C%9F%E8%83%BD%E8%AF%B4%E4%B8%80%E4%B8%8B-HashMap-%E7%9A%84%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%90%97%EF%BC%9F"><span class="toc-text">8.🌟能说一下 HashMap 的底层数据结构吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E4%BD%A0%E5%AF%B9%E7%BA%A2%E9%BB%91%E6%A0%91%E4%BA%86%E8%A7%A3%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-text">9.你对红黑树了解多少？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F"><span class="toc-text">为什么不用二叉树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F"><span class="toc-text">为什么不用平衡二叉树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%9F"><span class="toc-text">为什么用红黑树？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E7%BA%A2%E9%BB%91%E6%A0%91%E6%80%8E%E4%B9%88%E4%BF%9D%E6%8C%81%E5%B9%B3%E8%A1%A1%E7%9A%84%EF%BC%9F"><span class="toc-text">10.红黑树怎么保持平衡的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%F0%9F%8C%9FHashMap-%E7%9A%84-put-%E6%B5%81%E7%A8%8B%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F"><span class="toc-text">11.🌟HashMap 的 put 流程知道吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AA%E9%87%8D%E5%86%99%E5%85%83%E7%B4%A0%E7%9A%84-equals-%E6%96%B9%E6%B3%95%E6%B2%A1%E9%87%8D%E5%86%99-hashCode%EF%BC%8Cput-%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88"><span class="toc-text">只重写元素的 equals 方法没重写 hashCode，put 的时候会发生什么?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-HashMap-%E6%80%8E%E4%B9%88%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E5%91%A2%EF%BC%9F"><span class="toc-text">12.HashMap 怎么查找元素的呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-HashMap-%E7%9A%84-hash-%E5%87%BD%E6%95%B0%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%E7%9A%84"><span class="toc-text">13.HashMap 的 hash 函数是怎么设计的?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E4%B8%BA%E4%BB%80%E4%B9%88-hash-%E5%87%BD%E6%95%B0%E8%83%BD%E5%87%8F%E5%B0%91%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%EF%BC%9F"><span class="toc-text">14.为什么 hash 函数能减少哈希冲突？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E4%B8%BA%E4%BB%80%E4%B9%88-HashMap-%E7%9A%84%E5%AE%B9%E9%87%8F%E6%98%AF-2-%E7%9A%84%E5%B9%82%E6%AC%A1%E6%96%B9%EF%BC%9F"><span class="toc-text">15.为什么 HashMap 的容量是 2 的幂次方？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E5%8F%96%E6%A8%A1%E5%AE%9A%E4%BD%8D%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%EF%BC%8C%E8%BF%99%E5%9D%97%E6%9C%89%E6%B2%A1%E6%9C%89%E4%BC%98%E5%8C%96%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="toc-text">对数组长度取模定位数组下标，这块有没有优化策略？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B4%E8%AF%B4%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%96%E6%A8%A1%E8%BF%90%E7%AE%97%EF%BC%9F"><span class="toc-text">说说什么是取模运算？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E5%A6%82%E6%9E%9C%E5%88%9D%E5%A7%8B%E5%8C%96-HashMap%EF%BC%8C%E4%BC%A0%E4%B8%80%E4%B8%AA-17-%E7%9A%84%E5%AE%B9%E9%87%8F%EF%BC%8C%E5%AE%83%E4%BC%9A%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%EF%BC%9F"><span class="toc-text">16.如果初始化 HashMap，传一个 17 的容量，它会怎么处理？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-HashMap-%E7%9A%84%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E4%BC%A0%E5%85%A5%E5%AE%B9%E9%87%8F%E5%90%97%EF%BC%9F"><span class="toc-text">初始化 HashMap 的时候需要传入容量吗？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-%E4%BD%A0%E8%BF%98%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%91%A2%EF%BC%9F"><span class="toc-text">17.你还知道哪些哈希函数的构造方法呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-%E8%A7%A3%E5%86%B3%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">18.解决哈希冲突的方法有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%8D%E5%93%88%E5%B8%8C%E6%B3%95%EF%BC%9F"><span class="toc-text">什么是再哈希法？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BC%80%E6%94%BE%E5%9C%B0%E5%9D%80%E6%B3%95%EF%BC%9F"><span class="toc-text">什么是开放地址法？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8B%89%E9%93%BE%E6%B3%95%EF%BC%9F"><span class="toc-text">什么是拉链法？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD-key-%E7%9B%B8%E7%AD%89%E5%91%A2%EF%BC%9F"><span class="toc-text">怎么判断 key 相等呢？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-%E4%B8%BA%E4%BB%80%E4%B9%88-HashMap-%E9%93%BE%E8%A1%A8%E8%BD%AC%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E9%98%88%E5%80%BC%E4%B8%BA-8-%E5%91%A2%EF%BC%9F"><span class="toc-text">19.为什么 HashMap 链表转红黑树的阈值为 8 呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-HashMap%E6%89%A9%E5%AE%B9%E5%8F%91%E7%94%9F%E5%9C%A8%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%91%A2%EF%BC%9F"><span class="toc-text">20.HashMap扩容发生在什么时候呢？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9B%A0%E5%AD%90%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-text">默认的负载因子是多少？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%AE%B9%E9%87%8F%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-text">初始容量是多少？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-1-4-%E8%80%8C%E4%B8%8D%E6%98%AF%E7%9B%B4%E6%8E%A5%E5%86%99-16%EF%BC%9F"><span class="toc-text">为什么使用 1 &lt;&lt; 4 而不是直接写 16？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9-0-75-%E4%BD%9C%E4%B8%BA-HashMap-%E7%9A%84%E9%BB%98%E8%AE%A4%E8%B4%9F%E8%BD%BD%E5%9B%A0%E5%AD%90%E5%91%A2%EF%BC%9F"><span class="toc-text">为什么选择 0.75 作为 HashMap 的默认负载因子呢？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%F0%9F%8C%9FHashMap%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">21.🌟HashMap的扩容机制了解吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JDK-7-%E6%89%A9%E5%AE%B9%E7%9A%84%E6%97%B6%E5%80%99%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">JDK 7 扩容的时候有什么问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JDK-8-%E6%98%AF%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98%E7%9A%84%EF%BC%9F"><span class="toc-text">JDK 8 是怎么解决这个问题的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E7%9A%84%E6%97%B6%E5%80%99%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E9%83%BD%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BD%8D%E8%BF%90%E7%AE%97%E5%90%97%EF%BC%9F"><span class="toc-text">扩容的时候每个节点都要进行位运算吗？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-JDK-8-%E5%AF%B9-HashMap-%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96%E5%91%A2%EF%BC%9F"><span class="toc-text">22.JDK 8 对 HashMap 做了哪些优化呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E4%BD%A0%E8%83%BD%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-HashMap-%E5%90%97%EF%BC%9F"><span class="toc-text">23.你能自己设计实现一个 HashMap 吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-%F0%9F%8C%9FHashMap-%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F"><span class="toc-text">24.🌟HashMap 是线程安全的吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-%F0%9F%8C%9F%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3-HashMap-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-text">25.🌟怎么解决 HashMap 线程不安全的问题呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-HashMap-%E5%86%85%E9%83%A8%E8%8A%82%E7%82%B9%E6%98%AF%E6%9C%89%E5%BA%8F%E7%9A%84%E5%90%97%EF%BC%9F"><span class="toc-text">26.HashMap 内部节点是有序的吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#27-%E8%AE%B2%E8%AE%B2-LinkedHashMap-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%BA%8F%E7%9A%84%EF%BC%9F"><span class="toc-text">27.讲讲 LinkedHashMap 怎么实现有序的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-%E8%AE%B2%E8%AE%B2-TreeMap-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%BA%8F%E7%9A%84%EF%BC%9F"><span class="toc-text">28.讲讲 TreeMap 怎么实现有序的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#29-TreeMap-%E5%92%8C-HashMap-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">29.TreeMap 和 HashMap 的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set"><span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#30-%E8%AE%B2%E8%AE%B2-HashSet-%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="toc-text">30.讲讲 HashSet 的底层实现？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashSet-%E5%92%8C-ArrayList-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">HashSet 和 ArrayList 的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashSet-%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E5%85%83%E7%B4%A0%E9%87%8D%E5%A4%8D%EF%BC%8C%E9%87%8D%E5%A4%8D%E4%BA%86%E6%98%AF%E5%90%A6-put"><span class="toc-text">HashSet 怎么判断元素重复，重复了是否 put</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>undefined
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>

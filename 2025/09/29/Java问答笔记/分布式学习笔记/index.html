@@ -1,0 +1,1158 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>分布式学习笔记-架天网布分布式,炼金丹渡一致劫 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="CAP定理为三昧真火，拜占庭将军是心魔考验——施主可要修习这「分合之道」？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式学习笔记-架天网布分布式,炼金丹渡一致劫">
+<meta property="og:url" content="https://jakicdong.github.io/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="CAP定理为三昧真火，拜占庭将军是心魔考验——施主可要修习这「分合之道」？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144039.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144119.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144144.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030145134.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030145252.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030150146.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030150742.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030150909.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151011.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151210.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151300.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151432.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151536.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151632.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151702.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030152749.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030154623.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030154800.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030154827.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030155933.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160054.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160204.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160402.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160458.png">
+<meta property="article:published_time" content="2025-09-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-30T08:05:17.599Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="分布式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144039.png">
+  
+  
+  
+  <meta name="keywords" content="基础,分布式">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="联系我" href="https://jakicdong.github.io/2025/06/01/contact_author/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/"><span class="title">LLM如何进行思维?LLM的瓶颈何在?</span></a><a class="item" href="/2025/10/25/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Elasticsearch学习笔记-开倒排索引通天地,布分词器炼文字丹</span></a><a class="item" href="/2025/10/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%83%AD%E7%82%B9%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">🔥热点知识点学习笔记-炼金丹熔高频考点,布天网擒技术热点</span></a><a class="item" href="/2025/10/23/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%9B%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">场景设计学习笔记-闯架构天宫演诸法,降需求心魔定禅心</span></a><a class="item" href="/2025/10/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E7%AC%AC%E4%BA%8C%E7%89%88)/"><span class="title">Spring学习笔记(第二版)-炼金丹炉铸Bean山 布注解阵控轮回盘</span></a><a class="item" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span></a><a class="item" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记-执SQL咒扫乾坤表,祭联合影擒数据妖</span></a><a class="item" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记-窥内存洞天观玄机,调GC轮回掌生死</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记-布天罡阵降需求妖,演变化术破代码劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记-掌轮回内核定纲常,渡进程内存化阴阳</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记-化整为零散作星,聚沙成塔架云台</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记-架消息桥通三界路 施持久咒定乾坤轮</span></a><a class="item active" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记-架天网布分布式,炼金丹渡一致劫</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记-架映射桥通人神境 写SQL咒调数据兵</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记-踏终端登灵霄殿,执符咒驭众生器</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记-布天罗网锁线程妖,设八卦阵伏竞态魔</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河</span></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记-燃内存真火照幽冥 布集群阵通九霄</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记-筑基篇开修行路,炼气层破语法障</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南-调阴阳戒久坐劫 通经脉战代码妖</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记-布协议栈通三界,架路由桥渡万维</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unity%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记-开IOC瓶纳百川水 织AOP网覆三界尘</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记-撒神经点布星云阵 炼辐射场塑造化身</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"><span class="title">个人博客搭建指南-架祥云自建菩提境,点慧灯独照博客天</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</span></a><a class="item" href="/2025/06/01/contact_author/"><span class="title">contact_author</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/01/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B026%E5%B9%B41%E6%9C%88/2026.1.4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.1.19学习日记</span></a><a class="item title" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item title" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item title" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item title" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.22%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.22学习日记</span></a><a class="item title" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.16学习日记</span></a><a class="item title" href="/2025/12/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.9学习日记</span></a><a class="item title" href="/2025/12/09/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.12.9学习日记</span></a><a class="item title" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item title" href="/2025/11/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B411%E6%9C%88/2025.11.19%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.11.19学习日记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-09-28T16:00:00.000Z">2025-09-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-10-30T08:05:17.599Z">2025-10-30</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>分布式学习笔记-架天网布分布式,炼金丹渡一致劫</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><h2 id="分布式理论"><a href="#分布式理论" class="headerlink" title="分布式理论"></a>分布式理论</h2><h3 id="1-说说-CAP-原则？"><a href="#1-说说-CAP-原则？" class="headerlink" title="1.说说 CAP 原则？"></a>1.说说 CAP 原则？</h3><p>CAP 原则又称 CAP 定理，指的是在一个分布式系统中，Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性）这 3 个基本需求，最多只能同时满足其中的 2 个。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144039.png" alt="20251030144039"></p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Consistency（一致性）</td>
+<td>指数据在多个副本之间能够保持一致的特性（严格的一致性）</td>
+</tr>
+<tr>
+<td>Availability（可用性）</td>
+<td>指系统提供的服务必须一直处于可用的状态，每次请求都能获取到非错的响应（不保证获取的数据为最新数据）</td>
+</tr>
+<tr>
+<td>Partition tolerance（分区容错性）</td>
+<td>分布式系统在遇到任何网络分区故障的时候，仍然能够对外提供满足一致性和可用性的服务，除非整个网络环境都发生了故障</td>
+</tr>
+</tbody></table>
+<h3 id="2-为什么-CAP-不可兼得呢？"><a href="#2-为什么-CAP-不可兼得呢？" class="headerlink" title="2.为什么 CAP 不可兼得呢？"></a>2.为什么 CAP 不可兼得呢？</h3><p>首先对于分布式系统，分区是必然存在的，所谓分区指的是分布式系统可能出现的字区域网络不通，成为孤立区域的的情况。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144119.png" alt="20251030144119"><br>那么分区容错性（<strong>P</strong>）就必须要满足，因为如果要牺牲分区容错性，就得把服务和资源放到一个机器，或者一个“同生共死”的集群，那就违背了分布式的初衷。</p>
+<p>那么满足分区容错的基础上，能不能同时满足<code>一致性</code>和<code>可用性</code>？</p>
+<p>假如现在有两个分区<code>N1</code>和<code>N2</code>，N1 和 N2 分别有不同的分区存储 D1 和 D2，以及不同的服务 S1 和 S2。</p>
+<ul>
+<li>在满足<code>一致性</code> 的时候，N1 和 N2 的数据要求值一样的，D1&#x3D;D2。</li>
+<li>在满足<code>可用性</code>的时候，无论访问 N1 还是 N2，都能获取及时的响应。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030144144.png" alt="20251030144144"><br>假如现在有这样的场景：</p>
+<ul>
+<li>用户访问了 N1，修改了 D1 的数据。</li>
+<li>用户再次访问，请求落在了 N2。此时 D1 和 D2 的数据不一致。</li>
+</ul>
+<p>接下来：</p>
+<ul>
+<li>保证<code>一致性</code>：此时 D1 和 D2 数据不一致，要保证一致性就不能返回不一致的数据，<code>可用性</code>无法保证。</li>
+<li>保证<code>可用性</code>：立即响应，可用性得到了保证，但是此时响应的数据和 D1 不一致，<code>一致性</code>无法保证。</li>
+</ul>
+<p>所以，可以看出，分区容错的前提下，<code>一致性</code>和<code>可用性</code>是矛盾的。</p>
+<h3 id="3-CAP-对应的模型和应用？"><a href="#3-CAP-对应的模型和应用？" class="headerlink" title="3.CAP 对应的模型和应用？"></a>3.CAP 对应的模型和应用？</h3><p><strong>CA without P</strong></p>
+<p>理论上放弃 P（分区容错性），则 C（强一致性）和 A（可用性）是可以保证的。实际上分区是不可避免的，严格上 CA 指的是允许分区后各子系统依然保持 CA。</p>
+<p>CA 模型的常见应用：</p>
+<ul>
+<li>集群数据库</li>
+<li>xFS 文件系统</li>
+</ul>
+<p><strong>CP without A</strong></p>
+<p>放弃 A（可用），相当于每个请求都需要在 Server 之间强一致，而 P（分区）会导致同步时间无限延长，如此 CP 也是可以保证的。很多传统的数据库分布式事务都属于这种模式。</p>
+<p>CP 模型的常见应用：</p>
+<ul>
+<li>分布式数据库</li>
+<li>分布式锁</li>
+</ul>
+<p><strong>AP wihtout C</strong></p>
+<p>要高可用并允许分区，则需放弃一致性。一旦分区发生，节点之间可能会失去联系，为了高可用，每个节点只能用本地数据提供服务，而这样会导致全局数据的不一致性。现在众多的 NoSQL 都属于此类。</p>
+<p>AP 模型常见应用：</p>
+<ul>
+<li>Web 缓存</li>
+<li>DNS</li>
+</ul>
+<p>举个大家更熟悉的例子，像我们熟悉的注册中心<code>ZooKeeper</code>、<code>Eureka</code>、<code>Nacos</code>中：</p>
+<ul>
+<li>ZooKeeper 保证的是 CP</li>
+<li>Eureka 保证的则是 AP</li>
+<li>Nacos 不仅支持 CP 也支持 AP</li>
+</ul>
+<h3 id="4-BASE-理论了解吗？"><a href="#4-BASE-理论了解吗？" class="headerlink" title="4.BASE 理论了解吗？"></a>4.BASE 理论了解吗？</h3><p>BASE（Basically Available、Soft state、Eventual consistency）是基于 CAP 理论逐步演化而来的，核心思想是即便不能达到强一致性（Strong consistency），也可以根据应用特点采用适当的方式来达到最终一致性（Eventual consistency）的效果。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030145134.png" alt="20251030145134"><br>BASE 的主要含义：</p>
+<ul>
+<li><strong>Basically Available（基本可用）</strong></li>
+</ul>
+<p>什么是基本可用呢？假设系统出现了不可预知的故障，但还是能用，只是相比较正常的系统而言，可能会有响应时间上的损失，或者功能上的降级。</p>
+<ul>
+<li><strong>Soft State（软状态）</strong></li>
+</ul>
+<p>什么是硬状态呢？要求多个节点的数据副本都是一致的，这是一种“硬状态”。</p>
+<p>软状态也称为弱状态，相比较硬状态而言，允许系统中的数据存在中间状态，并认为该状态不影响系统的整体可用性，即允许系统在多个不同节点的数据副本存在数据延时。</p>
+<ul>
+<li><strong>Eventually Consistent（最终一致性）</strong></li>
+</ul>
+<p>上面说了软状态，但是不应该一直都是软状态。在一定时间后，应该到达一个最终的状态，保证所有副本保持数据一致性，从而达到数据的最终一致性。这个时间取决于网络延时、系统负载、数据复制方案设计等等因素。</p>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>单体时代，可以直接用本地锁来实现对竞争资源的加锁，分布式环境下就要用到分布式锁了。</p>
+<h3 id="5-有哪些分布式锁的实现方案呢？"><a href="#5-有哪些分布式锁的实现方案呢？" class="headerlink" title="5.有哪些分布式锁的实现方案呢？"></a>5.有哪些分布式锁的实现方案呢？</h3><p>常见的分布式锁实现方案有三种：<code>MySQL分布式锁</code>、<code>ZooKepper分布式锁</code>、<code>Redis分布式锁</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030145252.png" alt="20251030145252"></p>
+<h4 id="5-1-MySQL-分布式锁如何实现呢？"><a href="#5-1-MySQL-分布式锁如何实现呢？" class="headerlink" title="5.1 MySQL 分布式锁如何实现呢？"></a>5.1 MySQL 分布式锁如何实现呢？</h4><p>用数据库实现分布式锁比较简单，就是创建一张锁表，数据库对字段作唯一性约束。</p>
+<p>加锁的时候，在锁表中增加一条记录即可；释放锁的时候删除记录就行。</p>
+<p>如果有并发请求同时提交到数据库，数据库会保证只有一个请求能够得到锁。</p>
+<p>这种属于数据库 IO 操作，效率不高，而且频繁操作会增大数据库的开销，因此这种方式在高并发、高性能的场景中用的不多。</p>
+<h4 id="5-2-ZooKeeper-如何实现分布式锁？"><a href="#5-2-ZooKeeper-如何实现分布式锁？" class="headerlink" title="5.2 ZooKeeper 如何实现分布式锁？"></a>5.2 ZooKeeper 如何实现分布式锁？</h4><p>ZooKeeper 也是常见分布式锁实现方法。</p>
+<p>ZooKeeper 的数据节点和文件目录类似，例如有一个 lock 节点，在此节点下建立子节点是可以保证先后顺序的，即便是两个进程同时申请新建节点，也会按照先后顺序建立两个节点。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030150146.png" alt="20251030150146"><br>所以我们可以用此特性实现分布式锁。以某个资源为目录，然后这个目录下面的节点就是我们需要获取锁的客户端，每个服务在目录下创建节点，如果它的节点，序号在目录下最小，那么就获取到锁，否则等待。释放锁，就是删除服务创建的节点。</p>
+<p>ZK 实际上是一个比较重的分布式组件，实际上应用没那么多了，所以用 ZK 实现分布式锁，其实相对也比较少。</p>
+<h4 id="5-3-Redis-怎么实现分布式锁？"><a href="#5-3-Redis-怎么实现分布式锁？" class="headerlink" title="5.3 Redis 怎么实现分布式锁？"></a>5.3 Redis 怎么实现分布式锁？</h4><p>Redis 实现分布式锁，是当前应用最广泛的分布式锁实现方式。</p>
+<p>Redis 执行命令是单线程的，Redis 实现分布式锁就是利用这个特性。</p>
+<p>实现分布式锁最简单的一个命令：setNx(set if not exist)，如果不存在则更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setNx resourceName value</span><br></pre></td></tr></table></figure>
+
+<p>加锁了之后如果机器宕机，那我这个锁就无法释放，所以需要加入过期时间，而且过期时间需要和 setNx 同一个原子操作，在 Redis2.8 之前需要用 lua 脚本，但是 redis2.8 之后 redis 支持 nx 和 ex 操作是同一原子操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set resourceName value ex 5 nx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Redission</strong></li>
+</ul>
+<p>当然，一般生产中都是使用 Redission 客户端，非常良好地封装了分布式锁的 api，而且支持 RedLock。</p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><h3 id="6-什么是分布式事务"><a href="#6-什么是分布式事务" class="headerlink" title="6.什么是分布式事务?"></a>6.什么是分布式事务?</h3><p>在分布式环境下，会涉及到多个数据库，比如说支付库、商品库、订单库。因此要保证跨服务的事务一致性就变得非常复杂。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030150742.png" alt="20251030150742"><br>三分恶面渣逆袭：多个数据库</p>
+<p>分布式事务其实就是将单一库的事务概念扩大到了多库，目的是为了保证跨服的数据一致性。</p>
+<h3 id="7-分布式事务有哪些常见的实现方案？"><a href="#7-分布式事务有哪些常见的实现方案？" class="headerlink" title="7.分布式事务有哪些常见的实现方案？"></a>7.分布式事务有哪些常见的实现方案？</h3><p>分布式事务的实现方式主要包括：</p>
+<ul>
+<li>二阶段提交（2PC）：通过准备和提交阶段保证一致性，但性能较差。</li>
+<li>三阶段提交（3PC）：在 2PC 的基础上增加了一个超时机制，降低了阻塞，但依旧存在数据不一致的风险。</li>
+<li>TCC：根据业务逻辑拆分为 Try、Confirm 和 Cancel 三个阶段，适合锁定资源的业务场景。</li>
+<li>本地消息表：在数据库中存储事务事件，通过定时任务处理消息。</li>
+<li>基于 MQ 的分布式事务：通过消息队列来实现异步确保，利用重试机制保障最终一致性，适用于对实时性要求不高的场景。</li>
+</ul>
+<h4 id="7-1-说说-2PC-两阶段提交？"><a href="#7-1-说说-2PC-两阶段提交？" class="headerlink" title="7.1 说说 2PC 两阶段提交？"></a>7.1 说说 2PC 两阶段提交？</h4><p>说到 2PC，就不得先说分布式事务中的 XA 协议。</p>
+<p>在这个协议里，有三个角色：</p>
+<ul>
+<li><strong>AP（Application）</strong>：应用系统（服务）</li>
+<li><strong>TM（Transaction Manager）</strong>：事务管理器（全局事务管理）</li>
+<li><strong>RM（Resource Manager）</strong>：资源管理器（数据库）</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030150909.png" alt="20251030150909"></p>
+<p>XA 协议采用<strong>两阶段提交</strong>方式来管理分布式事务。XA 接口提供资源管理器与事务管理器之间进行通信的标准接口。</p>
+<p>两阶段提交的思路可以概括为：参与者将操作成败通知协调者，再由协调者根据所有参与者的反馈情况决定各参与者是否要提交操作还是回滚操作。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151011.png" alt="20251030151011"></p>
+<ul>
+<li>准备阶段：事务管理器要求每个涉及到事务的数据库预提交(precommit)此操作，并反映是否可以提交</li>
+<li>提交阶段：事务协调器要求每个数据库提交数据，或者回滚数据。</li>
+</ul>
+<p>优点：尽量保证了数据的强一致，实现成本较低，在各大主流数据库都有自己实现，对于 MySQL 是从 5.5 开始支持。</p>
+<p>缺点:</p>
+<ul>
+<li>单点问题：事务管理器在整个流程中扮演的角色很关键，如果其宕机，比如在第一阶段已经完成，在第二阶段正准备提交的时候事务管理器宕机，资源管理器就会一直阻塞，导致数据库无法使用。</li>
+<li>同步阻塞：在准备就绪之后，资源管理器中的资源一直处于阻塞，直到提交完成，释放资源。</li>
+<li>数据不一致：两阶段提交协议虽然为分布式数据强一致性所设计，但仍然存在数据不一致性的可能，比如在第二阶段中，假设协调者发出了事务 commit 的通知，但是因为网络问题该通知仅被一部分参与者所收到并执行了 commit 操作，其余的参与者则因为没有收到通知一直处于阻塞状态，这时候就产生了数据的不一致性。</li>
+</ul>
+<h4 id="7-2-3PC（三阶段提交）了解吗？"><a href="#7-2-3PC（三阶段提交）了解吗？" class="headerlink" title="7.2 3PC（三阶段提交）了解吗？"></a>7.2 3PC（三阶段提交）了解吗？</h4><p>三阶段提交（<code>3PC</code>）是二阶段提交（<code>2PC</code>）的一种改进版本 ，为解决两阶段提交协议的单点故障和同步阻塞问题。</p>
+<p>三阶段提交有这么三个阶段：<code>CanCommit</code>，<code>PreCommit</code>，<code>DoCommit</code><br>三个阶段</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151210.png" alt="20251030151210"></p>
+<ul>
+<li><p><strong>CanCommit</strong>：准备阶段。协调者向参与者发送 commit 请求，参与者如果可以提交就返回 Yes 响应，否则返回 No 响应。</p>
+</li>
+<li><p><strong>PreCommit</strong>：预提交阶段。协调者根据参与者在<strong>准备阶段</strong>的响应判断是否执行事务还是中断事务，参与者执行完操作之后返回 ACK 响应，同时开始等待最终指令。</p>
+</li>
+<li><p><strong>DoCommit</strong>：提交阶段。协调者根据参与者在<strong>准备阶段</strong>的响应判断是否执行事务还是中断事务：</p>
+</li>
+<li><p>如果所有参与者都返回正确的<code>ACK</code>响应，则提交事务</p>
+</li>
+<li><p>如果参与者有一个或多个参与者收到错误的<code>ACK</code>响应或者超时，则中断事务</p>
+</li>
+<li><p>如果参与者无法及时接收到来自协调者的提交或者中断事务请求时，在等待超时之后，会继续进行事务提交</p>
+</li>
+</ul>
+<p>可以看出，三阶段提交解决的只是两阶段提交中<strong>单体故障</strong>和<strong>同步阻塞</strong>的问题，因为加入了超时机制，这里的超时的机制作用于 <strong>预提交阶段</strong> 和 <strong>提交阶段</strong>。如果等待 <strong>预提交请求</strong> 超时，参与者直接回到准备阶段之前。如果等到<strong>提交请求</strong>超时，那参与者就会提交事务了。</p>
+<p><strong>无论是 2PC 还是 3PC 都不能保证分布式系统中的数据 100%一致</strong>。</p>
+<h4 id="7-3-TCC-了解吗？"><a href="#7-3-TCC-了解吗？" class="headerlink" title="7.3 TCC 了解吗？"></a>7.3 TCC 了解吗？</h4><p><strong>TCC（Try Confirm Cancel）</strong> ，是两阶段提交的一个变种，针对每个操作，都需要有一个其对应的确认和取消操作，当操作成功时调用确认操作，当操作失败时调用取消操作，类似于二阶段提交，只不过是这里的提交和回滚是针对业务上的，所以基于 TCC 实现的分布式事务也可以看做是对业务的一种补偿机制。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151300.png" alt="20251030151300"></p>
+<ul>
+<li><strong>Try</strong>：尝试待执行的业务。订单系统将当前订单状态设置为支付中，库存系统校验当前剩余库存数量是否大于 1，然后将可用库存数量设置为库存剩余数量-1，。</li>
+<li><strong>Confirm</strong>：确认执行业务，如果 Try 阶段执行成功，接着执行 Confirm 阶段，将订单状态修改为支付成功，库存剩余数量修改为可用库存数量。</li>
+<li><strong>Cancel</strong>：取消待执行的业务，如果 Try 阶段执行失败，执行 Cancel 阶段，将订单状态修改为支付失败，可用库存数量修改为库存剩余数量。</li>
+</ul>
+<p><strong>TCC</strong> 是业务层面的分布式事务，保证最终一致性，不会一直持有资源的锁。</p>
+<ul>
+<li><strong>优点：</strong> 把数据库层的二阶段提交交给应用层来实现，规避了数据库的 2PC 性能低下问题</li>
+<li><strong>缺点</strong>：TCC 的 Try、Confirm 和 Cancel 操作功能需业务提供，开发成本高。TCC 对业务的侵入较大和业务紧耦合，需要根据特定的场景和业务逻辑来设计相应的操作</li>
+</ul>
+<h4 id="7-4-本地消息表了解吗？"><a href="#7-4-本地消息表了解吗？" class="headerlink" title="7.4 本地消息表了解吗？"></a>7.4 本地消息表了解吗？</h4><p>本地消息表的核心思想是将分布式事务拆分成本地事务进行处理。</p>
+<p>例如，可以在订单库新增一个消息表，将新增订单和新增消息放到一个事务里完成，然后通过轮询的方式去查询消息表，将消息推送到 MQ，库存服务去消费 MQ。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151432.png" alt="20251030151432"></p>
+<p><strong>执行流程：</strong></p>
+<ol>
+<li>订单服务，添加一条订单和一条消息，在一个事务里提交</li>
+<li>订单服务，使用定时任务轮询查询状态为未同步的消息表，发送到 MQ，如果发送失败，就重试发送</li>
+<li>库存服务，接收 MQ 消息，修改库存表，需要保证幂等操作</li>
+<li>如果修改成功，调用 rpc 接口修改订单系统消息表的状态为已完成或者直接删除这条消息</li>
+<li>如果修改失败，可以不做处理，等待重试</li>
+</ol>
+<p>订单服务中的消息有可能由于业务问题会一直重复发送，所以为了避免这种情况可以记录一下发送次数，当达到次数限制之后报警，人工接入处理；库存服务需要保证幂等，避免同一条消息被多次消费造成数据不一致。</p>
+<p>本地消息表这种方案实现了最终一致性，需要在业务系统里增加消息表，业务逻辑中多一次插入的 DB 操作，所以性能会有损耗，而且最终一致性的间隔主要有定时任务的间隔时间决定</p>
+<h4 id="7-5-MQ-消息事务了解吗？"><a href="#7-5-MQ-消息事务了解吗？" class="headerlink" title="7.5 MQ 消息事务了解吗？"></a>7.5 MQ 消息事务了解吗？</h4><p>基于 MQ 的分布式事务是指<strong>将两个事务通过消息队列进行异步解耦</strong>，利用重试机制保障最终一致性，适用于对实时性要求不高的场景。</p>
+<p>订单服务执行自己的本地事务，并发送消息到 MQ，库存服务接收到消息后，执行自己的本地事务，如果消费失败，可以利用重试机制确保最终一致性。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151536.png" alt="20251030151536"><br>三分恶面渣逆袭：基于 MQ 的分布式事务</p>
+<p>延迟队列在分布式事务中通常用于异步补偿、定时校验和故障重试等场景，确保数据最终一致性。</p>
+<p>当主事务执行完成后，延迟队列会在一定时间后检查各子事务的状态，如果有失败的子事务，可以触发补偿操作，重试或回滚事务。</p>
+<p>当分布式锁因为某些原因未被正常释放时，可以通过延迟队列在超时后自动释放锁，防止死锁。</p>
+<h4 id="7-6-最大努力通知了解吗？"><a href="#7-6-最大努力通知了解吗？" class="headerlink" title="7.6 最大努力通知了解吗？"></a>7.6 最大努力通知了解吗？</h4><p>最大努力通知相比实现会简单一些，适用于一些对最终一致性实时性要求没那么高的业务，比如支付通知，短信通知。</p>
+<p>以支付通知为例，业务系统调用支付平台进行支付，支付平台进行支付，进行操作支付之后支付平台会去同步通知业务系统支付操作是否成功，如果不成功，会一直异步重试，但是会有一个最大通知次数，如果超过这个次数后还是通知失败，就不再通知，业务系统自行调用支付平台提供一个查询接口，供业务系统进行查询支付操作是否成功。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151632.png" alt="20251030151632"></p>
+<p><strong>执行流程：</strong></p>
+<ol>
+<li>业务系统调用支付平台支付接口， 并在本地进行记录，支付状态为支付中</li>
+<li>支付平台进行支付操作之后，无论成功还是失败，同步给业务系统一个结果通知</li>
+<li>如果通知一直失败则根据重试规则异步进行重试，达到最大通知次数后，不再通知</li>
+<li>支付平台提供查询订单支付操作结果接口</li>
+<li>业务系统根据一定业务规则去支付平台查询支付结果</li>
+</ol>
+<h3 id="8-你们用什么？能说一下-Seata-吗？"><a href="#8-你们用什么？能说一下-Seata-吗？" class="headerlink" title="8.你们用什么？能说一下 Seata 吗？"></a>8.你们用什么？能说一下 Seata 吗？</h3><p>我们用比较常用的是 Seata——自己去实现分布式事务调度还是比较麻烦的。</p>
+<p><strong>Seata</strong> 的设计目标是对业务无侵入，因此它是从业务无侵入的两阶段提交（全局事务）着手，在传统的两阶段上进行改进，他把一个分布式事务理解成一个包含了若干分支事务的全局事务。而全局事务的职责是协调它管理的分支事务达成一致性，要么一起成功提交，要么一起失败回滚。也就是一荣俱荣一损俱损~</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030151702.png" alt="20251030151702"></p>
+<p><strong>Seata</strong> 中存在这么几种重要角色：</p>
+<ul>
+<li><strong>TC（Transaction Coordinator）</strong>：事务协调者。管理全局的分支事务的状态，用于全局性事务的提交和回滚。</li>
+<li><strong>TM（Transaction Manager）</strong>：事务管理者。用于开启、提交或回滚事务。</li>
+<li><strong>RM（Resource Manager）</strong>：资源管理器。用于分支事务上的资源管理，向 <strong>TC</strong> 注册分支事务，上报分支事务的状态，接收 <strong>TC</strong> 的命令来提交或者回滚分支事务。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030152749.png" alt="20251030152749"></p>
+<p>Seata 整体执行流程：</p>
+<ol>
+<li>服务 A 中的 <strong>TM</strong> 向 <strong>TC</strong> 申请开启一个全局事务，<strong>TC</strong> 就会创建一个全局事务并返回一个唯一的 <strong>XID</strong></li>
+<li>服务 A 中的 <strong>RM</strong> 向 <strong>TC</strong> 注册分支事务，然后将这个分支事务纳入 <strong>XID</strong> 对应的全局事务管辖中</li>
+<li>服务 A 开始执行分支事务</li>
+<li>服务 A 开始远程调用 B 服务，此时 <strong>XID</strong> 会根据调用链传播</li>
+<li>服务 B 中的 <strong>RM</strong> 也向 <strong>TC</strong> 注册分支事务，然后将这个分支事务纳入 <strong>XID</strong> 对应的全局事务管辖中</li>
+<li>服务 B 开始执行分支事务</li>
+<li>全局事务调用处理结束后，<strong>TM</strong> 会根据有误异常情况，向 <strong>TC</strong> 发起全局事务的提交或回滚</li>
+<li><strong>TC</strong> 协调其管辖之下的所有分支事务，决定是提交还是回滚</li>
+</ol>
+<blockquote>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://javabetter.cn/zhishixingqiu/mianshi.html">Java 面试指南（付费）</a>收录的字节跳动同学 17 后端技术面试原题：分布式事务怎么实现 为什么要用延迟队列</li>
+</ol>
+</blockquote>
+<h2 id="分布式一致性算法"><a href="#分布式一致性算法" class="headerlink" title="分布式一致性算法"></a>分布式一致性算法</h2><h3 id="9-分布式算法-paxos-了解么？"><a href="#9-分布式算法-paxos-了解么？" class="headerlink" title="9.分布式算法 paxos 了解么？"></a>9.分布式算法 paxos 了解么？</h3><p><code>Paxos</code> 有点类似前面说的 <code>2PC</code>，<code>3PC</code>，但比这两种算法更加完善。在很多多大厂都得到了工程实践，比如阿里的 <code>OceanBase</code> 的 <strong>分布式数据库</strong>， <code>Google</code> 的 <code>chubby</code> <strong>分布式锁</strong> 。</p>
+<h4 id="Paxos-算法是什么？"><a href="#Paxos-算法是什么？" class="headerlink" title="Paxos 算法是什么？"></a>Paxos 算法是什么？</h4><p><code>Paxos</code> 算法是 <strong>基于消息传递</strong> 且具有 <strong>高效容错特性</strong> 的一致性算法，目前公认的解决 <strong>分布式一致性问题</strong> 最有效的算法之一。</p>
+<h4 id="Paxos-算法的工作流程？"><a href="#Paxos-算法的工作流程？" class="headerlink" title="Paxos 算法的工作流程？"></a>Paxos 算法的工作流程？</h4><h5 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h5><p>在 Paxos 中有这么几个角色：</p>
+<ol>
+<li><strong>Proposer（提议者）</strong> : 提议者提出提案，用于投票表决。</li>
+<li><strong>Accecptor（接受者）</strong> : 对提案进行投票，并接受达成共识的提案。</li>
+<li><strong>Learner（学习者）</strong> : 被告知投票的结果，接受达成共识的提案。</li>
+</ol>
+<p>在实际中，一个节点可以同时充当不同角色。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030154623.png" alt="20251030154623"><br>提议者提出提案，提案&#x3D;编号+value，可以表示为[M,V]，每个提案都有唯一编号，而且编号的大小是趋势递增的。</p>
+<h5 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h5><p>Paxos 算法包含两个阶段，第一阶段 <strong>Prepare(准备)</strong> 、第二阶段 <strong>Accept(接受)</strong> 。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030154800.png" alt="20251030154800"></p>
+<h6 id="Prepare-准备-阶段"><a href="#Prepare-准备-阶段" class="headerlink" title="Prepare(准备)阶段"></a>Prepare(准备)阶段</h6><ol>
+<li>提议者提议一个新的提案 P[Mn,?]，然后向接受者的某个超过半数的子集成员发送编号为 Mn 的准备请求</li>
+<li>如果一个接受者收到一个编号为 Mn 的准备请求，并且编号 Mn 大于它已经响应的所有准备请求的编号，那么它就会将它已经批准过的最大编号的提案作为响应反馈给提议者，同时该接受者会承诺不会再批准任何编号小于 Mn 的提案。</li>
+</ol>
+<p>总结一下，接受者在收到提案后，会给与提议者<strong>两个承诺</strong>与<strong>一个应答</strong>：</p>
+<ul>
+<li><p>两个承诺：</p>
+</li>
+<li><ul>
+<li>承诺不会再接受提案号小于或等于 Mn 的 Prepare 请求</li>
+</ul>
+</li>
+<li><ul>
+<li>承诺不会再接受提案号小于 Mn 的 Accept 请求</li>
+</ul>
+</li>
+<li><p>一个应答：</p>
+</li>
+<li><ul>
+<li>不违背以前作出的承诺的前提下，回复已经通过的提案中提案号最大的那个提案所设定的值和提案号 Mmax，如果这个值从来没有被任何提案设定过，则返回空值。如果不满足已经做出的承诺，即收到的提案号并不是决策节点收到过的最大的，那允许直接对此 Prepare 请求不予理会。</li>
+</ul>
+</li>
+</ul>
+<h6 id="Accept-接受-阶段"><a href="#Accept-接受-阶段" class="headerlink" title="Accept(接受)阶段"></a>Accept(接受)阶段</h6><ol>
+<li>如果提议者收到来自半数以上的接受者对于它发出的编号为 Mn 的准备请求的响应，那么它就会发送一个针对[Mn,Vn]的接受请求给接受者，注意 Vn 的值就是收到的响应中编号最大的提案的值，如果响应中不包含任何提案，那么它可以随意选定一个值。</li>
+<li>如果接受者收到这个针对[Mn,Vn]提案的接受请求，只要该接受者尚未对编号大于 Mn 的准备请求做出响应，它就可以通过这个提案。</li>
+</ol>
+<p>当提议者收到了多数接受者的接受应答后，协商结束，共识决议形成，将形成的决议发送给所有学习节点进行学习。</p>
+<p>所以 Paxos 算法的整体详细流程如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030154827.png" alt="20251030154827"></p>
+<h4 id="Paxos-算法有什么缺点吗？怎么优化？"><a href="#Paxos-算法有什么缺点吗？怎么优化？" class="headerlink" title="Paxos 算法有什么缺点吗？怎么优化？"></a>Paxos 算法有什么缺点吗？怎么优化？</h4><p>前面描述的可以称之为 Basic Paxos 算法，在单提议者的前提下是没有问题的，但是假如有多个提议者互不相让，那么就可能导致整个提议的过程进入了死循环。</p>
+<p>Lamport 提出了 Multi Paxos 的算法思想。</p>
+<p>Multi Paxos 算法思想，简单说就是在多个提议者的情况下，选出一个 Leader（领导者），由领导者作为唯一的提议者，这样就可以解决提议者冲突的问题。</p>
+<h3 id="10-说说-Raft-算法？"><a href="#10-说说-Raft-算法？" class="headerlink" title="10.说说 Raft 算法？"></a>10.说说 Raft 算法？</h3><h4 id="Raft-算法是什么？"><a href="#Raft-算法是什么？" class="headerlink" title="Raft 算法是什么？"></a>Raft 算法是什么？</h4><p><code>Raft</code> 也是一个 <strong>一致性算法</strong>，和 <code>Paxos</code> 目标相同。但它还有另一个名字 - <strong>易于理解的一致性算法</strong>。<code>Paxos</code> 和 <code>Raft</code> 都是为了实现 <strong>一致性</strong> 产生的。这个过程如同选举一样，<strong>参选者</strong> 需要说服 <strong>大多数选民</strong> (Server) 投票给他，一旦选定后就跟随其操作。<code>Paxos</code> 和 <code>Raft</code> 的区别在于选举的 <strong>具体过程</strong> 不同。</p>
+<h4 id="Raft-算法的工作流程？"><a href="#Raft-算法的工作流程？" class="headerlink" title="Raft 算法的工作流程？"></a>Raft 算法的工作流程？</h4><h5 id="Raft-算法的角色"><a href="#Raft-算法的角色" class="headerlink" title="Raft 算法的角色"></a>Raft 算法的角色</h5><p><code>Raft</code> 协议将 <code>Server</code> 进程分为三种角色：</p>
+<ul>
+<li><strong>Leader（领导者）</strong></li>
+<li><strong>Follower（跟随者）</strong></li>
+<li><strong>Candidate（候选人）</strong></li>
+</ul>
+<p>就像一个民主社会，领导者由跟随者投票选出。刚开始没有 <strong>领导者</strong>，所有集群中的 <strong>参与者</strong> 都是 <strong>跟随者</strong>。</p>
+<p>那么首先开启一轮大选。在大选期间 <strong>所有跟随者</strong> 都能参与竞选，这时所有跟随者的角色就变成了 <strong>候选人</strong>，民主投票选出领袖后就开始了这届领袖的任期，然后选举结束，所有除 <strong>领导者</strong> 的 <strong>候选人</strong> 又变回 <strong>跟随者</strong> 服从领导者领导。</p>
+<p>这里提到一个概念 <strong>「任期」</strong>，用术语 <code>Term</code> 表达。</p>
+<p>三类角色的变迁图如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030155933.png" alt="20251030155933"></p>
+<h5 id="Leader-选举过程"><a href="#Leader-选举过程" class="headerlink" title="Leader 选举过程"></a>Leader 选举过程</h5><p>Raft 使用心跳（heartbeat）触发 Leader 选举。当 Server 启动时，初始化为 Follower。Leader 向所有 Followers 周期性发送 heartbeat。如果 Follower 在选举超时时间内没有收到 Leader 的 heartbeat，就会等待一段随机的时间后发起一次 Leader 选举。</p>
+<p>Follower 将其当前 term 加一然后转换为 Candidate。它首先给自己投票并且给集群中的其他服务器发送 RequestVote RPC 。结果有以下三种情况：</p>
+<ul>
+<li>赢得了多数（超过 1&#x2F;2）的选票，成功选举为 Leader；</li>
+<li>收到了 Leader 的消息，表示有其它服务器已经抢先当选了 Leader；</li>
+<li>没有 Server 赢得多数的选票，Leader 选举失败，等待选举时间超时（<code>Election Timeout</code>）后发起下一次选举。</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160054.png" alt="20251030160054"></p>
+<p>选出 <code>Leader</code> 后，<code>Leader</code> 通过 <strong>定期</strong> 向所有 <code>Follower</code> 发送 <strong>心跳信息</strong> 维持其统治。若 <code>Follower</code> 一段时间未收到 <code>Leader</code> 的 <strong>心跳</strong>，则认为 <code>Leader</code> 可能已经挂了，然后再次发起 <strong>选举</strong> 过程。</p>
+<h2 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h2><h3 id="11-说说什么是幂等性？"><a href="#11-说说什么是幂等性？" class="headerlink" title="11.说说什么是幂等性？"></a>11.说说什么是幂等性？</h3><blockquote>
+<p>什么是幂等性？</p>
+</blockquote>
+<p>幂等性是一个数学概念，用在接口上：用在接口上就可以理解为：<strong>同一个接口，多次发出同一个请求，请求的结果是一致的。</strong></p>
+<p>简单说，就是多次调用如一次。</p>
+<blockquote>
+<p>什么是幂等性问题？</p>
+</blockquote>
+<p>在系统的运行中，可能会出现这样的问题：</p>
+<ol>
+<li>用户在填写某些<code>form表单</code>时，保存按钮不小心快速点了两次，表中竟然产生了两条重复的数据，只是 id 不一样。</li>
+<li>开发人员在项目中为了解决<code>接口超时</code>问题，通常会引入了<code>重试机制</code>。第一次请求接口超时了，请求方没能及时获取返回结果（此时有可能已经成功了），于是会对该请求重试几次，这样也会产生重复的数据。</li>
+<li>mq 消费者在读取消息时，有时候会读取到<code>重复消息</code>，也会产生重复的数据。</li>
+</ol>
+<p>这些都是常见的幂等性问题。</p>
+<p>在分布式系统里，只要下游服务有写（保存、更新）的操作，都有可能会产生幂等性问题。</p>
+<p>PS:幂等和防重有些不同，防重强调的防止数据重复，幂等强调的是多次调用如一次，防重包含幂等。</p>
+<h3 id="怎么保证接口幂等性？"><a href="#怎么保证接口幂等性？" class="headerlink" title="怎么保证接口幂等性？"></a>怎么保证接口幂等性？</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160204.png" alt="20251030160204"></p>
+<ol>
+<li>insert 前先 select</li>
+</ol>
+<p>在保存数据的接口中，在<code>insert</code>前，先根据<code>requestId</code>等字段先<code>select</code>一下数据。如果该数据已存在，则直接返回，如果不存在，才执行  <code>insert</code>操作。</p>
+<ol start="2">
+<li>加唯一索引</li>
+</ol>
+<p>加唯一索引是个非常简单但很有效的办法，如果重复插入数据的话，就会抛出异常，为了保证幂等性，一般需要捕获这个异常。</p>
+<p>如果是<code>java</code>程序需要捕获：<code>DuplicateKeyException</code>异常，如果使用了<code>spring</code>框架还需要捕获：<code>MySQLIntegrityConstraintViolationException</code>异常。</p>
+<ol start="3">
+<li>加悲观锁</li>
+</ol>
+<p>更新逻辑，比如更新用户账户余额，可以加悲观锁，把对应用户的哪一行数据锁住。同一时刻只允许一个请求获得锁，其他请求则等待。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> id<span class="operator">=</span><span class="number">123</span> <span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这种方式有一个缺点，获取不到锁的请求一般只能报失败，比较难保证接口返回相同值。</p>
+<ol start="4">
+<li>加乐观锁</li>
+</ol>
+<p>更新逻辑，也可以用乐观锁，性能更好。可以在表中增加一个<code>timestamp</code>或者<code>version</code>字段，例如<code>version</code>:</p>
+<p>在更新前，先查询一下数据，将 version 也作为更新的条件，同时也更新 version：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> amount<span class="operator">=</span>amount<span class="operator">+</span><span class="number">100</span>,version<span class="operator">=</span>version<span class="operator">+</span><span class="number">1</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">123</span> <span class="keyword">and</span> version<span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>更新成功后，version 增加，重复更新请求进来就无法更新了。</p>
+<ol start="5">
+<li>建防重表</li>
+</ol>
+<p>有时候表中并非所有的场景都不允许产生重复的数据，只有某些特定场景才不允许。这时候，就可以使用防重表的方式。</p>
+<p>例如消息消费中，创建防重表，存储消息的唯一 ID，消费时先去查询是否已经消费，已经消费直接返回成功。</p>
+<ol start="6">
+<li>状态机</li>
+</ol>
+<p>有些业务表是有状态的，比如订单表中有：1-下单、2-已支付、3-完成、4-撤销等状态，可以通过限制状态的流动来完成幂等。</p>
+<ol start="7">
+<li>分布式锁</li>
+</ol>
+<p>直接在数据库上加锁的做法性能不够友好，可以使用分布式锁的方式，目前最流行的分布式锁实现是通过 Redis，具体实现一般都是使用 Redission 框架。</p>
+<ol start="8">
+<li>token 机制</li>
+</ol>
+<p>请求接口之前，需要先获取一个唯一的 token，再带着这个 token 去完成业务操作，服务端根据这个 token 是否存在，来判断是否是重复的请求。</p>
+<h2 id="分布式限流"><a href="#分布式限流" class="headerlink" title="分布式限流"></a>分布式限流</h2><h3 id="12-你了解哪些限流算法？"><a href="#12-你了解哪些限流算法？" class="headerlink" title="12.你了解哪些限流算法？"></a>12.你了解哪些限流算法？</h3><ul>
+<li>计数器</li>
+</ul>
+<p>计数器比较简单粗暴，比如我们要限制 1s 能够通过的请求数，实现的思路就是从第一个请求进来开始计时，在接下来的 1s 内，每个请求进来请求数就+1，超过最大请求数的请求会被拒绝，等到 1s 结束后计数清零，重新开始计数。</p>
+<p>这种方式有个很大的弊端：比如前 10ms 已经通过了最大的请求数，那么后面的 990ms 的请求只能拒绝，这种现象叫做“突刺现象”。</p>
+<ul>
+<li>漏桶算法</li>
+</ul>
+<p>就是桶底出水的速度恒定，进水的速度可能快慢不一，但是当进水量大于出水量的时候，水会被装在桶里，不会直接被丢弃；但是桶也是有容量限制的，当桶装满水后溢出的部分还是会被丢弃的。</p>
+<p><strong>算法实现</strong>：可以准备一个队列来保存暂时处理不了的请求，然后通过一个线程池定期从队列中获取请求来执行。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160402.png" alt="20251030160402"></p>
+<ul>
+<li>令牌桶算法</li>
+</ul>
+<p>令牌桶就是生产访问令牌的一个地方，生产的速度恒定，用户访问的时候当桶中有令牌时就可以访问，否则将触发限流。</p>
+<p><strong>实现方案</strong>：Guava RateLimiter 限流</p>
+<p>Guava RateLimiter 是一个谷歌提供的限流，其基于令牌桶算法，比较适用于单实例的系统。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/20251030160458.png" alt="20251030160458"></p>
+
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">MyBatis学习笔记-架映射桥通人神境 写SQL咒调数据兵</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">RocketMQ学习笔记-架消息桥通三界路 施持久咒定乾坤轮</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA"><span class="toc-text">分布式理论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AF%B4%E8%AF%B4-CAP-%E5%8E%9F%E5%88%99%EF%BC%9F"><span class="toc-text">1.说说 CAP 原则？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88-CAP-%E4%B8%8D%E5%8F%AF%E5%85%BC%E5%BE%97%E5%91%A2%EF%BC%9F"><span class="toc-text">2.为什么 CAP 不可兼得呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CAP-%E5%AF%B9%E5%BA%94%E7%9A%84%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%BA%94%E7%94%A8%EF%BC%9F"><span class="toc-text">3.CAP 对应的模型和应用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-BASE-%E7%90%86%E8%AE%BA%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">4.BASE 理论了解吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-text">分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88%E5%91%A2%EF%BC%9F"><span class="toc-text">5.有哪些分布式锁的实现方案呢？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-MySQL-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%91%A2%EF%BC%9F"><span class="toc-text">5.1 MySQL 分布式锁如何实现呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-ZooKeeper-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F"><span class="toc-text">5.2 ZooKeeper 如何实现分布式锁？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-Redis-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F"><span class="toc-text">5.3 Redis 怎么实现分布式锁？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-text">6.什么是分布式事务?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="toc-text">7.分布式事务有哪些常见的实现方案？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-%E8%AF%B4%E8%AF%B4-2PC-%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%EF%BC%9F"><span class="toc-text">7.1 说说 2PC 两阶段提交？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-3PC%EF%BC%88%E4%B8%89%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%EF%BC%89%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">7.2 3PC（三阶段提交）了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-TCC-%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">7.3 TCC 了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">7.4 本地消息表了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-MQ-%E6%B6%88%E6%81%AF%E4%BA%8B%E5%8A%A1%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">7.5 MQ 消息事务了解吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-6-%E6%9C%80%E5%A4%A7%E5%8A%AA%E5%8A%9B%E9%80%9A%E7%9F%A5%E4%BA%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="toc-text">7.6 最大努力通知了解吗？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E4%BD%A0%E4%BB%AC%E7%94%A8%E4%BB%80%E4%B9%88%EF%BC%9F%E8%83%BD%E8%AF%B4%E4%B8%80%E4%B8%8B-Seata-%E5%90%97%EF%BC%9F"><span class="toc-text">8.你们用什么？能说一下 Seata 吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95"><span class="toc-text">分布式一致性算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95-paxos-%E4%BA%86%E8%A7%A3%E4%B9%88%EF%BC%9F"><span class="toc-text">9.分布式算法 paxos 了解么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Paxos-%E7%AE%97%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Paxos 算法是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Paxos-%E7%AE%97%E6%B3%95%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9F"><span class="toc-text">Paxos 算法的工作流程？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%92%E8%89%B2"><span class="toc-text">角色</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="toc-text">算法流程</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Prepare-%E5%87%86%E5%A4%87-%E9%98%B6%E6%AE%B5"><span class="toc-text">Prepare(准备)阶段</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Accept-%E6%8E%A5%E5%8F%97-%E9%98%B6%E6%AE%B5"><span class="toc-text">Accept(接受)阶段</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Paxos-%E7%AE%97%E6%B3%95%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E7%82%B9%E5%90%97%EF%BC%9F%E6%80%8E%E4%B9%88%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="toc-text">Paxos 算法有什么缺点吗？怎么优化？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%AF%B4%E8%AF%B4-Raft-%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-text">10.说说 Raft 算法？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Raft-%E7%AE%97%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Raft 算法是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Raft-%E7%AE%97%E6%B3%95%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9F"><span class="toc-text">Raft 算法的工作流程？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Raft-%E7%AE%97%E6%B3%95%E7%9A%84%E8%A7%92%E8%89%B2"><span class="toc-text">Raft 算法的角色</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Leader-%E9%80%89%E4%B8%BE%E8%BF%87%E7%A8%8B"><span class="toc-text">Leader 选举过程</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="toc-text">分布式设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E8%AF%B4%E8%AF%B4%E4%BB%80%E4%B9%88%E6%98%AF%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9F"><span class="toc-text">11.说说什么是幂等性？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9F"><span class="toc-text">怎么保证接口幂等性？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81"><span class="toc-text">分布式限流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-text">12.你了解哪些限流算法？</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>undefined
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
