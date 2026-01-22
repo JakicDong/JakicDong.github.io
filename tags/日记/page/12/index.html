@@ -905,6 +905,54 @@ render.py : 渲染脚本,用于将训练得到的高斯球参数渲染成图像.
       return originalXHROpen.call(this, method, url, ...args);
     };
     
+    // 拦截动态 script 标签加载（用于加载 chunk 文件）
+    var originalCreateElement = document.createElement;
+    document.createElement = function(tagName) {
+      var element = originalCreateElement.call(document, tagName);
+      if (tagName.toLowerCase() === 'script') {
+        var originalSetAttribute = element.setAttribute;
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && typeof value === 'string') {
+            // 如果是 chunk 文件且路径不对，尝试修正
+            if (value.includes('/static/') && !value.startsWith('http://localhost:8888')) {
+              // 确保使用正确的端口
+              if (value.includes('localhost:4000')) {
+                value = value.replace('localhost:4000', 'localhost:8888');
+                console.log('修正 script src:', value);
+              } else if (!value.startsWith('http')) {
+                // 相对路径，确保使用正确的 base URL
+                value = apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
+                console.log('修正相对路径 script src:', value);
+              }
+            }
+          }
+          return originalSetAttribute.call(this, name, value);
+        };
+      }
+      return element;
+    };
+    
+    // 监听 chunk 加载错误
+    window.addEventListener('error', function(e) {
+      if (e.target && e.target.tagName === 'SCRIPT' && e.target.src) {
+        var src = e.target.src;
+        if (src.includes('static/') && src.includes('.js')) {
+          console.error('Chunk 文件加载失败:', src);
+          console.error('请检查 Coze 服务是否正确配置了静态文件路径');
+          console.error('尝试访问:', src);
+        }
+      }
+    }, true);
+    
+    // 处理未捕获的 Promise 错误（ChunkLoadError）
+    window.addEventListener('unhandledrejection', function(e) {
+      if (e.reason && e.reason.message && e.reason.message.includes('chunk')) {
+        console.error('Chunk 加载错误:', e.reason);
+        console.error('这通常是因为静态文件路径配置不正确');
+        console.error('请检查 Coze 服务的 publicPath 配置');
+      }
+    });
+    
     // 加载 Coze Web SDK
     var webSdkScript = document.createElement('script');
     webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
