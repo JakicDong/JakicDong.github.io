@@ -749,21 +749,52 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
       }
       
       console.log('✅ 找到 CozeSDK:', CozeSDK);
+      console.log('CozeSDK 类型:', typeof CozeSDK);
+      console.log('CozeSDK 的可用属性:', Object.keys(CozeSDK));
+      console.log('CozeSDK 是否为函数:', typeof CozeSDK === 'function');
       
-      var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
+      // 尝试多种方式获取 WebChatClient
+      var WebChatClient = null;
+      var clientSource = '';
+      
+      if (CozeSDK.WebChatClient) {
+        WebChatClient = CozeSDK.WebChatClient;
+        clientSource = 'CozeSDK.WebChatClient';
+      } else if (typeof CozeSDK === 'function') {
+        WebChatClient = CozeSDK;
+        clientSource = 'CozeSDK 本身（函数）';
+      } else if (CozeSDK.default && typeof CozeSDK.default === 'function') {
+        WebChatClient = CozeSDK.default;
+        clientSource = 'CozeSDK.default';
+      } else if (CozeSDK.Client && typeof CozeSDK.Client === 'function') {
+        WebChatClient = CozeSDK.Client;
+        clientSource = 'CozeSDK.Client';
+      }
       
       console.log('检查 WebChatClient:', {
-        hasWebChatClient: !!CozeSDK.WebChatClient,
-        using: WebChatClient === CozeSDK ? 'CozeSDK 本身' : 'CozeSDK.WebChatClient'
+        found: !!WebChatClient,
+        source: clientSource,
+        type: WebChatClient ? typeof WebChatClient : 'undefined',
+        isFunction: WebChatClient ? typeof WebChatClient === 'function' : false,
+        isConstructor: WebChatClient ? (typeof WebChatClient === 'function' && WebChatClient.prototype) : false
       });
       
       if (!WebChatClient) {
         console.error('❌ 未找到 WebChatClient 构造函数');
-        console.log('CozeSDK 的可用属性:', Object.keys(CozeSDK));
+        console.log('尝试检查所有可能的属性:');
+        for (var key in CozeSDK) {
+          console.log('  -', key + ':', typeof CozeSDK[key], CozeSDK[key] ? (typeof CozeSDK[key] === 'function' ? '函数' : '对象') : 'null/undefined');
+        }
         return;
       }
       
-      console.log('✅ 找到 WebChatClient:', WebChatClient);
+      if (typeof WebChatClient !== 'function') {
+        console.error('❌ WebChatClient 不是函数，类型:', typeof WebChatClient);
+        console.log('WebChatClient 值:', WebChatClient);
+        return;
+      }
+      
+      console.log('✅ 找到 WebChatClient:', WebChatClient, '来源:', clientSource);
       
       try {
         var apiBaseUrl = "http://localhost:8888";
@@ -793,12 +824,18 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
         }
         
         console.log('创建 WebChatClient，配置:', JSON.stringify(clientConfig, null, 2));
+        console.log('WebChatClient 构造函数:', WebChatClient);
+        console.log('WebChatClient.prototype:', WebChatClient.prototype);
+        
         var client = new WebChatClient(clientConfig);
         console.log('✅ WebChatClient 创建成功:', client);
         console.log('客户端对象:', client);
       } catch (error) {
         console.error('❌ Coze 初始化失败:', error);
-        console.error('错误详情:', error.message, error.stack);
+        console.error('错误详情:', error.message);
+        console.error('错误堆栈:', error.stack);
+        console.error('WebChatClient 类型:', typeof WebChatClient);
+        console.error('WebChatClient 值:', WebChatClient);
       }
     }
     
@@ -828,566 +865,31 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
       return originalXHROpen.call(this, method, url, ...args);
     };
     
-    // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
-    var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
-    console.log('准备加载 Coze SDK，URL:', sdkUrl);
-    
-    var webSdkScript = document.createElement('script');
-    webSdkScript.src = sdkUrl;
-    webSdkScript.async = true;
-    webSdkScript.defer = true;
-    
-    webSdkScript.onload = function () {
-      console.log('✅ Coze SDK 脚本加载成功');
-      var retryCount = 0;
-      var maxRetries = 10;
-      
-      function tryInit() {
-        retryCount++;
-        console.log('尝试初始化 (' + retryCount + '/' + maxRetries + ')...');
-        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-        
-        if (CozeSDK) {
-          console.log('✅ SDK 已就绪，开始初始化');
-          initCoze();
-        } else if (retryCount < maxRetries) {
-          console.log('SDK 尚未就绪，等待中...');
-          setTimeout(tryInit, 300);
-        } else {
-          console.error('❌ SDK 加载超时，尝试直接初始化');
-          initCoze(); // 即使超时也尝试初始化
-        }
-      }
-      
-      setTimeout(tryInit, 100);
-    };
-    
-    webSdkScript.onerror = function(e) {
-      console.error('❌ Coze SDK 脚本加载失败');
-      console.error('错误事件:', e);
-      console.error('脚本 URL:', sdkUrl);
-      console.error('请检查：');
-      console.error('1. 服务是否运行在', apiBaseUrl);
-      console.error('2. 文件路径是否正确：/static/chat-sdk.js');
-      console.error('3. 是否有 CORS 问题');
-    };
-    
-    console.log('添加脚本标签到 head，URL:', sdkUrl);
-    document.head.appendChild(webSdkScript);
-    console.log('脚本标签已添加到 DOM');
-  })();
-</script>
-
-<style>
-  /* Coze 聊天窗口样式调整 */
-  .coze-chat-widget {
-    z-index: 9999;
-  }
-</style>
-
-
-
-
-<!-- inject -->
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
-�作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
-    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
-    requestAnimationFrame: (fn) => {
-      if (!window.requestAnimationFrame) {
-        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
-      }
-      window.requestAnimationFrame(fn)
-    },
-    dark: {},
-  };
-
-  // utils.dark.mode 当前模式 dark or light
-  // utils.dark.toggle() 暗黑模式触发器
-  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
-  utils.dark.method = {
-    toggle: new RunItem(),
-  };
-  utils.dark = Object.assign(utils.dark, {
-    push: utils.dark.method.toggle.push,
-  });
-</script>
-<script>
-  const sidebar = {
-    leftbar: () => {
-      if (l_body) {
-        l_body.toggleAttribute('leftbar');
-        l_body.removeAttribute('rightbar');
-      }
-    },
-    rightbar: () => {
-      if (l_body) {
-        l_body.toggleAttribute('rightbar');
-        l_body.removeAttribute('leftbar');
-      }
-    },
-    dismiss: () => {
-      if (l_body) {
-        l_body.removeAttribute('leftbar');
-        l_body.removeAttribute('rightbar');
-      }
-    },
-    toggleTOC: () => {
-      document.querySelector('#data-toc').classList.toggle('collapse');
-    }
-  }
-</script>
-<script type="text/javascript">
-  (() => {
-    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
-    for (const tagSwitcher of tagSwitchers) {
-      tagSwitcher.addEventListener('click', (e) => {
-        const parent = e.target.closest('.tag-subtree.parent-tag')
-        parent.classList.toggle('expanded')
-        e.preventDefault()
-      })
-    }
-
-    // Get active tag from query string, then activate it.
-    const urlParams = new URLSearchParams(window.location.search)
-    const activeTag = urlParams.get('tag')
-    if (activeTag) {
-      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
-      if (tag) {
-        tag.querySelector('a').classList.add('active')
-        
-        while (tag) {
-          tag.classList.add('expanded')
-          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
-        }
-      }
-    }
-  })()
-</script>
-
-
-<!-- required -->
-<script src="/js/main.js?v=1.30.0" defer></script>
-
-<script type="text/javascript">
-  const applyTheme = (theme) => {
-    if (theme === 'auto') {
-      document.documentElement.removeAttribute('data-theme')
-    } else {
-      document.documentElement.setAttribute('data-theme', theme)
-    }
-
-    applyThemeToGiscus(theme)
-  }
-
-  const applyThemeToGiscus = (theme) => {
-    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
-
-    const cmt = document.getElementById('giscus')
-    if (cmt) {
-      // This works before giscus load.
-      cmt.setAttribute('data-theme', theme)
-    }
-
-    const iframe = document.querySelector('#comments > section.giscus > iframe')
-    if (iframe) {
-      // This works after giscus loaded.
-      const src = iframe.src
-      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
-      iframe.src = newSrc
-    }
-  }
-
-  const switchTheme = () => {
-    // light -> dark -> auto -> light -> ...
-    const currentTheme = document.documentElement.getAttribute('data-theme')
-    let newTheme;
-    switch (currentTheme) {
-      case 'light':
-        newTheme = 'dark'
-        break
-      case 'dark':
-        newTheme = 'auto'
-        break
-      default:
-        newTheme = 'light'
-    }
-    applyTheme(newTheme)
-    window.localStorage.setItem('Stellar.theme', newTheme)
-    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
-    utils.dark.method.toggle.start();
-
-    const messages = {
-      light: `切换到浅色模式`,
-      dark: `切换到深色模式`,
-      auto: `切换到跟随系统配色`,
-    }
-    hud?.toast?.(messages[newTheme])
-  }
-
-  (() => {
-    // Apply user's preferred theme, if any.
-    const theme = window.localStorage.getItem('Stellar.theme')
-    if (theme !== null) {
-      applyTheme(theme)
-    } else {
-      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    utils.dark.method.toggle.start();
-  })()
-</script>
-
-
-<!-- optional -->
-
-
-
-<script defer>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
-    for (let id of Object.keys(ctx.services)) {
-      const js = ctx.services[id].js;
-      if (id == 'siteinfo') {
-        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
-        if (ctx.cardlinks?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            setCardLink(ctx.cardlinks);
-          });
-        }
-      } else if (id == 'voice') {
-        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
-        if (ctx.voiceAudios?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            createVoiceDom(ctx.voiceAudios);
-          });
-        }
-      } else if (id == 'video') {
-        ctx.videos = document.querySelectorAll('.video>video');
-        if (ctx.videos?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            videoEvents(ctx.videos);
-          });
-        }
-      } else if (id == 'download-file') {
-        ctx.files = document.querySelectorAll('.file');
-        if (ctx.files?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            downloadFileEvent(ctx.files);
-          });
-        }
-      } else {
-        const els = document.getElementsByClassName(`ds-${id}`);
-        if (els?.length > 0) {
-          utils.jq(() => {
-            if (id == 'timeline' || 'memos' || 'marked') {
-              utils.js(deps.marked).then(function () {
-                utils.js(js, { defer: true });
-              });
-            } else {
-              utils.js(js, { defer: true });
+    // 拦截动态 script 标签加载（拦截 SDK 内部创建的脚本）
+    var originalCreateElement = document.createElement;
+    document.createElement = function(tagName) {
+      var element = originalCreateElement.call(document, tagName);
+      if (tagName.toLowerCase() === 'script') {
+        var originalSetAttribute = element.setAttribute;
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && typeof value === 'string') {
+            // 拦截所有包含 localhost:4000 的请求
+            if (value.includes('localhost:4000')) {
+              var newUrl = value.replace('localhost:4000', 'localhost:8888');
+              console.log('拦截 script src，重定向:', value, '->', newUrl);
+              value = newUrl;
             }
-          });
-        }
-      }
-    }
-
-    // chat iphone time
-    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
-
-    if (phoneTimes.length > 0) {
-      NowTime();
-      var date = new Date();
-      var sec = date.getSeconds();
-      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
-    }
-
-    function firstAdjustTime() {
-      NowTime();
-      clearInterval(firstAdjustInterval);
-      setInterval(NowTime, 1000 * 60);
-    }
-
-    function NowTime() {
-      for (let i = 0; i < phoneTimes.length; ++i) {
-        var timeSpan = phoneTimes[i];
-        var date = new Date();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        timeSpan.innerHTML = check(hour) + ":" + check(min);
-      }
-    };
-
-    function check(val) {
-      if (val < 10) {
-        return ("0" + val);
-      }
-      return (val);
-    }
-
-    // chat quote
-    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
-      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
-          observer.unobserve(entry.target);
-          setTimeout(() => {
-            entry.target.classList.add('quote-blink');
-            setTimeout(() => {
-              entry.target.classList.remove('quote-blink');
-            }, 1000);
-          }, Math.max(100, 16) * (index + 1));
-        });
-    });
-
-    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
-    chatQuotes.forEach((quote) => {
-      quote.addEventListener('click', function () {
-        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
-        if (chatCellDom) {
-          var chatDiv = chatCellDom.parentElement;
-          var mid = chatDiv.clientHeight / 2;
-          var offsetTop = chatCellDom.offsetTop;
-          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
-            chatDiv.scrollTo({
-              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
-              behavior: "smooth"
-            });
-          } else {
-            chatDiv.scrollTo({
-              top: 0,
-              behavior: "smooth"
-            });
-          }
-          chat_quote_obverser.observe(chatCellDom);
-        }
-      });
-    });
-  });
-</script>
-
-<script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    ctx.search = {
-      path: `/search.json`,
-    }
-    utils.js('/js/search/local-search.js', { defer: true });
-  });
-</script><script>
-  window.FPConfig = {
-    delay: 0,
-    ignoreKeywords: [],
-    maxRPS: 5,
-    hoverDelay: 25
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
-<script>
-  // https://www.npmjs.com/package/vanilla-lazyload
-  // Set the options globally
-  // to make LazyLoad self-initialize
-  window.lazyLoadOptions = {
-    elements_selector: ".lazy",
-  };
-  // Listen to the initialization event
-  // and get the instance of LazyLoad
-  window.addEventListener(
-    "LazyLoad::Initialized",
-    function (event) {
-      window.lazyLoadInstance = event.detail.instance;
-    },
-    false
-  );
-  document.addEventListener('DOMContentLoaded', function () {
-    window.lazyLoadInstance?.update();
-  });
-</script><script>
-  ctx.fancybox = {
-    selector: `.timenode p>img`,
-    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
-    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
-  };
-  var selector = '[data-fancybox]:not(.error)';
-  if (ctx.fancybox.selector) {
-    selector += `, ${ctx.fancybox.selector}`
-  }
-  var needFancybox = document.querySelectorAll(selector).length !== 0;
-  if (!needFancybox) {
-    const els = document.getElementsByClassName('ds-memos');
-    if (els != undefined && els.length > 0) {
-      needFancybox = true;
-    }
-  }
-  if (needFancybox) {
-    utils.css(ctx.fancybox.css);
-    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
-      Fancybox.bind(selector, {
-        hideScrollbar: false,
-        Thumbs: {
-          autoStart: false,
-        },
-        caption: (fancybox, slide) => {
-          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
-        }
-      });
-    })
-  }
-</script>
-<script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    const swiper_api = document.getElementById('swiper-api');
-    if (swiper_api != undefined) {
-      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
-      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
-        const effect = swiper_api.getAttribute('effect') || '';
-        var swiper = new Swiper('.swiper#swiper-api', {
-          slidesPerView: 'auto',
-          spaceBetween: 8,
-          centeredSlides: true,
-          effect: effect,
-          rewind: true,
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-          },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
-        });
-      })
-    }
-  });
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
-<script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    const slideUp = {
-      distance: `16px`,
-      duration: `800`,
-      interval: `100`,
-      scale: `1`,
-      opacity: 0,
-      easing: "ease-out"
-    };
-    ScrollReveal().reveal('.l_left .slide-up', slideUp);
-    ScrollReveal().reveal('.l_main .slide-up', slideUp);
-    ScrollReveal().reveal('.l_right .slide-up', slideUp);
-  });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    window.codeElements = document.querySelectorAll('.code');
-    if (window.codeElements.length > 0) {
-      ctx.copycode = {
-        default_text: `Copy`,
-        success_text: `Copied`,
-        toast: `复制成功`,
-      };
-      utils.js('/js/plugins/copycode.js');
-    }
-  });
-</script>
-
-<!-- Coze 插件已加载，页面路径: tags/Java/index.html, 是否主页: true -->
-<script type="text/javascript">
-  (function() {
-    console.log('=== Coze 插件脚本开始执行 ===');
-    
-    // 初始化函数
-    function initCoze() {
-      console.log('开始初始化 Coze...');
-      var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-      
-      console.log('检查 CozeSDK:', {
-        CozeWebSDK: typeof window.CozeWebSDK,
-        Coze: typeof window.Coze,
-        coze: typeof window.coze,
-        CozeSDK: typeof window.CozeSDK,
-        found: !!CozeSDK
-      });
-      
-      if (!CozeSDK) {
-        console.error('❌ 未找到 CozeSDK 全局变量');
-        console.log('window 对象中的 Coze 相关变量:', Object.keys(window).filter(k => k.toLowerCase().includes('coze')));
-        return;
-      }
-      
-      console.log('✅ 找到 CozeSDK:', CozeSDK);
-      
-      var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
-      
-      console.log('检查 WebChatClient:', {
-        hasWebChatClient: !!CozeSDK.WebChatClient,
-        using: WebChatClient === CozeSDK ? 'CozeSDK 本身' : 'CozeSDK.WebChatClient'
-      });
-      
-      if (!WebChatClient) {
-        console.error('❌ 未找到 WebChatClient 构造函数');
-        console.log('CozeSDK 的可用属性:', Object.keys(CozeSDK));
-        return;
-      }
-      
-      console.log('✅ 找到 WebChatClient:', WebChatClient);
-      
-      try {
-        var apiBaseUrl = "http://localhost:8888";
-        var clientConfig = {
-          "config": {
-            "type": "app",
-            "appInfo": {
-              "appId": "7594744377281347584",
-              "workflowId": "7594773612482002944"
-            }
-          },
-          "auth": {
-            "type": "token",
-            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-            onRefreshToken: function () {
-              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+            // 如果是相对路径的静态资源，使用配置的 apiBaseUrl
+            else if (!value.startsWith('http') && (value.includes('/static/') || value.includes('chunk'))) {
+              var newUrl = apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
+              console.log('修正相对路径 script src:', value, '->', newUrl);
+              value = newUrl;
             }
           }
+          return originalSetAttribute.call(this, name, value);
         };
-        
-        if (apiBaseUrl) {
-          clientConfig.config.baseURL = apiBaseUrl;
-          clientConfig.config.apiUrl = apiBaseUrl;
-          clientConfig.config.serverUrl = apiBaseUrl;
-          clientConfig.baseURL = apiBaseUrl;
-          clientConfig.apiBaseUrl = apiBaseUrl;
-        }
-        
-        console.log('创建 WebChatClient，配置:', JSON.stringify(clientConfig, null, 2));
-        var client = new WebChatClient(clientConfig);
-        console.log('✅ WebChatClient 创建成功:', client);
-        console.log('客户端对象:', client);
-      } catch (error) {
-        console.error('❌ Coze 初始化失败:', error);
-        console.error('错误详情:', error.message, error.stack);
       }
-    }
-    
-    // 设置 API 基础 URL
-    var apiBaseUrl = "http://localhost:8888";
-    console.log('API 基础 URL:', apiBaseUrl);
-    window.COZE_API_BASE_URL = apiBaseUrl;
-    window.COZE_BASE_URL = apiBaseUrl;
-    
-    // 拦截 fetch 请求，将 localhost:4000 的请求重定向到正确的端口
-    var originalFetch = window.fetch;
-    window.fetch = function(url, options) {
-      if (typeof url === 'string' && url.includes('localhost:4000')) {
-        console.log('拦截 fetch 请求，重定向:', url, '->', url.replace('localhost:4000', 'localhost:8888'));
-        url = url.replace('localhost:4000', 'localhost:8888');
-      }
-      return originalFetch.apply(this, arguments);
-    };
-    
-    // 拦截 XMLHttpRequest
-    var originalXHROpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url, ...args) {
-      if (typeof url === 'string' && url.includes('localhost:4000')) {
-        console.log('拦截 XHR 请求，重定向:', url, '->', url.replace('localhost:4000', 'localhost:8888'));
-        url = url.replace('localhost:4000', 'localhost:8888');
-      }
-      return originalXHROpen.call(this, method, url, ...args);
+      return element;
     };
     
     // 加载 Coze Web SDK - 使用配置的 apiBaseUrl

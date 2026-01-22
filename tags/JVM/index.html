@@ -749,21 +749,52 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
       }
       
       console.log('✅ 找到 CozeSDK:', CozeSDK);
+      console.log('CozeSDK 类型:', typeof CozeSDK);
+      console.log('CozeSDK 的可用属性:', Object.keys(CozeSDK));
+      console.log('CozeSDK 是否为函数:', typeof CozeSDK === 'function');
       
-      var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
+      // 尝试多种方式获取 WebChatClient
+      var WebChatClient = null;
+      var clientSource = '';
+      
+      if (CozeSDK.WebChatClient) {
+        WebChatClient = CozeSDK.WebChatClient;
+        clientSource = 'CozeSDK.WebChatClient';
+      } else if (typeof CozeSDK === 'function') {
+        WebChatClient = CozeSDK;
+        clientSource = 'CozeSDK 本身（函数）';
+      } else if (CozeSDK.default && typeof CozeSDK.default === 'function') {
+        WebChatClient = CozeSDK.default;
+        clientSource = 'CozeSDK.default';
+      } else if (CozeSDK.Client && typeof CozeSDK.Client === 'function') {
+        WebChatClient = CozeSDK.Client;
+        clientSource = 'CozeSDK.Client';
+      }
       
       console.log('检查 WebChatClient:', {
-        hasWebChatClient: !!CozeSDK.WebChatClient,
-        using: WebChatClient === CozeSDK ? 'CozeSDK 本身' : 'CozeSDK.WebChatClient'
+        found: !!WebChatClient,
+        source: clientSource,
+        type: WebChatClient ? typeof WebChatClient : 'undefined',
+        isFunction: WebChatClient ? typeof WebChatClient === 'function' : false,
+        isConstructor: WebChatClient ? (typeof WebChatClient === 'function' && WebChatClient.prototype) : false
       });
       
       if (!WebChatClient) {
         console.error('❌ 未找到 WebChatClient 构造函数');
-        console.log('CozeSDK 的可用属性:', Object.keys(CozeSDK));
+        console.log('尝试检查所有可能的属性:');
+        for (var key in CozeSDK) {
+          console.log('  -', key + ':', typeof CozeSDK[key], CozeSDK[key] ? (typeof CozeSDK[key] === 'function' ? '函数' : '对象') : 'null/undefined');
+        }
         return;
       }
       
-      console.log('✅ 找到 WebChatClient:', WebChatClient);
+      if (typeof WebChatClient !== 'function') {
+        console.error('❌ WebChatClient 不是函数，类型:', typeof WebChatClient);
+        console.log('WebChatClient 值:', WebChatClient);
+        return;
+      }
+      
+      console.log('✅ 找到 WebChatClient:', WebChatClient, '来源:', clientSource);
       
       try {
         var apiBaseUrl = "http://localhost:8888";
@@ -793,12 +824,18 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
         }
         
         console.log('创建 WebChatClient，配置:', JSON.stringify(clientConfig, null, 2));
+        console.log('WebChatClient 构造函数:', WebChatClient);
+        console.log('WebChatClient.prototype:', WebChatClient.prototype);
+        
         var client = new WebChatClient(clientConfig);
         console.log('✅ WebChatClient 创建成功:', client);
         console.log('客户端对象:', client);
       } catch (error) {
         console.error('❌ Coze 初始化失败:', error);
-        console.error('错误详情:', error.message, error.stack);
+        console.error('错误详情:', error.message);
+        console.error('错误堆栈:', error.stack);
+        console.error('WebChatClient 类型:', typeof WebChatClient);
+        console.error('WebChatClient 值:', WebChatClient);
       }
     }
     
@@ -826,6 +863,33 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
         url = url.replace('localhost:4000', 'localhost:8888');
       }
       return originalXHROpen.call(this, method, url, ...args);
+    };
+    
+    // 拦截动态 script 标签加载（拦截 SDK 内部创建的脚本）
+    var originalCreateElement = document.createElement;
+    document.createElement = function(tagName) {
+      var element = originalCreateElement.call(document, tagName);
+      if (tagName.toLowerCase() === 'script') {
+        var originalSetAttribute = element.setAttribute;
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && typeof value === 'string') {
+            // 拦截所有包含 localhost:4000 的请求
+            if (value.includes('localhost:4000')) {
+              var newUrl = value.replace('localhost:4000', 'localhost:8888');
+              console.log('拦截 script src，重定向:', value, '->', newUrl);
+              value = newUrl;
+            }
+            // 如果是相对路径的静态资源，使用配置的 apiBaseUrl
+            else if (!value.startsWith('http') && (value.includes('/static/') || value.includes('chunk'))) {
+              var newUrl = apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
+              console.log('修正相对路径 script src:', value, '->', newUrl);
+              value = newUrl;
+            }
+          }
+          return originalSetAttribute.call(this, name, value);
+        };
+      }
+      return element;
     };
     
     // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
