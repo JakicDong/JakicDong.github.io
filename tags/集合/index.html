@@ -873,31 +873,38 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
     };
     
     // 拦截动态 script 标签加载（用于加载 chunk 文件）
-    var originalCreateElement = document.createElement;
-    document.createElement = function(tagName) {
-      var element = originalCreateElement.call(document, tagName);
-      if (tagName.toLowerCase() === 'script') {
-        var originalSetAttribute = element.setAttribute;
-        element.setAttribute = function(name, value) {
-          if (name === 'src' && typeof value === 'string') {
-            // 如果是 chunk 文件且路径不对，尝试修正
-            if (value.includes('/static/') && !value.startsWith('http://localhost:8888')) {
-              // 确保使用正确的端口
-              if (value.includes('localhost:4000')) {
-                value = value.replace('localhost:4000', 'localhost:8888');
-                console.log('修正 script src:', value);
-              } else if (!value.startsWith('http')) {
-                // 相对路径，确保使用正确的 base URL
-                value = apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
-                console.log('修正相对路径 script src:', value);
+    // 注意：这个拦截在 SDK 加载之后才生效，避免影响主脚本加载
+    var scriptInterceptorInstalled = false;
+    function installScriptInterceptor() {
+      if (scriptInterceptorInstalled) return;
+      scriptInterceptorInstalled = true;
+      
+      var originalCreateElement = document.createElement;
+      document.createElement = function(tagName) {
+        var element = originalCreateElement.call(document, tagName);
+        if (tagName.toLowerCase() === 'script') {
+          var originalSetAttribute = element.setAttribute;
+          element.setAttribute = function(name, value) {
+            if (name === 'src' && typeof value === 'string') {
+              // 如果是 chunk 文件且路径不对，尝试修正
+              if (value.includes('/static/') && !value.startsWith('http://localhost:8888')) {
+                // 确保使用正确的端口
+                if (value.includes('localhost:4000')) {
+                  value = value.replace('localhost:4000', 'localhost:8888');
+                  console.log('修正 script src:', value);
+                } else if (!value.startsWith('http')) {
+                  // 相对路径，确保使用正确的 base URL
+                  value = apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
+                  console.log('修正相对路径 script src:', value);
+                }
               }
             }
-          }
-          return originalSetAttribute.call(this, name, value);
-        };
-      }
-      return element;
-    };
+            return originalSetAttribute.call(this, name, value);
+          };
+        }
+        return element;
+      };
+    }
     
     // 监听 chunk 加载错误
     window.addEventListener('error', function(e) {
@@ -921,14 +928,19 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
     });
     
     // 加载 Coze Web SDK
+    console.log('开始加载 Coze SDK 脚本...');
     var webSdkScript = document.createElement('script');
     webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
     webSdkScript.async = true;
-    webSdkScript.crossOrigin = 'anonymous';
+    // 移除 crossOrigin，避免 CORS 问题（本地开发通常不需要）
+    // webSdkScript.crossOrigin = 'anonymous';
     
     webSdkScript.onload = function () {
       console.log('✅ Coze SDK 脚本标签加载成功');
       console.log('等待 SDK 初始化...');
+      
+      // SDK 加载成功后，安装脚本拦截器（用于处理后续的 chunk 文件）
+      installScriptInterceptor();
       
       // 延迟初始化，确保 SDK 完全加载
       // 增加重试机制
@@ -963,11 +975,28 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
     webSdkScript.onerror = function(e) {
       console.error('❌ Coze Web SDK 加载失败');
       console.error('错误事件:', e);
-      console.error('请检查：');
-      console.error('1. 本地服务是否运行在 http://localhost:8888');
-      console.error('2. 文件路径是否正确：/static/chat-sdk.js');
-      console.error('3. 浏览器控制台是否有 CORS 错误');
-      console.error('4. 尝试在浏览器中直接访问: http://localhost:8888/static/chat-sdk.js');
+      console.error('脚本标签信息:', {
+        src: webSdkScript.src,
+        async: webSdkScript.async,
+        crossOrigin: webSdkScript.crossOrigin,
+        readyState: webSdkScript.readyState
+      });
+      
+      // 尝试手动测试文件是否可访问
+      console.log('正在测试文件可访问性...');
+      fetch('http://localhost:8888/static/chat-sdk.js', { method: 'HEAD' })
+        .then(function(response) {
+          console.log('✅ 文件可以访问，状态码:', response.status);
+          console.error('但脚本标签加载失败，可能是 CORS 或脚本执行错误');
+          console.error('建议：检查 Coze 服务的 CORS 配置');
+        })
+        .catch(function(error) {
+          console.error('❌ 文件无法访问:', error);
+          console.error('请检查：');
+          console.error('1. 本地服务是否运行在 http://localhost:8888');
+          console.error('2. 文件路径是否正确：/static/chat-sdk.js');
+        });
+      
       createPlaceholder();
     }
     
@@ -978,18 +1007,34 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
       var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
       if (CozeSDK) {
         console.log('SDK 已加载，直接初始化');
+        installScriptInterceptor(); // 安装拦截器
         setTimeout(initCoze, 100);
       } else {
         console.log('SDK 脚本存在但未加载，等待加载...');
         existingScript.addEventListener('load', function() {
+          installScriptInterceptor(); // 安装拦截器
           setTimeout(initCoze, 200);
         });
         // 如果已经加载完成，直接尝试初始化
-        setTimeout(initCoze, 500);
+        setTimeout(function() {
+          installScriptInterceptor();
+          initCoze();
+        }, 500);
       }
     } else {
       console.log('正在添加 Coze SDK 脚本标签到 head...');
-      document.head.appendChild(webSdkScript);
+      console.log('脚本 URL:', webSdkScript.src);
+      
+      // 确保 head 存在
+      if (!document.head) {
+        console.error('document.head 不存在，等待 DOM 加载...');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.head.appendChild(webSdkScript);
+        });
+      } else {
+        document.head.appendChild(webSdkScript);
+        console.log('✅ 脚本标签已添加到 head');
+      }
     }
   })();
 </script>
