@@ -808,79 +808,74 @@ MySQL🔥8...</p></div><div class="meta cap"><span class="cap" id="post-meta"><s
 </script>
 
 <script type="text/javascript">
-  (function() {
-    var apiBaseUrl = "http://localhost:8888";
-    var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
+(function() {
+  // 动态构建 API Base URL（运行时检测）
+  function getApiBaseUrl() {
+    const hostname = window.location.hostname;
+    const isDev = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
     
-    // 拦截 fetch 请求，将 localhost:4000 的请求重定向到正确的端口
-    var originalFetch = window.fetch;
-    window.fetch = function(url, options) {
-      if (typeof url === 'string' && url.includes('localhost:4000')) {
-        url = url.replace('localhost:4000', 'localhost:8888');
-      }
-      return originalFetch.apply(this, arguments);
-    };
     
-    // 拦截 XMLHttpRequest
-    var originalXHROpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url, ...args) {
-      if (typeof url === 'string' && url.includes('localhost:4000')) {
-        url = url.replace('localhost:4000', 'localhost:8888');
-      }
-      return originalXHROpen.call(this, method, url, ...args);
-    };
+    if (isDev) {
+      return 'http://localhost:8888';
+    } else {
+      return 'http://localhost:8888';
+    }
     
-    // 拦截动态 script 标签加载
-    var originalCreateElement = document.createElement;
-    document.createElement = function(tagName) {
-      var element = originalCreateElement.call(document, tagName);
-      if (tagName.toLowerCase() === 'script') {
-        var originalSetAttribute = element.setAttribute;
-        element.setAttribute = function(name, value) {
-          if (name === 'src' && typeof value === 'string' && value.includes('localhost:4000')) {
-            value = value.replace('localhost:4000', 'localhost:8888');
-          }
-          return originalSetAttribute.call(this, name, value);
-        };
-      }
-      return element;
-    };
-    
-    // 加载 SDK
-    var webSdkScript = document.createElement('script');
-    webSdkScript.src = sdkUrl;
-    document.head.appendChild(webSdkScript);
-    
-    // SDK 加载成功后初始化
-    webSdkScript.onload = function () {
-      if (window.CozeWebSDK && window.CozeWebSDK.WebChatClient) {
-        new window.CozeWebSDK.WebChatClient({
-          "config": {
-            "type": "app",
-            "appInfo": {
-              "appId": "7594744377281347584",
-              "workflowId": "7594773612482002944"
-            }
-          },
-          "auth": {
-            "type": "token",
-            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-            onRefreshToken: function () {
-              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-            }
-          }
-        });
-      }
-    };
-  })();
-</script>
-
-<style>
-  .coze-chat-widget {
-    z-index: 9999;
   }
-</style>
 
+  // Coze SDK 地址
+  // 如果配置了自定义地址则使用，否则尝试从 Coze 服务地址加载
+  // 注意：如果 SDK 地址为空，请确保 Coze 服务在指定端口提供了 SDK 文件
+  // 或者配置 sdkUrl 为 Coze 官方 CDN 地址
+  const sdkUrl = '' || (getApiBaseUrl() + '/web-sdk/index.js');
+  
+  // 如果 SDK URL 仍然为空，给出提示
+  if (!sdkUrl) {
+    console.warn('Coze SDK URL 未配置，请在主题配置中设置 coze.sdkUrl');
+    return;
+  }
+  
+  // 加载 Coze Web SDK
+  var webSdkScript = document.createElement('script');
+  webSdkScript.src = sdkUrl;
+  webSdkScript.async = true;
+  document.head.appendChild(webSdkScript);
+  
+  webSdkScript.onload = function () {
+    // 确保 CozeWebSDK 已加载
+    if (typeof CozeWebSDK === 'undefined' || !CozeWebSDK.WebChatClient) {
+      console.error('Coze Web SDK 加载失败');
+      return;
+    }
+    
+    try {
+      // 初始化 Coze Web Chat Client
+      new CozeWebSDK.WebChatClient({
+        "config": {
+          "type": "app",
+          "appInfo": {
+            "appId": "7594744377281347584",
+            "workflowId": "7594773612482002944"
+          }
+        },
+        "auth": {
+          "type": "token",
+          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+          onRefreshToken: function () {
+            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Coze Web Chat Client 初始化失败:', error);
+    }
+  };
+  
+  webSdkScript.onerror = function() {
+    console.error('Coze Web SDK 脚本加载失败，请检查 SDK 地址是否正确:', sdkUrl);
+  };
+})();
+</script>
 
 
 
