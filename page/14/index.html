@@ -769,88 +769,27 @@ GameObject (游戏对象)│├── Transform (变换组件) - 控制位置&#x
 </script>
 
 <script type="text/javascript">
-(function() {
-  console.log('[Coze Plugin] 脚本开始执行');
-  console.log('[Coze Plugin] SDK URL:', 'http://localhost:8888/static/chat-sdk.js');
-  console.log('[Coze Plugin] AppId:', '7594744377281347584');
-  console.log('[Coze Plugin] WorkflowId:', '7594773612482002944');
-  console.log('[Coze Plugin] document.readyState:', document.readyState);
-  console.log('[Coze Plugin] document.head 是否存在:', !!document.head);
-  console.log('[Coze Plugin] document.body 是否存在:', !!document.body);
-
-  function initCoze() {
-    var webSdkScript = document.createElement('script');
-    webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
-    console.log('[Coze Plugin] 创建 script 标签，src:', webSdkScript.src);
-
-    var target = document.head || document.getElementsByTagName('head')[0] || document.body;
-    target.appendChild(webSdkScript);
-    console.log('[Coze Plugin] Script 标签已添加到:', target.tagName);
-
+var webSdkScript = document.createElement('script');
+webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
-  console.log('[Coze Plugin] SDK 脚本加载成功');
-  // 等待 SDK 完全初始化，尝试多次
-  function tryInit() {
-    console.log('[Coze Plugin] 检查 SDK 状态...');
-    console.log('[Coze Plugin] CozeWebSDK 是否存在:', typeof CozeWebSDK !== 'undefined');
-    if (typeof CozeWebSDK !== 'undefined') {
-      console.log('[Coze Plugin] CozeWebSDK 类型:', typeof CozeWebSDK);
-      console.log('[Coze Plugin] CozeWebSDK.WebChatClient 是否存在:', !!CozeWebSDK.WebChatClient);
-    }
-    
-    if (typeof CozeWebSDK !== 'undefined' && CozeWebSDK && CozeWebSDK.WebChatClient) {
-      console.log('[Coze Plugin] SDK 已就绪，开始初始化...');
-      try {
-        new CozeWebSDK.WebChatClient({
-          "config": {
-            "type": "app",
-            "appInfo": {
-              "appId": "7594744377281347584",
-              "workflowId": "7594773612482002944"
-            }
-          },
-          "auth": {
-            "type": "token",
-            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-            onRefreshToken: function () {
-              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
-            }
-          }
-        });
-        console.log('[Coze Plugin] 初始化成功');
-      } catch (error) {
-        console.error('[Coze Plugin] 初始化失败:', error);
-        console.log('[Coze Plugin] CozeWebSDK 类型:', typeof CozeWebSDK);
-        console.log('[Coze Plugin] CozeWebSDK.WebChatClient 类型:', typeof CozeWebSDK.WebChatClient);
-        console.log('[Coze Plugin] CozeWebSDK 属性:', Object.keys(CozeWebSDK || {}));
-        if (CozeWebSDK.WebChatClient) {
-          console.log('[Coze Plugin] WebChatClient 属性:', Object.keys(CozeWebSDK.WebChatClient || {}));
-        }
+  new CozeWebSDK.WebChatClient({
+    "config": {
+      "type": "app",
+      "appInfo": {
+        "appId": "7594744377281347584",
+        "workflowId": "7594773612482002944"
       }
-    } else {
-      // 如果 SDK 还没准备好，等待后重试
-      console.log('[Coze Plugin] SDK 还未准备好，100ms 后重试...');
-      setTimeout(tryInit, 100);
+    },
+    "auth": {
+      "type": "token",
+      "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+      onRefreshToken: function () {
+        return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+      }
     }
-  }
-  // 立即尝试一次，如果失败则等待后重试
-  setTimeout(tryInit, 100);
+  });
 }
-    webSdkScript.onerror = function(error) {
-      console.error('[Coze Plugin] SDK 加载失败:', error);
-      console.error('[Coze Plugin] SDK URL:', 'http://localhost:8888/static/chat-sdk.js');
-      console.error('[Coze Plugin] 如果遇到 CORS 错误，请在 Coze 服务端（8888端口）添加 CORS 响应头');
-    }
-  }
-
-  // 确保 DOM 已加载
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCoze);
-  } else {
-    // DOM 已经加载完成，立即执行
-    initCoze();
-  }
-})();
 </script>
 
 
