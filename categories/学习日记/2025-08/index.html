@@ -847,7 +847,11 @@ java集合框架篇8&#x2F;30
       console.log('✅ 找到 WebChatClient:', WebChatClient);
       
       try {
-        var client = new WebChatClient({
+        // 配置 API 基础 URL
+        var apiBaseUrl = "http://localhost:8888";
+        console.log('API 基础 URL:', apiBaseUrl);
+        
+        var clientConfig = {
           "config": {
             "type": "app",
             "appInfo": {
@@ -862,7 +866,20 @@ java集合框架篇8&#x2F;30
               return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
             }
           }
-        });
+        };
+        
+        // 添加 API 基础 URL 配置（尝试多种可能的配置项名称）
+        if (apiBaseUrl) {
+          clientConfig.config.baseURL = apiBaseUrl;
+          clientConfig.config.apiUrl = apiBaseUrl;
+          clientConfig.config.serverUrl = apiBaseUrl;
+          clientConfig.baseURL = apiBaseUrl;
+          clientConfig.apiBaseUrl = apiBaseUrl;
+        }
+        
+        console.log('客户端配置:', JSON.stringify(clientConfig, null, 2));
+        
+        var client = new WebChatClient(clientConfig);
         console.log('✅ Coze WebChatClient 初始化成功', client);
       } catch (error) {
         console.error('❌ Coze WebChatClient 初始化失败:', error);
@@ -894,6 +911,40 @@ java集合框架篇8&#x2F;30
         }
       }, 5000);
     }
+    
+    // 设置 API 基础 URL（在加载 SDK 之前）
+    var apiBaseUrl = "http://localhost:8888";
+    console.log('设置 API 基础 URL:', apiBaseUrl);
+    
+    // 尝试设置全局配置（某些 SDK 会读取全局变量）
+    window.COZE_API_BASE_URL = apiBaseUrl;
+    window.COZE_BASE_URL = apiBaseUrl;
+    window.__COZE_CONFIG__ = {
+      apiBaseUrl: apiBaseUrl,
+      baseURL: apiBaseUrl
+    };
+    
+    // 拦截 fetch 请求，将 localhost:4000 的请求重定向到正确的端口
+    var originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+      if (typeof url === 'string' && url.includes('localhost:4000')) {
+        var newUrl = url.replace('localhost:4000', 'localhost:8888');
+        console.log('重定向 API 请求:', url, '->', newUrl);
+        return originalFetch.call(this, newUrl, options);
+      }
+      return originalFetch.apply(this, arguments);
+    };
+    
+    // 拦截 XMLHttpRequest（某些 SDK 可能使用 XHR）
+    var originalXHROpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, ...args) {
+      if (typeof url === 'string' && url.includes('localhost:4000')) {
+        var newUrl = url.replace('localhost:4000', 'localhost:8888');
+        console.log('重定向 XHR 请求:', url, '->', newUrl);
+        return originalXHROpen.call(this, method, newUrl, ...args);
+      }
+      return originalXHROpen.call(this, method, url, ...args);
+    };
     
     // 加载 Coze Web SDK
     var webSdkScript = document.createElement('script');
