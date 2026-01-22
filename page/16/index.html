@@ -92,13 +92,13 @@ render.py : 渲染脚本,用于将训练得到的高斯球参数渲染成图像.
 第一步：进行nvm 安装操作1brew install nvm
 
 执行后：123456789101112131415161718192021222324==&gt; Pourin...</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-06-10T16:00:00.000Z">2025-06-11</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>杂项笔记</span></span></div></article>
+</a><a class="post-card slide-up post" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+<article class="md-text"><h2 class="post-title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</h2><div class="excerpt"><p>B+树为擎天柱，REDO日志是还魂丹——施主可要参悟这「存储引擎造化经」？</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-06-09T16:00:00.000Z">2025-06-10</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>Java问答笔记</span></span></div></article>
 </a><a class="post-card slide-up post" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/">
 <article class="md-text"><h2 class="post-title">Java集合框架笔记</h2><div class="excerpt"><p>框架图先贴一个Java集合框架图
 可以看出,集合主要分成两大部分:
 
 Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的集合，典型代表就是封装了动态数组的 ArrayList 和封装了链表的 LinkedLi...</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-06-09T16:00:00.000Z">2025-06-10</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>基础笔记</span></span></div></article>
-</a><a class="post-card slide-up post" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-<article class="md-text"><h2 class="post-title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</h2><div class="excerpt"><p>B+树为擎天柱，REDO日志是还魂丹——施主可要参悟这「存储引擎造化经」？</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-06-09T16:00:00.000Z">2025-06-10</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>Java问答笔记</span></span></div></article>
 </a><a class="post-card slide-up post" href="/2025/06/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B46%E6%9C%88/2025.6.10%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 <article class="md-text"><h2 class="post-title">2025.6.10学习日记</h2><div class="excerpt"><p>学习内容最近学习重心想转到算法相关,把随想录和题单刷一遍之后做力扣周赛,太长时间没做需要复健一下.
 1. 打卡力扣每日简单的字符串计数找最大最小.
@@ -774,143 +774,54 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
   });
 </script>
 
-<!-- Coze 插件已加载，页面路径: page/16/index.html, 是否主页: true -->
 <script type="text/javascript">
   (function() {
-    console.log('=== Coze 插件脚本开始执行 ===');
+    var apiBaseUrl = "http://localhost:8888";
+    var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
     
-    // 暴露调试函数到全局，方便手动测试
-    window.__cozeDebug = {
-      findConstructor: function() {
-        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-        if (!CozeSDK) {
-          console.log('未找到 CozeSDK');
-          return null;
-        }
-        console.log('CozeSDK:', CozeSDK);
-        console.log('所有属性 (Object.keys):', Object.keys(CozeSDK));
-        console.log('所有属性 (Object.getOwnPropertyNames):', Object.getOwnPropertyNames(CozeSDK));
-        console.log('所有键 (Reflect.ownKeys):', Reflect.ownKeys(CozeSDK));
-        for (var key in CozeSDK) {
-          if (typeof CozeSDK[key] === 'function') {
-            console.log('找到函数:', key, CozeSDK[key]);
-          }
-        }
-        return CozeSDK;
-      },
-      checkSDKFile: function() {
-        var apiBaseUrl = "http://localhost:8888";
-        var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
-        console.log('检查 SDK 文件:', sdkUrl);
-        fetch(sdkUrl)
-          .then(function(response) {
-            return response.text();
-          })
-          .then(function(text) {
-            console.log('SDK 文件内容（前 1000 字符）:', text.substring(0, 1000));
-            // 查找 export 语句
-            var exportMatches = text.match(/export\s+(default\s+)?(class|function|const|let|var)\s+(\w+)/g);
-            if (exportMatches) {
-              console.log('找到的 export 语句:', exportMatches);
-            }
-            // 查找 WebChatClient
-            if (text.includes('WebChatClient')) {
-              console.log('✅ SDK 文件中包含 WebChatClient');
-              var matches = text.match(/WebChatClient[^}]*\{[^}]*\}/g);
-              if (matches) {
-                console.log('WebChatClient 相关代码:', matches.slice(0, 3));
-              }
-            } else {
-              console.log('❌ SDK 文件中不包含 WebChatClient');
-            }
-          })
-          .catch(function(e) {
-            console.error('获取 SDK 文件失败:', e);
-          });
-      },
-      testInit: function(Constructor) {
-        var apiBaseUrl = "http://localhost:8888";
-        var config = {
-          "config": {
-            "type": "app",
-            "appInfo": {
-              "appId": "7594744377281347584",
-              "workflowId": "7594773612482002944"
-            }
-          },
-          "auth": {
-            "type": "token",
-            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-          }
-        };
-        if (apiBaseUrl) {
-          config.config.baseURL = apiBaseUrl;
-        }
-        try {
-          var client = new Constructor(config);
-          console.log('✅ 初始化成功:', client);
-          return client;
-        } catch (e) {
-          console.error('❌ 初始化失败:', e);
-          return null;
-        }
+    // 拦截 fetch 请求，将 localhost:4000 的请求重定向到正确的端口
+    var originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+      if (typeof url === 'string' && url.includes('localhost:4000')) {
+        url = url.replace('localhost:4000', 'localhost:8888');
       }
+      return originalFetch.apply(this, arguments);
     };
-    console.log('调试工具已加载，可以使用 window.__cozeDebug.findConstructor() 查找构造函数');
     
-    // 初始化函数 - 简化版本
-    function initCoze() {
-      console.log('开始初始化 Coze...');
-      
-      // 尝试所有可能的全局变量
-      var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-      
-      if (!CozeSDK) {
-        console.error('❌ 未找到 CozeSDK');
-        return;
+    // 拦截 XMLHttpRequest
+    var originalXHROpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, ...args) {
+      if (typeof url === 'string' && url.includes('localhost:4000')) {
+        url = url.replace('localhost:4000', 'localhost:8888');
       }
-      
-      console.log('✅ 找到 CozeSDK');
-      
-      // 直接尝试最常见的几种方式
-      var WebChatClient = null;
-      
-      // 方式1: CozeSDK.default (ES Module)
-      if (CozeSDK.default) {
-        if (typeof CozeSDK.default === 'function') {
-          WebChatClient = CozeSDK.default;
-          console.log('✅ 使用 CozeSDK.default');
-        } else if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
-          WebChatClient = CozeSDK.default.WebChatClient;
-          console.log('✅ 使用 CozeSDK.default.WebChatClient');
-        }
+      return originalXHROpen.call(this, method, url, ...args);
+    };
+    
+    // 拦截动态 script 标签加载
+    var originalCreateElement = document.createElement;
+    document.createElement = function(tagName) {
+      var element = originalCreateElement.call(document, tagName);
+      if (tagName.toLowerCase() === 'script') {
+        var originalSetAttribute = element.setAttribute;
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && typeof value === 'string' && value.includes('localhost:4000')) {
+            value = value.replace('localhost:4000', 'localhost:8888');
+          }
+          return originalSetAttribute.call(this, name, value);
+        };
       }
-      
-      // 方式2: CozeSDK.WebChatClient
-      if (!WebChatClient && CozeSDK.WebChatClient && typeof CozeSDK.WebChatClient === 'function') {
-        WebChatClient = CozeSDK.WebChatClient;
-        console.log('✅ 使用 CozeSDK.WebChatClient');
-      }
-      
-      // 方式3: CozeSDK 本身是函数
-      if (!WebChatClient && typeof CozeSDK === 'function') {
-        WebChatClient = CozeSDK;
-        console.log('✅ 使用 CozeSDK 本身');
-      }
-      
-      // 如果还是没找到，输出调试信息并返回
-      if (!WebChatClient) {
-        console.error('❌ 未找到 WebChatClient');
-        console.log('CozeSDK:', CozeSDK);
-        console.log('所有键:', Reflect.ownKeys(CozeSDK));
-        return;
-      }
-      
-      console.log('✅ 找到 WebChatClient');
-      
-      try {
-        var apiBaseUrl = "http://localhost:8888";
-        var clientConfig = {
+      return element;
+    };
+    
+    // 加载 SDK
+    var webSdkScript = document.createElement('script');
+    webSdkScript.src = sdkUrl;
+    document.head.appendChild(webSdkScript);
+    
+    // SDK 加载成功后初始化
+    webSdkScript.onload = function () {
+      if (window.CozeWebSDK && window.CozeWebSDK.WebChatClient) {
+        new window.CozeWebSDK.WebChatClient({
           "config": {
             "type": "app",
             "appInfo": {
@@ -925,199 +836,13 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
               return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
             }
           }
-        };
-        
-        if (apiBaseUrl) {
-          clientConfig.config.baseURL = apiBaseUrl;
-          clientConfig.config.apiUrl = apiBaseUrl;
-          clientConfig.config.serverUrl = apiBaseUrl;
-          clientConfig.baseURL = apiBaseUrl;
-          clientConfig.apiBaseUrl = apiBaseUrl;
-        }
-        
-        console.log('创建 WebChatClient，配置:', JSON.stringify(clientConfig, null, 2));
-        console.log('WebChatClient 构造函数:', WebChatClient);
-        console.log('WebChatClient.prototype:', WebChatClient.prototype);
-        
-        var client = new WebChatClient(clientConfig);
-        console.log('✅ WebChatClient 创建成功:', client);
-        console.log('客户端对象:', client);
-      } catch (error) {
-        console.error('❌ Coze 初始化失败:', error);
-        console.error('错误详情:', error.message);
-        console.error('错误堆栈:', error.stack);
-        console.error('WebChatClient 类型:', typeof WebChatClient);
-        console.error('WebChatClient 值:', WebChatClient);
+        });
       }
-    }
-    
-    // 设置 API 基础 URL
-    var apiBaseUrl = "http://localhost:8888";
-    console.log('API 基础 URL:', apiBaseUrl);
-    window.COZE_API_BASE_URL = apiBaseUrl;
-    window.COZE_BASE_URL = apiBaseUrl;
-    
-    // 拦截 fetch 请求，将 localhost:4000 的请求重定向到正确的端口
-    var originalFetch = window.fetch;
-    window.fetch = function(url, options) {
-      if (typeof url === 'string' && url.includes('localhost:4000')) {
-        console.log('拦截 fetch 请求，重定向:', url, '->', url.replace('localhost:4000', 'localhost:8888'));
-        url = url.replace('localhost:4000', 'localhost:8888');
-      }
-      return originalFetch.apply(this, arguments);
     };
-    
-    // 拦截 XMLHttpRequest
-    var originalXHROpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url, ...args) {
-      if (typeof url === 'string' && url.includes('localhost:4000')) {
-        console.log('拦截 XHR 请求，重定向:', url, '->', url.replace('localhost:4000', 'localhost:8888'));
-        url = url.replace('localhost:4000', 'localhost:8888');
-      }
-      return originalXHROpen.call(this, method, url, ...args);
-    };
-    
-    // 拦截动态 script 标签加载（拦截 SDK 内部创建的脚本）
-    var originalCreateElement = document.createElement;
-    document.createElement = function(tagName) {
-      var element = originalCreateElement.call(document, tagName);
-      if (tagName.toLowerCase() === 'script') {
-        var originalSetAttribute = element.setAttribute;
-        element.setAttribute = function(name, value) {
-          if (name === 'src' && typeof value === 'string') {
-            // 拦截所有包含 localhost:4000 的请求
-            if (value.includes('localhost:4000')) {
-              var newUrl = value.replace('localhost:4000', 'localhost:8888');
-              console.log('拦截 script src，重定向:', value, '->', newUrl);
-              value = newUrl;
-            }
-            // 如果是相对路径的静态资源，使用配置的 apiBaseUrl
-            else if (!value.startsWith('http') && (value.includes('/static/') || value.includes('chunk'))) {
-              var newUrl = apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
-              console.log('修正相对路径 script src:', value, '->', newUrl);
-              value = newUrl;
-            }
-          }
-          return originalSetAttribute.call(this, name, value);
-        };
-      }
-      return element;
-    };
-    
-    // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
-    var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
-    console.log('准备加载 Coze SDK，URL:', sdkUrl);
-    
-    var webSdkScript = document.createElement('script');
-    webSdkScript.src = sdkUrl;
-    webSdkScript.async = true;
-    webSdkScript.defer = true;
-    
-      webSdkScript.onload = function () {
-        console.log('✅ Coze SDK 脚本加载成功');
-        var retryCount = 0;
-        var maxRetries = 20; // 增加重试次数
-        
-        function tryInit() {
-          retryCount++;
-          console.log('尝试初始化 (' + retryCount + '/' + maxRetries + ')...');
-          var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-          
-          // 检查 SDK 是否有实际内容（不只是空的 Module）
-          var hasContent = false;
-          if (CozeSDK) {
-            var keys = Object.keys(CozeSDK);
-            var allKeys = Reflect.ownKeys(CozeSDK);
-            // 如果有除了 __esModule 和 Symbol.toStringTag 之外的属性，说明有内容
-            hasContent = allKeys.length > 2 || (CozeSDK.default !== undefined);
-            
-            if (hasContent) {
-              console.log('✅ SDK 已就绪（有内容），开始初始化');
-              initCoze();
-              return;
-            } else if (retryCount < maxRetries) {
-              console.log('SDK 对象存在但内容为空，等待 SDK 完全初始化...');
-              console.log('当前属性:', allKeys);
-              setTimeout(tryInit, 500); // 增加等待时间
-              return;
-            }
-          }
-          
-          if (!CozeSDK && retryCount < maxRetries) {
-            console.log('SDK 尚未就绪，等待中...');
-            setTimeout(tryInit, 300);
-          } else {
-            console.error('❌ SDK 加载超时，尝试直接初始化');
-            console.log('最后检查的 CozeSDK:', CozeSDK);
-            if (CozeSDK) {
-              console.log('CozeSDK 的所有键:', Reflect.ownKeys(CozeSDK));
-            }
-            initCoze(); // 即使超时也尝试初始化
-          }
-        }
-        
-        // 延迟更长时间再开始初始化，给 SDK 更多时间
-        setTimeout(tryInit, 500);
-      };
-    
-      webSdkScript.onerror = function(e) {
-        console.error('❌ Coze SDK 脚本加载失败');
-        console.error('错误事件:', e);
-        console.error('脚本 URL:', sdkUrl);
-        console.error('请检查：');
-        console.error('1. 服务是否运行在', apiBaseUrl);
-        console.error('2. 文件路径是否正确：/static/chat-sdk.js');
-        console.error('3. 是否有 CORS 问题');
-        
-        // 尝试检查文件是否存在
-        fetch(sdkUrl, { method: 'HEAD' })
-          .then(function(response) {
-            console.log('文件存在，状态码:', response.status);
-            if (response.status === 200) {
-              console.log('文件可以访问，可能是脚本执行错误');
-            }
-          })
-          .catch(function(error) {
-            console.error('文件无法访问:', error);
-          });
-      };
-      
-      // 在脚本加载后，检查所有可能的全局变量
-      webSdkScript.addEventListener('load', function() {
-        setTimeout(function() {
-          console.log('=== 脚本加载后检查所有全局变量 ===');
-          var allWindowKeys = Object.keys(window);
-          var cozeRelated = [];
-          for (var i = 0; i < allWindowKeys.length; i++) {
-            var key = allWindowKeys[i];
-            if (key.toLowerCase().includes('coze') || 
-                key.toLowerCase().includes('chat') || 
-                key.toLowerCase().includes('client')) {
-              var value = window[key];
-              cozeRelated.push({
-                key: key,
-                type: typeof value,
-                isFunction: typeof value === 'function',
-                value: value
-              });
-            }
-          }
-          if (cozeRelated.length > 0) {
-            console.log('找到相关的全局变量:', cozeRelated);
-          } else {
-            console.log('未找到相关的全局变量');
-          }
-        }, 1000);
-      });
-    
-    console.log('添加脚本标签到 head，URL:', sdkUrl);
-    document.head.appendChild(webSdkScript);
-    console.log('脚本标签已添加到 DOM');
   })();
 </script>
 
 <style>
-  /* Coze 聊天窗口样式调整 */
   .coze-chat-widget {
     z-index: 9999;
   }
