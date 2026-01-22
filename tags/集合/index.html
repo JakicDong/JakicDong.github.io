@@ -725,111 +725,80 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
   });
 </script>
 <script type="text/javascript">
-(function() {
-  // 确保 DOM 已加载
-  function initCoze() {
-    console.log('[Coze] 开始加载 Coze SDK...');
-    console.log('[Coze] SDK URL:', 'http://localhost:8888/static/chat-sdk.js');
-    
-    var webSdkScript = document.createElement('script');
-    webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
-    webSdkScript.async = true;
-    
-    var loadTimeout = setTimeout(function() {
-      console.warn('[Coze] SDK 加载超时，可能服务未启动或地址错误');
-      showCozeError('SDK 加载超时，请检查 Coze 服务是否正常运行');
-    }, 10000); // 10秒超时
-    
-    webSdkScript.onload = function () {
-    clearTimeout(loadTimeout);
-    console.log('[Coze] SDK 脚本加载完成');
-    
-    // 等待 SDK 初始化
-    var initTimeout = setTimeout(function() {
-      console.warn('[Coze] SDK 初始化超时');
-      showCozeError('SDK 初始化超时');
-    }, 5000);
-    
-    // 轮询检查 SDK 是否可用
-    var checkInterval = setInterval(function() {
-      if (typeof CozeWebSDK !== 'undefined' && typeof CozeWebSDK.WebChatClient !== 'undefined') {
-        clearInterval(checkInterval);
-        clearTimeout(initTimeout);
-        console.log('[Coze] SDK 可用，开始初始化 WebChatClient');
-        
-        try {
-          new CozeWebSDK.WebChatClient({
-            "config": {
-              "type": "app",
-              "appInfo": {
-                "appId": "7594744377281348000",
-                "workflowId": "7594773612482003000"
-              }
-            },
-            "auth": {
-              "type": "token",
-              "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-              onRefreshToken: function () {
-                return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-              }
-            }
-          });
-          console.log('[Coze] WebChatClient 初始化成功');
-        } catch (error) {
-          console.error('[Coze] WebChatClient 初始化失败:', error);
-          showCozeError('初始化失败: ' + error.message);
+var webSdkScript = document.createElement('script');
+webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+document.head.appendChild(webSdkScript);
+webSdkScript.onload = function () {
+  try {
+    if (typeof CozeWebSDK !== 'undefined' && typeof CozeWebSDK.WebChatClient !== 'undefined') {
+      new CozeWebSDK.WebChatClient({
+        "config": {
+          "type": "app",
+          "appInfo": {
+            "appId": "7594744377281348000",
+            "workflowId": "7594773612482003000"
+          }
+        },
+        "auth": {
+          "type": "token",
+          "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+          onRefreshToken: function () {
+            return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+          }
         }
-      }
-      }, 100);
-      
-      // 如果 5 秒后还没初始化成功，停止检查
-      setTimeout(function() {
-        clearInterval(checkInterval);
-      }, 5000);
-    };
-    
-    webSdkScript.onerror = function(error) {
-    clearTimeout(loadTimeout);
-      console.error('[Coze] SDK 脚本加载失败:', error);
-      console.error('[Coze] 请检查以下内容:');
-      console.error('[Coze] 1. Coze 服务是否在 http://localhost:8888/static/chat-sdk.js 运行');
-      console.error('[Coze] 2. 浏览器控制台是否有 CORS 错误');
-      console.error('[Coze] 3. 网络连接是否正常');
-      showCozeError('SDK 加载失败，请检查 Coze 服务');
-    };
-    
-    document.head.appendChild(webSdkScript);
+      });
+      console.log('[Coze] 对话浮窗初始化成功');
+    } else {
+      console.error('[Coze] CozeWebSDK 未定义，请检查 SDK 是否正确加载');
+      showCozeError('SDK 未正确加载，请检查 Coze 服务');
+    }
+  } catch (error) {
+    console.error('[Coze] 初始化失败:', error);
+    showCozeError('初始化失败: ' + error.message);
+  }
+};
+webSdkScript.onerror = function() {
+  console.error('[Coze] SDK 加载失败，请检查 Coze 服务是否在 http://localhost:8888/static/chat-sdk.js 运行');
+  showCozeError('SDK 加载失败，请检查 Coze 服务');
+};
+
+function showCozeError(message) {
+  if (!document.body) {
+    setTimeout(function() { showCozeError(message); }, 100);
+    return;
   }
   
-  // 显示错误提示的占位符
-  function showCozeError(message) {
-    // 确保 body 存在
-    if (!document.body) {
-      setTimeout(function() {
-        showCozeError(message);
-      }, 100);
-      return;
-    }
-    
-    // 检查是否已经存在错误提示
-    var existing = document.getElementById('coze-error-placeholder');
-    if (existing) {
-      existing.querySelector('div:nth-child(2)').textContent = message;
-      return;
-    }
-    
-    var errorDiv = document.createElement('div');
-    errorDiv.id = 'coze-error-placeholder';
-    errorDiv.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 9999; ' +
-      'background: rgba(255, 87, 34, 0.9); color: white; padding: 12px 16px; ' +
-      'border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); ' +
-      'font-size: 14px; max-width: 300px; cursor: pointer; ' +
-      'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;';
-    errorDiv.innerHTML = '<div style="font-weight: bold; margin-bottom: 4px;">Coze 对话浮窗</div>' +
-      '<div style="font-size: 12px; opacity: 0.9;">' + message + '</div>' +
-      '<div style="font-size: 11px; margin-top: 8px; opacity: 0.8;">点击关闭</div>';
-    
-    errorDiv.onclick = function() {
+  var existing = document.getElementById('coze-error-placeholder');
+  if (existing) {
+    existing.querySelector('div:nth-child(2)').textContent = message;
+    return;
+  }
+  
+  var errorDiv = document.createElement('div');
+  errorDiv.id = 'coze-error-placeholder';
+  errorDiv.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 9999; ' +
+    'background: rgba(255, 87, 34, 0.9); color: white; padding: 12px 16px; ' +
+    'border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); ' +
+    'font-size: 14px; max-width: 300px; cursor: pointer; ' +
+    'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;';
+  errorDiv.innerHTML = '<div style="font-weight: bold; margin-bottom: 4px;">Coze 对话浮窗</div>' +
+    '<div style="font-size: 12px; opacity: 0.9;">' + message + '</div>' +
+    '<div style="font-size: 11px; margin-top: 8px; opacity: 0.8;">点击关闭</div>';
+  
+  errorDiv.onclick = function() {
+    errorDiv.style.opacity = '0';
+    errorDiv.style.transition = 'opacity 0.3s';
+    setTimeout(function() {
+      if (errorDiv.parentNode) {
+        errorDiv.parentNode.removeChild(errorDiv);
+      }
+    }, 300);
+  };
+  
+  document.body.appendChild(errorDiv);
+  
+  setTimeout(function() {
+    if (errorDiv.parentNode) {
       errorDiv.style.opacity = '0';
       errorDiv.style.transition = 'opacity 0.3s';
       setTimeout(function() {
@@ -837,31 +806,9 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
           errorDiv.parentNode.removeChild(errorDiv);
         }
       }, 300);
-    };
-    
-    document.body.appendChild(errorDiv);
-    
-    // 10秒后自动隐藏
-    setTimeout(function() {
-      if (errorDiv.parentNode) {
-        errorDiv.style.opacity = '0';
-        errorDiv.style.transition = 'opacity 0.3s';
-        setTimeout(function() {
-          if (errorDiv.parentNode) {
-            errorDiv.parentNode.removeChild(errorDiv);
-          }
-        }, 300);
-      }
-    }, 10000);
-  }
-  
-  // 等待 DOM 加载完成
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCoze);
-  } else {
-    initCoze();
-  }
-})();
+    }
+  }, 10000);
+}
 </script>
 
 
