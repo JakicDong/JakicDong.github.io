@@ -744,6 +744,12 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
       sdkUrl: sdkUrl
     };
     
+    console.log('Coze 插件初始化，配置:', {
+      apiBaseUrl: cozeConfig.apiBaseUrl,
+      sdkUrl: cozeConfig.sdkUrl,
+      sdkUrlRaw: sdkUrlRaw
+    });
+    
     // 初始化函数
     function initCoze() {
       var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
@@ -820,14 +826,14 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
         };
       }
       
-      // 拦截动态 script 标签加载（拦截所有包含 4000 端口的请求）
+      // 拦截动态 script 标签加载（拦截 SDK 内部创建的脚本中的 4000 端口请求）
       if (!window.__COZE_SCRIPT_INTERCEPTED__) {
         window.__COZE_SCRIPT_INTERCEPTED__ = true;
         var originalCreateElement = document.createElement;
         document.createElement = function(tagName) {
           var element = originalCreateElement.call(document, tagName);
           if (tagName.toLowerCase() === 'script') {
-            // 拦截 setAttribute
+            // 拦截 setAttribute（只拦截包含 4000 端口或需要重定向的请求）
             var originalSetAttribute = element.setAttribute;
             element.setAttribute = function(name, value) {
               if (name === 'src' && typeof value === 'string') {
@@ -835,36 +841,13 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
                 if (value.includes('localhost:4000')) {
                   value = value.replace('localhost:4000', 'localhost:8888');
                 }
-                // 如果是相对路径且不是以 http 开头，使用配置的 apiBaseUrl
-                else if (!value.startsWith('http') && (value.includes('/js/') || value.includes('/static/'))) {
+                // 如果是相对路径的 chunk 文件，使用配置的 apiBaseUrl
+                else if (!value.startsWith('http') && (value.includes('/static/') || value.includes('chunk'))) {
                   value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
                 }
               }
               return originalSetAttribute.call(this, name, value);
             };
-            // 拦截直接赋值 src 属性
-            var srcDescriptor = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src') || 
-                                 Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'src');
-            if (srcDescriptor && srcDescriptor.set) {
-              var originalSrcSetter = srcDescriptor.set;
-              Object.defineProperty(element, 'src', {
-                set: function(value) {
-                  if (typeof value === 'string') {
-                    // 拦截所有包含 localhost:4000 的请求
-                    if (value.includes('localhost:4000')) {
-                      value = value.replace('localhost:4000', 'localhost:8888');
-                    }
-                    // 如果是相对路径且不是以 http 开头，使用配置的 apiBaseUrl
-                    else if (!value.startsWith('http') && (value.includes('/js/') || value.includes('/static/'))) {
-                      value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
-                    }
-                  }
-                  originalSrcSetter.call(this, value);
-                },
-                get: srcDescriptor.get,
-                configurable: true
-              });
-            }
           }
           return element;
         };
@@ -876,9 +859,12 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
   
     // 完全异步加载 Coze Web SDK
     function loadCozeSDK() {
+      console.log('loadCozeSDK 被调用，SDK URL:', cozeConfig.sdkUrl);
+      
       // 检查脚本是否已存在
       var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
       if (existingScript) {
+        console.log('发现已存在的脚本标签');
         var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
         if (CozeSDK) {
           setTimeout(initCoze, 100);
@@ -891,32 +877,45 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
       }
       
       // 创建并加载脚本
+      console.log('开始加载 Coze SDK，URL:', cozeConfig.sdkUrl);
       var webSdkScript = document.createElement('script');
-      webSdkScript.src = cozeConfig.sdkUrl;
       webSdkScript.async = true;
       webSdkScript.setAttribute('loading', 'lazy');
       
+      // 直接设置 src，避免拦截器干扰
+      webSdkScript.setAttribute('src', cozeConfig.sdkUrl);
+      
       webSdkScript.onload = function () {
+        console.log('Coze SDK 脚本加载成功');
         var retryCount = 0;
         var maxRetries = 10;
         
         function tryInit() {
           var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
           if (CozeSDK) {
+            console.log('Coze SDK 已就绪，开始初始化');
             initCoze();
           } else if (retryCount < maxRetries) {
             retryCount++;
             setTimeout(tryInit, 300);
+          } else {
+            console.error('Coze SDK 加载超时');
           }
         }
         
         setTimeout(tryInit, 100);
       };
       
+      webSdkScript.onerror = function(e) {
+        console.error('Coze SDK 加载失败:', e);
+        console.error('尝试加载的 URL:', cozeConfig.sdkUrl);
+      };
+      
       // 异步添加到 DOM
       function addScript() {
         var target = document.head || document.getElementsByTagName('head')[0] || document.body;
         if (target) {
+          console.log('添加脚本标签到 DOM');
           target.appendChild(webSdkScript);
         } else {
           setTimeout(addScript, 100);
@@ -935,7 +934,11 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
     var loadTimeout = null;
     
     function triggerLoad() {
-      if (sdkLoaded) return;
+      if (sdkLoaded) {
+        console.log('SDK 已加载，跳过');
+        return;
+      }
+      console.log('triggerLoad 被调用，开始加载 SDK');
       sdkLoaded = true;
       if (loadTimeout) {
         clearTimeout(loadTimeout);
