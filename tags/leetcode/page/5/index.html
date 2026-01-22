@@ -858,307 +858,55 @@ JAVA并发编程篇Redis学习笔记简历制作大概初版已经差不多了.
     };
     console.log('调试工具已加载，可以使用 window.__cozeDebug.findConstructor() 查找构造函数');
     
-    // 初始化函数
+    // 初始化函数 - 简化版本
     function initCoze() {
       console.log('开始初始化 Coze...');
+      
+      // 尝试所有可能的全局变量
       var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
       
-      console.log('检查 CozeSDK:', {
-        CozeWebSDK: typeof window.CozeWebSDK,
-        Coze: typeof window.Coze,
-        coze: typeof window.coze,
-        CozeSDK: typeof window.CozeSDK,
-        found: !!CozeSDK
-      });
-      
       if (!CozeSDK) {
-        console.error('❌ 未找到 CozeSDK 全局变量');
-        console.log('window 对象中的 Coze 相关变量:', Object.keys(window).filter(k => k.toLowerCase().includes('coze')));
+        console.error('❌ 未找到 CozeSDK');
         return;
       }
       
-      console.log('✅ 找到 CozeSDK:', CozeSDK);
-      console.log('CozeSDK 类型:', typeof CozeSDK);
-      console.log('CozeSDK 的可用属性 (Object.keys):', Object.keys(CozeSDK));
-      console.log('CozeSDK 的所有属性 (Object.getOwnPropertyNames):', Object.getOwnPropertyNames(CozeSDK));
+      console.log('✅ 找到 CozeSDK');
       
-      // 使用 Reflect.ownKeys 获取所有键（包括 Symbol）
-      var allKeys = Reflect.ownKeys(CozeSDK);
-      console.log('CozeSDK 的所有键 (Reflect.ownKeys):', allKeys);
-      
-      // 检查 _esModule 属性（使用多种方式）
-      var isESModule = false;
-      try {
-        isESModule = CozeSDK._esModule === true;
-      } catch(e) {}
-      if (!isESModule) {
-        try {
-          var desc = Object.getOwnPropertyDescriptor(CozeSDK, '_esModule');
-          if (desc && desc.value === true) {
-            isESModule = true;
-          }
-        } catch(e) {}
-      }
-      if (!isESModule && allKeys.includes('_esModule')) {
-        isESModule = true;
-      }
-      
-      console.log('CozeSDK 是否为函数:', typeof CozeSDK === 'function');
-      console.log('CozeSDK 是否为 ES Module:', isESModule);
-      
-      // 尝试多种方式获取 WebChatClient
+      // 直接尝试最常见的几种方式
       var WebChatClient = null;
-      var clientSource = '';
       
-      // 检查 default 属性（ES Module 通常有 default 导出）
-      console.log('检查 default 属性...');
-      var hasDefault = false;
-      try {
-        hasDefault = 'default' in CozeSDK || CozeSDK.default !== undefined;
-        if (hasDefault) {
-          console.log('找到 default 属性:', CozeSDK.default);
-          console.log('default 类型:', typeof CozeSDK.default);
-          if (typeof CozeSDK.default === 'function') {
-            WebChatClient = CozeSDK.default;
-            clientSource = 'CozeSDK.default';
-            console.log('✅ 使用 CozeSDK.default 作为构造函数');
-          } else if (CozeSDK.default && typeof CozeSDK.default === 'object') {
-            console.log('default 是对象，检查其属性:', Object.keys(CozeSDK.default));
-            if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
-              WebChatClient = CozeSDK.default.WebChatClient;
-              clientSource = 'CozeSDK.default.WebChatClient';
-              console.log('✅ 使用 CozeSDK.default.WebChatClient 作为构造函数');
-            }
-          }
-        }
-      } catch(e) {
-        console.log('访问 default 属性时出错:', e);
-      }
-      
-      // 尝试直接访问属性
-      if (!WebChatClient && CozeSDK.WebChatClient) {
-        WebChatClient = CozeSDK.WebChatClient;
-        clientSource = 'CozeSDK.WebChatClient';
-      } else if (!WebChatClient && typeof CozeSDK === 'function') {
-        WebChatClient = CozeSDK;
-        clientSource = 'CozeSDK 本身（函数）';
-      } else if (!WebChatClient && CozeSDK.default && typeof CozeSDK.default === 'function') {
-        WebChatClient = CozeSDK.default;
-        clientSource = 'CozeSDK.default';
-      } else if (!WebChatClient && CozeSDK.Client && typeof CozeSDK.Client === 'function') {
-        WebChatClient = CozeSDK.Client;
-        clientSource = 'CozeSDK.Client';
-      }
-      
-      // 如果 default 是对象，尝试访问其属性
-      if (!WebChatClient && CozeSDK.default && typeof CozeSDK.default === 'object') {
-        console.log('default 是对象，检查其属性:', Object.keys(CozeSDK.default));
-        if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
+      // 方式1: CozeSDK.default (ES Module)
+      if (CozeSDK.default) {
+        if (typeof CozeSDK.default === 'function') {
+          WebChatClient = CozeSDK.default;
+          console.log('✅ 使用 CozeSDK.default');
+        } else if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
           WebChatClient = CozeSDK.default.WebChatClient;
-          clientSource = 'CozeSDK.default.WebChatClient';
-        } else if (CozeSDK.default.default && typeof CozeSDK.default.default === 'function') {
-          WebChatClient = CozeSDK.default.default;
-          clientSource = 'CozeSDK.default.default';
+          console.log('✅ 使用 CozeSDK.default.WebChatClient');
         }
       }
       
-      // 如果还没找到，尝试遍历所有属性（包括 Symbol）
+      // 方式2: CozeSDK.WebChatClient
+      if (!WebChatClient && CozeSDK.WebChatClient && typeof CozeSDK.WebChatClient === 'function') {
+        WebChatClient = CozeSDK.WebChatClient;
+        console.log('✅ 使用 CozeSDK.WebChatClient');
+      }
+      
+      // 方式3: CozeSDK 本身是函数
+      if (!WebChatClient && typeof CozeSDK === 'function') {
+        WebChatClient = CozeSDK;
+        console.log('✅ 使用 CozeSDK 本身');
+      }
+      
+      // 如果还是没找到，输出调试信息并返回
       if (!WebChatClient) {
-        console.log('=== 遍历所有属性查找构造函数 ===');
-        for (var i = 0; i < allKeys.length; i++) {
-          var key = allKeys[i];
-          if (key === '__esModule' || (typeof key === 'symbol' && key.toString().includes('toStringTag'))) {
-            continue; // 跳过这些属性
-          }
-          try {
-            var value = CozeSDK[key];
-            var valueType = typeof value;
-            console.log('检查属性:', key, '类型:', valueType);
-            if (valueType === 'function') {
-              console.log('  找到函数:', key, value.prototype ? '[可能是构造函数]' : '');
-              // 如果函数名包含 Client 或 Chat，优先尝试
-              var keyStr = String(key);
-              if (keyStr.includes('Client') || keyStr.includes('Chat')) {
-                WebChatClient = value;
-                clientSource = 'CozeSDK[' + keyStr + ']';
-                console.log('✅ 尝试使用:', clientSource);
-                break;
-              }
-            } else if (valueType === 'object' && value !== null) {
-              // 如果是对象，检查其属性
-              var objKeys = Object.keys(value);
-              console.log('  对象属性:', objKeys);
-              for (var j = 0; j < objKeys.length; j++) {
-                var objKey = objKeys[j];
-                if (typeof value[objKey] === 'function' && (objKey.includes('Client') || objKey.includes('Chat'))) {
-                  WebChatClient = value[objKey];
-                  clientSource = 'CozeSDK[' + String(key) + '].' + objKey;
-                  console.log('✅ 尝试使用:', clientSource);
-                  break;
-                }
-              }
-              if (WebChatClient) break;
-            }
-          } catch(e) {
-            console.log('  访问属性时出错:', e);
-          }
-        }
-      }
-      
-      // 如果还没找到，检查 window 对象上的所有 Coze 相关变量
-      if (!WebChatClient) {
-        console.log('=== 检查 window 对象上的所有变量 ===');
-        var windowKeys = Object.keys(window);
-        for (var i = 0; i < windowKeys.length; i++) {
-          var winKey = windowKeys[i];
-          var winValue = window[winKey];
-          if (winKey.toLowerCase().includes('coze') || winKey.toLowerCase().includes('chat') || winKey.toLowerCase().includes('client')) {
-            console.log('找到相关变量:', winKey, typeof winValue);
-            if (typeof winValue === 'function') {
-              console.log('  是函数，可能是构造函数');
-              if (winKey.includes('Client') || winKey.includes('Chat')) {
-                WebChatClient = winValue;
-                clientSource = 'window.' + winKey;
-                console.log('✅ 尝试使用:', clientSource);
-                break;
-              }
-            } else if (typeof winValue === 'object' && winValue !== null) {
-              console.log('  是对象，检查属性:', Object.keys(winValue));
-            }
-          }
-        }
-      }
-      
-      // 如果还没找到，尝试使用动态 import（如果支持）
-      if (!WebChatClient && typeof window !== 'undefined' && window.dynamicImport) {
-        console.log('=== 尝试使用动态 import ===');
-        try {
-          var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
-          window.dynamicImport(sdkUrl).then(function(module) {
-            console.log('动态 import 成功:', module);
-            if (module.default && typeof module.default === 'function') {
-              WebChatClient = module.default;
-              clientSource = 'dynamic import default';
-              console.log('✅ 使用动态 import 的 default');
-            }
-          }).catch(function(e) {
-            console.error('动态 import 失败:', e);
-          });
-        } catch(e) {
-          console.log('不支持动态 import:', e);
-        }
-      }
-      
-      console.log('检查 WebChatClient:', {
-        found: !!WebChatClient,
-        source: clientSource,
-        type: WebChatClient ? typeof WebChatClient : 'undefined',
-        isFunction: WebChatClient ? typeof WebChatClient === 'function' : false,
-        isConstructor: WebChatClient ? (typeof WebChatClient === 'function' && WebChatClient.prototype) : false
-      });
-      
-      if (!WebChatClient) {
-        console.error('❌ 未找到 WebChatClient 构造函数');
-        console.log('=== 完整 SDK 结构分析 ===');
-        console.log('CozeSDK 完整对象:', CozeSDK);
-        console.log('是否为 ES Module:', CozeSDK._esModule === true);
-        console.log('CozeSDK 的所有属性 (for...in):');
-        for (var key in CozeSDK) {
-          var value = CozeSDK[key];
-          var type = typeof value;
-          var info = type;
-          if (type === 'function') {
-            info += ' (函数)';
-            if (value.prototype) {
-              info += ' [有 prototype，可能是构造函数]';
-            }
-          } else if (type === 'object' && value !== null) {
-            info += ' (对象，属性: ' + Object.keys(value).join(', ') + ')';
-          }
-          console.log('  -', key + ':', info);
-        }
-        
-        // 使用 Object.getOwnPropertyNames 获取所有属性（包括不可枚举的）
-        console.log('CozeSDK 的所有自有属性 (Object.getOwnPropertyNames):');
-        var allProps = Object.getOwnPropertyNames(CozeSDK);
-        for (var i = 0; i < allProps.length; i++) {
-          var prop = allProps[i];
-          if (prop !== '_esModule') { // 跳过 _esModule
-            var value = CozeSDK[prop];
-            var type = typeof value;
-            var info = type;
-            if (type === 'function') {
-              info += ' (函数)';
-              if (value.prototype) {
-                info += ' [可能是构造函数]';
-              }
-            } else if (type === 'object' && value !== null) {
-              info += ' (对象)';
-            }
-            console.log('  -', prop + ':', info);
-          }
-        }
-        
-        // 检查 default 属性
-        if (CozeSDK.default !== undefined) {
-          console.log('=== default 导出分析 ===');
-          console.log('CozeSDK.default:', CozeSDK.default);
-          console.log('CozeSDK.default 类型:', typeof CozeSDK.default);
-          if (typeof CozeSDK.default === 'object' && CozeSDK.default !== null) {
-            console.log('CozeSDK.default 的属性:', Object.keys(CozeSDK.default));
-            for (var defKey in CozeSDK.default) {
-              var defValue = CozeSDK.default[defKey];
-              if (typeof defValue === 'function') {
-                console.log('  - default.' + defKey + ': 函数', defValue.prototype ? '[可能是构造函数]' : '');
-              }
-            }
-          }
-        }
-        
-        // 尝试更多可能的构造函数名称
-        console.log('=== 尝试其他可能的构造函数名称 ===');
-        var possibleNames = [
-          'WebChatClient', 'ChatClient', 'Client', 'CozeClient', 
-          'WebChat', 'Chat', 'Coze', 'default', 'CozeWebSDK'
-        ];
-        
-        for (var i = 0; i < possibleNames.length; i++) {
-          var name = possibleNames[i];
-          var candidate = CozeSDK[name] || window[name];
-          if (candidate && typeof candidate === 'function') {
-            console.log('✅ 找到可能的构造函数:', name, candidate);
-            WebChatClient = candidate;
-            clientSource = name;
-            break;
-          }
-        }
-        
-        // 如果还是没找到，尝试检查 window 对象上的所有函数
-        if (!WebChatClient) {
-          console.log('=== 检查 window 对象上的 Coze 相关函数 ===');
-          for (var winKey in window) {
-            if (winKey.toLowerCase().includes('coze') || winKey.toLowerCase().includes('chat') || winKey.toLowerCase().includes('client')) {
-              var winValue = window[winKey];
-              if (typeof winValue === 'function') {
-                console.log('  - window.' + winKey + ':', typeof winValue, winValue.prototype ? '[可能是构造函数]' : '');
-              }
-            }
-          }
-        }
-        
-        if (!WebChatClient) {
-          console.error('❌ 仍然未找到构造函数，请检查 SDK 文档或联系 SDK 提供方');
-          return;
-        }
-      }
-      
-      if (typeof WebChatClient !== 'function') {
-        console.error('❌ WebChatClient 不是函数，类型:', typeof WebChatClient);
-        console.log('WebChatClient 值:', WebChatClient);
+        console.error('❌ 未找到 WebChatClient');
+        console.log('CozeSDK:', CozeSDK);
+        console.log('所有键:', Reflect.ownKeys(CozeSDK));
         return;
       }
       
-      console.log('✅ 找到 WebChatClient:', WebChatClient, '来源:', clientSource);
+      console.log('✅ 找到 WebChatClient');
       
       try {
         var apiBaseUrl = "http://localhost:8888";
