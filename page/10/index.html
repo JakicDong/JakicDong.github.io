@@ -800,7 +800,7 @@ java集合框架篇1&#x2F;30
 
   // Coze SDK 地址
   // 如果配置了自定义地址则使用，否则从本地 Coze 服务加载
-  const configuredSdkUrl = 'http://localhost:8888/static/chat-sdk.js';
+  const configuredSdkUrl = '/coze/chat-sdk.js';
   let sdkUrl = '';
   
   if (configuredSdkUrl && configuredSdkUrl.trim() !== '') {
@@ -820,6 +820,7 @@ java集合框架篇1&#x2F;30
   var webSdkScript = document.createElement('script');
   webSdkScript.src = sdkUrl;
   webSdkScript.async = true;
+  // 注意：如果遇到 CORS 错误，需要在 Coze 服务端添加 CORS 响应头
   webSdkScript.crossOrigin = 'anonymous';
   
   console.log('[Coze Plugin] 正在加载 SDK 脚本:', sdkUrl);
@@ -879,11 +880,13 @@ java集合框架篇1&#x2F;30
     console.error('[Coze Plugin] SDK 脚本加载失败!');
     console.error('[Coze Plugin] SDK 地址:', sdkUrl);
     console.error('[Coze Plugin] 错误信息:', error);
-    console.error('[Coze Plugin] 请检查:');
-    console.error('  1. Coze 服务是否在 localhost:8888 运行');
-    console.error('  2. SDK 路径是否正确（当前尝试: ' + sdkUrl + '）');
-    console.error('  3. 是否存在跨域问题（CORS）');
-    console.error('  4. 浏览器控制台 Network 标签中该请求的状态');
+    console.error('[Coze Plugin] ⚠️ 这是 CORS 跨域问题！');
+    console.error('[Coze Plugin] 解决方案:');
+    console.error('  【推荐】在 Coze 服务端（8888端口）添加 CORS 响应头:');
+    console.error('    Access-Control-Allow-Origin: http://localhost:4000');
+    console.error('    或者允许所有来源: Access-Control-Allow-Origin: *');
+    console.error('  【备选】将 SDK 文件复制到博客项目的 source/js/ 目录，然后配置:');
+    console.error('    coze.sdkUrl: /js/chat-sdk.js');
   };
   
   // 将脚本添加到页面
