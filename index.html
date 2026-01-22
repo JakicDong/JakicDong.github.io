@@ -760,13 +760,45 @@
           return null;
         }
         console.log('CozeSDK:', CozeSDK);
-        console.log('所有属性:', Object.keys(CozeSDK));
+        console.log('所有属性 (Object.keys):', Object.keys(CozeSDK));
+        console.log('所有属性 (Object.getOwnPropertyNames):', Object.getOwnPropertyNames(CozeSDK));
+        console.log('所有键 (Reflect.ownKeys):', Reflect.ownKeys(CozeSDK));
         for (var key in CozeSDK) {
           if (typeof CozeSDK[key] === 'function') {
             console.log('找到函数:', key, CozeSDK[key]);
           }
         }
         return CozeSDK;
+      },
+      checkSDKFile: function() {
+        var apiBaseUrl = "http://localhost:8888";
+        var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
+        console.log('检查 SDK 文件:', sdkUrl);
+        fetch(sdkUrl)
+          .then(function(response) {
+            return response.text();
+          })
+          .then(function(text) {
+            console.log('SDK 文件内容（前 1000 字符）:', text.substring(0, 1000));
+            // 查找 export 语句
+            var exportMatches = text.match(/export\s+(default\s+)?(class|function|const|let|var)\s+(\w+)/g);
+            if (exportMatches) {
+              console.log('找到的 export 语句:', exportMatches);
+            }
+            // 查找 WebChatClient
+            if (text.includes('WebChatClient')) {
+              console.log('✅ SDK 文件中包含 WebChatClient');
+              var matches = text.match(/WebChatClient[^}]*\{[^}]*\}/g);
+              if (matches) {
+                console.log('WebChatClient 相关代码:', matches.slice(0, 3));
+              }
+            } else {
+              console.log('❌ SDK 文件中不包含 WebChatClient');
+            }
+          })
+          .catch(function(e) {
+            console.error('获取 SDK 文件失败:', e);
+          });
       },
       testInit: function(Constructor) {
         var apiBaseUrl = "http://localhost:8888";
@@ -907,7 +939,7 @@
         console.log('=== 遍历所有属性查找构造函数 ===');
         for (var i = 0; i < allKeys.length; i++) {
           var key = allKeys[i];
-          if (key === '_esModule' || key === 'Symbol(Symbol.toStringTag)') {
+          if (key === '__esModule' || (typeof key === 'symbol' && key.toString().includes('toStringTag'))) {
             continue; // 跳过这些属性
           }
           try {
@@ -942,6 +974,50 @@
           } catch(e) {
             console.log('  访问属性时出错:', e);
           }
+        }
+      }
+      
+      // 如果还没找到，检查 window 对象上的所有 Coze 相关变量
+      if (!WebChatClient) {
+        console.log('=== 检查 window 对象上的所有变量 ===');
+        var windowKeys = Object.keys(window);
+        for (var i = 0; i < windowKeys.length; i++) {
+          var winKey = windowKeys[i];
+          var winValue = window[winKey];
+          if (winKey.toLowerCase().includes('coze') || winKey.toLowerCase().includes('chat') || winKey.toLowerCase().includes('client')) {
+            console.log('找到相关变量:', winKey, typeof winValue);
+            if (typeof winValue === 'function') {
+              console.log('  是函数，可能是构造函数');
+              if (winKey.includes('Client') || winKey.includes('Chat')) {
+                WebChatClient = winValue;
+                clientSource = 'window.' + winKey;
+                console.log('✅ 尝试使用:', clientSource);
+                break;
+              }
+            } else if (typeof winValue === 'object' && winValue !== null) {
+              console.log('  是对象，检查属性:', Object.keys(winValue));
+            }
+          }
+        }
+      }
+      
+      // 如果还没找到，尝试使用动态 import（如果支持）
+      if (!WebChatClient && typeof window !== 'undefined' && window.dynamicImport) {
+        console.log('=== 尝试使用动态 import ===');
+        try {
+          var sdkUrl = apiBaseUrl + '/static/chat-sdk.js';
+          window.dynamicImport(sdkUrl).then(function(module) {
+            console.log('动态 import 成功:', module);
+            if (module.default && typeof module.default === 'function') {
+              WebChatClient = module.default;
+              clientSource = 'dynamic import default';
+              console.log('✅ 使用动态 import 的 default');
+            }
+          }).catch(function(e) {
+            console.error('动态 import 失败:', e);
+          });
+        } catch(e) {
+          console.log('不支持动态 import:', e);
         }
       }
       
