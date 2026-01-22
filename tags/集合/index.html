@@ -740,235 +740,226 @@ Collection:主要由 List、Set、Queue 组成，List 代表有序、可复的�
       sdkUrl: '/js/chat-sdk.js'
     };
     
-    // 延迟执行主函数，使用最激进的方式：页面完全加载后 + 用户交互 + 更长延迟
-    function initCozePlugin() {
-    
-      // 初始化函数
-      function initCoze() {
-        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-        
-        if (!CozeSDK) {
-          return;
-        }
-        
-        var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
-        
-        if (!WebChatClient) {
-          return;
-        }
-        
-        try {
-          var clientConfig = {
-            "config": {
-              "type": "app",
-              "appInfo": {
-                "appId": cozeConfig.appId,
-                "workflowId": cozeConfig.workflowId
-              }
-            },
-            "auth": {
-              "type": "token",
-              "token": cozeConfig.token,
-              onRefreshToken: function () {
-                return cozeConfig.token;
-              }
-            }
-          };
-          
-          if (cozeConfig.apiBaseUrl) {
-            clientConfig.config.baseURL = cozeConfig.apiBaseUrl;
-            clientConfig.config.apiUrl = cozeConfig.apiBaseUrl;
-            clientConfig.config.serverUrl = cozeConfig.apiBaseUrl;
-            clientConfig.baseURL = cozeConfig.apiBaseUrl;
-            clientConfig.apiBaseUrl = cozeConfig.apiBaseUrl;
-          }
-          
-          var client = new WebChatClient(clientConfig);
-        } catch (error) {
-          console.error('Coze 初始化失败:', error);
-        }
-      }
-    
-      // 设置全局配置和拦截器（仅在需要时执行）
-      function setupInterceptors() {
-        // 设置全局配置
-        window.COZE_API_BASE_URL = cozeConfig.apiBaseUrl;
-        window.COZE_BASE_URL = cozeConfig.apiBaseUrl;
-        
-        // 拦截 fetch 请求
-        var originalFetch = window.fetch;
-        window.fetch = function(url, options) {
-          if (typeof url === 'string' && url.includes('localhost:4000')) {
-            url = url.replace('localhost:4000', 'localhost:8888');
-          }
-          return originalFetch.apply(this, arguments);
-        };
-        
-        // 拦截 XMLHttpRequest
-        var originalXHROpen = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function(method, url, ...args) {
-          if (typeof url === 'string' && url.includes('localhost:4000')) {
-            url = url.replace('localhost:4000', 'localhost:8888');
-          }
-          return originalXHROpen.call(this, method, url, ...args);
-        };
-        
-        // 拦截动态 script 标签加载
-        var scriptInterceptorInstalled = false;
-        if (!scriptInterceptorInstalled) {
-          scriptInterceptorInstalled = true;
-          var originalCreateElement = document.createElement;
-          document.createElement = function(tagName) {
-            var element = originalCreateElement.call(document, tagName);
-            if (tagName.toLowerCase() === 'script') {
-              var originalSetAttribute = element.setAttribute;
-              element.setAttribute = function(name, value) {
-                if (name === 'src' && typeof value === 'string') {
-                  if (value.includes('/static/') && !value.startsWith('http://localhost:8888')) {
-                    if (value.includes('localhost:4000')) {
-                      value = value.replace('localhost:4000', 'localhost:8888');
-                    } else if (!value.startsWith('http')) {
-                      value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
-                    }
-                  }
-                }
-                return originalSetAttribute.call(this, name, value);
-              };
-            }
-            return element;
-          };
-        }
-      }
-    
-      // 完全异步加载 Coze Web SDK
-      function loadCozeSDK() {
-        // 设置拦截器
-        setupInterceptors();
-        
-        // 检查脚本是否已存在
-        var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
-        if (existingScript) {
-          var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-          if (CozeSDK) {
-            setTimeout(initCoze, 100);
-            return;
-          }
-          existingScript.addEventListener('load', function() {
-            setTimeout(initCoze, 200);
-          }, { once: true });
-          return;
-        }
-        
-        // 创建并加载脚本
-        var webSdkScript = document.createElement('script');
-        webSdkScript.src = cozeConfig.sdkUrl;
-        webSdkScript.async = true;
-        webSdkScript.setAttribute('loading', 'lazy');
-        
-        webSdkScript.onload = function () {
-          var retryCount = 0;
-          var maxRetries = 10;
-          
-          function tryInit() {
-            var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-            if (CozeSDK) {
-              initCoze();
-            } else if (retryCount < maxRetries) {
-              retryCount++;
-              setTimeout(tryInit, 300);
-            }
-          }
-          
-          setTimeout(tryInit, 100);
-        };
-        
-        // 异步添加到 DOM
-        function addScript() {
-          var target = document.head || document.getElementsByTagName('head')[0] || document.body;
-          if (target) {
-            target.appendChild(webSdkScript);
-          } else {
-            setTimeout(addScript, 100);
-          }
-        }
-        
-        if (window.requestAnimationFrame) {
-          requestAnimationFrame(addScript);
-        } else {
-          setTimeout(addScript, 0);
-        }
-      }
-    
-      // 完全异步加载策略：更激进的延迟，不阻塞页面渲染
-      var sdkLoaded = false;
-      var loadTimeout = null;
+    // 初始化函数
+    function initCoze() {
+      var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
       
-      function triggerLoad() {
-        if (sdkLoaded) return;
-        sdkLoaded = true;
-        if (loadTimeout) {
-          clearTimeout(loadTimeout);
-          loadTimeout = null;
-        }
-        loadCozeSDK();
+      if (!CozeSDK) {
+        return;
       }
       
-      // 策略1: 用户交互后延迟加载（更长的延迟时间）
-      var interactionEvents = ['scroll', 'click', 'touchstart'];
-      var interactionHandler = function() {
-        if (!sdkLoaded && !loadTimeout) {
-          // 用户交互后延迟 3 秒再加载，避免影响页面响应
-          loadTimeout = setTimeout(triggerLoad, 3000);
+      var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
+      
+      if (!WebChatClient) {
+        return;
+      }
+      
+      try {
+        var clientConfig = {
+          "config": {
+            "type": "app",
+            "appInfo": {
+              "appId": cozeConfig.appId,
+              "workflowId": cozeConfig.workflowId
+            }
+          },
+          "auth": {
+            "type": "token",
+            "token": cozeConfig.token,
+            onRefreshToken: function () {
+              return cozeConfig.token;
+            }
+          }
+        };
+        
+        if (cozeConfig.apiBaseUrl) {
+          clientConfig.config.baseURL = cozeConfig.apiBaseUrl;
+          clientConfig.config.apiUrl = cozeConfig.apiBaseUrl;
+          clientConfig.config.serverUrl = cozeConfig.apiBaseUrl;
+          clientConfig.baseURL = cozeConfig.apiBaseUrl;
+          clientConfig.apiBaseUrl = cozeConfig.apiBaseUrl;
         }
-        // 移除事件监听器（只触发一次）
-        interactionEvents.forEach(function(event) {
-          window.removeEventListener(event, interactionHandler, { passive: true });
-        });
+        
+        var client = new WebChatClient(clientConfig);
+      } catch (error) {
+        console.error('Coze 初始化失败:', error);
+      }
+    }
+  
+    // 设置全局配置和拦截器（仅在需要时执行）
+    function setupInterceptors() {
+      // 设置全局配置
+      window.COZE_API_BASE_URL = cozeConfig.apiBaseUrl;
+      window.COZE_BASE_URL = cozeConfig.apiBaseUrl;
+      
+      // 拦截 fetch 请求
+      var originalFetch = window.fetch;
+      window.fetch = function(url, options) {
+        if (typeof url === 'string' && url.includes('localhost:4000')) {
+          url = url.replace('localhost:4000', 'localhost:8888');
+        }
+        return originalFetch.apply(this, arguments);
       };
       
-      // 添加交互监听（使用 passive 选项，不阻塞滚动性能）
-      interactionEvents.forEach(function(event) {
-        window.addEventListener(event, interactionHandler, { passive: true });
-      });
+      // 拦截 XMLHttpRequest
+      var originalXHROpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(method, url, ...args) {
+        if (typeof url === 'string' && url.includes('localhost:4000')) {
+          url = url.replace('localhost:4000', 'localhost:8888');
+        }
+        return originalXHROpen.call(this, method, url, ...args);
+      };
       
-      // 策略2: 如果用户没有交互，页面加载完成后延迟 10 秒再加载
-      function setupFallbackLoad() {
-        if (sdkLoaded) return;
+      // 拦截动态 script 标签加载
+      var scriptInterceptorInstalled = false;
+      if (!scriptInterceptorInstalled) {
+        scriptInterceptorInstalled = true;
+        var originalCreateElement = document.createElement;
+        document.createElement = function(tagName) {
+          var element = originalCreateElement.call(document, tagName);
+          if (tagName.toLowerCase() === 'script') {
+            var originalSetAttribute = element.setAttribute;
+            element.setAttribute = function(name, value) {
+              if (name === 'src' && typeof value === 'string') {
+                if (value.includes('/static/') && !value.startsWith('http://localhost:8888')) {
+                  if (value.includes('localhost:4000')) {
+                    value = value.replace('localhost:4000', 'localhost:8888');
+                  } else if (!value.startsWith('http')) {
+                    value = cozeConfig.apiBaseUrl + (value.startsWith('/') ? '' : '/') + value;
+                  }
+                }
+              }
+              return originalSetAttribute.call(this, name, value);
+            };
+          }
+          return element;
+        };
+      }
+    }
+  
+    // 完全异步加载 Coze Web SDK
+    function loadCozeSDK() {
+      // 设置拦截器
+      setupInterceptors();
+      
+      // 检查脚本是否已存在
+      var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
+      if (existingScript) {
+        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+        if (CozeSDK) {
+          setTimeout(initCoze, 100);
+          return;
+        }
+        existingScript.addEventListener('load', function() {
+          setTimeout(initCoze, 200);
+        }, { once: true });
+        return;
+      }
+      
+      // 创建并加载脚本
+      var webSdkScript = document.createElement('script');
+      webSdkScript.src = cozeConfig.sdkUrl;
+      webSdkScript.async = true;
+      webSdkScript.setAttribute('loading', 'lazy');
+      
+      webSdkScript.onload = function () {
+        var retryCount = 0;
+        var maxRetries = 10;
         
-        function delayedLoad() {
-          if (!sdkLoaded) {
-            triggerLoad();
+        function tryInit() {
+          var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+          if (CozeSDK) {
+            initCoze();
+          } else if (retryCount < maxRetries) {
+            retryCount++;
+            setTimeout(tryInit, 300);
           }
         }
         
-        if (document.readyState === 'complete') {
-          setTimeout(delayedLoad, 10000);
+        setTimeout(tryInit, 100);
+      };
+      
+      // 异步添加到 DOM
+      function addScript() {
+        var target = document.head || document.getElementsByTagName('head')[0] || document.body;
+        if (target) {
+          target.appendChild(webSdkScript);
         } else {
-          window.addEventListener('load', function() {
-            setTimeout(delayedLoad, 10000);
-          }, { once: true });
+          setTimeout(addScript, 100);
         }
       }
       
-      // 使用 requestIdleCallback 设置备用加载（不阻塞主线程）
-      if (window.requestIdleCallback) {
-        requestIdleCallback(setupFallbackLoad, { timeout: 15000 });
+      if (window.requestAnimationFrame) {
+        requestAnimationFrame(addScript);
       } else {
-        // 降级方案：延迟执行
-        setTimeout(setupFallbackLoad, 2000);
+        setTimeout(addScript, 0);
+      }
+    }
+  
+    // 异步加载策略：不阻塞页面渲染，但确保能正常加载
+    var sdkLoaded = false;
+    var loadTimeout = null;
+    
+    function triggerLoad() {
+      if (sdkLoaded) return;
+      sdkLoaded = true;
+      if (loadTimeout) {
+        clearTimeout(loadTimeout);
+        loadTimeout = null;
+      }
+      loadCozeSDK();
+    }
+    
+    // 策略1: 用户交互后延迟加载（延迟时间缩短，确保能触发）
+    var interactionEvents = ['scroll', 'click', 'touchstart'];
+    var interactionHandler = function() {
+      if (!sdkLoaded && !loadTimeout) {
+        // 用户交互后延迟 1.5 秒再加载
+        loadTimeout = setTimeout(triggerLoad, 1500);
+      }
+      // 移除事件监听器（只触发一次）
+      interactionEvents.forEach(function(event) {
+        window.removeEventListener(event, interactionHandler, { passive: true });
+      });
+    };
+    
+    // 立即添加交互监听（不延迟，确保能捕获用户交互）
+    interactionEvents.forEach(function(event) {
+      window.addEventListener(event, interactionHandler, { passive: true });
+    });
+    
+    // 策略2: 如果用户没有交互，页面加载完成后延迟加载
+    function setupFallbackLoad() {
+      if (sdkLoaded) return;
+      
+      function delayedLoad() {
+        if (!sdkLoaded) {
+          triggerLoad();
+        }
+      }
+      
+      // 页面加载完成后延迟 3 秒加载（缩短延迟时间）
+      if (document.readyState === 'complete') {
+        setTimeout(delayedLoad, 3000);
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(delayedLoad, 3000);
+        }, { once: true });
       }
     }
     
-    // 延迟执行整个插件初始化，使用最激进的方式
-    // 等待页面完全加载后再考虑执行
-    if (document.readyState === 'complete') {
-      // 页面已加载完成，延迟 2 秒再执行初始化代码
-      setTimeout(initCozePlugin, 2000);
+    // 使用 requestIdleCallback 设置备用加载（不阻塞主线程）
+    if (window.requestIdleCallback) {
+      requestIdleCallback(setupFallbackLoad, { timeout: 5000 });
     } else {
-      // 页面还在加载，等待 load 事件后再延迟执行
-      window.addEventListener('load', function() {
-        setTimeout(initCozePlugin, 2000);
-      }, { once: true });
+      // 降级方案：页面加载完成后延迟执行
+      if (document.readyState === 'complete') {
+        setTimeout(setupFallbackLoad, 1000);
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(setupFallbackLoad, 1000);
+        }, { once: true });
+      }
     }
   })();
 </script>
