@@ -157,32 +157,8 @@
           <span class='name'>远程开发</span>
         </a>
       
-        <a class='tag' href="/tags/JVM/">
-          <span class='name'>JVM</span>
-        </a>
-      
         <a class='tag' href="/tags/Go/">
           <span class='name'>Go</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91/">
-          <span class='name'>并发</span>
-        </a>
-      
-        <a class='tag' href="/tags/MybatisPlus/">
-          <span class='name'>MybatisPlus</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E9%9B%86%E5%90%88/">
-          <span class='name'>集合</span>
-        </a>
-      
-        <a class='tag' href="/tags/java/">
-          <span class='name'>java</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81/">
-          <span class='name'>跨域支持</span>
         </a>
       
         <a class='tag' href="/tags/%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1/">
@@ -205,10 +181,6 @@
           <span class='name'>分布式</span>
         </a>
       
-        <a class='tag' href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-          <span class='name'>微服务</span>
-        </a>
-      
         <a class='tag' href="/tags/Mysql/">
           <span class='name'>Mysql</span>
         </a>
@@ -217,8 +189,24 @@
           <span class='name'>操作系统</span>
         </a>
       
+        <a class='tag' href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+          <span class='name'>微服务</span>
+        </a>
+      
         <a class='tag' href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
           <span class='name'>设计模式</span>
+        </a>
+      
+        <a class='tag' href="/tags/JVM/">
+          <span class='name'>JVM</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91/">
+          <span class='name'>并发</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E9%9B%86%E5%90%88/">
+          <span class='name'>集合</span>
         </a>
       
         <a class='tag' href="/tags/%E7%AE%80%E5%8E%86/">
@@ -229,8 +217,20 @@
           <span class='name'>知识点</span>
         </a>
       
+        <a class='tag' href="/tags/MybatisPlus/">
+          <span class='name'>MybatisPlus</span>
+        </a>
+      
+        <a class='tag' href="/tags/java/">
+          <span class='name'>java</span>
+        </a>
+      
         <a class='tag' href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
           <span class='name'>计算机网络</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81/">
+          <span class='name'>跨域支持</span>
         </a>
       
         <a class='tag' href="/tags/%E6%A8%A1%E8%BF%90%E7%AE%97/">
@@ -245,6 +245,10 @@
           <span class='name'>picgo</span>
         </a>
       
+        <a class='tag' href="/tags/STOMP/">
+          <span class='name'>STOMP</span>
+        </a>
+      
         <a class='tag' href="/tags/COZE/">
           <span class='name'>COZE</span>
         </a>
@@ -257,10 +261,6 @@
           <span class='name'>node</span>
         </a>
       
-        <a class='tag' href="/tags/%E6%AC%A2%E8%BF%8E%E9%A1%B5/">
-          <span class='name'>欢迎页</span>
-        </a>
-      
         <a class='tag' href="/tags/hexo/">
           <span class='name'>hexo</span>
         </a>
@@ -269,8 +269,8 @@
           <span class='name'>快捷键</span>
         </a>
       
-        <a class='tag' href="/tags/STOMP/">
-          <span class='name'>STOMP</span>
+        <a class='tag' href="/tags/%E6%AC%A2%E8%BF%8E%E9%A1%B5/">
+          <span class='name'>欢迎页</span>
         </a>
       
         <a class='tag' href="/tags/sql/">
@@ -289,12 +289,12 @@
           <span class='name'>Elasticsearch</span>
         </a>
       
-        <a class='tag' href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
-          <span class='name'>内网穿透</span>
-        </a>
-      
         <a class='tag' href="/tags/LLM/">
           <span class='name'>LLM</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+          <span class='name'>内网穿透</span>
         </a>
       
         <a class='tag' href="/tags/RabbitMQ/">
@@ -956,56 +956,22 @@ var webSdkScript = document.createElement('script');
 webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
 document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
-  console.log('[Coze] SDK 脚本加载完成');
-  console.log('[Coze] 检查 CozeWebSDK:', typeof CozeWebSDK);
-  
-  // 等待 SDK 初始化完成
-  function initCoze() {
-    if (typeof CozeWebSDK !== 'undefined' && typeof CozeWebSDK.WebChatClient !== 'undefined') {
-      console.log('[Coze] 开始初始化 WebChatClient');
-      try {
-        new CozeWebSDK.WebChatClient({
-          "config": {
-            "type": "app",
-            "appInfo": {
-              "appId": "7594744377281348000",
-              "workflowId": "7594773612482003000"
-            }
-          },
-          "auth": {
-            "type": "token",
-            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-            onRefreshToken: function () {
-              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-            }
-          }
-        });
-        console.log('[Coze] WebChatClient 初始化成功');
-      } catch (error) {
-        console.error('[Coze] WebChatClient 初始化失败:', error);
+  new CozeWebSDK.WebChatClient({
+    "config": {
+      "type": "app",
+      "appInfo": {
+        "appId": "7594744377281348000",
+        "workflowId": "7594773612482003000"
       }
-    } else {
-      console.warn('[Coze] CozeWebSDK 未定义，等待初始化...');
-      setTimeout(initCoze, 100);
+    },
+    "auth": {
+      "type": "token",
+      "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+      onRefreshToken: function () {
+        return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+      }
     }
-  }
-  
-  // 立即尝试初始化，如果失败则轮询检查
-  initCoze();
-  
-  // 设置超时，如果 5 秒后还没初始化成功，输出错误
-  setTimeout(function() {
-    if (typeof CozeWebSDK === 'undefined' || typeof CozeWebSDK.WebChatClient === 'undefined') {
-      console.error('[Coze] SDK 初始化超时，CozeWebSDK 仍未定义');
-      console.log('[Coze] 请检查：');
-      console.log('[Coze] 1. Coze 服务是否正常运行');
-      console.log('[Coze] 2. SDK URL 是否正确:', 'http://localhost:8888/static/chat-sdk.js');
-      console.log('[Coze] 3. 浏览器控制台是否有其他错误');
-    }
-  }, 5000);
-}
-webSdkScript.onerror = function() {
-  console.error('[Coze] SDK 脚本加载失败，请检查 Coze 服务是否在 http://localhost:8888/static/chat-sdk.js 运行');
+  });
 }
 </script>
 
