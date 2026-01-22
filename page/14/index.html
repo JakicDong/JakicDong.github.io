@@ -841,9 +841,9 @@ GameObject (游戏对象)│├── Transform (变换组件) - 控制位置&#x
       return originalXHROpen.call(this, method, url, ...args);
     };
     
-    // 加载 Coze Web SDK
+    // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
     var webSdkScript = document.createElement('script');
-    webSdkScript.src = '/js/chat-sdk.js';
+    webSdkScript.src = apiBaseUrl + '/static/chat-sdk.js';
     webSdkScript.async = true;
     webSdkScript.defer = true;
     

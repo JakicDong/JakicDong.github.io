@@ -866,9 +866,9 @@ Redis八股0&#x2F;57
       return originalXHROpen.call(this, method, url, ...args);
     };
     
-    // 加载 Coze Web SDK
+    // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
     var webSdkScript = document.createElement('script');
-    webSdkScript.src = '/js/chat-sdk.js';
+    webSdkScript.src = apiBaseUrl + '/static/chat-sdk.js';
     webSdkScript.async = true;
     webSdkScript.defer = true;
     

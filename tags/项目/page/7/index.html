@@ -861,9 +861,9 @@ JAVA并发编程篇9&#x2F;71 学习中,正在完善笔记.g...</p></div><div cla
       return originalXHROpen.call(this, method, url, ...args);
     };
     
-    // 加载 Coze Web SDK
+    // 加载 Coze Web SDK - 使用配置的 apiBaseUrl
     var webSdkScript = document.createElement('script');
-    webSdkScript.src = '/js/chat-sdk.js';
+    webSdkScript.src = apiBaseUrl + '/static/chat-sdk.js';
     webSdkScript.async = true;
     webSdkScript.defer = true;
     
