@@ -959,12 +959,12 @@
       loadCozeSDK();
     }
     
-    // 策略1: 用户交互后延迟加载（延迟时间缩短，确保能触发）
-    var interactionEvents = ['scroll', 'click', 'touchstart'];
+    // 策略1: 用户交互后立即加载（缩短延迟，确保能触发）
+    var interactionEvents = ['scroll', 'click', 'touchstart', 'mousemove'];
     var interactionHandler = function() {
       if (!sdkLoaded && !loadTimeout) {
-        // 用户交互后延迟 1.5 秒再加载
-        loadTimeout = setTimeout(triggerLoad, 1500);
+        // 用户交互后延迟 500ms 再加载，减少对交互响应的影响
+        loadTimeout = setTimeout(triggerLoad, 500);
       }
       // 移除事件监听器（只触发一次）
       interactionEvents.forEach(function(event) {
@@ -977,7 +977,7 @@
       window.addEventListener(event, interactionHandler, { passive: true });
     });
     
-    // 策略2: 如果用户没有交互，页面加载完成后延迟加载
+    // 策略2: 页面加载完成后延迟加载（确保一定能加载）
     function setupFallbackLoad() {
       if (sdkLoaded) return;
       
@@ -987,28 +987,30 @@
         }
       }
       
-      // 页面加载完成后延迟 3 秒加载（缩短延迟时间）
+      // 页面加载完成后延迟 2 秒加载
       if (document.readyState === 'complete') {
-        setTimeout(delayedLoad, 3000);
+        setTimeout(delayedLoad, 2000);
       } else {
         window.addEventListener('load', function() {
-          setTimeout(delayedLoad, 3000);
+          setTimeout(delayedLoad, 2000);
         }, { once: true });
       }
     }
     
-    // 使用 requestIdleCallback 设置备用加载（不阻塞主线程）
-    if (window.requestIdleCallback) {
-      requestIdleCallback(setupFallbackLoad, { timeout: 5000 });
-    } else {
-      // 降级方案：页面加载完成后延迟执行
-      if (document.readyState === 'complete') {
+    // 策略3: DOM 加载完成后就开始准备（更早触发）
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
         setTimeout(setupFallbackLoad, 1000);
-      } else {
-        window.addEventListener('load', function() {
-          setTimeout(setupFallbackLoad, 1000);
-        }, { once: true });
-      }
+      }, { once: true });
+    } else {
+      // DOM 已经加载完成，立即设置备用加载
+      setTimeout(setupFallbackLoad, 500);
+    }
+    
+    // 策略4: 使用 requestIdleCallback 在浏览器空闲时加载（不阻塞主线程）
+    // 但设置较短的超时时间，确保能及时加载
+    if (window.requestIdleCallback) {
+      requestIdleCallback(setupFallbackLoad, { timeout: 3000 });
     }
   })();
 </script>
