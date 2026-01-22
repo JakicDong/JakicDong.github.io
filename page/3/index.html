@@ -812,22 +812,56 @@ var webSdkScript = document.createElement('script');
 webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
 document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
-  new CozeWebSDK.WebChatClient({
-    "config": {
-      "type": "app",
-      "appInfo": {
-        "appId": "7594744377281348000",
-        "workflowId": "7594773612482003000"
+  console.log('[Coze] SDK 脚本加载完成');
+  console.log('[Coze] 检查 CozeWebSDK:', typeof CozeWebSDK);
+  
+  // 等待 SDK 初始化完成
+  function initCoze() {
+    if (typeof CozeWebSDK !== 'undefined' && typeof CozeWebSDK.WebChatClient !== 'undefined') {
+      console.log('[Coze] 开始初始化 WebChatClient');
+      try {
+        new CozeWebSDK.WebChatClient({
+          "config": {
+            "type": "app",
+            "appInfo": {
+              "appId": "7594744377281348000",
+              "workflowId": "7594773612482003000"
+            }
+          },
+          "auth": {
+            "type": "token",
+            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+            onRefreshToken: function () {
+              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+            }
+          }
+        });
+        console.log('[Coze] WebChatClient 初始化成功');
+      } catch (error) {
+        console.error('[Coze] WebChatClient 初始化失败:', error);
       }
-    },
-    "auth": {
-      "type": "token",
-      "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-      onRefreshToken: function () {
-        return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-      }
+    } else {
+      console.warn('[Coze] CozeWebSDK 未定义，等待初始化...');
+      setTimeout(initCoze, 100);
     }
-  });
+  }
+  
+  // 立即尝试初始化，如果失败则轮询检查
+  initCoze();
+  
+  // 设置超时，如果 5 秒后还没初始化成功，输出错误
+  setTimeout(function() {
+    if (typeof CozeWebSDK === 'undefined' || typeof CozeWebSDK.WebChatClient === 'undefined') {
+      console.error('[Coze] SDK 初始化超时，CozeWebSDK 仍未定义');
+      console.log('[Coze] 请检查：');
+      console.log('[Coze] 1. Coze 服务是否正常运行');
+      console.log('[Coze] 2. SDK URL 是否正确:', 'http://localhost:8888/static/chat-sdk.js');
+      console.log('[Coze] 3. 浏览器控制台是否有其他错误');
+    }
+  }, 5000);
+}
+webSdkScript.onerror = function() {
+  console.error('[Coze] SDK 脚本加载失败，请检查 Coze 服务是否在 http://localhost:8888/static/chat-sdk.js 运行');
 }
 </script>
 

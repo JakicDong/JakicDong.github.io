@@ -75,10 +75,10 @@
 
 
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/topic/">专栏</a><a href="/archives/">归档</a></nav></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">
-<article class="md-text"><div class="preview"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/10433048.png"/></div><div class="excerpt"><h2 class="post-title">技术博客</h2><p>汇总学习中记录的笔记和其他技术大佬的优秀博文.站在巨人的肩膀.</p></div></article>
-</a></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/topic/">专栏</a><a href="/archives/">归档</a></nav></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 <article class="md-text"><div class="preview"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/10433048.png"/></div><div class="excerpt"><h2 class="post-title">Jakic的学习生活日记</h2><p>记录每天的足迹.踏上取经路,比抵达灵山更重要.</p></div></article>
+</a></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">
+<article class="md-text"><div class="preview"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/10433048.png"/></div><div class="excerpt"><h2 class="post-title">技术博客</h2><p>汇总学习中记录的笔记和其他技术大佬的优秀博文.站在巨人的肩膀.</p></div></article>
 </a></div>
 <footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
@@ -723,22 +723,56 @@ var webSdkScript = document.createElement('script');
 webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
 document.head.appendChild(webSdkScript);
 webSdkScript.onload = function () {
-  new CozeWebSDK.WebChatClient({
-    "config": {
-      "type": "app",
-      "appInfo": {
-        "appId": "7594744377281348000",
-        "workflowId": "7594773612482003000"
+  console.log('[Coze] SDK 脚本加载完成');
+  console.log('[Coze] 检查 CozeWebSDK:', typeof CozeWebSDK);
+  
+  // 等待 SDK 初始化完成
+  function initCoze() {
+    if (typeof CozeWebSDK !== 'undefined' && typeof CozeWebSDK.WebChatClient !== 'undefined') {
+      console.log('[Coze] 开始初始化 WebChatClient');
+      try {
+        new CozeWebSDK.WebChatClient({
+          "config": {
+            "type": "app",
+            "appInfo": {
+              "appId": "7594744377281348000",
+              "workflowId": "7594773612482003000"
+            }
+          },
+          "auth": {
+            "type": "token",
+            "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+            onRefreshToken: function () {
+              return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+            }
+          }
+        });
+        console.log('[Coze] WebChatClient 初始化成功');
+      } catch (error) {
+        console.error('[Coze] WebChatClient 初始化失败:', error);
       }
-    },
-    "auth": {
-      "type": "token",
-      "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
-      onRefreshToken: function () {
-        return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
-      }
+    } else {
+      console.warn('[Coze] CozeWebSDK 未定义，等待初始化...');
+      setTimeout(initCoze, 100);
     }
-  });
+  }
+  
+  // 立即尝试初始化，如果失败则轮询检查
+  initCoze();
+  
+  // 设置超时，如果 5 秒后还没初始化成功，输出错误
+  setTimeout(function() {
+    if (typeof CozeWebSDK === 'undefined' || typeof CozeWebSDK.WebChatClient === 'undefined') {
+      console.error('[Coze] SDK 初始化超时，CozeWebSDK 仍未定义');
+      console.log('[Coze] 请检查：');
+      console.log('[Coze] 1. Coze 服务是否正常运行');
+      console.log('[Coze] 2. SDK URL 是否正确:', 'http://localhost:8888/static/chat-sdk.js');
+      console.log('[Coze] 3. 浏览器控制台是否有其他错误');
+    }
+  }, 5000);
+}
+webSdkScript.onerror = function() {
+  console.error('[Coze] SDK 脚本加载失败，请检查 Coze 服务是否在 http://localhost:8888/static/chat-sdk.js 运行');
 }
 </script>
 
