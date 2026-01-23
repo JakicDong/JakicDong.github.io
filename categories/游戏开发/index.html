@@ -757,68 +757,70 @@ GameObject (游戏对象)│├── Transform (变换组件) - 控制位置&#x
                     return;
                 }
                 
-                console.log('✅ 找到 Coze SDK:', CozeSDK);
-                console.log('CozeSDK 对象:', CozeSDK);
-                console.log('CozeSDK 的所有属性:', Object.keys(CozeSDK));
-                
-                // ES6 模块格式，尝试多种方式获取 WebChatClient
+                // 优先检查是否通过 import() 加载了 WebChatClient
                 var WebChatClient = null;
                 
-                // 方式1: 检查是否有 default 导出
-                if (CozeSDK.default) {
-                    console.log('找到 default 导出:', CozeSDK.default);
-                    // 检查 default 是否是构造函数
-                    if (typeof CozeSDK.default === 'function') {
-                        WebChatClient = CozeSDK.default;
-                        console.log('✅ 通过 default 找到构造函数');
-                    }
-                    // 检查 default.WebChatClient
-                    else if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
-                        WebChatClient = CozeSDK.default.WebChatClient;
-                        console.log('✅ 通过 default.WebChatClient 找到构造函数');
-                    }
-                    // 检查 default.default（嵌套 default）
-                    else if (CozeSDK.default.default && typeof CozeSDK.default.default === 'function') {
-                        WebChatClient = CozeSDK.default.default;
-                        console.log('✅ 通过 default.default 找到构造函数');
-                    }
-                }
-                
-                // 方式2: 检查是否有 WebChatClient 属性
-                if (!WebChatClient && CozeSDK.WebChatClient) {
-                    if (typeof CozeSDK.WebChatClient === 'function') {
-                        WebChatClient = CozeSDK.WebChatClient;
-                        console.log('✅ 通过 WebChatClient 属性找到构造函数');
-                    }
-                    // 如果 WebChatClient 也是模块，检查其 default
-                    else if (CozeSDK.WebChatClient.default && typeof CozeSDK.WebChatClient.default === 'function') {
-                        WebChatClient = CozeSDK.WebChatClient.default;
-                        console.log('✅ 通过 WebChatClient.default 找到构造函数');
+                if (window.CozeWebChatClient && typeof window.CozeWebChatClient === 'function') {
+                    WebChatClient = window.CozeWebChatClient;
+                    console.log('✅ 使用通过 import() 加载的 WebChatClient');
+                } 
+                // 如果通过 import() 加载了模块，尝试从模块中获取
+                else if (window.CozeWebSDKModule) {
+                    var module = window.CozeWebSDKModule;
+                    console.log('✅ 找到通过 import() 加载的模块:', module);
+                    console.log('模块的所有属性:', Object.keys(module));
+                    
+                    // 尝试多种方式获取 WebChatClient
+                    WebChatClient = module.default || 
+                                   module.WebChatClient || 
+                                   (module.default && module.default.WebChatClient) ||
+                                   (module.default && module.default.default);
+                    
+                    if (WebChatClient && typeof WebChatClient === 'function') {
+                        console.log('✅ 从模块中找到 WebChatClient 构造函数');
+                    } else {
+                        console.error('❌ 无法从模块中找到 WebChatClient');
+                        console.error('module.default:', module.default);
+                        console.error('module.WebChatClient:', module.WebChatClient);
                     }
                 }
-                
-                // 方式3: 如果 CozeSDK 本身就是构造函数
-                if (!WebChatClient && typeof CozeSDK === 'function') {
-                    WebChatClient = CozeSDK;
-                    console.log('✅ CozeSDK 本身就是构造函数');
-                }
-                
-                // 方式4: 遍历所有属性查找构造函数
-                if (!WebChatClient) {
-                    for (var key in CozeSDK) {
-                        var value = CozeSDK[key];
-                        // 检查是否是函数
-                        if (typeof value === 'function') {
-                            WebChatClient = value;
-                            console.log('✅ 通过属性 ' + key + ' 找到构造函数');
-                            break;
+                // 回退到检查全局变量
+                else {
+                    console.log('✅ 找到 Coze SDK:', CozeSDK);
+                    console.log('CozeSDK 对象:', CozeSDK);
+                    console.log('CozeSDK 的所有属性:', Object.keys(CozeSDK));
+                    
+                    // ES6 模块格式，尝试多种方式获取 WebChatClient
+                    // 方式1: 检查是否有 default 导出
+                    if (CozeSDK.default) {
+                        console.log('找到 default 导出:', CozeSDK.default);
+                        if (typeof CozeSDK.default === 'function') {
+                            WebChatClient = CozeSDK.default;
+                            console.log('✅ 通过 default 找到构造函数');
+                        } else if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
+                            WebChatClient = CozeSDK.default.WebChatClient;
+                            console.log('✅ 通过 default.WebChatClient 找到构造函数');
+                        } else if (CozeSDK.default.default && typeof CozeSDK.default.default === 'function') {
+                            WebChatClient = CozeSDK.default.default;
+                            console.log('✅ 通过 default.default 找到构造函数');
                         }
-                        // 检查是否是模块且有 default
-                        else if (value && typeof value === 'object' && value.default && typeof value.default === 'function') {
-                            WebChatClient = value.default;
-                            console.log('✅ 通过属性 ' + key + '.default 找到构造函数');
-                            break;
+                    }
+                    
+                    // 方式2: 检查是否有 WebChatClient 属性
+                    if (!WebChatClient && CozeSDK.WebChatClient) {
+                        if (typeof CozeSDK.WebChatClient === 'function') {
+                            WebChatClient = CozeSDK.WebChatClient;
+                            console.log('✅ 通过 WebChatClient 属性找到构造函数');
+                        } else if (CozeSDK.WebChatClient.default && typeof CozeSDK.WebChatClient.default === 'function') {
+                            WebChatClient = CozeSDK.WebChatClient.default;
+                            console.log('✅ 通过 WebChatClient.default 找到构造函数');
                         }
+                    }
+                    
+                    // 方式3: 如果 CozeSDK 本身就是构造函数
+                    if (!WebChatClient && typeof CozeSDK === 'function') {
+                        WebChatClient = CozeSDK;
+                        console.log('✅ CozeSDK 本身就是构造函数');
                     }
                 }
                 
@@ -827,10 +829,8 @@ GameObject (游戏对象)│├── Transform (变换组件) - 控制位置&#x
                     console.error('CozeSDK 的可用属性:', Object.keys(CozeSDK));
                     console.error('CozeSDK.default:', CozeSDK.default);
                     console.error('CozeSDK.WebChatClient:', CozeSDK.WebChatClient);
-                    console.error('尝试检查所有属性的类型:');
-                    for (var key in CozeSDK) {
-                        console.error('  ' + key + ':', typeof CozeSDK[key], CozeSDK[key]);
-                    }
+                    console.error('window.CozeWebChatClient:', window.CozeWebChatClient);
+                    console.error('window.CozeWebSDKModule:', window.CozeWebSDKModule);
                     createPlaceholder();
                     return;
                 }
@@ -913,82 +913,137 @@ GameObject (游戏对象)│├── Transform (变换组件) - 控制位置&#x
                 }
             }, 5000);
             }
-            // 加载 Coze Web SDK
-            var webSdkScript = document.createElement('script');
-            // 使用本地 SDK 地址
-            webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
-            webSdkScript.async = true;
-            // 如果是 ES6 模块，可能需要设置 type="module"，但先尝试不使用
-            // webSdkScript.type = 'module';
-            webSdkScript.crossOrigin = 'anonymous';
-            
-            webSdkScript.onload = function () {
-                console.log('Coze SDK 脚本加载成功');
-                console.log('✅ Coze SDK 脚本标签加载成功');
-                console.log('等待 SDK 初始化...');
-                // 延迟初始化，确保 SDK 完全加载
-                // 增加重试机制
-                var retryCount = 0;
-                var maxRetries = 10;
-                
-                function tryInit() {
-                    retryCount++;
-                    console.log(`尝试初始化 (${retryCount}/${maxRetries})...`);
-                    
+            // 加载 Coze Web SDK - 使用动态 import() 加载 ES6 模块
+            function loadSDK() {
+                // 检查脚本是否已存在
+                var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
+                if (existingScript) {
+                    console.log('Coze SDK 脚本已存在，检查是否已加载');
                     var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-                    
                     if (CozeSDK) {
-                    console.log('✅ SDK 已就绪，开始初始化');
-                    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                        initCoze();
-                    } else {
-                        document.addEventListener('DOMContentLoaded', initCoze);
-                    }
-                    } else if (retryCount < maxRetries) {
-                    console.log('SDK 尚未就绪，等待中...');
-                    setTimeout(tryInit, 300);
-                    } else {
-                    console.error('❌ SDK 加载超时，尝试直接初始化');
-                    initCoze(); // 即使超时也尝试初始化，可能会显示占位元素
+                        console.log('SDK 已加载，直接初始化');
+                        setTimeout(initCoze, 100);
+                        return;
                     }
                 }
                 
-                setTimeout(tryInit, 100);
-            }
-            
-            // 错误处理
-            webSdkScript.onerror = function(e) {
-                console.error('❌ Coze Web SDK 加载失败');
-                console.error('错误事件:', e);
-                console.error('请检查：');
-                console.error('1. 本地服务是否运行在 http://localhost:8888');
-                console.error('2. 文件路径是否正确：/static/chat-sdk.js');
-                console.error('3. 浏览器控制台是否有 CORS 错误');
-                console.error('4. 尝试在浏览器中直接访问: http://localhost:8888/static/chat-sdk.js');
-                createPlaceholder();
-            }
-            
-            // 如果脚本已经存在，直接初始化
-            // 检查脚本是否已存在
-            var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
-            if (existingScript) {
-                console.log('Coze SDK 脚本已存在，检查是否已加载');
-                var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-                if (CozeSDK) {
-                        console.log('SDK 已加载，直接初始化');
-                    setTimeout(initCoze, 100);
-                } else {
-                    console.log('正在添加 Coze SDK 脚本标签到 head...');
-                    console.log('SDK 脚本存在但未加载，等待加载...');
-                    existingScript.addEventListener('load', function() {
-                    setTimeout(initCoze, 200);
-                    });
-                    // 如果已经加载完成，直接尝试初始化
-                    setTimeout(initCoze, 500);
+                console.log('尝试使用动态 import() 加载 ES6 模块...');
+                
+                // 方案1: 尝试使用动态 import() 加载 ES6 模块
+                // 注意：import() 只能在模块上下文中使用，所以需要创建一个模块脚本
+                var moduleScript = document.createElement('script');
+                moduleScript.type = 'module';
+                moduleScript.textContent = `
+                    import('http://localhost:8888/static/chat-sdk.js')
+                        .then(function(module) {
+                            console.log('✅ 通过 import() 成功加载模块:', module);
+                            console.log('模块的所有属性:', Object.keys(module));
+                            console.log('module.default:', module.default);
+                            
+                            // 将模块保存到全局变量
+                            window.CozeWebSDKModule = module;
+                            
+                            // 尝试获取 WebChatClient
+                            var WebChatClient = module.default || module.WebChatClient || 
+                                             (module.default && module.default.WebChatClient) ||
+                                             (module.default && module.default.default);
+                            
+                            if (WebChatClient && typeof WebChatClient === 'function') {
+                                window.CozeWebChatClient = WebChatClient;
+                                console.log('✅ 找到 WebChatClient 构造函数');
+                                
+                                // 触发自定义事件通知主脚本
+                                window.dispatchEvent(new CustomEvent('cozeSDKLoaded', { 
+                                    detail: { module: module, WebChatClient: WebChatClient } 
+                                }));
+                            } else {
+                                console.error('❌ 无法从模块中找到 WebChatClient 构造函数');
+                                console.error('模块结构:', module);
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('❌ import() 加载失败:', error);
+                            console.log('回退到 script 标签方式...');
+                            // 回退到普通 script 标签方式
+                            loadSDKWithScriptTag();
+                        });
+                `;
+                
+                // 如果 import() 失败，使用普通 script 标签作为备用方案
+                function loadSDKWithScriptTag() {
+                    console.log('使用普通 script 标签加载...');
+                    var webSdkScript = document.createElement('script');
+                    webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+                    webSdkScript.async = true;
+                    webSdkScript.crossOrigin = 'anonymous';
+                    
+                    webSdkScript.onload = function () {
+                        console.log('✅ Coze SDK 脚本标签加载成功');
+                        console.log('等待 SDK 初始化...');
+                        
+                        var retryCount = 0;
+                        var maxRetries = 10;
+                        
+                        function tryInit() {
+                            retryCount++;
+                            console.log(`尝试初始化 (${retryCount}/${maxRetries})...`);
+                            
+                            // 优先检查模块方式加载的结果
+                            if (window.CozeWebChatClient && typeof window.CozeWebChatClient === 'function') {
+                                console.log('✅ 通过模块方式找到 WebChatClient');
+                                setTimeout(initCoze, 100);
+                                return;
+                            }
+                            
+                            var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+                            
+                            if (CozeSDK) {
+                                console.log('✅ SDK 已就绪，开始初始化');
+                                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                                    initCoze();
+                                } else {
+                                    document.addEventListener('DOMContentLoaded', initCoze);
+                                }
+                            } else if (retryCount < maxRetries) {
+                                console.log('SDK 尚未就绪，等待中...');
+                                setTimeout(tryInit, 300);
+                            } else {
+                                console.error('❌ SDK 加载超时，尝试直接初始化');
+                                initCoze();
+                            }
+                        }
+                        
+                        setTimeout(tryInit, 100);
+                    }
+                    
+                    webSdkScript.onerror = function(e) {
+                        console.error('❌ Coze Web SDK 加载失败');
+                        console.error('错误事件:', e);
+                        createPlaceholder();
+                    }
+                    
+                    document.head.appendChild(webSdkScript);
                 }
-            } else {
-            document.head.appendChild(webSdkScript);
+                
+                // 监听模块加载完成事件
+                window.addEventListener('cozeSDKLoaded', function(event) {
+                    console.log('收到 cozeSDKLoaded 事件:', event.detail);
+                    setTimeout(initCoze, 100);
+                });
+                
+                // 添加模块脚本到页面
+                document.head.appendChild(moduleScript);
+                
+                // 设置超时，如果 import() 失败则回退
+                setTimeout(function() {
+                    if (!window.CozeWebSDKModule && !window.CozeWebSDK) {
+                        console.log('import() 超时，回退到 script 标签方式...');
+                        loadSDKWithScriptTag();
+                    }
+                }, 3000);
             }
+            
+            loadSDK();
         })();
     </script>
     
