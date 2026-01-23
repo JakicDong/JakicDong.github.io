@@ -773,17 +773,84 @@ hash冲突后,数据散列不均匀,产生大量线性查询,...</p></div><div c
                 
                 console.log('✅ 找到 Coze SDK:', CozeSDK);
                 console.log('CozeSDK 对象:', CozeSDK);
-                // 检查 WebChatClient 是否存在
-                var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
+                console.log('CozeSDK 的所有属性:', Object.keys(CozeSDK));
                 
+                // ES6 模块格式，尝试多种方式获取 WebChatClient
+                var WebChatClient = null;
+                
+                // 方式1: 检查是否有 default 导出
+                if (CozeSDK.default) {
+                    console.log('找到 default 导出:', CozeSDK.default);
+                    // 检查 default 是否是构造函数
+                    if (typeof CozeSDK.default === 'function') {
+                        WebChatClient = CozeSDK.default;
+                        console.log('✅ 通过 default 找到构造函数');
+                    }
+                    // 检查 default.WebChatClient
+                    else if (CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
+                        WebChatClient = CozeSDK.default.WebChatClient;
+                        console.log('✅ 通过 default.WebChatClient 找到构造函数');
+                    }
+                    // 检查 default.default（嵌套 default）
+                    else if (CozeSDK.default.default && typeof CozeSDK.default.default === 'function') {
+                        WebChatClient = CozeSDK.default.default;
+                        console.log('✅ 通过 default.default 找到构造函数');
+                    }
+                }
+                
+                // 方式2: 检查是否有 WebChatClient 属性
+                if (!WebChatClient && CozeSDK.WebChatClient) {
+                    if (typeof CozeSDK.WebChatClient === 'function') {
+                        WebChatClient = CozeSDK.WebChatClient;
+                        console.log('✅ 通过 WebChatClient 属性找到构造函数');
+                    }
+                    // 如果 WebChatClient 也是模块，检查其 default
+                    else if (CozeSDK.WebChatClient.default && typeof CozeSDK.WebChatClient.default === 'function') {
+                        WebChatClient = CozeSDK.WebChatClient.default;
+                        console.log('✅ 通过 WebChatClient.default 找到构造函数');
+                    }
+                }
+                
+                // 方式3: 如果 CozeSDK 本身就是构造函数
+                if (!WebChatClient && typeof CozeSDK === 'function') {
+                    WebChatClient = CozeSDK;
+                    console.log('✅ CozeSDK 本身就是构造函数');
+                }
+                
+                // 方式4: 遍历所有属性查找构造函数
                 if (!WebChatClient) {
-                    console.error('未找到 WebChatClient 构造函数');
+                    for (var key in CozeSDK) {
+                        var value = CozeSDK[key];
+                        // 检查是否是函数
+                        if (typeof value === 'function') {
+                            WebChatClient = value;
+                            console.log('✅ 通过属性 ' + key + ' 找到构造函数');
+                            break;
+                        }
+                        // 检查是否是模块且有 default
+                        else if (value && typeof value === 'object' && value.default && typeof value.default === 'function') {
+                            WebChatClient = value.default;
+                            console.log('✅ 通过属性 ' + key + '.default 找到构造函数');
+                            break;
+                        }
+                    }
+                }
+                
+                if (!WebChatClient || typeof WebChatClient !== 'function') {
+                    console.error('❌ 未找到 WebChatClient 构造函数');
                     console.error('CozeSDK 的可用属性:', Object.keys(CozeSDK));
-                createPlaceholder();
-                return;
-            }
+                    console.error('CozeSDK.default:', CozeSDK.default);
+                    console.error('CozeSDK.WebChatClient:', CozeSDK.WebChatClient);
+                    console.error('尝试检查所有属性的类型:');
+                    for (var key in CozeSDK) {
+                        console.error('  ' + key + ':', typeof CozeSDK[key], CozeSDK[key]);
+                    }
+                    createPlaceholder();
+                    return;
+                }
             
-            console.log('✅ 找到 WebChatClient:', WebChatClient);
+            console.log('✅ 找到 WebChatClient 构造函数:', WebChatClient);
+            console.log('WebChatClient 类型:', typeof WebChatClient);
             
             try {
                 var client = new WebChatClient({
@@ -803,9 +870,36 @@ hash冲突后,数据散列不均匀,产生大量线性查询,...</p></div><div c
                 }
                 });
                 console.log('✅ Coze WebChatClient 初始化成功', client);
+                console.log('客户端对象:', client);
+                console.log('客户端类型:', typeof client);
+                
+                // 检查客户端是否有 render 或 mount 方法
+                if (client && typeof client === 'object') {
+                    console.log('客户端的方法:', Object.keys(client));
+                    if (typeof client.render === 'function') {
+                        console.log('找到 render 方法，尝试调用...');
+                        try {
+                            client.render();
+                            console.log('✅ render 方法调用成功');
+                        } catch (e) {
+                            console.error('render 方法调用失败:', e);
+                        }
+                    }
+                    if (typeof client.mount === 'function') {
+                        console.log('找到 mount 方法，尝试调用...');
+                        try {
+                            client.mount();
+                            console.log('✅ mount 方法调用成功');
+                        } catch (e) {
+                            console.error('mount 方法调用失败:', e);
+                        }
+                    }
+                }
             } catch (error) {
                 console.error('❌ Coze WebChatClient 初始化失败:', error);
-                console.error('错误详情:', error.message, error.stack);
+                console.error('错误详情:', error.message);
+                console.error('错误堆栈:', error.stack);
+                createPlaceholder();
             }
             }
                 // 创建占位元素（用于调试）
@@ -838,6 +932,8 @@ hash冲突后,数据散列不均匀,产生大量线性查询,...</p></div><div c
             // 使用本地 SDK 地址
             webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
             webSdkScript.async = true;
+            // 如果是 ES6 模块，可能需要设置 type="module"，但先尝试不使用
+            // webSdkScript.type = 'module';
             webSdkScript.crossOrigin = 'anonymous';
             
             webSdkScript.onload = function () {
