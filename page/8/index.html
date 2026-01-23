@@ -998,20 +998,90 @@ Redis学习笔记3&#x2F;57 学习中,正在完善笔记.
                     import('http://localhost:8888/static/chat-sdk.js')
                         .then(function(module) {
                             console.log('✅ 通过 import() 成功加载模块:', module);
-                            console.log('模块的所有属性:', Object.keys(module));
+                            console.log('模块类型:', typeof module);
+                            console.log('模块的所有可枚举属性:', Object.keys(module));
+                            console.log('模块的所有属性（包括不可枚举）:', Object.getOwnPropertyNames(module));
+                            console.log('模块的 Symbol 属性:', Object.getOwnPropertySymbols(module));
                             console.log('module.default:', module.default);
+                            
+                            // 尝试访问所有可能的属性
+                            var allKeys = [];
+                            for (var key in module) {
+                                allKeys.push(key);
+                                console.log('模块属性 ' + key + ':', typeof module[key], module[key]);
+                            }
+                            
+                            // 检查模块的所有属性描述符
+                            var propNames = Object.getOwnPropertyNames(module);
+                            for (var i = 0; i < propNames.length; i++) {
+                                var propName = propNames[i];
+                                var descriptor = Object.getOwnPropertyDescriptor(module, propName);
+                                console.log('属性描述符 ' + propName + ':', descriptor);
+                                if (descriptor && descriptor.value) {
+                                    console.log('  值:', descriptor.value, '类型:', typeof descriptor.value);
+                                }
+                            }
+                            
+                            // 检查 Symbol 属性
+                            var symbols = Object.getOwnPropertySymbols(module);
+                            for (var i = 0; i < symbols.length; i++) {
+                                var sym = symbols[i];
+                                console.log('Symbol 属性:', sym.toString(), '值:', module[sym]);
+                            }
                             
                             // 将模块保存到全局变量
                             window.CozeWebSDKModule = module;
                             
-                            // 尝试获取 WebChatClient
-                            var WebChatClient = module.default || module.WebChatClient || 
-                                             (module.default && module.default.WebChatClient) ||
-                                             (module.default && module.default.default);
+                            // 尝试多种方式获取 WebChatClient
+                            var WebChatClient = null;
+                            
+                            // 方式1: 直接访问 default
+                            if (module.default) {
+                                if (typeof module.default === 'function') {
+                                    WebChatClient = module.default;
+                                    console.log('✅ 通过 module.default 找到构造函数');
+                                } else if (module.default.WebChatClient && typeof module.default.WebChatClient === 'function') {
+                                    WebChatClient = module.default.WebChatClient;
+                                    console.log('✅ 通过 module.default.WebChatClient 找到构造函数');
+                                } else if (module.default.default && typeof module.default.default === 'function') {
+                                    WebChatClient = module.default.default;
+                                    console.log('✅ 通过 module.default.default 找到构造函数');
+                                }
+                            }
+                            
+                            // 方式2: 直接访问 WebChatClient
+                            if (!WebChatClient && module.WebChatClient && typeof module.WebChatClient === 'function') {
+                                WebChatClient = module.WebChatClient;
+                                console.log('✅ 通过 module.WebChatClient 找到构造函数');
+                            }
+                            
+                            // 方式3: 遍历所有属性查找函数
+                            if (!WebChatClient) {
+                                for (var key in module) {
+                                    if (typeof module[key] === 'function' && key.toLowerCase().includes('client')) {
+                                        WebChatClient = module[key];
+                                        console.log('✅ 通过属性 ' + key + ' 找到构造函数');
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            // 方式4: 检查所有属性描述符中的函数
+                            if (!WebChatClient) {
+                                for (var i = 0; i < propNames.length; i++) {
+                                    var propName = propNames[i];
+                                    var value = module[propName];
+                                    if (typeof value === 'function' && propName.toLowerCase().includes('client')) {
+                                        WebChatClient = value;
+                                        console.log('✅ 通过属性描述符 ' + propName + ' 找到构造函数');
+                                        break;
+                                    }
+                                }
+                            }
                             
                             if (WebChatClient && typeof WebChatClient === 'function') {
                                 window.CozeWebChatClient = WebChatClient;
-                                console.log('✅ 找到 WebChatClient 构造函数');
+                                console.log('✅ 找到 WebChatClient 构造函数:', WebChatClient);
                                 
                                 // 触发自定义事件通知主脚本
                                 window.dispatchEvent(new CustomEvent('cozeSDKLoaded', { 
@@ -1020,13 +1090,46 @@ Redis学习笔记3&#x2F;57 学习中,正在完善笔记.
                             } else {
                                 console.error('❌ 无法从模块中找到 WebChatClient 构造函数');
                                 console.error('模块结构:', module);
+                                console.error('尝试检查 window 对象中是否有 Coze 相关的全局变量...');
+                                
+                                // 检查 window 对象
+                                for (var key in window) {
+                                    if (key.toLowerCase().includes('coze')) {
+                                        console.log('找到 window.' + key + ':', typeof window[key], window[key]);
+                                    }
+                                }
+                                
+                                // 回退到 script 标签方式
+                                console.log('回退到 script 标签方式...');
+                                setTimeout(function() {
+                                    if (typeof loadSDKWithScriptTag === 'function') {
+                                        loadSDKWithScriptTag();
+                                    } else {
+                                        // 如果函数不可用，直接创建 script 标签
+                                        var script = document.createElement('script');
+                                        script.src = 'http://localhost:8888/static/chat-sdk.js';
+                                        script.async = true;
+                                        script.crossOrigin = 'anonymous';
+                                        document.head.appendChild(script);
+                                    }
+                                }, 100);
                             }
                         })
                         .catch(function(error) {
                             console.error('❌ import() 加载失败:', error);
                             console.log('回退到 script 标签方式...');
                             // 回退到普通 script 标签方式
-                            loadSDKWithScriptTag();
+                            setTimeout(function() {
+                                if (typeof loadSDKWithScriptTag === 'function') {
+                                    loadSDKWithScriptTag();
+                                } else {
+                                    var script = document.createElement('script');
+                                    script.src = 'http://localhost:8888/static/chat-sdk.js';
+                                    script.async = true;
+                                    script.crossOrigin = 'anonymous';
+                                    document.head.appendChild(script);
+                                }
+                            }, 100);
                         });
                 `;
                 
@@ -1042,6 +1145,18 @@ Redis学习笔记3&#x2F;57 学习中,正在完善笔记.
                         console.log('✅ Coze SDK 脚本标签加载成功');
                         console.log('等待 SDK 初始化...');
                         
+                        // 详细检查所有可能的全局变量
+                        console.log('检查 window 对象中的所有 Coze 相关变量:');
+                        for (var key in window) {
+                            if (key.toLowerCase().includes('coze') || key.toLowerCase().includes('chat') || key.toLowerCase().includes('web')) {
+                                console.log('找到 window.' + key + ':', typeof window[key], window[key]);
+                                if (typeof window[key] === 'object' && window[key] !== null) {
+                                    console.log('  属性:', Object.keys(window[key]));
+                                    console.log('  所有属性（包括不可枚举）:', Object.getOwnPropertyNames(window[key]));
+                                }
+                            }
+                        }
+                        
                         var retryCount = 0;
                         var maxRetries = 10;
                         
@@ -1056,7 +1171,33 @@ Redis学习笔记3&#x2F;57 学习中,正在完善笔记.
                                 return;
                             }
                             
-                            var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+                            // 检查各种可能的全局变量
+                            var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK || 
+                                        window.WebChatClient || window.cozeWebChatClient;
+                            
+                            // 如果找到了 CozeSDK，详细检查其结构
+                            if (CozeSDK) {
+                                console.log('✅ 找到 CozeSDK:', CozeSDK);
+                                console.log('CozeSDK 类型:', typeof CozeSDK);
+                                console.log('CozeSDK 的所有属性:', Object.keys(CozeSDK));
+                                console.log('CozeSDK 的所有属性（包括不可枚举）:', Object.getOwnPropertyNames(CozeSDK));
+                                
+                                // 如果是 Module 对象，尝试访问其内部
+                                if (CozeSDK.toString && CozeSDK.toString().includes('Module')) {
+                                    console.log('检测到 Module 对象，尝试访问其内容...');
+                                    // 尝试使用 Reflect.ownKeys 获取所有键
+                                    try {
+                                        var allKeys = Reflect.ownKeys(CozeSDK);
+                                        console.log('Reflect.ownKeys 结果:', allKeys);
+                                        for (var i = 0; i < allKeys.length; i++) {
+                                            var key = allKeys[i];
+                                            console.log('键:', key, '值:', CozeSDK[key], '类型:', typeof CozeSDK[key]);
+                                        }
+                                    } catch (e) {
+                                        console.error('Reflect.ownKeys 失败:', e);
+                                    }
+                                }
+                            }
                             
                             if (CozeSDK) {
                                 console.log('✅ SDK 已就绪，开始初始化');
