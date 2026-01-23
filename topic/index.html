@@ -75,10 +75,10 @@
 
 
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/topic/">专栏</a><a href="/archives/">归档</a></nav></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-<article class="md-text"><div class="preview"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/10433048.png"/></div><div class="excerpt"><h2 class="post-title">Jakic的学习生活日记</h2><p>记录每天的足迹.踏上取经路,比抵达灵山更重要.</p></div></article>
-</a></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">
+<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/topic/">专栏</a><a href="/archives/">归档</a></nav></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/">
 <article class="md-text"><div class="preview"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/10433048.png"/></div><div class="excerpt"><h2 class="post-title">技术博客</h2><p>汇总学习中记录的笔记和其他技术大佬的优秀博文.站在巨人的肩膀.</p></div></article>
+</a></div><div class="post-list wiki topic"><a class="post-card wiki topic slide-up" href="/2025/12/16/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B025%E5%B9%B412%E6%9C%88/2025.12.16%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+<article class="md-text"><div class="preview"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/10433048.png"/></div><div class="excerpt"><h2 class="post-title">Jakic的学习生活日记</h2><p>记录每天的足迹.踏上取经路,比抵达灵山更重要.</p></div></article>
 </a></div>
 <footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
@@ -710,6 +710,42 @@
     // 从服务器端配置中解析配置对象
     var cozeConfig = {"enable":true,"api_host":"http://localhost:8888","sdk_url":"http://localhost:8888/static/chat-sdk.js","config":{"type":"app","appInfo":{"appId":"7594744377281347584","workflowId":"7594773612482002944"}},"auth":{"type":"token","token":"pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"},"componentProps":{"title":"AI 助手","lang":"zh-CN","layout":"PC"},"rec_method":"all","hide_shuttle":true,"summary_toggle":false,"interface":{"name":"AI摘要","introduce":"我是文章辅助AI: QX-AI，点击下方的按钮，让我生成本文简介、推荐相关文章等。","version":"TianliGPT","button":["介绍自己","推荐文章","生成摘要","矩阵穿梭"]}};
     
+    // 等待 SDK 完全初始化的函数（使用轮询机制）
+    function waitForSDK(maxAttempts, interval) {
+      maxAttempts = maxAttempts || 50;
+      interval = interval || 100;
+      
+      return new Promise(function(resolve, reject) {
+        var attempts = 0;
+
+        var checkSDK = function() {
+          attempts++;
+
+          // 检查 SDK 是否加载完成
+          if (window.CozeWebSDK && window.CozeWebSDK.WebChatClient) {
+            console.log('[Coze SDK] SDK 初始化成功');
+            resolve(window.CozeWebSDK.WebChatClient);
+            return;
+          }
+
+          // 检查是否超时
+          if (attempts >= maxAttempts) {
+            console.error('[Coze SDK] SDK 加载超时');
+            console.error('[Coze SDK] window.CozeWebSDK:', window.CozeWebSDK);
+            console.error('[Coze SDK] 可用的 CozeWebSDK 属性:', Object.keys(window.CozeWebSDK || {}));
+            reject(new Error('SDK 加载超时'));
+            return;
+          }
+
+          // 继续等待
+          setTimeout(checkSDK, interval);
+        };
+
+        // 开始检查
+        checkSDK();
+      });
+    }
+    
     // 等待 DOM 加载完成后再初始化 SDK
     function initCozeSDK() {
       console.log('[Coze SDK] 开始加载 Coze SDK...');
@@ -730,89 +766,87 @@
       var webSdkScript = document.createElement('script');
       var sdkUrl = cozeConfig.sdk_url || 'http://localhost:8888/static/chat-sdk.js';
       webSdkScript.src = sdkUrl;
+      webSdkScript.async = true; // 异步加载
       console.log('[Coze SDK] 正在加载 SDK 脚本:', sdkUrl);
       
       // SDK 加载成功后的回调
       webSdkScript.onload = function () {
         console.log('[Coze SDK] SDK 脚本加载完成');
-        
-        // 等待一小段时间确保 SDK 完全初始化
-        setTimeout(function() {
-          if (typeof window.CozeWebSDK === 'undefined') {
-            console.error('[Coze SDK] 加载失败：CozeWebSDK 未定义，请检查 SDK 文件是否正确加载');
-            return;
-          }
-          
-          if (!window.CozeWebSDK.WebChatClient) {
-            console.error('[Coze SDK] 加载失败：WebChatClient 未定义，请检查 SDK 版本');
-            console.log('[Coze SDK] 可用的 CozeWebSDK 属性:', Object.keys(window.CozeWebSDK));
-            return;
-          }
-          
-          try {
-            // 构建配置对象
-            var authToken = (cozeConfig.auth && cozeConfig.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
-            
-            // 构建 auth 配置，确保 onRefreshToken 函数存在
-            var authConfig = cozeConfig.auth || {
-              type: "token",
-              token: authToken
-            };
-            
-            // 确保 onRefreshToken 函数能正确返回 token
-            if (!authConfig.onRefreshToken) {
-              authConfig.onRefreshToken = function () {
-                return authToken;
+
+        // 等待 SDK 完全初始化（使用轮询机制）
+        waitForSDK()
+          .then(function(WebChatClient) {
+            try {
+              // 构建配置对象
+              var authToken = (cozeConfig.auth && cozeConfig.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+              
+              // 构建 auth 配置，确保 onRefreshToken 函数存在
+              var authConfig = cozeConfig.auth || {
+                type: "token",
+                token: authToken
               };
-            }
-            
-            var sdkConfig = {
-              config: cozeConfig.config || {
-                type: "app",
-                appInfo: {
-                  appId: "7594744377281347584",
-                  workflowId: "7594773612482002944"
-                }
-              },
-              auth: authConfig
-            };
-            
-            // 添加 UI 配置（如果存在）
-            if (cozeConfig.componentProps) {
-              sdkConfig.componentProps = cozeConfig.componentProps;
-            }
-            
-            console.log('[Coze SDK] 开始初始化 WebChatClient，配置:', JSON.stringify(sdkConfig, null, 2));
-            
-            // 创建 WebChatClient 实例
-            var chatClient = new window.CozeWebSDK.WebChatClient(sdkConfig);
-            
-            // 保存 client 实例到全局，方便后续控制
-            window.cozeChatClient = chatClient;
-            console.log('[Coze SDK] 初始化成功，client 实例已保存到 window.cozeChatClient');
-            
-            // 尝试自动显示聊天窗口（如果 SDK 支持）
-            if (typeof chatClient.showChatBot === 'function') {
-              console.log('[Coze SDK] 尝试自动显示聊天窗口');
-              try {
-                chatClient.showChatBot();
-                console.log('[Coze SDK] 聊天窗口显示命令已执行');
-              } catch (e) {
-                console.warn('[Coze SDK] 自动显示聊天窗口失败，可能需要手动调用:', e);
+              
+              // 确保 onRefreshToken 函数能正确返回 token
+              if (!authConfig.onRefreshToken) {
+                authConfig.onRefreshToken = function () {
+                  return authToken;
+                };
               }
-            } else {
-              console.log('[Coze SDK] showChatBot 方法不存在，聊天窗口可能需要手动触发');
+              
+              var sdkConfig = {
+                config: cozeConfig.config || {
+                  type: "app",
+                  appInfo: {
+                    appId: "7594744377281347584",
+                    workflowId: "7594773612482002944"
+                  }
+                },
+                auth: authConfig
+              };
+              
+              // 添加 UI 配置（如果存在）
+              if (cozeConfig.componentProps) {
+                sdkConfig.componentProps = cozeConfig.componentProps;
+              }
+              
+              console.log('[Coze SDK] 开始创建 WebChatClient，配置:', JSON.stringify(sdkConfig, null, 2));
+              
+              // 创建 WebChatClient 实例
+              var chatClient = new WebChatClient(sdkConfig);
+              
+              // 保存 client 实例到全局，方便后续控制
+              window.cozeChatClient = chatClient;
+              console.log('[Coze SDK] WebChatClient 创建成功，client 实例已保存到 window.cozeChatClient');
+              
+              // 尝试自动显示聊天窗口（如果 SDK 支持）
+              if (typeof chatClient.showChatBot === 'function') {
+                console.log('[Coze SDK] 尝试自动显示聊天窗口');
+                try {
+                  chatClient.showChatBot();
+                  console.log('[Coze SDK] 聊天窗口显示命令已执行');
+                } catch (e) {
+                  console.warn('[Coze SDK] 自动显示聊天窗口失败，可能需要手动调用:', e);
+                }
+              } else {
+                console.log('[Coze SDK] showChatBot 方法不存在，聊天窗口可能需要手动触发');
+              }
+            } catch (error) {
+              console.error('[Coze SDK] 创建 WebChatClient 失败:', error);
+              console.error('[Coze SDK] 错误堆栈:', error.stack);
             }
-          } catch (error) {
-            console.error('[Coze SDK] 初始化失败:', error);
-            console.error('[Coze SDK] 错误堆栈:', error.stack);
-          }
-        }, 100); // 等待 100ms 确保 SDK 完全加载
+          })
+          .catch(function(error) {
+            console.error('[Coze SDK] SDK 初始化失败:', error);
+            console.error('[Coze SDK] 请检查：');
+            console.error('1. SDK 文件是否正确加载');
+            console.error('2. 浏览器控制台是否有其他错误');
+            console.error('3. 网络请求是否成功');
+          });
       };
       
       // SDK 加载失败的回调
       webSdkScript.onerror = function() {
-        console.error('[Coze SDK] 脚本加载失败！');
+        console.error('[Coze SDK] SDK 脚本加载失败');
         console.error('[Coze SDK] 请检查以下事项:');
         console.error('  1. Coze 服务是否运行在 ' + (cozeConfig.api_host || 'http://localhost:8888'));
         console.error('  2. SDK 文件路径是否正确: ' + sdkUrl);
