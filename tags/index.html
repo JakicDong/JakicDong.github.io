@@ -157,20 +157,16 @@
           <span class='name'>远程开发</span>
         </a>
       
-        <a class='tag' href="/tags/JVM/">
-          <span class='name'>JVM</span>
-        </a>
-      
-        <a class='tag' href="/tags/Go/">
-          <span class='name'>Go</span>
-        </a>
-      
         <a class='tag' href="/tags/%E9%9B%86%E5%90%88/">
           <span class='name'>集合</span>
         </a>
       
         <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91/">
           <span class='name'>并发</span>
+        </a>
+      
+        <a class='tag' href="/tags/JVM/">
+          <span class='name'>JVM</span>
         </a>
       
         <a class='tag' href="/tags/MybatisPlus/">
@@ -189,16 +185,20 @@
           <span class='name'>场景设计</span>
         </a>
       
-        <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
-          <span class='name'>并发编程</span>
-        </a>
-      
         <a class='tag' href="/tags/Linux/">
           <span class='name'>Linux</span>
         </a>
       
+        <a class='tag' href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+          <span class='name'>并发编程</span>
+        </a>
+      
         <a class='tag' href="/tags/RocketMQ/">
           <span class='name'>RocketMQ</span>
+        </a>
+      
+        <a class='tag' href="/tags/Mysql/">
+          <span class='name'>Mysql</span>
         </a>
       
         <a class='tag' href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
@@ -213,12 +213,12 @@
           <span class='name'>操作系统</span>
         </a>
       
-        <a class='tag' href="/tags/Mysql/">
-          <span class='name'>Mysql</span>
-        </a>
-      
         <a class='tag' href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
           <span class='name'>设计模式</span>
+        </a>
+      
+        <a class='tag' href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+          <span class='name'>计算机网络</span>
         </a>
       
         <a class='tag' href="/tags/%E7%AE%80%E5%8E%86/">
@@ -227,10 +227,6 @@
       
         <a class='tag' href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">
           <span class='name'>知识点</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
-          <span class='name'>计算机网络</span>
         </a>
       
         <a class='tag' href="/tags/%E6%A8%A1%E8%BF%90%E7%AE%97/">
@@ -243,6 +239,10 @@
       
         <a class='tag' href="/tags/picgo/">
           <span class='name'>picgo</span>
+        </a>
+      
+        <a class='tag' href="/tags/Go/">
+          <span class='name'>Go</span>
         </a>
       
         <a class='tag' href="/tags/STOMP/">
@@ -273,12 +273,12 @@
           <span class='name'>快捷键</span>
         </a>
       
-        <a class='tag' href="/tags/sql/">
-          <span class='name'>sql</span>
+        <a class='tag' href="/tags/LLM/">
+          <span class='name'>LLM</span>
         </a>
       
-        <a class='tag' href="/tags/B%E6%A0%91/">
-          <span class='name'>B树</span>
+        <a class='tag' href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+          <span class='name'>内网穿透</span>
         </a>
       
         <a class='tag' href="/tags/ES/">
@@ -289,24 +289,24 @@
           <span class='name'>Elasticsearch</span>
         </a>
       
-        <a class='tag' href="/tags/LLM/">
-          <span class='name'>LLM</span>
-        </a>
-      
-        <a class='tag' href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
-          <span class='name'>内网穿透</span>
-        </a>
-      
-        <a class='tag' href="/tags/RabbitMQ/">
-          <span class='name'>RabbitMQ</span>
+        <a class='tag' href="/tags/RAG/">
+          <span class='name'>RAG</span>
         </a>
       
         <a class='tag' href="/tags/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/">
           <span class='name'>模板引擎</span>
         </a>
       
-        <a class='tag' href="/tags/RAG/">
-          <span class='name'>RAG</span>
+        <a class='tag' href="/tags/B%E6%A0%91/">
+          <span class='name'>B树</span>
+        </a>
+      
+        <a class='tag' href="/tags/sql/">
+          <span class='name'>sql</span>
+        </a>
+      
+        <a class='tag' href="/tags/RabbitMQ/">
+          <span class='name'>RabbitMQ</span>
         </a>
       
     </article>
@@ -941,6 +941,9 @@
 
   <script type="text/javascript">
     (function() {
+      // 从服务器端配置中解析配置对象
+      var conf = {"enable":true,"api_host":"http://localhost:8888","sdk_url":"http://localhost:8888/static/chat-sdk.js","config":{"type":"app","appInfo":{"appId":"7594744377281347584","workflowId":"7594773612482002944"}},"auth":{"type":"token","token":"pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"},"componentProps":{"title":"AI 助手","lang":"zh-CN","layout":"PC"},"rec_method":"all","hide_shuttle":true,"summary_toggle":false,"interface":{"name":"AI摘要","introduce":"我是文章辅助AI: QX-AI，点击下方的按钮，让我生成本文简介、推荐相关文章等。","version":"TianliGPT","button":["介绍自己","推荐文章","生成摘要","矩阵穿梭"]}};
+      
       console.log('[Coze SDK] 开始加载 Coze SDK...');
       
       // 设置 Coze API 地址（如果需要修改默认地址）

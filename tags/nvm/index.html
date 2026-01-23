@@ -714,6 +714,9 @@
 
   <script type="text/javascript">
     (function() {
+      // 从服务器端配置中解析配置对象
+      var conf = {"enable":true,"api_host":"http://localhost:8888","sdk_url":"http://localhost:8888/static/chat-sdk.js","config":{"type":"app","appInfo":{"appId":"7594744377281347584","workflowId":"7594773612482002944"}},"auth":{"type":"token","token":"pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"},"componentProps":{"title":"AI 助手","lang":"zh-CN","layout":"PC"},"rec_method":"all","hide_shuttle":true,"summary_toggle":false,"interface":{"name":"AI摘要","introduce":"我是文章辅助AI: QX-AI，点击下方的按钮，让我生成本文简介、推荐相关文章等。","version":"TianliGPT","button":["介绍自己","推荐文章","生成摘要","矩阵穿梭"]}};
+      
       console.log('[Coze SDK] 开始加载 Coze SDK...');
       
       // 设置 Coze API 地址（如果需要修改默认地址）
