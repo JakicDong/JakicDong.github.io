@@ -750,71 +750,111 @@
 
   <script type="text/javascript">
     (function() {
+      console.log('[Coze SDK] 开始加载 Coze SDK...');
+      
       // 设置 Coze API 地址（如果需要修改默认地址）
       if (conf.api_host) {
         window.__COZE_API_HOST__ = conf.api_host;
+        console.log('[Coze SDK] API 地址设置为:', conf.api_host);
       }
       
       // 动态加载 Coze SDK
       var webSdkScript = document.createElement('script');
-      webSdkScript.src = conf.sdk_url || 'http://localhost:8888/static/chat-sdk.js';
-      document.head.appendChild(webSdkScript);
+      var sdkUrl = conf.sdk_url || 'http://localhost:8888/static/chat-sdk.js';
+      webSdkScript.src = sdkUrl;
+      console.log('[Coze SDK] 正在加载 SDK 脚本:', sdkUrl);
       
       // SDK 加载成功后的回调
       webSdkScript.onload = function () {
-        if (typeof window.CozeWebSDK === 'undefined' || !window.CozeWebSDK.WebChatClient) {
-          console.error('Coze SDK 加载失败：CozeWebSDK 未定义');
-          return;
-        }
+        console.log('[Coze SDK] SDK 脚本加载完成');
         
-        try {
-          // 构建配置对象
-          var authToken = (conf.auth && conf.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+        // 等待一小段时间确保 SDK 完全初始化
+        setTimeout(function() {
+          if (typeof window.CozeWebSDK === 'undefined') {
+            console.error('[Coze SDK] 加载失败：CozeWebSDK 未定义，请检查 SDK 文件是否正确加载');
+            return;
+          }
           
-          // 构建 auth 配置，确保 onRefreshToken 函数存在
-          var authConfig = conf.auth || {
-            type: "token",
-            token: authToken
-          };
+          if (!window.CozeWebSDK.WebChatClient) {
+            console.error('[Coze SDK] 加载失败：WebChatClient 未定义，请检查 SDK 版本');
+            console.log('[Coze SDK] 可用的 CozeWebSDK 属性:', Object.keys(window.CozeWebSDK));
+            return;
+          }
           
-          // 确保 onRefreshToken 函数能正确返回 token
-          if (!authConfig.onRefreshToken) {
-            authConfig.onRefreshToken = function () {
-              return authToken;
+          try {
+            // 构建配置对象
+            var authToken = (conf.auth && conf.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+            
+            // 构建 auth 配置，确保 onRefreshToken 函数存在
+            var authConfig = conf.auth || {
+              type: "token",
+              token: authToken
             };
-          }
-          
-          var sdkConfig = {
-            config: conf.config || {
-              type: "app",
-              appInfo: {
-                appId: "7594744377281347584",
-                workflowId: "7594773612482002944"
+            
+            // 确保 onRefreshToken 函数能正确返回 token
+            if (!authConfig.onRefreshToken) {
+              authConfig.onRefreshToken = function () {
+                return authToken;
+              };
+            }
+            
+            var sdkConfig = {
+              config: conf.config || {
+                type: "app",
+                appInfo: {
+                  appId: "7594744377281347584",
+                  workflowId: "7594773612482002944"
+                }
+              },
+              auth: authConfig
+            };
+            
+            // 添加 UI 配置（如果存在）
+            if (conf.componentProps) {
+              sdkConfig.componentProps = conf.componentProps;
+            }
+            
+            console.log('[Coze SDK] 开始初始化 WebChatClient，配置:', JSON.stringify(sdkConfig, null, 2));
+            
+            // 创建 WebChatClient 实例
+            var chatClient = new window.CozeWebSDK.WebChatClient(sdkConfig);
+            
+            // 保存 client 实例到全局，方便后续控制
+            window.cozeChatClient = chatClient;
+            console.log('[Coze SDK] 初始化成功，client 实例已保存到 window.cozeChatClient');
+            
+            // 尝试自动显示聊天窗口（如果 SDK 支持）
+            if (typeof chatClient.showChatBot === 'function') {
+              console.log('[Coze SDK] 尝试自动显示聊天窗口');
+              try {
+                chatClient.showChatBot();
+                console.log('[Coze SDK] 聊天窗口显示命令已执行');
+              } catch (e) {
+                console.warn('[Coze SDK] 自动显示聊天窗口失败，可能需要手动调用:', e);
               }
-            },
-            auth: authConfig
-          };
-          
-          // 添加 UI 配置（如果存在）
-          if (conf.componentProps) {
-            sdkConfig.componentProps = conf.componentProps;
+            } else {
+              console.log('[Coze SDK] showChatBot 方法不存在，聊天窗口可能需要手动触发');
+            }
+          } catch (error) {
+            console.error('[Coze SDK] 初始化失败:', error);
+            console.error('[Coze SDK] 错误堆栈:', error.stack);
           }
-          
-          // 创建 WebChatClient 实例
-          var chatClient = new window.CozeWebSDK.WebChatClient(sdkConfig);
-          
-          // 保存 client 实例到全局，方便后续控制
-          window.cozeChatClient = chatClient;
-          console.log('Coze SDK 初始化成功');
-        } catch (error) {
-          console.error('Coze SDK 初始化失败：', error);
-        }
+        }, 100); // 等待 100ms 确保 SDK 完全加载
       };
       
       // SDK 加载失败的回调
       webSdkScript.onerror = function() {
-        console.error('Coze SDK 脚本加载失败，请确保 Coze 服务运行在 ' + (conf.api_host || 'http://localhost:8888'));
+        console.error('[Coze SDK] 脚本加载失败！');
+        console.error('[Coze SDK] 请检查以下事项:');
+        console.error('  1. Coze 服务是否运行在 ' + (conf.api_host || 'http://localhost:8888'));
+        console.error('  2. SDK 文件路径是否正确: ' + sdkUrl);
+        console.error('  3. 是否存在跨域问题（CORS）');
+        console.error('  4. 浏览器控制台是否有其他错误信息');
       };
+      
+      // 将脚本添加到 head
+      document.head.appendChild(webSdkScript);
+      console.log('[Coze SDK] SDK 脚本标签已添加到页面');
     })();
   </script>
 
