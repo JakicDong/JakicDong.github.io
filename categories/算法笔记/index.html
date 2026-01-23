@@ -743,4 +743,26 @@ hash冲突后,数据散列不均匀,产生大量线性查询,...</p></div><div c
 
 <!-- inject -->
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script><script type="text/javascript">
+var webSdkScript = document.createElement('script');
+webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+document.head.appendChild(webSdkScript);
+webSdkScript.onload = function () {
+  new CozeWebSDK.WebChatClient({
+    "config": {
+      "type": "app",
+      "appInfo": {
+        "appId": "7594744377281347584",
+        "workflowId": "7594773612482002944"
+      }
+    },
+    "auth": {
+      "type": "token",
+      "token": "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75",
+      onRefreshToken: function () {
+        return "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"
+      }
+    }
+  });
+}
+</script></div></body></html>
