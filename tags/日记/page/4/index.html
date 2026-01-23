@@ -808,17 +808,54 @@ Java并...</p></div><div class="meta cap"><span class="cap" id="post-meta"><svg 
                 
                 console.log('✅ 找到 Coze SDK:', CozeSDK);
                 console.log('CozeSDK 对象:', CozeSDK);
-                // 检查 WebChatClient 是否存在
-                var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
+                console.log('CozeSDK 的所有属性:', Object.keys(CozeSDK));
                 
-                if (!WebChatClient) {
-                    console.error('未找到 WebChatClient 构造函数');
+                // ES6 模块格式，尝试多种方式获取 WebChatClient
+                var WebChatClient = null;
+                
+                // 方式1: 检查是否有 default 导出
+                if (CozeSDK.default && typeof CozeSDK.default === 'function') {
+                    WebChatClient = CozeSDK.default;
+                    console.log('✅ 通过 default 找到 WebChatClient');
+                } 
+                // 方式2: 检查是否有 WebChatClient 属性
+                else if (CozeSDK.WebChatClient && typeof CozeSDK.WebChatClient === 'function') {
+                    WebChatClient = CozeSDK.WebChatClient;
+                    console.log('✅ 通过 WebChatClient 属性找到');
+                }
+                // 方式3: 检查 default.WebChatClient
+                else if (CozeSDK.default && CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
+                    WebChatClient = CozeSDK.default.WebChatClient;
+                    console.log('✅ 通过 default.WebChatClient 找到');
+                }
+                // 方式4: 如果 CozeSDK 本身就是构造函数
+                else if (typeof CozeSDK === 'function') {
+                    WebChatClient = CozeSDK;
+                    console.log('✅ CozeSDK 本身就是构造函数');
+                }
+                // 方式5: 检查是否有其他可能的导出
+                else {
+                    // 尝试查找所有可能的构造函数
+                    for (var key in CozeSDK) {
+                        if (typeof CozeSDK[key] === 'function' && key.toLowerCase().includes('client')) {
+                            WebChatClient = CozeSDK[key];
+                            console.log('✅ 通过属性 ' + key + ' 找到构造函数');
+                            break;
+                        }
+                    }
+                }
+                
+                if (!WebChatClient || typeof WebChatClient !== 'function') {
+                    console.error('❌ 未找到 WebChatClient 构造函数');
                     console.error('CozeSDK 的可用属性:', Object.keys(CozeSDK));
-                createPlaceholder();
-                return;
-            }
+                    console.error('CozeSDK.default:', CozeSDK.default);
+                    console.error('CozeSDK.WebChatClient:', CozeSDK.WebChatClient);
+                    createPlaceholder();
+                    return;
+                }
             
             console.log('✅ 找到 WebChatClient:', WebChatClient);
+            console.log('WebChatClient 类型:', typeof WebChatClient);
             
             try {
                 var client = new WebChatClient({
