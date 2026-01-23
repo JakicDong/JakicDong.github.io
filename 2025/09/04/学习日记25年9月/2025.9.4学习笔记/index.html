@@ -749,6 +749,77 @@
     ScrollReveal().reveal('.l_right .slide-up', slideUp);
   });
 </script>
+
+  <script type="text/javascript">
+    (function() {
+      // 设置 Coze API 地址（如果需要修改默认地址）
+      if (conf.api_host) {
+        window.__COZE_API_HOST__ = conf.api_host;
+      }
+      
+      // 动态加载 Coze SDK
+      var webSdkScript = document.createElement('script');
+      webSdkScript.src = conf.sdk_url || 'http://localhost:8888/static/chat-sdk.js';
+      document.head.appendChild(webSdkScript);
+      
+      // SDK 加载成功后的回调
+      webSdkScript.onload = function () {
+        if (typeof window.CozeWebSDK === 'undefined' || !window.CozeWebSDK.WebChatClient) {
+          console.error('Coze SDK 加载失败：CozeWebSDK 未定义');
+          return;
+        }
+        
+        try {
+          // 构建配置对象
+          var authToken = (conf.auth && conf.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+          
+          // 构建 auth 配置，确保 onRefreshToken 函数存在
+          var authConfig = conf.auth || {
+            type: "token",
+            token: authToken
+          };
+          
+          // 确保 onRefreshToken 函数能正确返回 token
+          if (!authConfig.onRefreshToken) {
+            authConfig.onRefreshToken = function () {
+              return authToken;
+            };
+          }
+          
+          var sdkConfig = {
+            config: conf.config || {
+              type: "app",
+              appInfo: {
+                appId: "7594744377281347584",
+                workflowId: "7594773612482002944"
+              }
+            },
+            auth: authConfig
+          };
+          
+          // 添加 UI 配置（如果存在）
+          if (conf.componentProps) {
+            sdkConfig.componentProps = conf.componentProps;
+          }
+          
+          // 创建 WebChatClient 实例
+          var chatClient = new window.CozeWebSDK.WebChatClient(sdkConfig);
+          
+          // 保存 client 实例到全局，方便后续控制
+          window.cozeChatClient = chatClient;
+          console.log('Coze SDK 初始化成功');
+        } catch (error) {
+          console.error('Coze SDK 初始化失败：', error);
+        }
+      };
+      
+      // SDK 加载失败的回调
+      webSdkScript.onerror = function() {
+        console.error('Coze SDK 脚本加载失败，请确保 Coze 服务运行在 ' + (conf.api_host || 'http://localhost:8888'));
+      };
+    })();
+  </script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     window.codeElements = document.querySelectorAll('.code');
