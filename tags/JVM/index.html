@@ -757,54 +757,17 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
                 
                 console.log('✅ 找到 Coze SDK:', CozeSDK);
                 console.log('CozeSDK 对象:', CozeSDK);
-                console.log('CozeSDK 的所有属性:', Object.keys(CozeSDK));
+                // 检查 WebChatClient 是否存在
+                var WebChatClient = CozeSDK.WebChatClient || CozeSDK;
                 
-                // ES6 模块格式，尝试多种方式获取 WebChatClient
-                var WebChatClient = null;
-                
-                // 方式1: 检查是否有 default 导出
-                if (CozeSDK.default && typeof CozeSDK.default === 'function') {
-                    WebChatClient = CozeSDK.default;
-                    console.log('✅ 通过 default 找到 WebChatClient');
-                } 
-                // 方式2: 检查是否有 WebChatClient 属性
-                else if (CozeSDK.WebChatClient && typeof CozeSDK.WebChatClient === 'function') {
-                    WebChatClient = CozeSDK.WebChatClient;
-                    console.log('✅ 通过 WebChatClient 属性找到');
-                }
-                // 方式3: 检查 default.WebChatClient
-                else if (CozeSDK.default && CozeSDK.default.WebChatClient && typeof CozeSDK.default.WebChatClient === 'function') {
-                    WebChatClient = CozeSDK.default.WebChatClient;
-                    console.log('✅ 通过 default.WebChatClient 找到');
-                }
-                // 方式4: 如果 CozeSDK 本身就是构造函数
-                else if (typeof CozeSDK === 'function') {
-                    WebChatClient = CozeSDK;
-                    console.log('✅ CozeSDK 本身就是构造函数');
-                }
-                // 方式5: 检查是否有其他可能的导出
-                else {
-                    // 尝试查找所有可能的构造函数
-                    for (var key in CozeSDK) {
-                        if (typeof CozeSDK[key] === 'function' && key.toLowerCase().includes('client')) {
-                            WebChatClient = CozeSDK[key];
-                            console.log('✅ 通过属性 ' + key + ' 找到构造函数');
-                            break;
-                        }
-                    }
-                }
-                
-                if (!WebChatClient || typeof WebChatClient !== 'function') {
-                    console.error('❌ 未找到 WebChatClient 构造函数');
+                if (!WebChatClient) {
+                    console.error('未找到 WebChatClient 构造函数');
                     console.error('CozeSDK 的可用属性:', Object.keys(CozeSDK));
-                    console.error('CozeSDK.default:', CozeSDK.default);
-                    console.error('CozeSDK.WebChatClient:', CozeSDK.WebChatClient);
-                    createPlaceholder();
-                    return;
-                }
+                createPlaceholder();
+                return;
+            }
             
             console.log('✅ 找到 WebChatClient:', WebChatClient);
-            console.log('WebChatClient 类型:', typeof WebChatClient);
             
             try {
                 var client = new WebChatClient({
@@ -855,137 +818,79 @@ Java虚拟机栈每个 Java ⽅法在执⾏的同时会创建⼀个栈帧⽤于�
             }, 5000);
             }
             // 加载 Coze Web SDK
-            // 由于 CORS 限制，我们需要通过代理或直接注入的方式加载
-            function loadSDK() {
-                // 检查脚本是否已存在
-                var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
-                if (existingScript) {
-                    console.log('Coze SDK 脚本已存在，检查是否已加载');
+            var webSdkScript = document.createElement('script');
+            // 使用本地 SDK 地址
+            webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
+            webSdkScript.async = true;
+            webSdkScript.crossOrigin = 'anonymous';
+            
+            webSdkScript.onload = function () {
+                console.log('Coze SDK 脚本加载成功');
+                console.log('✅ Coze SDK 脚本标签加载成功');
+                console.log('等待 SDK 初始化...');
+                // 延迟初始化，确保 SDK 完全加载
+                // 增加重试机制
+                var retryCount = 0;
+                var maxRetries = 10;
+                
+                function tryInit() {
+                    retryCount++;
+                    console.log(`尝试初始化 (${retryCount}/${maxRetries})...`);
+                    
                     var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+                    
                     if (CozeSDK) {
-                        console.log('SDK 已加载，直接初始化');
-                        setTimeout(initCoze, 100);
-                        return;
+                    console.log('✅ SDK 已就绪，开始初始化');
+                    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                        initCoze();
                     } else {
-                        console.log('SDK 脚本存在但未加载，等待加载...');
-                        existingScript.addEventListener('load', function() {
-                            setTimeout(initCoze, 200);
-                        });
-                        setTimeout(initCoze, 500);
-                        return;
+                        document.addEventListener('DOMContentLoaded', initCoze);
+                    }
+                    } else if (retryCount < maxRetries) {
+                    console.log('SDK 尚未就绪，等待中...');
+                    setTimeout(tryInit, 300);
+                    } else {
+                    console.error('❌ SDK 加载超时，尝试直接初始化');
+                    initCoze(); // 即使超时也尝试初始化，可能会显示占位元素
                     }
                 }
                 
-                // 方案1: 尝试使用 fetch + eval 方式（需要服务器支持 CORS）
-                console.log('尝试通过 fetch 加载 SDK...');
-                fetch('http://localhost:8888/static/chat-sdk.js')
-                    .then(function(response) {
-                        if (!response.ok) {
-                            throw new Error('HTTP error! status: ' + response.status);
-                        }
-                        return response.text();
-                    })
-                    .then(function(scriptContent) {
-                        console.log('✅ 成功获取 SDK 内容，正在注入...');
-                        // 动态执行脚本
-                        var script = document.createElement('script');
-                        script.textContent = scriptContent;
-                        document.head.appendChild(script);
-                        
-                        // 等待 SDK 初始化
-                        var retryCount = 0;
-                        var maxRetries = 10;
-                        
-                        function tryInit() {
-                            retryCount++;
-                            console.log(`尝试初始化 (${retryCount}/${maxRetries})...`);
-                            
-                            var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-                            
-                            if (CozeSDK) {
-                                console.log('✅ SDK 已就绪，开始初始化');
-                                if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                                    initCoze();
-                                } else {
-                                    document.addEventListener('DOMContentLoaded', initCoze);
-                                }
-                            } else if (retryCount < maxRetries) {
-                                console.log('SDK 尚未就绪，等待中...');
-                                setTimeout(tryInit, 300);
-                            } else {
-                                console.error('❌ SDK 加载超时，尝试直接初始化');
-                                initCoze();
-                            }
-                        }
-                        
-                        setTimeout(tryInit, 100);
-                    })
-                    .catch(function(error) {
-                        console.warn('fetch 方式失败（可能是 CORS 问题），尝试使用 script 标签方式:', error);
-                        // 方案2: 使用 script 标签直接加载（可能仍然会遇到 CORS）
-                        loadSDKWithScriptTag();
+                setTimeout(tryInit, 100);
+            }
+            
+            // 错误处理
+            webSdkScript.onerror = function(e) {
+                console.error('❌ Coze Web SDK 加载失败');
+                console.error('错误事件:', e);
+                console.error('请检查：');
+                console.error('1. 本地服务是否运行在 http://localhost:8888');
+                console.error('2. 文件路径是否正确：/static/chat-sdk.js');
+                console.error('3. 浏览器控制台是否有 CORS 错误');
+                console.error('4. 尝试在浏览器中直接访问: http://localhost:8888/static/chat-sdk.js');
+                createPlaceholder();
+            }
+            
+            // 如果脚本已经存在，直接初始化
+            // 检查脚本是否已存在
+            var existingScript = document.querySelector('script[src*="chat-sdk.js"]');
+            if (existingScript) {
+                console.log('Coze SDK 脚本已存在，检查是否已加载');
+                var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
+                if (CozeSDK) {
+                        console.log('SDK 已加载，直接初始化');
+                    setTimeout(initCoze, 100);
+                } else {
+                    console.log('正在添加 Coze SDK 脚本标签到 head...');
+                    console.log('SDK 脚本存在但未加载，等待加载...');
+                    existingScript.addEventListener('load', function() {
+                    setTimeout(initCoze, 200);
                     });
-            }
-            
-            // 备用方案：直接使用 script 标签
-            function loadSDKWithScriptTag() {
-                var webSdkScript = document.createElement('script');
-                webSdkScript.src = 'http://localhost:8888/static/chat-sdk.js';
-                webSdkScript.async = true;
-                
-                webSdkScript.onload = function () {
-                    console.log('✅ Coze SDK 脚本标签加载成功');
-                    console.log('等待 SDK 初始化...');
-                    
-                    var retryCount = 0;
-                    var maxRetries = 10;
-                    
-                    function tryInit() {
-                        retryCount++;
-                        console.log(`尝试初始化 (${retryCount}/${maxRetries})...`);
-                        
-                        var CozeSDK = window.CozeWebSDK || window.Coze || window.coze || window.CozeSDK;
-                        
-                        if (CozeSDK) {
-                            console.log('✅ SDK 已就绪，开始初始化');
-                            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                                initCoze();
-                            } else {
-                                document.addEventListener('DOMContentLoaded', initCoze);
-                            }
-                        } else if (retryCount < maxRetries) {
-                            console.log('SDK 尚未就绪，等待中...');
-                            setTimeout(tryInit, 300);
-                        } else {
-                            console.error('❌ SDK 加载超时，尝试直接初始化');
-                            initCoze();
-                        }
-                    }
-                    
-                    setTimeout(tryInit, 100);
+                    // 如果已经加载完成，直接尝试初始化
+                    setTimeout(initCoze, 500);
                 }
-                
-                webSdkScript.onerror = function(e) {
-                    console.error('❌ Coze Web SDK 加载失败');
-                    console.error('错误事件:', e);
-                    console.error('=== CORS 错误解决方案 ===');
-                    console.error('需要在 localhost:8888 服务器上添加 CORS 响应头：');
-                    console.error('1. 如果使用 Express.js，添加：');
-                    console.error('   app.use((req, res, next) => {');
-                    console.error('     res.header("Access-Control-Allow-Origin", "*");');
-                    console.error('     next();');
-                    console.error('   });');
-                    console.error('2. 如果使用 Python Flask，添加：');
-                    console.error('   from flask_cors import CORS');
-                    console.error('   CORS(app)');
-                    console.error('3. 或者使用浏览器扩展禁用 CORS（仅开发环境）');
-                    createPlaceholder();
-                }
-                
-                document.head.appendChild(webSdkScript);
+            } else {
+            document.head.appendChild(webSdkScript);
             }
-            
-            loadSDK();
         })();
     </script>
     
