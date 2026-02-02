@@ -1,0 +1,1378 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Redis,KV,MySQL存储对比-内存磁盘各显神通 关系非关系各有千秋 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="Redis为内存真火，KV存储是磁盘基石，MySQL乃关系正统——施主可要参悟这「存储三界」玄机？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis,KV,MySQL存储对比-内存磁盘各显神通 关系非关系各有千秋">
+<meta property="og:url" content="https://jakicdong.github.io/2026/01/31/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/Redis-KV-MySQL%E5%AD%98%E5%82%A8%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="Redis为内存真火，KV存储是磁盘基石，MySQL乃关系正统——施主可要参悟这「存储三界」玄机？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-31T10:44:47.148Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="存储">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="数据库,存储,Redis,MySQL">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="联系我" href="https://jakicdong.github.io/2025/06/01/contact_author/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">专栏：学习博客</span></div><div class="widget-body"><a class="item active" href="/2026/01/31/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/Redis-KV-MySQL%E5%AD%98%E5%82%A8%E5%AF%B9%E6%AF%94/"><span class="title">Redis,KV,MySQL存储对比-内存磁盘各显神通 关系非关系各有千秋</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/2026/01/28/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E6%9C%AC%E5%9C%B0GoLand%E4%B8%8E%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E6%9C%BA%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E8%B0%83%E8%AF%95/"><span class="title">本地GoLand与远程开发机代码同步与调试</span></a><a class="item" href="/2026/01/26/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/Clawdbot%E4%BD%BF%E7%94%A8/"><span class="title">Clawdbot使用</span></a><a class="item" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a><a class="item" href="/2025/11/13/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/LLM%E5%A6%82%E4%BD%95%E6%80%9D%E7%BB%B4%E5%8F%8A%E7%93%B6%E9%A2%88%E4%BD%95%E5%9C%A8/"><span class="title">LLM如何进行思维?LLM的瓶颈何在?</span></a><a class="item" href="/2025/10/25/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Elasticsearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Elasticsearch学习笔记-开倒排索引通天地,布分词器炼文字丹</span></a><a class="item" href="/2025/10/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%83%AD%E7%82%B9%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">🔥热点知识点学习笔记-炼金丹熔高频考点,布天网擒技术热点</span></a><a class="item" href="/2025/10/23/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%9B%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">场景设计学习笔记-闯架构天宫演诸法,降需求心魔定禅心</span></a><a class="item" href="/2025/10/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E7%AC%AC%E4%BA%8C%E7%89%88)/"><span class="title">Spring学习笔记(第二版)-炼金丹炉铸Bean山 布注解阵控轮回盘</span></a><a class="item" href="/2025/10/18/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/MYDB%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">MYDB项目笔记</span></a><a class="item" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item" href="/2025/10/13/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/SQL%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/"><span class="title">SQL刷题笔记-执SQL咒扫乾坤表,祭联合影擒数据妖</span></a><a class="item" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记-窥内存洞天观玄机,调GC轮回掌生死</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">设计模式学习笔记-布天罡阵降需求妖,演变化术破代码劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">操作系统学习笔记-掌轮回内核定纲常,渡进程内存化阴阳</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">分布式学习笔记-架天网布分布式,炼金丹渡一致劫</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">微服务学习笔记-化整为零散作星,聚沙成塔架云台</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/RocketMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">RocketMQ学习笔记-架消息桥通三界路 施持久咒定乾坤轮</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/MyBatis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">MyBatis学习笔记-架映射桥通人神境 写SQL咒调数据兵</span></a><a class="item" href="/2025/09/29/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Linux学习笔记-踏终端登灵霄殿,执符咒驭众生器</span></a><a class="item" href="/2025/09/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%AE%80%E5%8E%86%E5%AF%B9%E5%BA%94%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/"><span class="title">简历对应知识点</span></a><a class="item" href="/2025/09/09/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Elasticsearch(ES)%E4%B8%8B%E8%BD%BD%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"><span class="title">Elasticsearch(ES)下载使用指南</span></a><a class="item" href="/2025/08/30/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/git%E7%A7%98%E9%92%A5%E8%BF%87%E6%9C%9F%E5%A4%84%E7%90%86/"><span class="title">Redis学习笔记</span></a><a class="item" href="/2025/08/08/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java并发编程学习笔记-布天罗网锁线程妖,设八卦阵伏竞态魔</span></a><a class="item" href="/2025/08/06/3DGS/SSH%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><span class="title">SSH远程调用开发环境</span></a><a class="item" href="/2025/08/05/3DGS/Ubuntu20%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%ACCUDA/"><span class="title">Ubuntu20使用多个版本CUDA</span></a><a class="item" href="/2025/08/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Thymeleaf%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/"><span class="title">Thymeleaf模版引擎</span></a><a class="item" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记-开乾坤袋纳百川 布玲珑局定山河</span></a><a class="item" href="/2025/07/30/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/Natapp/"><span class="title">Natapp内网穿透使用</span></a><a class="item" href="/2025/07/25/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E7%81%B5%E8%8C%B6%E5%B1%B1%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">灵茶山算法基础笔记</span></a><a class="item" href="/2025/07/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/"><span class="title">微信扫码登录</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Redis学习笔记-燃内存真火照幽冥 布集群阵通九霄</span></a><a class="item" href="/2025/07/22/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JavaSE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JavaSE学习笔记-筑基篇开修行路,炼气层破语法障</span></a><a class="item" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南-调阴阳戒久坐劫 通经脉战代码妖</span></a><a class="item" href="/2025/07/14/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">计算机网络学习笔记-布协议栈通三界,架路由桥渡万维</span></a><a class="item" href="/2025/07/12/3DGS/%E4%BD%BF%E7%94%A8Postshot%E8%AE%AD%E7%BB%833DGS%E6%B5%81%E7%A8%8B/"><span class="title">使用Postshot训练3DGS模型流程</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/%E8%B7%A8%E5%9F%9F%E6%94%AF%E6%8C%81%E7%AC%94%E8%AE%B0/"><span class="title">跨域支持笔记</span></a><a class="item" href="/2025/07/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/MybatisPlus%E7%AC%94%E8%AE%B0/"><span class="title">MybatisPlus笔记</span></a><a class="item" href="/2025/06/25/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/TecHub%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">TecHub项目笔记</span></a><a class="item" href="/2025/06/24/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/Unity%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/"><span class="title">Unity游戏开发笔记</span></a><a class="item" href="/2025/06/24/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98/"><span class="title">技术派项目环境问题</span></a><a class="item" href="/2025/06/21/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82B%E6%A0%91/"><span class="title">一次性搞懂B树</span></a><a class="item" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记-开IOC瓶纳百川水 织AOP网覆三界尘</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/node%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"><span class="title">node使用记录</span></a><a class="item" href="/2025/06/11/3DGS/3DGS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">3DGS学习笔记-撒神经点布星云阵 炼辐射场塑造化身</span></a><a class="item" href="/2025/06/11/3DGS/3DGS-Ubuntu%E7%8E%AF%E5%A2%83/"><span class="title">3DGS-Ubuntu环境.md</span></a><a class="item" href="/2025/06/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Mysql学习笔记-布B+树阵锁苍龙 写SQL真言召天兵</span></a><a class="item" href="/2025/06/10/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架笔记</span></a><a class="item" href="/2025/06/09/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item" href="/2025/06/07/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/Java%E5%B9%B6%E5%8F%91%E7%AF%87/"><span class="title">Java并发篇</span></a><a class="item" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录-结印诀腾挪三界,弹指间呼风唤雨</span></a><a class="item" href="/2025/06/06/%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/java30%E5%A4%A9%E7%AC%94%E8%AE%B0/"><span class="title">java30天学习笔记</span></a><a class="item" href="/2025/06/05/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/hello-world/"><span class="title">Hello World</span></a><a class="item" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"><span class="title">个人博客搭建指南-架祥云自建菩提境,点慧灯独照博客天</span></a><a class="item" href="/2025/06/01/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">数据结构算法学习笔记-布天罡阵伏算法妖 炼金石破数据结构</span></a><a class="item" href="/2025/06/01/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RabbitMQ%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8/"><span class="title">RabbitMQ项目使用</span></a><a class="item" href="/2025/06/01/contact_author/"><span class="title">contact_author</span></a></div></widget>
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/01/31/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B026%E5%B9%B41%E6%9C%88/2026.1.31%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2026.1.31学习日记</span></a><a class="item title" href="/2026/01/31/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/Redis-KV-MySQL%E5%AD%98%E5%82%A8%E5%AF%B9%E6%AF%94/"><span class="title">Redis,KV,MySQL存储对比-内存磁盘各显神通 关系非关系各有千秋</span></a><a class="item title" href="/2026/01/19/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B026%E5%B9%B41%E6%9C%88/2026.1.4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">2025.1.19学习日记</span></a><a class="item title" href="/2026/01/28/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E6%9C%AC%E5%9C%B0GoLand%E4%B8%8E%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E6%9C%BA%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E8%B0%83%E8%AF%95/"><span class="title">本地GoLand与远程开发机代码同步与调试</span></a><a class="item title" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/nvm%E6%9B%B4%E6%94%B9node%E7%89%88%E6%9C%AC/"><span class="title">nvm更改node版本</span></a><a class="item title" href="/2025/06/11/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/node%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/"><span class="title">node使用记录</span></a><a class="item title" href="/2026/01/26/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/Clawdbot%E4%BD%BF%E7%94%A8/"><span class="title">Clawdbot使用</span></a><a class="item title" href="/2025/10/17/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/RAG%E7%9F%A5%E8%AF%86%E5%BA%93%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">RAG知识库项目笔记</span></a><a class="item title" href="/2026/01/12/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/COZE%E5%88%9D%E4%BD%93%E9%AA%8C/"><span class="title">COZE初体验</span></a><a class="item title" href="/2025/12/01/Go%E5%9F%BA%E7%A1%80/Go%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/"><span class="title">Go基础笔记</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/2026/01/31/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/Redis-KV-MySQL%E5%AD%98%E5%82%A8%E5%AF%B9%E6%AF%94/">学习博客</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-01-30T16:00:00.000Z">2026-01-31</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-01-31T10:44:47.148Z">2026-01-31</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>Redis,KV,MySQL存储对比-内存磁盘各显神通 关系非关系各有千秋</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在实际开发中，我们经常会遇到需要选择存储方案的情况。Redis、KV存储（如RocksDB）和MySQL是三种常见的存储系统，它们各有特点，适用于不同的场景。本文将从架构、性能、使用场景等多个维度进行详细对比。</p>
+<h2 id="一、Redis-vs-KV存储-vs-MySQL-核心对比"><a href="#一、Redis-vs-KV存储-vs-MySQL-核心对比" class="headerlink" title="一、Redis vs KV存储 vs MySQL 核心对比"></a>一、Redis vs KV存储 vs MySQL 核心对比</h2><h3 id="1-1-基本定位"><a href="#1-1-基本定位" class="headerlink" title="1.1 基本定位"></a>1.1 基本定位</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Redis</th>
+<th>KV存储（RocksDB）</th>
+<th>MySQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>类型</strong></td>
+<td>内存型键值数据库</td>
+<td>磁盘型键值存储引擎</td>
+<td>关系型数据库</td>
+</tr>
+<tr>
+<td><strong>数据模型</strong></td>
+<td>键值对 + 丰富数据结构</td>
+<td>键值对</td>
+<td>表（行和列）</td>
+</tr>
+<tr>
+<td><strong>存储介质</strong></td>
+<td>内存为主</td>
+<td>磁盘为主</td>
+<td>磁盘为主</td>
+</tr>
+<tr>
+<td><strong>主要用途</strong></td>
+<td>缓存、会话存储</td>
+<td>大容量持久化存储</td>
+<td>结构化数据存储</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-架构对比"><a href="#1-2-架构对比" class="headerlink" title="1.2 架构对比"></a>1.2 架构对比</h3><h4 id="Redis-架构"><a href="#Redis-架构" class="headerlink" title="Redis 架构"></a>Redis 架构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│         Redis Server                │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   内存数据结构 (Hash Table)    │  │</span><br><span class="line">│  │  - String, Hash, List, Set    │  │</span><br><span class="line">│  │  - Sorted Set, Bitmap, etc.  │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">│           │                         │</span><br><span class="line">│           ▼                         │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   持久化层 (可选)             │  │</span><br><span class="line">│  │  - RDB (快照)                │  │</span><br><span class="line">│  │  - AOF (追加日志)            │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">└─────────────────────────────────────┘</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line">    磁盘存储（持久化文件）</span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>数据主要存储在内存中</li>
+<li>单线程事件循环（6.0+ 多线程I&#x2F;O）</li>
+<li>支持丰富的数据类型和命令</li>
+<li>持久化是辅助机制</li>
+</ul>
+<h4 id="KV存储（RocksDB）架构"><a href="#KV存储（RocksDB）架构" class="headerlink" title="KV存储（RocksDB）架构"></a>KV存储（RocksDB）架构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│         RocksDB Engine              │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   MemTable (内存表)           │  │</span><br><span class="line">│  │   - 写入缓冲区                │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">│           │                         │</span><br><span class="line">│           ▼ (Flush)                 │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   L0 (Level 0)               │  │</span><br><span class="line">│  │   - 最新的 SSTable 文件       │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">│           │                         │</span><br><span class="line">│           ▼ (Compaction)            │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   L1, L2, L3... (多层级)      │  │</span><br><span class="line">│  │   - 按大小和年龄分层           │  │</span><br><span class="line">│  │   - 压缩合并                  │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">└─────────────────────────────────────┘</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line">    磁盘存储（SSTable 文件）</span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>基于 LSM-Tree（Log-Structured Merge Tree）</li>
+<li>写入先到 MemTable，再刷到磁盘</li>
+<li>多层级存储，定期 Compaction</li>
+<li>磁盘为主，内存作为缓存</li>
+</ul>
+<h4 id="MySQL-架构"><a href="#MySQL-架构" class="headerlink" title="MySQL 架构"></a>MySQL 架构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│         MySQL Server                │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   SQL解析器 + 优化器          │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">│           │                         │</span><br><span class="line">│           ▼                         │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   存储引擎层 (InnoDB)         │  │</span><br><span class="line">│  │   - Buffer Pool (缓冲池)      │  │</span><br><span class="line">│  │   - Redo Log (重做日志)        │  │</span><br><span class="line">│  │   - Undo Log (回滚日志)        │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">│           │                         │</span><br><span class="line">│           ▼                         │</span><br><span class="line">│  ┌──────────────────────────────┐  │</span><br><span class="line">│  │   B+树索引 + 数据页           │  │</span><br><span class="line">│  └──────────────────────────────┘  │</span><br><span class="line">└─────────────────────────────────────┘</span><br><span class="line">         │</span><br><span class="line">         ▼</span><br><span class="line">    磁盘存储（.ibd 文件）</span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>关系型数据模型（表、行、列）</li>
+<li>支持 SQL 查询语言</li>
+<li>ACID 事务保证</li>
+<li>B+树索引结构</li>
+</ul>
+<h2 id="二、详细对比分析"><a href="#二、详细对比分析" class="headerlink" title="二、详细对比分析"></a>二、详细对比分析</h2><h3 id="2-1-数据模型对比"><a href="#2-1-数据模型对比" class="headerlink" title="2.1 数据模型对比"></a>2.1 数据模型对比</h3><h4 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>数据结构</strong>：String、Hash、List、Set、Sorted Set、Bitmap、HyperLogLog、GEO</li>
+<li><strong>数据组织</strong>：键值对形式，支持复杂数据结构</li>
+<li><strong>示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET user:1001 <span class="string">&quot;张三&quot;</span></span><br><span class="line">HSET user:1001:info name <span class="string">&quot;张三&quot;</span> age 25</span><br><span class="line">ZADD leaderboard 100 <span class="string">&quot;user:1001&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="KV存储（RocksDB）"><a href="#KV存储（RocksDB）" class="headerlink" title="KV存储（RocksDB）"></a>KV存储（RocksDB）</h4><ul>
+<li><strong>数据结构</strong>：纯键值对</li>
+<li><strong>数据组织</strong>：简单的 key-value 映射</li>
+<li><strong>示例</strong>：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rocksdb::<span class="built_in">Put</span>(options, <span class="string">&quot;user:1001&quot;</span>, <span class="string">&quot;张三&quot;</span>);</span><br><span class="line">rocksdb::<span class="built_in">Get</span>(options, <span class="string">&quot;user:1001&quot;</span>, &amp;value);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>数据结构</strong>：表（Table）、行（Row）、列（Column）</li>
+<li><strong>数据组织</strong>：关系型结构，支持外键、索引</li>
+<li><strong>示例</strong>：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY KEY</span>,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">    age <span class="type">INT</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT INTO</span> users <span class="keyword">VALUES</span> (<span class="number">1001</span>, <span class="string">&#x27;张三&#x27;</span>, <span class="number">25</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-2-性能对比"><a href="#2-2-性能对比" class="headerlink" title="2.2 性能对比"></a>2.2 性能对比</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Redis</th>
+<th>KV存储（RocksDB）</th>
+<th>MySQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>读取延迟</strong></td>
+<td>微秒级（内存）</td>
+<td>毫秒级（磁盘I&#x2F;O）</td>
+<td>毫秒级（磁盘I&#x2F;O）</td>
+</tr>
+<tr>
+<td><strong>写入延迟</strong></td>
+<td>微秒级（内存）</td>
+<td>毫秒级（顺序写入）</td>
+<td>毫秒级（随机写入+日志）</td>
+</tr>
+<tr>
+<td><strong>写入吞吐</strong></td>
+<td>受内存带宽限制</td>
+<td>极高（LSM-Tree顺序写）</td>
+<td>中等（需要维护索引）</td>
+</tr>
+<tr>
+<td><strong>读取吞吐</strong></td>
+<td>极高（内存访问）</td>
+<td>高（需要磁盘I&#x2F;O）</td>
+<td>高（需要磁盘I&#x2F;O）</td>
+</tr>
+<tr>
+<td><strong>并发能力</strong></td>
+<td>极高（单线程+多路复用）</td>
+<td>高（多线程）</td>
+<td>高（多线程+连接池）</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-容量与成本"><a href="#2-3-容量与成本" class="headerlink" title="2.3 容量与成本"></a>2.3 容量与成本</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Redis</th>
+<th>KV存储（RocksDB）</th>
+<th>MySQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>存储容量</strong></td>
+<td>受内存限制（通常GB级）</td>
+<td>受磁盘限制（TB级）</td>
+<td>受磁盘限制（TB级）</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>高（内存昂贵）</td>
+<td>低（磁盘便宜）</td>
+<td>中等（磁盘+内存缓冲）</td>
+</tr>
+<tr>
+<td><strong>扩展性</strong></td>
+<td>集群模式（Redis Cluster）</td>
+<td>单机或分布式</td>
+<td>主从复制、分库分表</td>
+</tr>
+</tbody></table>
+<h3 id="2-4-持久化与可靠性"><a href="#2-4-持久化与可靠性" class="headerlink" title="2.4 持久化与可靠性"></a>2.4 持久化与可靠性</h3><h4 id="Redis-1"><a href="#Redis-1" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>持久化方式</strong>：<ul>
+<li>RDB：定时快照</li>
+<li>AOF：追加日志</li>
+</ul>
+</li>
+<li><strong>数据丢失风险</strong>：可能丢失最后一次快照后的数据</li>
+<li><strong>适用场景</strong>：缓存数据，允许少量数据丢失</li>
+</ul>
+<h4 id="KV存储（RocksDB）-1"><a href="#KV存储（RocksDB）-1" class="headerlink" title="KV存储（RocksDB）"></a>KV存储（RocksDB）</h4><ul>
+<li><strong>持久化方式</strong>：写入即持久化（WAL + SSTable）</li>
+<li><strong>数据丢失风险</strong>：极低（写入即落盘）</li>
+<li><strong>适用场景</strong>：需要持久化的大容量存储</li>
+</ul>
+<h4 id="MySQL-1"><a href="#MySQL-1" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>持久化方式</strong>：Redo Log + Binlog + 数据页刷盘</li>
+<li><strong>数据丢失风险</strong>：极低（ACID保证）</li>
+<li><strong>适用场景</strong>：需要强一致性的业务数据</li>
+</ul>
+<h3 id="2-5-事务与一致性"><a href="#2-5-事务与一致性" class="headerlink" title="2.5 事务与一致性"></a>2.5 事务与一致性</h3><h4 id="Redis-2"><a href="#Redis-2" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>事务支持</strong>：支持 MULTI&#x2F;EXEC，但非 ACID</li>
+<li><strong>一致性</strong>：最终一致性</li>
+<li><strong>隔离性</strong>：单线程保证命令原子性</li>
+</ul>
+<h4 id="KV存储（RocksDB）-2"><a href="#KV存储（RocksDB）-2" class="headerlink" title="KV存储（RocksDB）"></a>KV存储（RocksDB）</h4><ul>
+<li><strong>事务支持</strong>：支持批量写入和 WriteBatch</li>
+<li><strong>一致性</strong>：单机强一致性</li>
+<li><strong>隔离性</strong>：写入顺序保证</li>
+</ul>
+<h4 id="MySQL-2"><a href="#MySQL-2" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>事务支持</strong>：完整的 ACID 事务</li>
+<li><strong>一致性</strong>：强一致性</li>
+<li><strong>隔离性</strong>：MVCC + 锁机制（4种隔离级别）</li>
+</ul>
+<h3 id="2-6-查询能力"><a href="#2-6-查询能力" class="headerlink" title="2.6 查询能力"></a>2.6 查询能力</h3><h4 id="Redis-3"><a href="#Redis-3" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>查询方式</strong>：键值查询 + 数据结构操作</li>
+<li><strong>范围查询</strong>：Sorted Set 支持范围查询</li>
+<li><strong>复杂查询</strong>：不支持 SQL，需要应用层实现</li>
+</ul>
+<h4 id="KV存储（RocksDB）-3"><a href="#KV存储（RocksDB）-3" class="headerlink" title="KV存储（RocksDB）"></a>KV存储（RocksDB）</h4><ul>
+<li><strong>查询方式</strong>：键值查询 + 前缀查询</li>
+<li><strong>范围查询</strong>：支持迭代器范围扫描</li>
+<li><strong>复杂查询</strong>：不支持 SQL，需要应用层实现</li>
+</ul>
+<h4 id="MySQL-3"><a href="#MySQL-3" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>查询方式</strong>：SQL 查询语言</li>
+<li><strong>范围查询</strong>：支持 WHERE、JOIN、GROUP BY 等</li>
+<li><strong>复杂查询</strong>：支持复杂的 SQL 查询和聚合</li>
+</ul>
+<h2 id="三、KV存储-vs-MySQL-详细对比"><a href="#三、KV存储-vs-MySQL-详细对比" class="headerlink" title="三、KV存储 vs MySQL 详细对比"></a>三、KV存储 vs MySQL 详细对比</h2><h3 id="3-1-数据模型差异"><a href="#3-1-数据模型差异" class="headerlink" title="3.1 数据模型差异"></a>3.1 数据模型差异</h3><h4 id="KV存储"><a href="#KV存储" class="headerlink" title="KV存储"></a>KV存储</h4><ul>
+<li><strong>无模式（Schema-less）</strong>：不需要预定义表结构</li>
+<li><strong>扁平化存储</strong>：键值对形式，无关系概念</li>
+<li><strong>灵活性高</strong>：可以存储任意结构的数据</li>
+</ul>
+<h4 id="MySQL-4"><a href="#MySQL-4" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>有模式（Schema）</strong>：需要预定义表结构</li>
+<li><strong>关系型存储</strong>：支持表之间的关联（外键）</li>
+<li><strong>结构化强</strong>：数据类型、约束、索引都需要定义</li>
+</ul>
+<h3 id="3-2-查询能力差异"><a href="#3-2-查询能力差异" class="headerlink" title="3.2 查询能力差异"></a>3.2 查询能力差异</h3><h4 id="KV存储-1"><a href="#KV存储-1" class="headerlink" title="KV存储"></a>KV存储</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只能通过 key 查询</span></span><br><span class="line">rocksdb::<span class="built_in">Get</span>(options, <span class="string">&quot;user:1001&quot;</span>, &amp;value);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 支持前缀查询和范围扫描</span></span><br><span class="line">rocksdb::Iterator* iter = db-&gt;<span class="built_in">NewIterator</span>(options);</span><br><span class="line"><span class="keyword">for</span> (iter-&gt;<span class="built_in">Seek</span>(<span class="string">&quot;user:&quot;</span>); iter-&gt;<span class="built_in">Valid</span>() &amp;&amp; iter-&gt;<span class="built_in">key</span>().<span class="built_in">starts_with</span>(<span class="string">&quot;user:&quot;</span>); iter-&gt;<span class="built_in">Next</span>()) &#123;</span><br><span class="line">    <span class="comment">// 处理数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>限制</strong>：</p>
+<ul>
+<li>无法进行复杂的条件查询</li>
+<li>无法进行多表关联</li>
+<li>无法进行聚合统计</li>
+</ul>
+<h4 id="MySQL-5"><a href="#MySQL-5" class="headerlink" title="MySQL"></a>MySQL</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 支持复杂的 SQL 查询</span></span><br><span class="line"><span class="keyword">SELECT</span> u.name, <span class="built_in">COUNT</span>(o.id) <span class="keyword">as</span> order_count</span><br><span class="line"><span class="keyword">FROM</span> users u</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> orders o <span class="keyword">ON</span> u.id <span class="operator">=</span> o.user_id</span><br><span class="line"><span class="keyword">WHERE</span> u.age <span class="operator">&gt;</span> <span class="number">18</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> u.id</span><br><span class="line"><span class="keyword">HAVING</span> order_count <span class="operator">&gt;</span> <span class="number">5</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> order_count <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>支持复杂的 WHERE 条件</li>
+<li>支持多表 JOIN</li>
+<li>支持聚合函数（COUNT、SUM、AVG等）</li>
+<li>支持子查询和窗口函数</li>
+</ul>
+<h3 id="3-3-事务能力差异"><a href="#3-3-事务能力差异" class="headerlink" title="3.3 事务能力差异"></a>3.3 事务能力差异</h3><h4 id="KV存储-2"><a href="#KV存储-2" class="headerlink" title="KV存储"></a>KV存储</h4><ul>
+<li><strong>事务语义</strong>：支持批量写入（WriteBatch）</li>
+<li><strong>ACID特性</strong>：不完整，主要是原子性</li>
+<li><strong>隔离级别</strong>：无标准隔离级别概念</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rocksdb::WriteBatch batch;</span><br><span class="line">batch.<span class="built_in">Put</span>(<span class="string">&quot;key1&quot;</span>, <span class="string">&quot;value1&quot;</span>);</span><br><span class="line">batch.<span class="built_in">Put</span>(<span class="string">&quot;key2&quot;</span>, <span class="string">&quot;value2&quot;</span>);</span><br><span class="line">batch.<span class="built_in">Delete</span>(<span class="string">&quot;key3&quot;</span>);</span><br><span class="line">db-&gt;<span class="built_in">Write</span>(options, &amp;batch);  <span class="comment">// 原子性写入</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="MySQL-6"><a href="#MySQL-6" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>事务语义</strong>：完整的 ACID 事务</li>
+<li><strong>ACID特性</strong>：全部支持</li>
+<li><strong>隔离级别</strong>：READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ、SERIALIZABLE</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> accounts <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> accounts <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;  <span class="comment">-- 完整的 ACID 保证</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-索引能力差异"><a href="#3-4-索引能力差异" class="headerlink" title="3.4 索引能力差异"></a>3.4 索引能力差异</h3><h4 id="KV存储-3"><a href="#KV存储-3" class="headerlink" title="KV存储"></a>KV存储</h4><ul>
+<li><strong>索引方式</strong>：基于 key 的自然排序</li>
+<li><strong>索引类型</strong>：LSM-Tree 内部索引</li>
+<li><strong>索引维护</strong>：自动维护，写入时自动更新</li>
+</ul>
+<h4 id="MySQL-7"><a href="#MySQL-7" class="headerlink" title="MySQL"></a>MySQL</h4><ul>
+<li><strong>索引方式</strong>：B+树索引</li>
+<li><strong>索引类型</strong>：主键索引、唯一索引、普通索引、联合索引、全文索引</li>
+<li><strong>索引维护</strong>：需要手动创建和维护</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_user_age <span class="keyword">ON</span> users(age);</span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_user_name_age <span class="keyword">ON</span> users(name, age);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看执行计划</span></span><br><span class="line">EXPLAIN <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> age <span class="operator">&gt;</span> <span class="number">18</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-适用场景对比"><a href="#3-5-适用场景对比" class="headerlink" title="3.5 适用场景对比"></a>3.5 适用场景对比</h3><h4 id="KV存储适合："><a href="#KV存储适合：" class="headerlink" title="KV存储适合："></a>KV存储适合：</h4><ol>
+<li><strong>时序数据存储</strong>：监控数据、日志数据</li>
+<li><strong>大容量键值存储</strong>：用户画像、配置信息</li>
+<li><strong>嵌入式数据库</strong>：作为应用内存储引擎</li>
+<li><strong>写多读少场景</strong>：LSM-Tree 顺序写入性能高</li>
+</ol>
+<h4 id="MySQL适合："><a href="#MySQL适合：" class="headerlink" title="MySQL适合："></a>MySQL适合：</h4><ol>
+<li><strong>结构化数据存储</strong>：用户信息、订单信息</li>
+<li><strong>复杂查询需求</strong>：需要 JOIN、聚合、子查询</li>
+<li><strong>事务性业务</strong>：需要 ACID 保证的业务</li>
+<li><strong>关系型数据</strong>：需要维护表之间关系的场景</li>
+</ol>
+<h2 id="四、Redis-vs-KV存储-详细对比"><a href="#四、Redis-vs-KV存储-详细对比" class="headerlink" title="四、Redis vs KV存储 详细对比"></a>四、Redis vs KV存储 详细对比</h2><h3 id="4-1-存储介质差异"><a href="#4-1-存储介质差异" class="headerlink" title="4.1 存储介质差异"></a>4.1 存储介质差异</h3><h4 id="Redis-4"><a href="#Redis-4" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>主要存储</strong>：内存</li>
+<li><strong>持久化</strong>：可选的 RDB&#x2F;AOF</li>
+<li><strong>数据特点</strong>：重启可能丢失数据（取决于持久化配置）</li>
+</ul>
+<h4 id="KV存储-4"><a href="#KV存储-4" class="headerlink" title="KV存储"></a>KV存储</h4><ul>
+<li><strong>主要存储</strong>：磁盘</li>
+<li><strong>持久化</strong>：写入即持久化</li>
+<li><strong>数据特点</strong>：数据持久化，重启不丢失</li>
+</ul>
+<h3 id="4-2-数据结构差异"><a href="#4-2-数据结构差异" class="headerlink" title="4.2 数据结构差异"></a>4.2 数据结构差异</h3><h4 id="Redis-5"><a href="#Redis-5" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>丰富的数据结构</strong>：String、Hash、List、Set、Sorted Set等</li>
+<li><strong>原子操作</strong>：支持对数据结构的原子操作</li>
+<li><strong>示例</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列表操作</span></span><br><span class="line">LPUSH mylist <span class="string">&quot;item1&quot;</span></span><br><span class="line">RPOP mylist</span><br><span class="line"></span><br><span class="line"><span class="comment"># 集合操作</span></span><br><span class="line">SADD myset <span class="string">&quot;member1&quot;</span></span><br><span class="line">SINTER myset1 myset2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 有序集合操作</span></span><br><span class="line">ZADD leaderboard 100 <span class="string">&quot;user1&quot;</span></span><br><span class="line">ZRANGE leaderboard 0 10</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="KV存储-5"><a href="#KV存储-5" class="headerlink" title="KV存储"></a>KV存储</h4><ul>
+<li><strong>简单键值对</strong>：只有 key-value</li>
+<li><strong>无原子操作</strong>：需要应用层实现复杂逻辑</li>
+<li><strong>示例</strong>：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只能进行基本的 put/get 操作</span></span><br><span class="line">rocksdb::<span class="built_in">Put</span>(options, <span class="string">&quot;key&quot;</span>, <span class="string">&quot;value&quot;</span>);</span><br><span class="line">rocksdb::<span class="built_in">Get</span>(options, <span class="string">&quot;key&quot;</span>, &amp;value);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4-3-性能差异"><a href="#4-3-性能差异" class="headerlink" title="4.3 性能差异"></a>4.3 性能差异</h3><h4 id="Redis-6"><a href="#Redis-6" class="headerlink" title="Redis"></a>Redis</h4><ul>
+<li><strong>优势</strong>：内存访问，延迟极低（微秒级）</li>
+<li><strong>劣势</strong>：容量受内存限制，成本高</li>
+</ul>
+<h4 id="KV存储-6"><a href="#KV存储-6" class="headerlink" title="KV存储"></a>KV存储</h4><ul>
+<li><strong>优势</strong>：容量大，成本低，写入吞吐高</li>
+<li><strong>劣势</strong>：磁盘I&#x2F;O，延迟较高（毫秒级）</li>
+</ul>
+<h3 id="4-4-使用场景差异"><a href="#4-4-使用场景差异" class="headerlink" title="4.4 使用场景差异"></a>4.4 使用场景差异</h3><h4 id="Redis适合："><a href="#Redis适合：" class="headerlink" title="Redis适合："></a>Redis适合：</h4><ol>
+<li><strong>缓存热点数据</strong>：减轻数据库压力</li>
+<li><strong>会话存储</strong>：用户登录状态</li>
+<li><strong>实时排行榜</strong>：Sorted Set</li>
+<li><strong>分布式锁</strong>：SETNX 命令</li>
+<li><strong>消息队列</strong>：List 或 Stream</li>
+<li><strong>计数器</strong>：INCR 命令</li>
+</ol>
+<h4 id="KV存储适合：-1"><a href="#KV存储适合：-1" class="headerlink" title="KV存储适合："></a>KV存储适合：</h4><ol>
+<li><strong>时序数据存储</strong>：监控指标、日志</li>
+<li><strong>大容量存储</strong>：用户画像、配置中心</li>
+<li><strong>嵌入式存储</strong>：作为应用内存储引擎</li>
+<li><strong>冷数据存储</strong>：访问频率低的数据</li>
+</ol>
+<h2 id="五、实际应用中的组合使用"><a href="#五、实际应用中的组合使用" class="headerlink" title="五、实际应用中的组合使用"></a>五、实际应用中的组合使用</h2><p>在实际项目中，这三种存储系统通常会组合使用，发挥各自的优势：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│           应用层                     │</span><br><span class="line">└─────────────┬───────────────────────┘</span><br><span class="line">              │</span><br><span class="line">    ┌─────────┼─────────┐</span><br><span class="line">    │         │         │</span><br><span class="line">    ▼         ▼         ▼</span><br><span class="line">┌────────┐ ┌──────────┐ ┌────────┐</span><br><span class="line">│ Redis  │ │ RocksDB  │ │ MySQL  │</span><br><span class="line">│ (热数据)│ │ (冷数据) │ │ (主数据)│</span><br><span class="line">│ 内存   │ │ 磁盘     │ │ 磁盘   │</span><br><span class="line">└────────┘ └──────────┘ └────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-典型架构示例"><a href="#5-1-典型架构示例" class="headerlink" title="5.1 典型架构示例"></a>5.1 典型架构示例</h3><p><strong>场景：用户系统</strong></p>
+<ol>
+<li><strong>MySQL</strong>：存储用户基本信息（id、name、email等）</li>
+<li><strong>Redis</strong>：缓存热点用户信息，存储用户会话</li>
+<li><strong>RocksDB</strong>：存储用户行为日志、历史数据</li>
+</ol>
+<p><strong>数据流转</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">用户请求 → 先查 Redis → 未命中 → 查 MySQL → 写回 Redis</span><br><span class="line">用户行为 → 写入 RocksDB（异步）</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-缓存策略"><a href="#5-2-缓存策略" class="headerlink" title="5.2 缓存策略"></a>5.2 缓存策略</h3><p><strong>Cache-Aside 模式</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 读取：先查 Redis，未命中查 MySQL，写回 Redis</span><br><span class="line">2. 更新：更新 MySQL，删除 Redis 缓存</span><br><span class="line">3. 写入：写入 MySQL，可选写入 Redis</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、选择建议"><a href="#六、选择建议" class="headerlink" title="六、选择建议"></a>六、选择建议</h2><h3 id="6-1-选择-Redis-的场景"><a href="#6-1-选择-Redis-的场景" class="headerlink" title="6.1 选择 Redis 的场景"></a>6.1 选择 Redis 的场景</h3><p>✅ <strong>适合</strong>：</p>
+<ul>
+<li>需要极低延迟（微秒级）</li>
+<li>数据量不大（GB级）</li>
+<li>需要丰富的数据结构</li>
+<li>缓存、会话、排行榜等场景</li>
+</ul>
+<p>❌ <strong>不适合</strong>：</p>
+<ul>
+<li>大容量数据存储（TB级）</li>
+<li>需要复杂的 SQL 查询</li>
+<li>需要强事务保证</li>
+</ul>
+<h3 id="6-2-选择-KV存储的场景"><a href="#6-2-选择-KV存储的场景" class="headerlink" title="6.2 选择 KV存储的场景"></a>6.2 选择 KV存储的场景</h3><p>✅ <strong>适合</strong>：</p>
+<ul>
+<li>大容量数据存储（TB级）</li>
+<li>写多读少的场景</li>
+<li>时序数据、日志数据</li>
+<li>需要持久化但不需要复杂查询</li>
+</ul>
+<p>❌ <strong>不适合</strong>：</p>
+<ul>
+<li>需要极低延迟（微秒级）</li>
+<li>需要复杂查询和关联</li>
+<li>需要 ACID 事务</li>
+</ul>
+<h3 id="6-3-选择-MySQL-的场景"><a href="#6-3-选择-MySQL-的场景" class="headerlink" title="6.3 选择 MySQL 的场景"></a>6.3 选择 MySQL 的场景</h3><p>✅ <strong>适合</strong>：</p>
+<ul>
+<li>结构化数据存储</li>
+<li>需要复杂 SQL 查询</li>
+<li>需要 ACID 事务</li>
+<li>需要维护表之间的关系</li>
+</ul>
+<p>❌ <strong>不适合</strong>：</p>
+<ul>
+<li>需要极低延迟（微秒级）</li>
+<li>简单的键值存储场景</li>
+<li>大容量非结构化数据</li>
+</ul>
+<h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Redis</th>
+<th>KV存储（RocksDB）</th>
+<th>MySQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>定位</strong></td>
+<td>内存缓存数据库</td>
+<td>磁盘键值存储引擎</td>
+<td>关系型数据库</td>
+</tr>
+<tr>
+<td><strong>优势</strong></td>
+<td>低延迟、丰富数据结构</td>
+<td>大容量、高写入吞吐</td>
+<td>强一致性、复杂查询</td>
+</tr>
+<tr>
+<td><strong>劣势</strong></td>
+<td>容量受限、成本高</td>
+<td>延迟较高、查询简单</td>
+<td>延迟较高、写入性能一般</td>
+</tr>
+<tr>
+<td><strong>核心场景</strong></td>
+<td>缓存、会话、排行榜</td>
+<td>时序数据、大容量存储</td>
+<td>业务数据、复杂查询</td>
+</tr>
+</tbody></table>
+<p>在实际项目中，这三种存储系统通常会<strong>组合使用</strong>：</p>
+<ul>
+<li><strong>Redis</strong> 作为缓存层，提供低延迟访问</li>
+<li><strong>MySQL</strong> 作为主数据库，存储业务数据</li>
+<li><strong>KV存储</strong> 作为辅助存储，处理大容量数据</li>
+</ul>
+<p>选择合适的存储方案，需要根据具体的业务场景、性能要求、数据特点来综合考虑。</p>
+
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2026/01/31/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B026%E5%B9%B41%E6%9C%88/2026.1.31%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">2026.1.31学习日记</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2026/01/28/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E6%9C%AC%E5%9C%B0GoLand%E4%B8%8E%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E6%9C%BA%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E8%B0%83%E8%AF%95/">本地GoLand与远程开发机代码同步与调试</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Redis-vs-KV%E5%AD%98%E5%82%A8-vs-MySQL-%E6%A0%B8%E5%BF%83%E5%AF%B9%E6%AF%94"><span class="toc-text">一、Redis vs KV存储 vs MySQL 核心对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%BD%8D"><span class="toc-text">1.1 基本定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%9E%B6%E6%9E%84%E5%AF%B9%E6%AF%94"><span class="toc-text">1.2 架构对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-%E6%9E%B6%E6%9E%84"><span class="toc-text">Redis 架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%EF%BC%88RocksDB%EF%BC%89%E6%9E%B6%E6%9E%84"><span class="toc-text">KV存储（RocksDB）架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-%E6%9E%B6%E6%9E%84"><span class="toc-text">MySQL 架构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AF%A6%E7%BB%86%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90"><span class="toc-text">二、详细对比分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94"><span class="toc-text">2.1 数据模型对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%EF%BC%88RocksDB%EF%BC%89"><span class="toc-text">KV存储（RocksDB）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="toc-text">2.2 性能对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%AE%B9%E9%87%8F%E4%B8%8E%E6%88%90%E6%9C%AC"><span class="toc-text">2.3 容量与成本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%8C%81%E4%B9%85%E5%8C%96%E4%B8%8E%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">2.4 持久化与可靠性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-1"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%EF%BC%88RocksDB%EF%BC%89-1"><span class="toc-text">KV存储（RocksDB）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-1"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E4%BA%8B%E5%8A%A1%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-text">2.5 事务与一致性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-2"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%EF%BC%88RocksDB%EF%BC%89-2"><span class="toc-text">KV存储（RocksDB）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-2"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E6%9F%A5%E8%AF%A2%E8%83%BD%E5%8A%9B"><span class="toc-text">2.6 查询能力</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-3"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%EF%BC%88RocksDB%EF%BC%89-3"><span class="toc-text">KV存储（RocksDB）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-3"><span class="toc-text">MySQL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81KV%E5%AD%98%E5%82%A8-vs-MySQL-%E8%AF%A6%E7%BB%86%E5%AF%B9%E6%AF%94"><span class="toc-text">三、KV存储 vs MySQL 详细对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E5%B7%AE%E5%BC%82"><span class="toc-text">3.1 数据模型差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8"><span class="toc-text">KV存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-4"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%9F%A5%E8%AF%A2%E8%83%BD%E5%8A%9B%E5%B7%AE%E5%BC%82"><span class="toc-text">3.2 查询能力差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8-1"><span class="toc-text">KV存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-5"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%BA%8B%E5%8A%A1%E8%83%BD%E5%8A%9B%E5%B7%AE%E5%BC%82"><span class="toc-text">3.3 事务能力差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8-2"><span class="toc-text">KV存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-6"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%B4%A2%E5%BC%95%E8%83%BD%E5%8A%9B%E5%B7%AE%E5%BC%82"><span class="toc-text">3.4 索引能力差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8-3"><span class="toc-text">KV存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-7"><span class="toc-text">MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="toc-text">3.5 适用场景对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%E9%80%82%E5%90%88%EF%BC%9A"><span class="toc-text">KV存储适合：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E9%80%82%E5%90%88%EF%BC%9A"><span class="toc-text">MySQL适合：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Redis-vs-KV%E5%AD%98%E5%82%A8-%E8%AF%A6%E7%BB%86%E5%AF%B9%E6%AF%94"><span class="toc-text">四、Redis vs KV存储 详细对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%AD%98%E5%82%A8%E4%BB%8B%E8%B4%A8%E5%B7%AE%E5%BC%82"><span class="toc-text">4.1 存储介质差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-4"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8-4"><span class="toc-text">KV存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B7%AE%E5%BC%82"><span class="toc-text">4.2 数据结构差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-5"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8-5"><span class="toc-text">KV存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%80%A7%E8%83%BD%E5%B7%AE%E5%BC%82"><span class="toc-text">4.3 性能差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-6"><span class="toc-text">Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8-6"><span class="toc-text">KV存储</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E5%B7%AE%E5%BC%82"><span class="toc-text">4.4 使用场景差异</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis%E9%80%82%E5%90%88%EF%BC%9A"><span class="toc-text">Redis适合：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KV%E5%AD%98%E5%82%A8%E9%80%82%E5%90%88%EF%BC%9A-1"><span class="toc-text">KV存储适合：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E7%BB%84%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-text">五、实际应用中的组合使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%85%B8%E5%9E%8B%E6%9E%B6%E6%9E%84%E7%A4%BA%E4%BE%8B"><span class="toc-text">5.1 典型架构示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E7%BC%93%E5%AD%98%E7%AD%96%E7%95%A5"><span class="toc-text">5.2 缓存策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE"><span class="toc-text">六、选择建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E9%80%89%E6%8B%A9-Redis-%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">6.1 选择 Redis 的场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E9%80%89%E6%8B%A9-KV%E5%AD%98%E5%82%A8%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">6.2 选择 KV存储的场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E9%80%89%E6%8B%A9-MySQL-%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">6.3 选择 MySQL 的场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">七、总结</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+
+  <script type="text/javascript">
+    // 从服务器端配置中解析配置对象
+    var cozeConfig = {"enable":true,"api_host":"http://localhost:8888","sdk_url":"http://localhost:8888/static/chat-sdk.js","config":{"type":"app","appInfo":{"appId":"7594744377281347584","workflowId":"7597782620230909952"}},"auth":{"type":"token","token":"pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"},"componentProps":{"title":"AI 助手","lang":"zh-CN","layout":"PC"}};
+    
+    // 等待 SDK 完全初始化的函数（使用轮询机制）
+    function waitForSDK(maxAttempts, interval) {
+      maxAttempts = maxAttempts || 50;
+      interval = interval || 100;
+      
+      return new Promise(function(resolve, reject) {
+        var attempts = 0;
+
+        var checkSDK = function() {
+          attempts++;
+
+          // 检查 SDK 是否加载完成
+          // 尝试多种可能的访问方式
+          var WebChatClient = null;
+          
+          if (window.CozeWebSDK) {
+            // 方式1: 直接访问 (普通全局对象)
+            if (window.CozeWebSDK.WebChatClient) {
+              WebChatClient = window.CozeWebSDK.WebChatClient;
+            }
+            // 方式2: ES Module 的 default 导出
+            else if (window.CozeWebSDK.default && window.CozeWebSDK.default.WebChatClient) {
+              WebChatClient = window.CozeWebSDK.default.WebChatClient;
+            }
+            // 方式3: ES Module 的直接导出
+            else if (window.CozeWebSDK.default) {
+              // 如果 default 就是 WebChatClient
+              WebChatClient = window.CozeWebSDK.default;
+            }
+            // 方式4: 检查是否有其他导出方式
+            else if (typeof window.CozeWebSDK === 'object') {
+              // 尝试访问所有可能的属性
+              var sdk = window.CozeWebSDK;
+              if (sdk.WebChatClient) {
+                WebChatClient = sdk.WebChatClient;
+              } else if (sdk.default && sdk.default.WebChatClient) {
+                WebChatClient = sdk.default.WebChatClient;
+              } else if (sdk.default && typeof sdk.default === 'function') {
+                WebChatClient = sdk.default;
+              }
+            }
+          }
+          
+          if (WebChatClient) {
+            console.log('[Coze SDK] SDK 初始化成功，找到 WebChatClient');
+            resolve(WebChatClient);
+            return;
+          }
+
+          // 检查是否超时
+          if (attempts >= maxAttempts) {
+            console.error('[Coze SDK] SDK 加载超时');
+            console.error('[Coze SDK] window.CozeWebSDK:', window.CozeWebSDK);
+            console.error('[Coze SDK] window.CozeWebSDK 类型:', typeof window.CozeWebSDK);
+            console.error('[Coze SDK] 可用的 CozeWebSDK 属性:', Object.keys(window.CozeWebSDK || {}));
+            
+            // 尝试输出更多调试信息
+            if (window.CozeWebSDK) {
+              console.error('[Coze SDK] window.CozeWebSDK.default:', window.CozeWebSDK.default);
+              console.error('[Coze SDK] window.CozeWebSDK 的所有属性（包括不可枚举）:');
+              for (var key in window.CozeWebSDK) {
+                console.error('  -', key, ':', typeof window.CozeWebSDK[key]);
+              }
+            }
+            
+            reject(new Error('SDK 加载超时'));
+            return;
+          }
+
+          // 继续等待
+          setTimeout(checkSDK, interval);
+        };
+
+        // 开始检查
+        checkSDK();
+      });
+    }
+    
+    // 等待 DOM 加载完成后再初始化 SDK
+    function initCozeSDK() {
+      console.log('[Coze SDK] 开始加载 Coze SDK...');
+      
+      // 检查 DOM 是否已加载
+      if (!document.head) {
+        console.error('[Coze SDK] document.head 不存在，等待 DOM 加载...');
+        return;
+      }
+      
+      // 设置 Coze API 地址（如果需要修改默认地址）
+      if (cozeConfig.api_host) {
+        window.__COZE_API_HOST__ = cozeConfig.api_host;
+        console.log('[Coze SDK] API 地址设置为:', cozeConfig.api_host);
+      }
+      
+      // 动态加载 Coze SDK
+      var webSdkScript = document.createElement('script');
+      var sdkUrl = cozeConfig.sdk_url || 'http://localhost:8888/static/chat-sdk.js';
+      webSdkScript.src = sdkUrl;
+      webSdkScript.async = true; // 异步加载
+      console.log('[Coze SDK] 正在加载 SDK 脚本:', sdkUrl);
+      
+      // SDK 加载成功后的回调
+      webSdkScript.onload = function () {
+        console.log('[Coze SDK] SDK 脚本加载完成');
+
+        // 等待 SDK 完全初始化（使用轮询机制）
+        waitForSDK()
+          .then(function(WebChatClient) {
+            try {
+              // 构建配置对象
+              var authToken = (cozeConfig.auth && cozeConfig.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+              
+              // 构建 auth 配置，确保 onRefreshToken 函数存在
+              var authConfig = cozeConfig.auth || {
+                type: "token",
+                token: authToken
+              };
+              
+              // 确保 onRefreshToken 函数能正确返回 token
+              if (!authConfig.onRefreshToken) {
+                authConfig.onRefreshToken = function () {
+                  return authToken;
+                };
+              }
+              
+              // 构建 appInfo 配置，workflowId 是可选的
+              var appInfo = {
+                appId: (cozeConfig.config && cozeConfig.config.appInfo && cozeConfig.config.appInfo.appId) || "7594744377281347584"
+              };
+              
+              // 只有当 workflowId 存在时才添加
+              if (cozeConfig.config && cozeConfig.config.appInfo && cozeConfig.config.appInfo.workflowId) {
+                appInfo.workflowId = cozeConfig.config.appInfo.workflowId;
+              }
+              
+              var sdkConfig = {
+                config: {
+                  type: (cozeConfig.config && cozeConfig.config.type) || "app",
+                  appInfo: appInfo
+                },
+                auth: authConfig
+              };
+              
+              // 添加 UI 配置（如果存在）
+              if (cozeConfig.componentProps) {
+                sdkConfig.componentProps = cozeConfig.componentProps;
+              }
+              
+              console.log('[Coze SDK] 开始创建 WebChatClient，配置:', JSON.stringify(sdkConfig, null, 2));
+              
+              // 创建 WebChatClient 实例
+              var chatClient = new WebChatClient(sdkConfig);
+              
+              // 保存 client 实例到全局，方便后续控制
+              window.cozeChatClient = chatClient;
+              console.log('[Coze SDK] WebChatClient 创建成功，client 实例已保存到 window.cozeChatClient');
+              
+              // 尝试自动显示聊天窗口（如果 SDK 支持）
+              if (typeof chatClient.showChatBot === 'function') {
+                console.log('[Coze SDK] 尝试自动显示聊天窗口');
+                try {
+                  chatClient.showChatBot();
+                  console.log('[Coze SDK] 聊天窗口显示命令已执行');
+                } catch (e) {
+                  console.warn('[Coze SDK] 自动显示聊天窗口失败，可能需要手动调用:', e);
+                }
+              } else {
+                console.log('[Coze SDK] showChatBot 方法不存在，聊天窗口可能需要手动触发');
+              }
+            } catch (error) {
+              console.error('[Coze SDK] 创建 WebChatClient 失败:', error);
+              console.error('[Coze SDK] 错误堆栈:', error.stack);
+            }
+          })
+          .catch(function(error) {
+            console.error('[Coze SDK] SDK 初始化失败:', error);
+            console.error('[Coze SDK] 请检查：');
+            console.error('1. SDK 文件是否正确加载');
+            console.error('2. 浏览器控制台是否有其他错误');
+            console.error('3. 网络请求是否成功');
+          });
+      };
+      
+      // SDK 加载失败的回调
+      webSdkScript.onerror = function() {
+        console.error('[Coze SDK] SDK 脚本加载失败');
+        console.error('[Coze SDK] 请检查以下事项:');
+        console.error('  1. Coze 服务是否运行在 ' + (cozeConfig.api_host || 'http://localhost:8888'));
+        console.error('  2. SDK 文件路径是否正确: ' + sdkUrl);
+        console.error('  3. 是否存在跨域问题（CORS）');
+        console.error('  4. 浏览器控制台是否有其他错误信息');
+      };
+      
+      // 将脚本添加到 head
+      try {
+        document.head.appendChild(webSdkScript);
+        console.log('[Coze SDK] SDK 脚本标签已添加到页面');
+      } catch (e) {
+        console.error('[Coze SDK] 添加脚本标签失败:', e);
+      }
+    }
+    
+    // 如果 DOM 已经加载完成，立即执行；否则等待 DOMContentLoaded 事件
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initCozeSDK);
+    } else {
+      // DOM 已经加载完成，立即执行
+      initCozeSDK();
+    }
+  </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
