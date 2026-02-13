@@ -937,60 +937,53 @@
     }
   });
 </script>
+<script>
+(function() {
+  if (typeof window === 'undefined') return;
+  var dedupMode = 'day';
+  var skip = false;
+  var storageKey;
+  if (dedupMode === 'session') {
+    storageKey = 'visit_notify_sent';
+    skip = sessionStorage.getItem(storageKey);
+  } else if (dedupMode === 'day') {
+    var now = new Date();
+    var dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    storageKey = 'visit_notify_' + dateStr;
+    try { skip = localStorage.getItem(storageKey); } catch (e) {}
+  }
+  if (skip) return;
+  var page = location.href;
+  var time = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+  var referrer = document.referrer || '(直接访问)';
+  function done() {
+    if (dedupMode === 'session') try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (dedupMode === 'day') try { localStorage.setItem(storageKey, '1'); } catch (e) {}
+  }
+  
+  fetch('https://formsubmit.co/2062966830@qq.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      _subject: '【博客访问】有人打开了你的网站',
+      page: page,
+      time: time,
+      referrer: referrer,
+      _template: 'box',
+      _captcha: 'false'
+    }).toString(),
+    mode: 'no-cors'
+  }).then(done).catch(function() {});
+  
+})();
+</script>
+
 
 
 <!-- inject -->
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
-te('rightbar');
-      }
-    },
-    toggleTOC: () => {
-      document.querySelector('#data-toc').classList.toggle('collapse');
-    }
-  }
-</script>
-<script type="text/javascript">
-  (() => {
-    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
-    for (const tagSwitcher of tagSwitchers) {
-      tagSwitcher.addEventListener('click', (e) => {
-        const parent = e.target.closest('.tag-subtree.parent-tag')
-        parent.classList.toggle('expanded')
-        e.preventDefault()
-      })
-    }
-
-    // Get active tag from query string, then activate it.
-    const urlParams = new URLSearchParams(window.location.search)
-    const activeTag = urlParams.get('tag')
-    if (activeTag) {
-      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
-      if (tag) {
-        tag.querySelector('a').classList.add('active')
-        
-        while (tag) {
-          tag.classList.add('expanded')
-          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
-        }
-      }
-    }
-  })()
-</script>
-
-
-<!-- required -->
-<script src="/js/main.js?v=1.30.0" defer></script>
-
-<script type="text/javascript">
-  const applyTheme = (theme) => {
-    if (theme === 'auto') {
-      document.documentElement.removeAttribute('data-theme')
-    } else {
-      document.documentElement.setAttribute('data-theme', theme)
-    }
-
-    applyThemeToGiscus(theme)
+s(theme)
   }
 
   const applyThemeToGiscus = (theme) => {
@@ -1514,6 +1507,47 @@ te('rightbar');
     }
   });
 </script>
+<script>
+(function() {
+  if (typeof window === 'undefined') return;
+  var dedupMode = 'day';
+  var skip = false;
+  var storageKey;
+  if (dedupMode === 'session') {
+    storageKey = 'visit_notify_sent';
+    skip = sessionStorage.getItem(storageKey);
+  } else if (dedupMode === 'day') {
+    var now = new Date();
+    var dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    storageKey = 'visit_notify_' + dateStr;
+    try { skip = localStorage.getItem(storageKey); } catch (e) {}
+  }
+  if (skip) return;
+  var page = location.href;
+  var time = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+  var referrer = document.referrer || '(直接访问)';
+  function done() {
+    if (dedupMode === 'session') try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (dedupMode === 'day') try { localStorage.setItem(storageKey, '1'); } catch (e) {}
+  }
+  
+  fetch('https://formsubmit.co/2062966830@qq.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      _subject: '【博客访问】有人打开了你的网站',
+      page: page,
+      time: time,
+      referrer: referrer,
+      _template: 'box',
+      _captcha: 'false'
+    }).toString(),
+    mode: 'no-cors'
+  }).then(done).catch(function() {});
+  
+})();
+</script>
+
 
 
 <!-- inject -->

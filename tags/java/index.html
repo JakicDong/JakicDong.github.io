@@ -939,57 +939,53 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
     }
   });
 </script>
+<script>
+(function() {
+  if (typeof window === 'undefined') return;
+  var dedupMode = 'day';
+  var skip = false;
+  var storageKey;
+  if (dedupMode === 'session') {
+    storageKey = 'visit_notify_sent';
+    skip = sessionStorage.getItem(storageKey);
+  } else if (dedupMode === 'day') {
+    var now = new Date();
+    var dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    storageKey = 'visit_notify_' + dateStr;
+    try { skip = localStorage.getItem(storageKey); } catch (e) {}
+  }
+  if (skip) return;
+  var page = location.href;
+  var time = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+  var referrer = document.referrer || '(直接访问)';
+  function done() {
+    if (dedupMode === 'session') try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (dedupMode === 'day') try { localStorage.setItem(storageKey, '1'); } catch (e) {}
+  }
+  
+  fetch('https://formsubmit.co/2062966830@qq.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      _subject: '【博客访问】有人打开了你的网站',
+      page: page,
+      time: time,
+      referrer: referrer,
+      _template: 'box',
+      _captcha: 'false'
+    }).toString(),
+    mode: 'no-cors'
+  }).then(done).catch(function() {});
+  
+})();
+</script>
+
 
 
 <!-- inject -->
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
- dark -> auto -> light -> ...
-    const currentTheme = document.documentElement.getAttribute('data-theme')
-    let newTheme;
-    switch (currentTheme) {
-      case 'light':
-        newTheme = 'dark'
-        break
-      case 'dark':
-        newTheme = 'auto'
-        break
-      default:
-        newTheme = 'light'
-    }
-    applyTheme(newTheme)
-    window.localStorage.setItem('Stellar.theme', newTheme)
-    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
-    utils.dark.method.toggle.start();
-
-    const messages = {
-      light: `切换到浅色模式`,
-      dark: `切换到深色模式`,
-      auto: `切换到跟随系统配色`,
-    }
-    hud?.toast?.(messages[newTheme])
-  }
-
-  (() => {
-    // Apply user's preferred theme, if any.
-    const theme = window.localStorage.getItem('Stellar.theme')
-    if (theme !== null) {
-      applyTheme(theme)
-    } else {
-      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    utils.dark.method.toggle.start();
-  })()
-</script>
-
-
-<!-- optional -->
-
-
-
-<script defer>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+ites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
     for (let id of Object.keys(ctx.services)) {
       const js = ctx.services[id].js;
       if (id == 'siteinfo') {
@@ -1446,6 +1442,47 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
     }
   });
 </script>
+<script>
+(function() {
+  if (typeof window === 'undefined') return;
+  var dedupMode = 'day';
+  var skip = false;
+  var storageKey;
+  if (dedupMode === 'session') {
+    storageKey = 'visit_notify_sent';
+    skip = sessionStorage.getItem(storageKey);
+  } else if (dedupMode === 'day') {
+    var now = new Date();
+    var dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    storageKey = 'visit_notify_' + dateStr;
+    try { skip = localStorage.getItem(storageKey); } catch (e) {}
+  }
+  if (skip) return;
+  var page = location.href;
+  var time = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+  var referrer = document.referrer || '(直接访问)';
+  function done() {
+    if (dedupMode === 'session') try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (dedupMode === 'day') try { localStorage.setItem(storageKey, '1'); } catch (e) {}
+  }
+  
+  fetch('https://formsubmit.co/2062966830@qq.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      _subject: '【博客访问】有人打开了你的网站',
+      page: page,
+      time: time,
+      referrer: referrer,
+      _template: 'box',
+      _captcha: 'false'
+    }).toString(),
+    mode: 'no-cors'
+  }).then(done).catch(function() {});
+  
+})();
+</script>
+
 
 
 <!-- inject -->
