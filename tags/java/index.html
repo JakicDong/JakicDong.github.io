@@ -984,15 +984,22 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
     
   }
   function tryGeo() {
-    fetch('https://get.geojs.io/v1/ip/geo.json').then(function(r) { return r.json(); }).then(function(d) {
-      var ip = (d && d.ip) || null;
-      var loc = (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null;
-      sendNotify(ip, loc);
-    }).catch(function() {
-      fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(d) {
-        sendNotify(d && d.ip, null);
-      }).catch(function() { sendNotify(); });
-    });
+    var urls = [
+      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://ipapi.co/json/', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country_name) ? [d.city, d.region, d.country_name].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://get.geojs.io/v1/ip/geo.json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://api.ipify.org?format=json', parse: function(d) { return { ip: d && d.ip, loc: null }; } },
+      { url: 'https://httpbin.org/ip', parse: function(d) { return { ip: (d && d.origin) ? (typeof d.origin === 'string' ? d.origin : d.origin[0]) : null, loc: null }; } }
+    ];
+    function tryNext(i) {
+      if (i >= urls.length) { sendNotify(); return; }
+      fetch(urls[i].url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error(); return r.json(); }).then(function(d) {
+        var r = urls[i].parse(d);
+        if (r.ip || r.loc) sendNotify(r.ip || null, r.loc || null);
+        else tryNext(i + 1);
+      }).catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
   }
   tryGeo();
 })();
@@ -1003,28 +1010,7 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
 <!-- inject -->
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
- 'siteinfo') {
-        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
-        if (ctx.cardlinks?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            setCardLink(ctx.cardlinks);
-          });
-        }
-      } else if (id == 'voice') {
-        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
-        if (ctx.voiceAudios?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            createVoiceDom(ctx.voiceAudios);
-          });
-        }
-      } else if (id == 'video') {
-        ctx.videos = document.querySelectorAll('.video>video');
-        if (ctx.videos?.length > 0) {
-          utils.js(js, { defer: true }).then(function () {
-            videoEvents(ctx.videos);
-          });
-        }
-      } else if (id == 'download-file') {
+ } else if (id == 'download-file') {
         ctx.files = document.querySelectorAll('.file');
         if (ctx.files?.length > 0) {
           utils.js(js, { defer: true }).then(function () {
@@ -1502,15 +1488,22 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
     
   }
   function tryGeo() {
-    fetch('https://get.geojs.io/v1/ip/geo.json').then(function(r) { return r.json(); }).then(function(d) {
-      var ip = (d && d.ip) || null;
-      var loc = (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null;
-      sendNotify(ip, loc);
-    }).catch(function() {
-      fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(d) {
-        sendNotify(d && d.ip, null);
-      }).catch(function() { sendNotify(); });
-    });
+    var urls = [
+      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://ipapi.co/json/', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country_name) ? [d.city, d.region, d.country_name].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://get.geojs.io/v1/ip/geo.json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://api.ipify.org?format=json', parse: function(d) { return { ip: d && d.ip, loc: null }; } },
+      { url: 'https://httpbin.org/ip', parse: function(d) { return { ip: (d && d.origin) ? (typeof d.origin === 'string' ? d.origin : d.origin[0]) : null, loc: null }; } }
+    ];
+    function tryNext(i) {
+      if (i >= urls.length) { sendNotify(); return; }
+      fetch(urls[i].url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error(); return r.json(); }).then(function(d) {
+        var r = urls[i].parse(d);
+        if (r.ip || r.loc) sendNotify(r.ip || null, r.loc || null);
+        else tryNext(i + 1);
+      }).catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
   }
   tryGeo();
 })();

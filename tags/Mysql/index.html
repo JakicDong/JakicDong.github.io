@@ -982,15 +982,22 @@
     
   }
   function tryGeo() {
-    fetch('https://get.geojs.io/v1/ip/geo.json').then(function(r) { return r.json(); }).then(function(d) {
-      var ip = (d && d.ip) || null;
-      var loc = (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null;
-      sendNotify(ip, loc);
-    }).catch(function() {
-      fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(d) {
-        sendNotify(d && d.ip, null);
-      }).catch(function() { sendNotify(); });
-    });
+    var urls = [
+      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://ipapi.co/json/', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country_name) ? [d.city, d.region, d.country_name].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://get.geojs.io/v1/ip/geo.json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://api.ipify.org?format=json', parse: function(d) { return { ip: d && d.ip, loc: null }; } },
+      { url: 'https://httpbin.org/ip', parse: function(d) { return { ip: (d && d.origin) ? (typeof d.origin === 'string' ? d.origin : d.origin[0]) : null, loc: null }; } }
+    ];
+    function tryNext(i) {
+      if (i >= urls.length) { sendNotify(); return; }
+      fetch(urls[i].url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error(); return r.json(); }).then(function(d) {
+        var r = urls[i].parse(d);
+        if (r.ip || r.loc) sendNotify(r.ip || null, r.loc || null);
+        else tryNext(i + 1);
+      }).catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
   }
   tryGeo();
 })();
@@ -1001,34 +1008,7 @@
 <!-- inject -->
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
-      newTheme = 'dark'
-        break
-      case 'dark':
-        newTheme = 'auto'
-        break
-      default:
-        newTheme = 'light'
-    }
-    applyTheme(newTheme)
-    window.localStorage.setItem('Stellar.theme', newTheme)
-    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
-    utils.dark.method.toggle.start();
-
-    const messages = {
-      light: `切换到浅色模式`,
-      dark: `切换到深色模式`,
-      auto: `切换到跟随系统配色`,
-    }
-    hud?.toast?.(messages[newTheme])
-  }
-
-  (() => {
-    // Apply user's preferred theme, if any.
-    const theme = window.localStorage.getItem('Stellar.theme')
-    if (theme !== null) {
-      applyTheme(theme)
-    } else {
-      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
     utils.dark.method.toggle.start();
   })()
@@ -1543,15 +1523,22 @@
     
   }
   function tryGeo() {
-    fetch('https://get.geojs.io/v1/ip/geo.json').then(function(r) { return r.json(); }).then(function(d) {
-      var ip = (d && d.ip) || null;
-      var loc = (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null;
-      sendNotify(ip, loc);
-    }).catch(function() {
-      fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(d) {
-        sendNotify(d && d.ip, null);
-      }).catch(function() { sendNotify(); });
-    });
+    var urls = [
+      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://ipapi.co/json/', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country_name) ? [d.city, d.region, d.country_name].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://get.geojs.io/v1/ip/geo.json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://api.ipify.org?format=json', parse: function(d) { return { ip: d && d.ip, loc: null }; } },
+      { url: 'https://httpbin.org/ip', parse: function(d) { return { ip: (d && d.origin) ? (typeof d.origin === 'string' ? d.origin : d.origin[0]) : null, loc: null }; } }
+    ];
+    function tryNext(i) {
+      if (i >= urls.length) { sendNotify(); return; }
+      fetch(urls[i].url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error(); return r.json(); }).then(function(d) {
+        var r = urls[i].parse(d);
+        if (r.ip || r.loc) sendNotify(r.ip || null, r.loc || null);
+        else tryNext(i + 1);
+      }).catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
   }
   tryGeo();
 })();
