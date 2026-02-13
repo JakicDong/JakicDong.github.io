@@ -1004,13 +1004,18 @@ Fail-Fast 机制Fail-Fast 机制是 Java 集合(Collection)中的...</p></div><d
     }).then(done).catch(function() {});
     
   }
-  fetch('https://ip-api.com/json/?lang=zh-CN&fields=query,city,regionName,country').then(function(r) { return r.json(); }).then(function(d) {
-    var ip = (d && d.query) || null;
-    var loc = (d && d.country) ? [d.city, d.regionName, d.country].filter(Boolean).join(', ') : null;
-    sendNotify(ip, loc);
-  }).catch(function() {
-    sendNotify();
-  });
+  function tryGeo() {
+    fetch('https://get.geojs.io/v1/ip/geo.json').then(function(r) { return r.json(); }).then(function(d) {
+      var ip = (d && d.ip) || null;
+      var loc = (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null;
+      sendNotify(ip, loc);
+    }).catch(function() {
+      fetch('https://api.ipify.org?format=json').then(function(r) { return r.json(); }).then(function(d) {
+        sendNotify(d && d.ip, null);
+      }).catch(function() { sendNotify(); });
+    });
+  }
+  tryGeo();
 })();
 </script>
 
