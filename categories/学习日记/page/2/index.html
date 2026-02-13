@@ -1072,18 +1072,23 @@ If you had one shot or one opportunityTo seize everything you ever wanted in one
     
   }
   function tryGeo() {
+    var last = { ip: null, loc: null };
     var urls = [
-      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
       { url: 'https://ipapi.co/json/', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country_name) ? [d.city, d.region, d.country_name].filter(Boolean).join(', ') : null }; } },
       { url: 'https://get.geojs.io/v1/ip/geo.json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
       { url: 'https://api.ipify.org?format=json', parse: function(d) { return { ip: d && d.ip, loc: null }; } },
       { url: 'https://httpbin.org/ip', parse: function(d) { return { ip: (d && d.origin) ? (typeof d.origin === 'string' ? d.origin : d.origin[0]) : null, loc: null }; } }
     ];
+    function hasCity(loc) { return loc && loc.indexOf(',') >= 0; }
     function tryNext(i) {
-      if (i >= urls.length) { sendNotify(); return; }
+      if (i >= urls.length) { sendNotify(last.ip, last.loc); return; }
       fetch(urls[i].url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error(); return r.json(); }).then(function(d) {
         var r = urls[i].parse(d);
-        if (r.ip || r.loc) sendNotify(r.ip || null, r.loc || null);
+        if (r.ip) last.ip = r.ip;
+        if (r.loc) last.loc = r.loc;
+        if (last.ip && hasCity(last.loc)) { sendNotify(last.ip, last.loc); return; }
+        if (i === urls.length - 1) sendNotify(last.ip, last.loc);
         else tryNext(i + 1);
       }).catch(function() { tryNext(i + 1); });
     }
