@@ -1,0 +1,1167 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0" theme-name="Stellar" theme-version="1.30.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>大厂后端面试 · 一问一答记录 - Jakic's Blog</title>
+
+  
+    <meta name="description" content="大厂后端面试 · 一问一答记录日期：2026-03-03面试官角色：抖音电商后端面试官候选人：董佳齐（27 届硕士，求职后端开发） 第 1 题题型：[项目拷打]题目：你在百度健康实习期间做了「前卡规则引擎引入」，简历上写到基于部门基建引入了 JS 规则引擎，使用 Goja 解析 Apollo 配置中心下发的脚本。为什么选择用 Goja 来执行 JS 脚本，而不是直接在 Go 中用模板或者 DSL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大厂后端面试 · 一问一答记录">
+<meta property="og:url" content="https://jakicdong.github.io/2026/03/03/%E7%AE%80%E5%8E%86%E6%8B%B7%E6%89%93/%E7%AE%80%E5%8E%86%E6%8B%B7%E6%89%93-20260303/index.html">
+<meta property="og:site_name" content="Jakic&#39;s Blog">
+<meta property="og:description" content="大厂后端面试 · 一问一答记录日期：2026-03-03面试官角色：抖音电商后端面试官候选人：董佳齐（27 届硕士，求职后端开发） 第 1 题题型：[项目拷打]题目：你在百度健康实习期间做了「前卡规则引擎引入」，简历上写到基于部门基建引入了 JS 规则引擎，使用 Goja 解析 Apollo 配置中心下发的脚本。为什么选择用 Goja 来执行 JS 脚本，而不是直接在 Go 中用模板或者 DSL">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-03T05:30:39.202Z">
+<meta property="article:author" content="JakicDong">
+<meta property="article:tag" content="简历拷打">
+<meta property="article:tag" content="模拟面试">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="简历拷打,模拟面试,后端">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.30.0">
+
+
+  
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/JakicDong/blog-assets@main/images/logo.png">
+  
+
+  
+
+  
+<!-- hexo injector head_end start --><script src="./func.js"></script><!-- hexo injector head_end end --></head>
+<link rel="stylesheet" href="/css/check-in.css"><body><div class="sitebg"><div class="siteblur"></div></div>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/130200522?v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Jakic's Blog</div><div class="sub normal cap">学习生活记录</div><div class="sub hover cap" style="opacity:0"> 踏上取经路,比抵达灵山更重要</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客首页" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="打卡墙" href="/check-in" style="color:#1976D2"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="github" target="_blank" rel="noopener" href="https://github.com/JakicDong/" style="color:#1BCDFC"><svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle"> <path fill="#cccccc" d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path> </svg></a><a class="nav-item" title="力扣" target="_blank" rel="noopener" href="https://leetcode.cn/u/dong7/" style="color:#3DC550"><svg width="59" height="22" viewBox="0 0 59 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto max-w-none"> <path fill-rule="evenodd" clip-rule="evenodd" d="M27.8226 17.4752C28.3202 16.1443 28.7218 14.5458 28.9859 12.6607C29.1277 11.6491 29.2845 10.1658 29.4568 8.20813H35.2561C35.2637 8.20813 35.2713 8.20828 35.2789 8.20857C35.6071 8.22119 35.8628 8.49743 35.8502 8.82558L35.4996 17.9427C35.4873 18.262 35.2249 18.5144 34.9054 18.5144H33.2974C32.8595 18.5144 32.5046 18.8694 32.5046 19.3072C32.5046 19.7451 32.8595 20.1 33.2974 20.1H35.4776C36.3533 20.1 37.0631 19.3901 37.0631 18.5144L37.4595 8.20813C37.4595 7.33244 36.7497 6.62254 35.874 6.62254H29.5913C29.671 5.65054 29.7537 4.58575 29.8394 3.42794C29.8718 2.99129 29.544 2.61109 29.1074 2.57874C28.6707 2.54639 28.2905 2.87414 28.2582 3.3108C28.1689 4.51669 28.0829 5.62069 28.0004 6.62254H25.3695C24.9316 6.62254 24.5767 6.97749 24.5767 7.41534C24.5767 7.85318 24.9316 8.20813 25.3695 8.20813H27.8651C27.7 10.07 27.5501 11.4816 27.4157 12.4407C27.1674 14.2124 26.7941 15.6986 26.3374 16.9199C26.0981 17.5599 25.8527 18.0822 25.6163 18.4944C25.5366 18.6333 25.4649 18.7474 25.4029 18.8378C25.3703 18.8853 25.3512 18.9109 25.3475 18.9155C25.0722 19.256 25.1252 19.7552 25.4657 20.0305C25.8062 20.3057 26.3054 20.2528 26.5806 19.9123C26.6737 19.7971 26.8159 19.5898 26.9917 19.2833C27.271 18.7963 27.5531 18.1959 27.8226 17.4752ZM48.5586 17.3184V7.72969H55.6831C56.3474 7.72969 56.883 8.26047 56.883 8.9117V16.4576C56.883 17.1088 56.3474 17.6396 55.6831 17.6396H53.3916C52.7274 17.6396 52.1918 17.1088 52.1918 16.4576V10.1081C52.1918 9.67022 51.8369 9.31528 51.399 9.31528C50.9612 9.31528 50.6062 9.67022 50.6062 10.1081V16.4576C50.6062 17.9877 51.8548 19.2252 53.3916 19.2252H55.6831C57.2199 19.2252 58.4686 17.9877 58.4686 16.4576V8.9117C58.4686 7.38157 57.2199 6.14411 55.6831 6.14411H48.5586V3.76573C48.5586 3.32788 48.2037 2.97294 47.7658 2.97294C47.328 2.97294 46.9731 3.32788 46.9731 3.76573V6.14411H44.1983C43.7604 6.14411 43.4055 6.49905 43.4055 6.9369C43.4055 7.37475 43.7604 7.72969 44.1983 7.72969H46.9731V12.465L44.3002 13.5341C43.8937 13.6968 43.696 14.1581 43.8586 14.5647C44.0212 14.9712 44.4826 15.1689 44.8891 15.0063L46.9731 14.1727V17.3184C46.9731 18.3666 46.0906 19.2252 44.9911 19.2252C44.5532 19.2252 44.1983 19.5801 44.1983 20.018C44.1983 20.4558 44.5532 20.8108 44.9911 20.8108C46.9567 20.8108 48.5586 19.2522 48.5586 17.3184Z" fill="white"></path> <path d="M13.3797 16.4636C13.874 15.9701 14.674 15.9714 15.1667 16.4665C15.6593 16.9616 15.6581 17.7631 15.1638 18.2566L12.9691 20.4481C10.9443 22.4699 7.64261 22.4992 5.58369 20.5162C5.57179 20.5048 4.655 19.6058 1.63058 16.6402C-0.381491 14.6673 -0.581941 11.5104 1.31147 9.4831L4.84172 5.7031C6.7209 3.69085 10.1849 3.47093 12.3335 5.20847L15.5398 7.80152C16.0828 8.24065 16.1676 9.03757 15.7292 9.58151C15.2909 10.1254 14.4953 10.2104 13.9523 9.77127L10.746 7.17824C9.62238 6.26954 7.65677 6.39434 6.68718 7.43259L3.15688 11.2126C2.23512 12.1996 2.33607 13.7895 3.39833 14.8311C5.61922 17.0088 7.33084 18.6871 7.33282 18.689C8.40324 19.72 10.134 19.7046 11.185 18.6551L13.3797 16.4636Z" fill="#FFA116"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M8.04824 14.2706C7.35039 14.2706 6.78467 13.7039 6.78467 13.0048C6.78467 12.3057 7.35039 11.739 8.04824 11.739H17.3671C18.0649 11.739 18.6306 12.3057 18.6306 13.0048C18.6306 13.7039 18.0649 14.2706 17.3671 14.2706H8.04824Z" fill="#B3B3B3"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79343 0.401024C10.2702 -0.109469 11.0698 -0.136141 11.5794 0.34145C12.089 0.819042 12.1156 1.62004 11.6389 2.13054L3.15692 11.2126C2.23513 12.1995 2.33608 13.7894 3.39827 14.831L7.31536 18.6721C7.81405 19.1611 7.82258 19.9625 7.33442 20.4621C6.84626 20.9616 6.04626 20.9702 5.54757 20.4812L1.63046 16.6401C-0.381492 14.6671 -0.581942 11.5102 1.31155 9.48305L9.79343 0.401024Z" fill="white"></path> </svg></a><a class="nav-item" title="知识星球" target="_blank" rel="noopener" href="https://wx.zsxq.com/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="联系我" href="https://jakicdong.github.io/2025/06/01/contact_author/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="sidebar-check-in">
+    <div id="sidebar-check-in-calendar"></div>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper slide-up post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2026/03/03/%E7%AE%80%E5%8E%86%E6%8B%B7%E6%89%93/%E7%AE%80%E5%8E%86%E6%8B%B7%E6%89%93-20260303/"><span class="title">大厂后端面试 · 一问一答记录</span></a><a class="item title" href="/2025/10/24/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/%E7%83%AD%E7%82%B9%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">🔥热点知识点学习笔记</span></a><a class="item title" href="/2025/06/04/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/%E6%8A%80%E6%9C%AF%E6%B4%BE%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/"><span class="title">技术派项目笔记</span></a><a class="item title" href="/2026/02/24/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E9%97%AE%E9%97%AE%E9%A2%98/"><span class="title">程序员如何优雅地问问题</span></a><a class="item title" href="/2025/06/06/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE%E8%AE%B0%E5%BD%95/"><span class="title">常用组合键记录</span></a><a class="item title" href="/2025/06/02/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/"><span class="title">个人博客搭建指南</span></a><a class="item title" href="/2025/08/01/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Java集合框架学习笔记</span></a><a class="item title" href="/2025/10/10/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/JVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">JVM学习笔记</span></a><a class="item title" href="/2025/06/12/Java%E9%97%AE%E7%AD%94%E7%AC%94%E8%AE%B0/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="title">Spring学习笔记</span></a><a class="item title" href="/2025/07/14/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%85%BB%E7%94%9F%E6%8C%87%E5%8D%97/"><span class="title">程序员养生指南</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-03-02T16:00:00.000Z">2026-03-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-03-03T05:30:39.202Z">2026-03-03</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>大厂后端面试 · 一问一答记录</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content slide-up"><h1 id="大厂后端面试-·-一问一答记录"><a href="#大厂后端面试-·-一问一答记录" class="headerlink" title="大厂后端面试 · 一问一答记录"></a>大厂后端面试 · 一问一答记录</h1><p>日期：2026-03-03<br>面试官角色：抖音电商后端面试官<br>候选人：董佳齐（27 届硕士，求职后端开发）</p>
+<h2 id="第-1-题"><a href="#第-1-题" class="headerlink" title="第 1 题"></a>第 1 题</h2><p><strong>题型</strong>：[项目拷打]<br><strong>题目</strong>：你在百度健康实习期间做了「前卡规则引擎引入」，简历上写到基于部门基建引入了 JS 规则引擎，使用 Goja 解析 Apollo 配置中心下发的脚本。为什么选择用 Goja 来执行 JS 脚本，而不是直接在 Go 中用模板或者 DSL 来实现规则引擎？Goja 在生产环境中有什么局限性，你们是怎么应对的？</p>
+<p><strong>追问</strong>：Goja 运行时是串行化执行的，在高并发场景下有限制。那你们在生产环境中是怎么解决这个问题的？比如前卡服务本身流量应该不小，每个请求都要过规则引擎，你们是每次请求都新建一个 Goja VM 实例，还是用了池化，还是有其他方案？另外，有没有考虑过脚本执行的安全性问题，比如死循环或者恶意脚本怎么防？</p>
+<p><strong>我的回答</strong>：<br>选 Goja 是因为可以读取配置文件中字符串形式的逻辑代码，热更新方便（如取反只需加 <code>!</code>），相比 Otto 性能更好（闭包&#x2F;复杂逻辑），相比 V8 无 CGO 依赖更简单。局限性：Goja 运行时串行化执行，高并发场景有限制。<br>（追问回答）前卡流量大但到业务代码是逐个 query，高并发在 alaroot 转发层处理，业务层每次请求新建 VM 实例即可。安全性方面：Apollo 配置上传需 CR 审核防恶意脚本；热更新后保存旧脚本和编译后的 program，下次执行通过指针切换，出错则回退旧 program 并报警。</p>
+<p><strong>【锐评】</strong> 选型对比（Goja vs Otto vs V8）回答清晰，热更新回退机制（旧 program 保留 + 指针切换 + 异常回滚 + 报警）是亮点。但回避了 VM 创建开销问题（没提 benchmark 或池化），安全防护只提到流程层面的 CR，缺少技术手段（执行超时、资源限制等），对架构全貌的思考不够深。</p>
+<p><strong>【得分】</strong> 6&#x2F;10 · 程度：选型理由清晰，热更新回退机制有亮点，但对 VM 性能开销缺乏量化认知，安全防护只停留在流程层面，缺少技术侧手段。</p>
+<p><strong>【完美答案】</strong><br><strong>为什么选 Goja：</strong></p>
+<ol>
+<li><strong>热更新能力</strong>：规则以 JS 脚本字符串存储在 Apollo，修改逻辑无需重编译部署，秒级生效；</li>
+<li><strong>对比 Otto</strong>：Goja 完整支持 ES5.1，Otto 对闭包&#x2F;正则支持不完整，Goja 性能约快 2-10 倍；</li>
+<li><strong>对比 V8（v8go）</strong>：V8 依赖 CGO，编译慢、交叉编译困难；Goja 纯 Go 实现，零外部依赖；</li>
+<li><strong>对比 Go 模板&#x2F;DSL</strong>：模板引擎只适合简单替换，自研 DSL 开发维护成本高。</li>
+</ol>
+<p><strong>Goja 局限性及应对：</strong></p>
+<ol>
+<li><strong>串行化执行</strong>：VM 池化（<code>sync.Pool</code> 复用实例）；预编译 Program（<code>goja.Compile()</code>）避免重复解析；</li>
+<li><strong>安全性防护</strong>：<code>context.WithTimeout</code> + <code>runtime.Interrupt()</code> 做执行超时中断；限制脚本可访问的 Go 对象，只注入必要上下文；Apollo CR 作为流程兜底；</li>
+<li><strong>热更新容错</strong>：<code>atomic.Value</code> 无锁指针切换；保留旧版本 Program，异常自动回退 + 告警；配合灰度发布先小流量验证。</li>
+</ol>
+<h2 id="第-2-题"><a href="#第-2-题" class="headerlink" title="第 2 题"></a>第 2 题</h2><p><strong>题型</strong>：[八股]<br><strong>题目</strong>：你简历上写了熟悉 MySQL 的多版本并发控制（MVCC），而且你自研的轻量级关系型数据库也实现了 MVCC（版本链 + Read View）。请详细说一下 MySQL InnoDB 中 MVCC 的实现原理：1）版本链是怎么构建的？每一行记录上有哪些隐藏字段参与了 MVCC？2）Read View 是什么？它的核心字段有哪些，判断可见性的规则是怎样的？3）RC（读已提交）和 RR（可重复读）隔离级别下，Read View 的生成策略有什么区别？这个区别会导致什么不同的现象？</p>
+<p><strong>追问</strong>：</p>
+<ol>
+<li>如果一个事务的 trx_id 落在 min_trx_id 和 max_trx_id 之间，但它不在活跃事务列表里，这个版本对当前事务可见吗？为什么？</li>
+<li>你提到版本链是通过指针指向旧数据，那这个「旧数据」具体存在哪里？是存在数据页里还是别的地方？</li>
+</ol>
+<p><strong>我的回答</strong>：<br>版本链依赖行中三个隐藏字段：最后更改该行的事务 id、指向旧版本行的指针、该行的 id。写入新数据时把上一次数据写入到指针中，在 undo 链中写入，然后更新事务 id。Read View 用于限定事务可见范围，有 min_id（小于它的都可见）、max_id（下一个事务 id，之后的不可见）、活跃事务 list（这些事务开始时仍活跃，可能更新所以不可见）。RC 每次快照读都新建 Read View 导致不可重复读；RR 只在第一次快照读生成 Read View，可见范围一致。<br>（追问回答）1. 可见，因为不活跃的事务代表不会对数据进行更新了。2. 通过 undo log 存储。</p>
+<p><strong>【锐评】</strong> 大方向答对了，版本链、Read View、RC&#x2F;RR 的区别骨架都有。但表述有几个明显问题：版本链构建说”把上一次的数据写入到指针中”含糊不清，对 undo log 和 roll_pointer 的关系理解不清晰；三个隐藏字段一个名字都没说出来（DB_TRX_ID、DB_ROLL_PTR、DB_ROW_ID），不说术语显得不专业；Read View 的可见性判断没给出完整决策流程，漏掉了 creator_trx_id（自己事务修改的数据对自己可见）；追问环节说”不活跃代表不会更新了所以可见”太模糊，准确说法是该事务已经提交（committed）。整体概念有但表达松散，面试中容易被抓住模糊点一直追。</p>
+<p><strong>【得分】</strong> 6&#x2F;10 · 程度：核心概念具备，但表述不精确、术语缺失、可见性判断流程不完整，中厂面试勉强过关，大厂面试官会继续追穿。</p>
+<p><strong>【完美答案】</strong><br><strong>一、版本链构建</strong><br>InnoDB 每行记录有三个隐藏字段：</p>
+<ul>
+<li><code>DB_TRX_ID</code>（6 字节）：最后一次修改该行的事务 ID；</li>
+<li><code>DB_ROLL_PTR</code>（7 字节）：回滚指针，指向该行在 undo log 中的上一个版本；</li>
+<li><code>DB_ROW_ID</code>（6 字节）：隐式自增行 ID（无主键时充当聚簇索引）。</li>
+</ul>
+<p>当事务对一行做 UPDATE 时：</p>
+<ol>
+<li>将当前版本拷贝到 <strong>undo log</strong>（insert undo &#x2F; update undo）；</li>
+<li>在数据页中更新该行，将 <code>DB_TRX_ID</code> 改为当前事务 ID；</li>
+<li>将 <code>DB_ROLL_PTR</code> 指向刚写入的 undo log 条目。</li>
+</ol>
+<p>这样每行通过 <code>DB_ROLL_PTR</code> 串成一条从新到旧的 undo 版本链。</p>
+<p><strong>二、Read View 核心字段与可见性判断</strong><br>Read View 在快照读时创建，核心字段：</p>
+<ul>
+<li><code>creator_trx_id</code>：创建该 Read View 的事务 ID；</li>
+<li><code>m_ids</code>：创建时所有活跃（未提交）事务 ID 列表；</li>
+<li><code>min_trx_id</code>：m_ids 中的最小值；</li>
+<li><code>max_trx_id</code>：创建时系统即将分配的下一个事务 ID。</li>
+</ul>
+<p>可见性判断流程（对版本链上某条记录的 trx_id）：</p>
+<ol>
+<li><code>trx_id == creator_trx_id</code> → 可见（自己改的）；</li>
+<li><code>trx_id &lt; min_trx_id</code> → 可见（该事务在 Read View 创建前已提交）；</li>
+<li><code>trx_id &gt;= max_trx_id</code> → 不可见（该事务在 Read View 创建后才开始）；</li>
+<li><code>min_trx_id &lt;= trx_id &lt; max_trx_id</code>：在 m_ids 中 → 不可见；不在 m_ids 中 → 可见（已提交）。</li>
+</ol>
+<p>若当前版本不可见，沿 DB_ROLL_PTR 找上一个版本继续判断，直到找到可见版本或链尾。</p>
+<p><strong>三、RC vs RR 的 Read View 生成策略</strong></p>
+<ul>
+<li>RC（读已提交）：每次 SELECT（快照读）都生成新的 Read View → 同一事务内两次读可能看到不同数据（不可重复读）；</li>
+<li>RR（可重复读）：仅在事务中第一次快照读时生成，后续复用 → 同一事务内多次读结果一致（可重复读）。</li>
+</ul>
+<p>RR 下因为复用同一个 Read View，即使其他事务在此期间提交了新数据，当前事务也看不到，从而避免了不可重复读和大部分幻读场景。</p>
+<h2 id="第-3-题"><a href="#第-3-题" class="headerlink" title="第 3 题"></a>第 3 题</h2><p><strong>题型</strong>：[算法]<br><strong>题目</strong>：给你一个整数数组 <code>nums</code> 和一个整数 <code>target</code>，请你找出数组中和为目标值 <code>target</code> 的两个整数，返回它们的数组下标。假设每种输入只会对应一个答案，同一个元素不能使用两次，可以按任意顺序返回答案。<br>示例：<code>nums = [2, 7, 11, 15], target = 9</code> → <code>[0, 1]</code>；<code>nums = [3, 2, 4], target = 6</code> → <code>[1, 2]</code>；<code>nums = [3, 3], target = 6</code> → <code>[0, 1]</code>。<br>数据范围：<code>2 &lt;= nums.length &lt;= 10^4</code>，<code>-10^9 &lt;= nums[i], target &lt;= 10^9</code>。时间复杂度要求优于 O(n²)。</p>
+<p><strong>我的回答</strong>：<br>一次遍历实现。目标是 nums[i] + nums[j] &#x3D; target，可转换为 nums[i] &#x3D; target - nums[j]。遍历 nums[j]，过程中通过 HashMap 查找是否存在 target - nums[j]，key 是值，value 是下标。</p>
+<p><strong>【锐评】</strong> 思路完全正确，一次遍历 + HashMap 查补数，时间 O(n) 空间 O(n)，是标准最优解。转换公式说得清楚，边遍历边查边存的逻辑也对。但口述时没有明确说”先查再存”的顺序（先存再查可能用同一个元素匹配自己），也没有主动分析时间和空间复杂度。整体思路正确但表达可以更严谨。</p>
+<p><strong>【得分】</strong> 8&#x2F;10 · 程度：思路正确且最优，表达基本清晰，扣分在未主动说明先查后存的顺序细节和复杂度分析。</p>
+<p><strong>【完美答案】</strong><br><strong>思路</strong>：遍历数组，对每个元素 nums[j]，先在 HashMap 中查找 target - nums[j] 是否已存在；若存在则返回两个下标；若不存在则将 nums[j] → j 存入 HashMap。先查再存保证不会用同一个元素匹配自己。<br><strong>复杂度</strong>：时间 O(n)，空间 O(n)。<br><strong>Java 代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">complement</span> <span class="operator">=</span> target - nums[j];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(complement), j&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[j], j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;No two sum solution&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="第-4-题"><a href="#第-4-题" class="headerlink" title="第 4 题"></a>第 4 题</h2><p><strong>题型</strong>：[项目拷打]<br><strong>题目</strong>：百度「前卡药品&#x2F;商品召回链路优化」——1）「泛化」具体指什么？大模型在这里的作用是什么？举个具体例子说明 query 泛化到 nid 再到召回的过程。2）动态超时机制的”预算分配”具体是怎么做的？详细说一下超时策略的决策逻辑。</p>
+<p><strong>追问</strong>：</p>
+<ol>
+<li>简历上提到的「跨机房延迟不均问题」具体是什么情况？不同机房延迟差异多大，怎么调整负载均衡权重？</li>
+<li>大模型服务整体不可用或大面积超时，有没有降级策略？</li>
+</ol>
+<p><strong>我的回答</strong>：<br>泛化是对用户搜索词做语义发散，大模型做意图识别，如用户搜”感冒吃药”，泛化出”感冒了吃什么药好”等相关意图，对应成 nid，前卡用 query + nid 共同请求商品召回服务。动态超时：900ms 是搜索给前卡的出卡硬 deadline，商品召回 P99 约 480ms。一期固定大模型超时 300ms 并取消重试；二期改为 min(P95 * 1.2, 300ms)，并维护滑动窗口平滑监控指标防止扰动。<br>（追问回答）1. 商品召回服务 A 机房 P99 约 200ms，其他集群 450ms，原因是服务主要部署在 A 机房。调整 LA 负载均衡权重（公式：basic_weight × avg_latency &#x2F; node_latency × 系数因子），提高 A 机房 basic_weight 让更多请求路由到低延迟机房。2. 有降级策略，大模型召回失败或超时则回退到原有的纯 query 召回链路。</p>
+<p><strong>【锐评】</strong> 答得比第一题好不少，能看出是自己真正做过的。泛化概念解释清楚，动态超时有演进思路（一期固定 → 二期动态 + 滑动窗口），跨机房延迟能从监控发现问题、理解 LA 公式并调权重，主动排查意识在实习生里不常见。但降级策略太薄（只说回退到 query 召回，没提熔断、配置开关、告警），nid 数据模型没解释清楚，业务收益数据（342 万覆盖扩展、日均 502 单提升）全程没主动亮出来。</p>
+<p><strong>【得分】</strong> 7&#x2F;10 · 程度：核心方案讲得清楚且有细节，跨机房问题排查有亮点，但降级方案太薄、nid 数据模型模糊、业务收益数据没主动展示。</p>
+<p><strong>【完美答案】</strong><br><strong>一、泛化召回原理</strong><br>原链路：query → 商品召回，范围受限。新链路：query → 大模型意图泛化（语义扩展、同义改写）→ 输出 nid（一类意图对应的商品集合）→ query + nid 联合召回，范围显著扩大。业务收益：召回覆盖扩展 342 万，日均单量提升 502 单。</p>
+<p><strong>二、动态超时机制</strong><br>约束：整卡 900ms 硬 deadline。一期：固定 300ms + 取消重试。二期：timeout &#x3D; min(LLM_P95 × 1.2, 300ms)，滑动窗口平滑监控指标。预算分配：900ms 中商品召回（P99 ≈ 480ms）必保，剩余预算分给大模型但上限 cap 300ms。</p>
+<p><strong>三、跨机房延迟优化</strong><br>A 机房 P99 ≈ 200ms vs 其他 ≈ 450ms，服务主部署在 A。调整 LA 的 basic_weight 提高 A 机房权重。</p>
+<p><strong>四、降级策略（完整方案）</strong></p>
+<ol>
+<li>超时&#x2F;失败自动降级回退纯 query 召回；</li>
+<li>熔断器：错误率超阈值自动熔断，直接走降级链路；</li>
+<li>Apollo 配置开关一键关闭泛化链路用于紧急止血；</li>
+<li>降级比例、熔断触发接入监控大盘 + 告警。</li>
+</ol>
+<h2 id="第-5-题"><a href="#第-5-题" class="headerlink" title="第 5 题"></a>第 5 题</h2><p><strong>题型</strong>：[八股]<br><strong>题目</strong>：Java 线程池 ThreadPoolExecutor 的核心参数有哪些？当一个任务提交到线程池时，线程池的执行流程是怎样的（从提交到最终执行或拒绝的完整链路）？</p>
+<p><strong>追问</strong>：你说任务提交后「首先放入任务队列」——真的是先放队列吗？如果线程池刚创建，里面一个线程都没有，第一个任务提交进来也是先放队列？第一步到底是什么？</p>
+<p><strong>我的回答</strong>：<br>核心参数：核心线程数（常态线程数量）、最大线程数（最大可支配线程数量）、任务队列（排队的数据结构）、最大任务数量（队列容量）。<br>执行流程：任务提交后首先放入任务队列，超过最大任务数量则启用非核心线程消费任务，如果依旧超过队列容量触发拒绝策略（抛异常、不处理、交给上游处理）。<br>（追问回答）修正：第一步是确认是否有空闲的工作线程，如果没有才放到任务队列中。</p>
+<p><strong>【锐评】</strong> 参数只说了核心线程数、最大线程数、任务队列和队列容量，漏了 keepAliveTime、TimeUnit、ThreadFactory、RejectedExecutionHandler——7 大参数只说了 3 个半。执行流程一开始搞错（先放队列），追问后修正为”先确认有没有空闲线程”仍不准确——真实逻辑是判断当前线程数是否小于 corePoolSize，小于则直接创建新核心线程，不是”找空闲线程”。拒绝策略漏了 DiscardOldestPolicy。线程池是高频送分题，这个程度在大厂面试会扣较多分。</p>
+<p><strong>【得分】</strong> 4&#x2F;10 · 程度：参数不全、执行流程顺序搞错且纠正后仍不准确，核心知识点有漏洞，需重点复习。</p>
+<p><strong>【完美答案】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">任务提交 execute(task)</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">① 当前线程数 &lt; corePoolSize？</span><br><span class="line">    ├── 是 → 创建新的核心线程执行任务（即使有空闲核心线程也新建）</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">② 将任务放入 workQueue</span><br><span class="line">    ├── 入队成功 → 等待空闲线程从队列中取出执行</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">③ 队列已满，当前线程数 &lt; maximumPoolSize？</span><br><span class="line">    ├── 是 → 创建非核心线程执行任务</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">④ 触发拒绝策略 handler.rejectedExecution()</span><br><span class="line">    └── 异常、静默丢弃、调用者执行、丢弃最旧任务后重新提交</span><br></pre></td></tr></table></figure>
+
+<p><strong>一、7 大核心参数</strong><br>corePoolSize（核心线程数）、maximumPoolSize（最大线程数）、keepAliveTime（非核心线程空闲存活时间）、unit（时间单位）、workQueue（任务等待队列）、threadFactory（线程工厂）、handler（拒绝策略处理器）。</p>
+<p><strong>二、任务提交执行流程</strong></p>
+<ol>
+<li>当前线程数 &lt; corePoolSize → 创建新的核心线程执行任务（即使有空闲核心线程也新建）；</li>
+<li>线程数 &gt;&#x3D; corePoolSize → 将任务放入 workQueue；</li>
+<li>队列已满且线程数 &lt; maximumPoolSize → 创建非核心线程执行；</li>
+<li>队列满且线程数 &gt;&#x3D; maximumPoolSize → 触发拒绝策略。</li>
+</ol>
+<p><strong>三、四种内置拒绝策略</strong><br>AbortPolicy（默认，抛异常）、CallerRunsPolicy（调用者线程自己执行）、DiscardPolicy（静默丢弃）、DiscardOldestPolicy（丢弃队列最老任务后重新提交）。</p>
+<h2 id="第-6-题"><a href="#第-6-题" class="headerlink" title="第 6 题"></a>第 6 题</h2><p><strong>题型</strong>：[项目拷打]<br><strong>题目</strong>：百度「商业化投放 KV 建库链路性能优化」——1）「按批聚合写」具体怎么实现的？攒批触发条件是什么？攒批过程中服务挂了未写入的数据怎么办？2）物料表从主表拆分，拆分前表结构什么样，存在什么冗余？拆分后怎么设计的？为什么能降低 60%-70% 磁盘占用？</p>
+<p><strong>追问</strong>：</p>
+<ol>
+<li>写入失败后监控线程读取 log 通过「版本机制」判断是否需要恢复——这个版本具体是什么？怎么判断是需要恢复还是已被覆盖？</li>
+<li>存量数据「平滑迁移」但又说「暂时不迁移」有矛盾，拆表上线后老数据到底迁没迁？新老数据并存时读取逻辑怎么兼容？</li>
+</ol>
+<p><strong>我的回答</strong>：<br>按批聚合：一个请求含 30 个组件信息（30 行），以 10 条为一个 batch，用 Go 协程等待凑满 10 条或超过 200ms 超时后执行 batch insert，减少事务和引擎执行开销。服务挂了上游收到错误返回进行重试；已写入数据按最小事务拆分保证一致性——三步：写物料表 → 写主表 → KV 建库；物料表&#x2F;主表写入失败不回溯（business_id 与大字段映射不变），KV 建库失败回滚删除主表信息；所有失败记录 log 并报警，监控线程读取 log 从链路入口重试。<br>物料表拆分：原表四元组（含 business_id）标识一条组件信息，business_id 对应两个大字段，四元组导致大字段大量冗余。拆分后大字段抽到物料表，读取时先检查主表大字段是否存在，不存在则到物料表拉取。老数据暂时未迁移，通过双读兼容。<br>（追问回答）1. 通过版本号标记 log 已处理&#x2F;未处理，监控线程读取未处理 log 进行重试并更新版本号，由于记录完整数据所以重试有幂等保证。2. 新老数据通过加一次判断兼容（检查大字段是否存在），老数据过多暂未迁移。</p>
+<p><strong>【锐评】</strong> 今天最有深度的一题。攒批方案具体（10 条&#x2F;批、协程 + 200ms 超时），事务拆分三步和失败恢复（物料表&#x2F;主表失败不回溯、KV 失败回滚主表、log + 监控线程重试）在实习生里答得扎实。不足：版本机制解释太泛（没说是自增 ID&#x2F;offset&#x2F;cursor），磁盘 60%-70% 没给推导过程（应该用数字证明数字），存量迁移说”暂时不迁移”显得方案不完整（应说”短期双读兼容控制风险，后续离线分批迁移 + 灰度验证”）。</p>
+<p><strong>【得分】</strong> 7.5&#x2F;10 · 程度：攒批实现、事务拆分和失败恢复扎实有深度，版本机制和磁盘优化数据推导不够精确，存量迁移回答偏薄。</p>
+<p><strong>【完美答案】</strong><br><strong>一、按批聚合写</strong>：Go 协程攒批，10 条&#x2F;批或 200ms 超时触发 batch insert；服务宕机未写入数据丢失由上游重试恢复。<br><strong>二、最小事务与失败恢复</strong>：写物料表 → 写主表 → KV 建库；物料表&#x2F;主表失败不回滚（幂等），KV 失败回滚主表；失败记 log + 告警，监控线程通过 offset&#x2F;cursor 标记扫描未处理 log，携带完整数据从入口重试。<br><strong>三、物料表拆分</strong>：大字段从主表抽离到物料表（business_id → 大字段一对一），主表只保留四元组 + 轻量字段；同一 business_id 平均冗余 3-5 倍，拆分后只存一份 → 磁盘降低 60%-70%。<br><strong>四、存量迁移</strong>：双读逻辑兼容新老数据，短期不迁移控制风险；后续离线分批迁移（按 business_id 分片）+ 灰度验证，完成后下线双读。</p>
+
+<div class="article-footer slide-up fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap slide-up" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2026/02/24/%E6%9D%82%E9%A1%B9%E7%AC%94%E8%AE%B0/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E9%97%AE%E9%97%AE%E9%A2%98/">程序员如何优雅地问问题</a></div></section></div>
+
+
+
+
+
+
+
+<footer class="page-footer slide-up footnote"><hr><div class="text"><p>本站由 <a href="/">JakicDong</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.30.0">Stellar 1.30.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper slide-up toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E5%8E%82%E5%90%8E%E7%AB%AF%E9%9D%A2%E8%AF%95-%C2%B7-%E4%B8%80%E9%97%AE%E4%B8%80%E7%AD%94%E8%AE%B0%E5%BD%95"><span class="toc-text">大厂后端面试 · 一问一答记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-1-%E9%A2%98"><span class="toc-text">第 1 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-2-%E9%A2%98"><span class="toc-text">第 2 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-3-%E9%A2%98"><span class="toc-text">第 3 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-4-%E9%A2%98"><span class="toc-text">第 4 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-5-%E9%A2%98"><span class="toc-text">第 5 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-6-%E9%A2%98"><span class="toc-text">第 6 题</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function (response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function (data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function (error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.30.0" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const slideUp = {
+      distance: `16px`,
+      duration: `800`,
+      interval: `100`,
+      scale: `1`,
+      opacity: 0,
+      easing: "ease-out"
+    };
+    ScrollReveal().reveal('.l_left .slide-up', slideUp);
+    ScrollReveal().reveal('.l_main .slide-up', slideUp);
+    ScrollReveal().reveal('.l_right .slide-up', slideUp);
+  });
+</script>
+
+  <script type="text/javascript">
+    // 从服务器端配置中解析配置对象
+    var cozeConfig = {"enable":true,"api_host":"http://localhost:8888","sdk_url":"http://localhost:8888/static/chat-sdk.js","config":{"type":"app","appInfo":{"appId":"7594744377281347584","workflowId":"7597782620230909952"}},"auth":{"type":"token","token":"pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75"},"componentProps":{"title":"AI 助手","lang":"zh-CN","layout":"PC"}};
+    
+    // 等待 SDK 完全初始化的函数（使用轮询机制）
+    function waitForSDK(maxAttempts, interval) {
+      maxAttempts = maxAttempts || 50;
+      interval = interval || 100;
+      
+      return new Promise(function(resolve, reject) {
+        var attempts = 0;
+
+        var checkSDK = function() {
+          attempts++;
+
+          // 检查 SDK 是否加载完成
+          // 尝试多种可能的访问方式
+          var WebChatClient = null;
+          
+          if (window.CozeWebSDK) {
+            // 方式1: 直接访问 (普通全局对象)
+            if (window.CozeWebSDK.WebChatClient) {
+              WebChatClient = window.CozeWebSDK.WebChatClient;
+            }
+            // 方式2: ES Module 的 default 导出
+            else if (window.CozeWebSDK.default && window.CozeWebSDK.default.WebChatClient) {
+              WebChatClient = window.CozeWebSDK.default.WebChatClient;
+            }
+            // 方式3: ES Module 的直接导出
+            else if (window.CozeWebSDK.default) {
+              // 如果 default 就是 WebChatClient
+              WebChatClient = window.CozeWebSDK.default;
+            }
+            // 方式4: 检查是否有其他导出方式
+            else if (typeof window.CozeWebSDK === 'object') {
+              // 尝试访问所有可能的属性
+              var sdk = window.CozeWebSDK;
+              if (sdk.WebChatClient) {
+                WebChatClient = sdk.WebChatClient;
+              } else if (sdk.default && sdk.default.WebChatClient) {
+                WebChatClient = sdk.default.WebChatClient;
+              } else if (sdk.default && typeof sdk.default === 'function') {
+                WebChatClient = sdk.default;
+              }
+            }
+          }
+          
+          if (WebChatClient) {
+            console.log('[Coze SDK] SDK 初始化成功，找到 WebChatClient');
+            resolve(WebChatClient);
+            return;
+          }
+
+          // 检查是否超时
+          if (attempts >= maxAttempts) {
+            console.error('[Coze SDK] SDK 加载超时');
+            console.error('[Coze SDK] window.CozeWebSDK:', window.CozeWebSDK);
+            console.error('[Coze SDK] window.CozeWebSDK 类型:', typeof window.CozeWebSDK);
+            console.error('[Coze SDK] 可用的 CozeWebSDK 属性:', Object.keys(window.CozeWebSDK || {}));
+            
+            // 尝试输出更多调试信息
+            if (window.CozeWebSDK) {
+              console.error('[Coze SDK] window.CozeWebSDK.default:', window.CozeWebSDK.default);
+              console.error('[Coze SDK] window.CozeWebSDK 的所有属性（包括不可枚举）:');
+              for (var key in window.CozeWebSDK) {
+                console.error('  -', key, ':', typeof window.CozeWebSDK[key]);
+              }
+            }
+            
+            reject(new Error('SDK 加载超时'));
+            return;
+          }
+
+          // 继续等待
+          setTimeout(checkSDK, interval);
+        };
+
+        // 开始检查
+        checkSDK();
+      });
+    }
+    
+    // 等待 DOM 加载完成后再初始化 SDK
+    function initCozeSDK() {
+      console.log('[Coze SDK] 开始加载 Coze SDK...');
+      
+      // 检查 DOM 是否已加载
+      if (!document.head) {
+        console.error('[Coze SDK] document.head 不存在，等待 DOM 加载...');
+        return;
+      }
+      
+      // 设置 Coze API 地址（如果需要修改默认地址）
+      if (cozeConfig.api_host) {
+        window.__COZE_API_HOST__ = cozeConfig.api_host;
+        console.log('[Coze SDK] API 地址设置为:', cozeConfig.api_host);
+      }
+      
+      // 动态加载 Coze SDK
+      var webSdkScript = document.createElement('script');
+      var sdkUrl = cozeConfig.sdk_url || 'http://localhost:8888/static/chat-sdk.js';
+      webSdkScript.src = sdkUrl;
+      webSdkScript.async = true; // 异步加载
+      console.log('[Coze SDK] 正在加载 SDK 脚本:', sdkUrl);
+      
+      // SDK 加载成功后的回调
+      webSdkScript.onload = function () {
+        console.log('[Coze SDK] SDK 脚本加载完成');
+
+        // 等待 SDK 完全初始化（使用轮询机制）
+        waitForSDK()
+          .then(function(WebChatClient) {
+            try {
+              // 构建配置对象
+              var authToken = (cozeConfig.auth && cozeConfig.auth.token) || "pat_824d6b760a23f2f27174d1656d9f5bee888d270024a6494f9f164516fa641f75";
+              
+              // 构建 auth 配置，确保 onRefreshToken 函数存在
+              var authConfig = cozeConfig.auth || {
+                type: "token",
+                token: authToken
+              };
+              
+              // 确保 onRefreshToken 函数能正确返回 token
+              if (!authConfig.onRefreshToken) {
+                authConfig.onRefreshToken = function () {
+                  return authToken;
+                };
+              }
+              
+              // 构建 appInfo 配置，workflowId 是可选的
+              var appInfo = {
+                appId: (cozeConfig.config && cozeConfig.config.appInfo && cozeConfig.config.appInfo.appId) || "7594744377281347584"
+              };
+              
+              // 只有当 workflowId 存在时才添加
+              if (cozeConfig.config && cozeConfig.config.appInfo && cozeConfig.config.appInfo.workflowId) {
+                appInfo.workflowId = cozeConfig.config.appInfo.workflowId;
+              }
+              
+              var sdkConfig = {
+                config: {
+                  type: (cozeConfig.config && cozeConfig.config.type) || "app",
+                  appInfo: appInfo
+                },
+                auth: authConfig
+              };
+              
+              // 添加 UI 配置（如果存在）
+              if (cozeConfig.componentProps) {
+                sdkConfig.componentProps = cozeConfig.componentProps;
+              }
+              
+              console.log('[Coze SDK] 开始创建 WebChatClient，配置:', JSON.stringify(sdkConfig, null, 2));
+              
+              // 创建 WebChatClient 实例
+              var chatClient = new WebChatClient(sdkConfig);
+              
+              // 保存 client 实例到全局，方便后续控制
+              window.cozeChatClient = chatClient;
+              console.log('[Coze SDK] WebChatClient 创建成功，client 实例已保存到 window.cozeChatClient');
+              
+              // 尝试自动显示聊天窗口（如果 SDK 支持）
+              if (typeof chatClient.showChatBot === 'function') {
+                console.log('[Coze SDK] 尝试自动显示聊天窗口');
+                try {
+                  chatClient.showChatBot();
+                  console.log('[Coze SDK] 聊天窗口显示命令已执行');
+                } catch (e) {
+                  console.warn('[Coze SDK] 自动显示聊天窗口失败，可能需要手动调用:', e);
+                }
+              } else {
+                console.log('[Coze SDK] showChatBot 方法不存在，聊天窗口可能需要手动触发');
+              }
+            } catch (error) {
+              console.error('[Coze SDK] 创建 WebChatClient 失败:', error);
+              console.error('[Coze SDK] 错误堆栈:', error.stack);
+            }
+          })
+          .catch(function(error) {
+            console.error('[Coze SDK] SDK 初始化失败:', error);
+            console.error('[Coze SDK] 请检查：');
+            console.error('1. SDK 文件是否正确加载');
+            console.error('2. 浏览器控制台是否有其他错误');
+            console.error('3. 网络请求是否成功');
+          });
+      };
+      
+      // SDK 加载失败的回调
+      webSdkScript.onerror = function() {
+        console.error('[Coze SDK] SDK 脚本加载失败');
+        console.error('[Coze SDK] 请检查以下事项:');
+        console.error('  1. Coze 服务是否运行在 ' + (cozeConfig.api_host || 'http://localhost:8888'));
+        console.error('  2. SDK 文件路径是否正确: ' + sdkUrl);
+        console.error('  3. 是否存在跨域问题（CORS）');
+        console.error('  4. 浏览器控制台是否有其他错误信息');
+      };
+      
+      // 将脚本添加到 head
+      try {
+        document.head.appendChild(webSdkScript);
+        console.log('[Coze SDK] SDK 脚本标签已添加到页面');
+      } catch (e) {
+        console.error('[Coze SDK] 添加脚本标签失败:', e);
+      }
+    }
+    
+    // 如果 DOM 已经加载完成，立即执行；否则等待 DOMContentLoaded 事件
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initCozeSDK);
+    } else {
+      // DOM 已经加载完成，立即执行
+      initCozeSDK();
+    }
+  </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+<script>
+(function() {
+  if (typeof window === 'undefined') return;
+  var dedupMode = 'day';
+  var skip = false;
+  var storageKey;
+  if (dedupMode === 'session') {
+    storageKey = 'visit_notify_sent';
+    skip = sessionStorage.getItem(storageKey);
+  } else if (dedupMode === 'day') {
+    var now = new Date();
+    var dateStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    storageKey = 'visit_notify_' + dateStr;
+    try { skip = localStorage.getItem(storageKey); } catch (e) {}
+  }
+  if (skip) return;
+  var page = location.href;
+  var time = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+  var referrer = document.referrer || '(直接访问)';
+  function done() {
+    if (dedupMode === 'session') try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (dedupMode === 'day') try { localStorage.setItem(storageKey, '1'); } catch (e) {}
+  }
+  function sendNotify(ip, location) {
+    var ipStr = ip || '(获取失败)';
+    var locStr = location || '(获取失败)';
+    
+    fetch('https://formsubmit.co/fdcb2ed2c38b8b8b5f4f6cf674c147b1', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        _subject: '【博客访问】有人打开了你的网站',
+        page: page,
+        time: time,
+        referrer: referrer,
+        '访客IP': ipStr,
+        '访客位置': locStr,
+        _template: 'box',
+        _captcha: 'false'
+      }).toString(),
+      mode: 'no-cors'
+    }).then(done).catch(function() {});
+    
+  }
+  function tryGeo() {
+    var last = { ip: null, loc: null };
+    var urls = [
+      { url: 'https://ipapi.co/json/', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country_name) ? [d.city, d.region, d.country_name].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://get.geojs.io/v1/ip/geo.json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://ipinfo.io/json', parse: function(d) { return { ip: d && d.ip, loc: (d && d.country) ? [d.city, d.region, d.country].filter(Boolean).join(', ') : null }; } },
+      { url: 'https://api.ipify.org?format=json', parse: function(d) { return { ip: d && d.ip, loc: null }; } },
+      { url: 'https://httpbin.org/ip', parse: function(d) { return { ip: (d && d.origin) ? (typeof d.origin === 'string' ? d.origin : d.origin[0]) : null, loc: null }; } }
+    ];
+    function hasCity(loc) { return loc && loc.indexOf(',') >= 0; }
+    function tryNext(i) {
+      if (i >= urls.length) { sendNotify(last.ip, last.loc); return; }
+      fetch(urls[i].url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error(); return r.json(); }).then(function(d) {
+        var r = urls[i].parse(d);
+        if (r.ip) last.ip = r.ip;
+        if (r.loc) last.loc = r.loc;
+        if (last.ip && hasCity(last.loc)) { sendNotify(last.ip, last.loc); return; }
+        if (i === urls.length - 1) sendNotify(last.ip, last.loc);
+        else tryNext(i + 1);
+      }).catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
+  }
+  tryGeo();
+})();
+</script>
+
+
+
+<!-- inject -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script><script src="/js/check-in.js"></script></div></body></html>
